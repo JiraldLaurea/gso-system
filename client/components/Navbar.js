@@ -12,7 +12,7 @@ function Navbar({ userData }) {
         <>
             {authenticated && !loading && (
                 <div
-                    className={`sticky top-0 flex items-center pl-4 pr-6 border-b h-14 bg-gray-50 select-none ${
+                    className={`sticky top-0 flex items-center pl-4 pr-6 border-b z-10 h-14 bg-gray-50 select-none ${
                         isSidebarOpen ? "justify-end" : "justify-between"
                     }`}
                 >
