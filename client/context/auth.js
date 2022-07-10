@@ -14,7 +14,7 @@ const StateContext = createContext({
     user: null,
     authenticated: false,
     loading: true,
-    isSidebarOpen: true,
+    isSidebarOpen: false,
 });
 
 const reducer = (state, { type, payload }) => {
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children, userData }) => {
         user: null,
         authenticated: false,
         loading: true,
-        isSidebarOpen: true,
+        isSidebarOpen: false,
     });
 
     const dispatch = (type, payload) => {
