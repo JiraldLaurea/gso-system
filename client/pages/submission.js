@@ -143,7 +143,6 @@ function submission() {
                     </div>
 
                     <br />
-                    {}
                     {!loading ? (
                         [
                             submissions.length !== 0 ? (

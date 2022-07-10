@@ -18,6 +18,7 @@ function announcements() {
     const [isLoading, setIsLoading] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const inputFileRef = useRef(null);
+    const [value, setValue] = useState("");
 
     const {
         data: announcements,
@@ -57,7 +58,14 @@ function announcements() {
     //     });
     // }, []);
 
-    const handleChange = (e) => {};
+    const handleChange = (e) => {
+        setValue(e.target.value);
+        localStorage.setItem("inputValue", e.target.value);
+    };
+
+    useEffect(() => {
+        setValue(localStorage.getItem("inputValue"));
+    }, []);
 
     const createAnnouncement = async (e) => {
         e.preventDefault();
@@ -117,6 +125,17 @@ function announcements() {
 
     return (
         <div className="flex flex-col w-full">
+            {/* <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSfkGnUZncasc3Pmz4m71AR9vmJjZyRR2yBFoifaZZ8i5InsEA/viewform?embedded=true"
+                width="640"
+                height="549"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0"
+            >
+                Loading…
+            </iframe> */}
+
             {isMenuOpen && (
                 <>
                     <div
