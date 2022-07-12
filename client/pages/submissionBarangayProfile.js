@@ -3,6 +3,11 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
+import SubmissionBarangayProfilePage3 from "../components/SubmissionBarangayProfilePage3";
+import SubmissionBarangayProfilePage4 from "../components/SubmissionBarangayProfilePage4";
+import SubmissionBarangayProfilePage5 from "../components/SubmissionBarangayProfilePage5";
+import SubmissionBarangayProfilePage6 from "../components/SubmissionBarangayProfilePage6";
+import SubmissionBarangayProfilePage7 from "../components/SubmissionBarangayProfilePage7";
 
 const getFormValues = () => {
     if (typeof window !== "undefined") {
@@ -26,9 +31,9 @@ const getFormValues = () => {
                 distanceFromHighway: "",
                 totalLandArea: "",
                 totalPopulation: "",
-                totalPopulationMale: "",
-                totalPopulationFemale: "",
-                totalPopulationBoth: "",
+                totalPopulationMale: 0,
+                totalPopulationFemale: 0,
+                totalPopulationBoth: 0,
                 male1: 0,
                 male2: 0,
                 male3: 0,
@@ -92,7 +97,7 @@ const getFormValues = () => {
                 totalMale: 0,
                 totalFemale: 0,
                 totalBoth: 0,
-                totalHouseholdsCY: 0,
+                totalHouseholdsCY: "",
                 totalHouseholds: 0,
                 dialectSpoken: "",
                 ethnicGroups: "",
@@ -133,6 +138,8 @@ const getFormValues = () => {
                 employmentMale7: 0,
                 employmentMale8: 0,
                 employmentMale9: 0,
+                employmentMale10: 0,
+                employmentMale11: 0,
                 employmentFemale10: 0,
                 employmentFemale11: 0,
                 employmentFemale1: 0,
@@ -186,19 +193,19 @@ const getFormValues = () => {
                 agriFacilityOthers: 0,
                 irrigationSystem1: "",
                 irrigationSystem1ServicesArea: "",
-                irrigationSystem1NumFarmers: "",
+                irrigationSystem1NumFarmers: 0,
                 irrigationSystem1ThrougoutTheYear: "",
                 irrigationSystem1TwiceAYear: "",
                 irrigationSystem1OnceAYear: "",
                 irrigationSystem2: "",
                 irrigationSystem2ServicesArea: "",
-                irrigationSystem2NumFarmers: "",
+                irrigationSystem2NumFarmers: 0,
                 irrigationSystem2ThrougoutTheYear: "",
                 irrigationSystem2TwiceAYear: "",
                 irrigationSystem2OnceAYear: "",
                 irrigationSystem3: "",
                 irrigationSystem3ServicesArea: "",
-                irrigationSystem3NumFarmers: "",
+                irrigationSystem3NumFarmers: 0,
                 irrigationSystem3ThrougoutTheYear: "",
                 irrigationSystem3TwiceAYear: "",
                 irrigationSystem3OnceAYear: "",
@@ -212,9 +219,6 @@ function submissionBarangayProfile() {
     const [values, setValues] = useState(getFormValues);
     // const { user, authenticated, loading } = useAuthState();
     const contentRef = useRef(null);
-    const [totals, setTotals] = useState({
-        bothSexes1: 0,
-    });
 
     const totalMale =
         Number(values?.male1) +
@@ -2106,7 +2110,7 @@ function submissionBarangayProfile() {
                                             name="totalHouseholds"
                                             value={values?.totalHouseholds}
                                             type="text"
-                                            className="w-16 ml-2 border-b border-black focus:outline-none"
+                                            className="w-16 ml-2 text-center border-b border-black focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </span>
@@ -3057,7 +3061,7 @@ function submissionBarangayProfile() {
                         </table>
                     </div>
                     <div className="flex justify-between font-bold">
-                        <div>
+                        <div className="mr-4">
                             <p>B. Agriculture</p>
                             <div className="mb-2 ml-4">
                                 <p>B.1 Crop Production</p>
@@ -3438,7 +3442,7 @@ function submissionBarangayProfile() {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="flex flex-col items-center w-[200px]">
+                        <div className="flex flex-col items-center">
                             <div>
                                 <p>B.1.1.2 Farming Techniques / Methods Used</p>
                                 <input
@@ -3457,7 +3461,7 @@ function submissionBarangayProfile() {
                                 />
                             </div>
                             <div>
-                                <p className="my-4">
+                                <p className="my-8">
                                     B.1.3 Average Annual Income of
                                     Farmers/Tenants:{" "}
                                     <input
@@ -3471,7 +3475,7 @@ function submissionBarangayProfile() {
                                 <p className="mb-2">
                                     B.1.5 No. of Agricultural Facilities
                                 </p>
-                                <table className="text-xs border w-full max-w-[200px]">
+                                <table className="text-xs border">
                                     <thead className="font-bold text-center">
                                         <tr className="border-b">
                                             <th className="border-r">
@@ -3603,19 +3607,19 @@ function submissionBarangayProfile() {
                     </div>
                 </div>
                 <div className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3">
-                    <p>Page 3</p>
+                    <SubmissionBarangayProfilePage3 />
                 </div>
                 <div className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3">
-                    <p>Page 4</p>
+                    <SubmissionBarangayProfilePage4 />
                 </div>
                 <div className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3">
-                    <p>Page 5</p>
+                    <SubmissionBarangayProfilePage5 />
                 </div>
                 <div className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3">
-                    <p>Page 6</p>
+                    <SubmissionBarangayProfilePage6 />
                 </div>
                 <div className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3">
-                    <p>Page 7</p>
+                    <SubmissionBarangayProfilePage7 />
                 </div>
                 <div className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3">
                     <p>Page 8</p>
