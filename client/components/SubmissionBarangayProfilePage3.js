@@ -37,6 +37,7 @@ const getFormValues = () => {
                 oystersProductionValue: 0,
                 fishOthersVolume: 0,
                 fishOthersProductionValue: 0,
+                fishOthersSpecify: "",
                 numFisherman: 0,
                 averageIncomeFisherman: 0,
                 livestockLayers: 0,
@@ -52,6 +53,7 @@ const getFormValues = () => {
                 livestockQuails: 0,
                 livestockDogs: 0,
                 livestockPoultryOthers: 0,
+                livestockPoultryOthersSpecify: "",
                 livestockOthers: 0,
                 livestockTurkey: 0,
                 livestockCats: 0,
@@ -475,6 +477,13 @@ function SubmissionBarangayProfilePage3() {
                                 <tr className="border-t">
                                     <td className="pl-2">
                                         Others &#40;specify&#41;
+                                        <input
+                                            name="fishOthersSpecify"
+                                            value={values?.fishOthersSpecify}
+                                            type="text"
+                                            className="w-full focus:outline-none"
+                                            onChange={handleChange}
+                                        />
                                     </td>
                                     <td className="border-x">
                                         <input
@@ -684,7 +693,18 @@ function SubmissionBarangayProfilePage3() {
                             </td>
                         </tr>
                         <tr className="border-t">
-                            <td className="pl-6">Others: &#40;specify&#41;</td>
+                            <td className="pl-6">
+                                Others: &#40;specify&#41;
+                                <input
+                                    name="livestockPoultryOthersSpecify"
+                                    value={
+                                        values?.livestockPoultryOthersSpecify
+                                    }
+                                    type="text"
+                                    className="w-full focus:outline-none"
+                                    onChange={handleChange}
+                                />
+                            </td>
                             <td className="border-x">
                                 <input
                                     name="livestockPoultryOthers"

@@ -26,7 +26,7 @@ function Sidebar() {
     return (
         <>
             {authenticated && !loading && isSidebarOpen && (
-                <div className="flex flex-col sticky top-0 h-screen bg-gray-800 text-white min-w-[240px] min-[256px] pb-3 overflow-auto overflow-x-hidden">
+                <div className="flex flex-col sticky top-0 h-screen bg-gray-800 text-white min-w-[240px] pb-3 overflow-auto overflow-x-hidden">
                     <div className="flex items-center pl-4 pr-6 mb-4 border-b border-gray-700 select-none min-h-[56px]">
                         <div
                             onClick={() => dispatch("CLOSE_SIDEBAR")}

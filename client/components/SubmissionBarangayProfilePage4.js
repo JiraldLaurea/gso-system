@@ -29,10 +29,12 @@ const getFormValues = () => {
                 numBodyWorkshop: 0,
                 numFashionAccessories: 0,
                 numFitnessGym: 0,
-                numOthersManufacturing: "",
+                numOthersManufacturing: 0,
+                numOthersManufacturingSpecify: "",
                 numBeautyParlorBarberShop: 0,
                 numCooperativeRiceGrowers: 0,
-                numOthersCommercial: "",
+                numOthersCommercial: 0,
+                numOthersCommercialSpecify: "",
                 totalNumBirths: 0,
                 totalNumDeathsAllCauses: 0,
                 totalNumStillBirth: 0,
@@ -111,9 +113,15 @@ function SubmissionBarangayProfilePage4() {
         Number(values?.childMildUUnderOneYearNum);
 
     const childTotalUnderOneYearPercent =
-        Number(values?.childSUUnderOneYearPercent.replace(/%/g, "")) +
-        Number(values?.childModUUnderOneYearPercent.replace(/%/g, "")) +
-        Number(values?.childMildUUnderOneYearPercent.replace(/%/g, ""));
+        Number(
+            values?.childSUUnderOneYearPercent.toString().replace(/%/g, "")
+        ) +
+        Number(
+            values?.childModUUnderOneYearPercent.toString().replace(/%/g, "")
+        ) +
+        Number(
+            values?.childMildUUnderOneYearPercent.toString().replace(/%/g, "")
+        );
 
     const childTotalOneToFourYearsNum =
         Number(values?.childSUOneToFourYearsNum) +
@@ -121,9 +129,15 @@ function SubmissionBarangayProfilePage4() {
         Number(values?.childMildUOneToFourYearsNum);
 
     const childTotalOneToFourYearsPercent =
-        Number(values?.childSUOneToFourYearsPercent.replace(/%/g, "")) +
-        Number(values?.childModUOneToFourYearsPercent.replace(/%/g, "")) +
-        Number(values?.childMildUOneToFourYearsPercent.replace(/%/g, ""));
+        Number(
+            values?.childSUOneToFourYearsPercent.toString().replace(/%/g, "")
+        ) +
+        Number(
+            values?.childModUOneToFourYearsPercent.toString().replace(/%/g, "")
+        ) +
+        Number(
+            values?.childMildUOneToFourYearsPercent.toString().replace(/%/g, "")
+        );
 
     const childTotalFiveToSixYearsNum =
         Number(values?.childSUFiveToSixYearsNum) +
@@ -131,9 +145,15 @@ function SubmissionBarangayProfilePage4() {
         Number(values?.childMildUFiveToSixYearsNum);
 
     const childTotalFiveToSixYearsPercent =
-        Number(values?.childSUFiveToSixYearsPercent.replace(/%/g, "")) +
-        Number(values?.childModUFiveToSixYearsPercent.replace(/%/g, "")) +
-        Number(values?.childMildUFiveToSixYearsPercent.replace(/%/g, ""));
+        Number(
+            values?.childSUFiveToSixYearsPercent.toString().replace(/%/g, "")
+        ) +
+        Number(
+            values?.childModUFiveToSixYearsPercent.toString().replace(/%/g, "")
+        ) +
+        Number(
+            values?.childMildUFiveToSixYearsPercent.toString().replace(/%/g, "")
+        );
 
     const childTotalTotalNum =
         Number(values?.childSUTotalNum) +
@@ -141,9 +161,9 @@ function SubmissionBarangayProfilePage4() {
         Number(values?.childMildUTotalNum);
 
     const childTotalPercent =
-        Number(values?.childSUPercent.replace(/%/g, "")) +
-        Number(values?.childModUPercent.replace(/%/g, "")) +
-        Number(values?.childMildUPercent.replace(/%/g, ""));
+        Number(values?.childSUPercent.toString().replace(/%/g, "")) +
+        Number(values?.childModUPercent.toString().replace(/%/g, "")) +
+        Number(values?.childMildUPercent.toString().replace(/%/g, ""));
 
     useEffect(() => {
         localStorage.setItem("brgyProfilePage4", JSON.stringify(values));
@@ -450,7 +470,16 @@ function SubmissionBarangayProfilePage4() {
                         </td>
                     </tr>
                     <tr className="border-t">
-                        <td className="pl-2">Others: &#40;Pls. Specify&#41;</td>
+                        <td className="pl-2">
+                            Others: &#40;Pls. Specify&#41;{" "}
+                            <input
+                                name="numOthersManufacturingSpecify"
+                                value={values?.numOthersManufacturingSpecify}
+                                type="text"
+                                className="w-full focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
                         <td className="border-x">
                             <input
                                 name="numOthersManufacturing"
@@ -485,7 +514,14 @@ function SubmissionBarangayProfilePage4() {
                             />
                         </td>
                         <td className="pl-2 border-r">
-                            Others: &#40;Pls. Specify&#41; Vulcanizing Shop
+                            Others: &#40;Pls. Specify&#41;
+                            <input
+                                name="numOthersCommercialSpecify"
+                                value={values?.numOthersCommercialSpecify}
+                                type="text"
+                                className="w-full focus:outline-none"
+                                onChange={handleChange}
+                            />
                         </td>
                         <td>
                             <input
@@ -505,7 +541,7 @@ function SubmissionBarangayProfilePage4() {
             <div className="ml-4 font-bold">
                 <p>A. Health</p>
                 <p className="ml-4">A.1 Health Status</p>
-                <table className="w-full max-w-xl ml-8 font-normal">
+                <table className="w-full max-w-xl ml-8 text-xs font-normal">
                     <tbody>
                         <tr>
                             <td>A.1.1 Total Number of Births</td>
@@ -514,7 +550,7 @@ function SubmissionBarangayProfilePage4() {
                                     name="totalNumBirths"
                                     value={values?.totalNumBirths}
                                     type="text"
-                                    className="w-full text-center border-b border-black focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -529,7 +565,7 @@ function SubmissionBarangayProfilePage4() {
                                     name="totalNumDeathsAllCauses"
                                     value={values?.totalNumDeathsAllCauses}
                                     type="text"
-                                    className="w-full text-center border-b border-black focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -541,7 +577,7 @@ function SubmissionBarangayProfilePage4() {
                                     name="totalNumStillBirth"
                                     value={values?.totalNumStillBirth}
                                     type="text"
-                                    className="w-full text-center border-b border-black focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -553,7 +589,7 @@ function SubmissionBarangayProfilePage4() {
                                     name="totalNumInfantDeaths"
                                     value={values?.totalNumInfantDeaths}
                                     type="text"
-                                    className="w-full text-center border-b border-black focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -568,7 +604,7 @@ function SubmissionBarangayProfilePage4() {
                                     name="totalNumEarlyNeonatalDeaths"
                                     value={values?.totalNumEarlyNeonatalDeaths}
                                     type="text"
-                                    className="w-full text-center border-b border-black focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -579,7 +615,7 @@ function SubmissionBarangayProfilePage4() {
 
             <div className="mt-8 font-bold">
                 <span className="mr-4">
-                    A.1.6 Five Leading Causes of Mortality, CY{" "}
+                    A.1.6 Five Leading Causes of Mortality, CY
                     <input
                         name="fiveLeadingCausesMortalityCY"
                         value={values?.fiveLeadingCausesMortalityCY}

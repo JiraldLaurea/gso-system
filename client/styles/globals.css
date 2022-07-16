@@ -9,6 +9,12 @@ body {
     font-family: "Roboto Flex", "system-ui";
 }
 
+/* Change default table border color */
+th,
+td {
+    border: 1px solid black !important;
+}
+
 a {
     color: inherit;
     text-decoration: none;
