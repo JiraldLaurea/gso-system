@@ -2,109 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import Axios from "axios";
 
-// const getFormValues = () => {
-//     if (typeof window !== "undefined") {
-//         const storedValues = localStorage.getItem("brgyProfilePage1");
-//         if (!storedValues)
-//             return {
-//                 // city: "",
-//                 legalBasis: "",
-//                 dateRatification: "",
-//                 sitio1: "",
-//                 sitio2: "",
-//                 sitio3: "",
-//                 sitio4: "",
-//                 north: "",
-//                 south: "",
-//                 east: "",
-//                 west: "",
-//                 distanceFromCityHall: "",
-//                 distanceFromPoblacion: "",
-//                 distanceFromCapitol: "",
-//                 distanceFromHighway: "",
-//                 totalLandArea: "",
-//                 totalPopulation: "",
-//                 totalPopulationMale: 0,
-//                 totalPopulationFemale: 0,
-//                 totalPopulationBoth: 0,
-//                 male1: 0,
-//                 male2: 0,
-//                 male3: 0,
-//                 male4: 0,
-//                 male5: 0,
-//                 male6: 0,
-//                 male7: 0,
-//                 male8: 0,
-//                 male9: 0,
-//                 male10: 0,
-//                 male11: 0,
-//                 male12: 0,
-//                 male13: 0,
-//                 male14: 0,
-//                 male15: 0,
-//                 male16: 0,
-//                 male17: 0,
-//                 male18: 0,
-//                 male19: 0,
-//                 male20: 0,
-//                 female1: 0,
-//                 female2: 0,
-//                 female3: 0,
-//                 female4: 0,
-//                 female5: 0,
-//                 female6: 0,
-//                 female7: 0,
-//                 female8: 0,
-//                 female9: 0,
-//                 female10: 0,
-//                 female11: 0,
-//                 female12: 0,
-//                 female13: 0,
-//                 female14: 0,
-//                 female15: 0,
-//                 female16: 0,
-//                 female17: 0,
-//                 female18: 0,
-//                 female19: 0,
-//                 female20: 0,
-//                 both1: 0,
-//                 both2: 0,
-//                 both3: 0,
-//                 both4: 0,
-//                 both5: 0,
-//                 both6: 0,
-//                 both7: 0,
-//                 both8: 0,
-//                 both9: 0,
-//                 both10: 0,
-//                 both11: 0,
-//                 both12: 0,
-//                 both13: 0,
-//                 both14: 0,
-//                 both15: 0,
-//                 both16: 0,
-//                 both17: 0,
-//                 both18: 0,
-//                 both19: 0,
-//                 both20: 0,
-//                 totalMale: 0,
-//                 totalFemale: 0,
-//                 totalBoth: 0,
-//                 totalHouseholdsCY: "",
-//                 totalHouseholds: 0,
-//                 dialectSpoken: "",
-//                 ethnicGroups: "",
-//             };
-
-//         return JSON.parse(storedValues);
-//     }
-// };
-
 function SubmissionBarangayProfilePage1({ page1Data }) {
-    // const { data: page1Data } = useSWR(
-    //     "http://localhost:3001/submission/brgyProfilePage1"
-    // );
-
     const [values, setValues] = useState({
         city: page1Data.city,
         legalBasis: page1Data.legalBasis,
@@ -187,7 +85,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
         both19: page1Data.both19,
         both20: page1Data.both20,
         totalMale: page1Data.totalMale,
-        totalFemale: page1Data.toalFemale,
+        totalFemale: page1Data.totalFemale,
         totalBoth: page1Data.totalBoth,
         totalHouseholdsCY: page1Data.totalHouseholdsCY,
         totalHouseholds: page1Data.totalHouseholds,
@@ -195,272 +93,50 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
         ethnicGroups: page1Data.ethnicGroups,
     });
 
-    // const [values, setValues] = useState(getFormValues);
-
-    const cityRef = useRef(null);
-    const legalBasisRef = useRef(null);
-    const dateRatificationRef = useRef(null);
-    const sitio1Ref = useRef(null);
-    const sitio2Ref = useRef(null);
-    const sitio3Ref = useRef(null);
-    const sitio4Ref = useRef(null);
-    const northRef = useRef(null);
-    const southRef = useRef(null);
-    const eastRef = useRef(null);
-    const westRef = useRef(null);
-    const distanceFromCityHallRef = useRef(null);
-    const distanceFromPoblacionRef = useRef(null);
-    const distanceFromCapitolRef = useRef(null);
-    const distanceFromHighwayRef = useRef(null);
-    const totalLandAreaRef = useRef(null);
-    const totalPopulationRef = useRef(null);
-    const totalPopulationMaleRef = useRef(null);
-    const totalPopulationFemaleRef = useRef(null);
-    const totalPopulationBothRef = useRef(null);
-    const male1Ref = useRef(null);
-    const male2Ref = useRef(null);
-    const male3Ref = useRef(null);
-    const male4Ref = useRef(null);
-    const male5Ref = useRef(null);
-    const male6Ref = useRef(null);
-    const male7Ref = useRef(null);
-    const male8Ref = useRef(null);
-    const male9Ref = useRef(null);
-    const male10Ref = useRef(null);
-    const male11Ref = useRef(null);
-    const male12Ref = useRef(null);
-    const male13Ref = useRef(null);
-    const male14Ref = useRef(null);
-    const male15Ref = useRef(null);
-    const male16Ref = useRef(null);
-    const male17Ref = useRef(null);
-    const male18Ref = useRef(null);
-    const male19Ref = useRef(null);
-    const male20Ref = useRef(null);
-    const female1Ref = useRef(null);
-    const female2Ref = useRef(null);
-    const female3Ref = useRef(null);
-    const female4Ref = useRef(null);
-    const female5Ref = useRef(null);
-    const female6Ref = useRef(null);
-    const female7Ref = useRef(null);
-    const female8Ref = useRef(null);
-    const female9Ref = useRef(null);
-    const female10Ref = useRef(null);
-    const female11Ref = useRef(null);
-    const female12Ref = useRef(null);
-    const female13Ref = useRef(null);
-    const female14Ref = useRef(null);
-    const female15Ref = useRef(null);
-    const female16Ref = useRef(null);
-    const female17Ref = useRef(null);
-    const female18Ref = useRef(null);
-    const female19Ref = useRef(null);
-    const female20Ref = useRef(null);
-    const both1Ref = useRef(null);
-    const both2Ref = useRef(null);
-    const both3Ref = useRef(null);
-    const both4Ref = useRef(null);
-    const both5Ref = useRef(null);
-    const both6Ref = useRef(null);
-    const both7Ref = useRef(null);
-    const both8Ref = useRef(null);
-    const both9Ref = useRef(null);
-    const both10Ref = useRef(null);
-    const both11Ref = useRef(null);
-    const both12Ref = useRef(null);
-    const both13Ref = useRef(null);
-    const both14Ref = useRef(null);
-    const both15Ref = useRef(null);
-    const both16Ref = useRef(null);
-    const both17Ref = useRef(null);
-    const both18Ref = useRef(null);
-    const both19Ref = useRef(null);
-    const both20Ref = useRef(null);
-    const totalMaleRef = useRef(null);
-    const totalFemaleRef = useRef(null);
-    const totalBothRef = useRef(null);
-    const totalHouseholdsCYRef = useRef(null);
-    const totalHouseholdsRef = useRef(null);
-    const dialectSpokenRef = useRef(null);
-    const ethnicGroupsRef = useRef(null);
-
-    const [totalPopulationBoth, setTotalPopulationBoth] = useState(0);
-    const [both1, setBoth1] = useState(0);
-
-    // console.log(page1Data.city);
-
-    // const totalPopulationBoth =
-    //     page1Data.totalPopulationMale + page1Data.totalPopulationFemale;
-
     const totalMale =
-        Number(values?.male1) +
-        Number(values?.male2) +
-        Number(values?.male3) +
-        Number(values?.male4) +
-        Number(values?.male5) +
-        Number(values?.male6) +
-        Number(values?.male7) +
-        Number(values?.male8) +
-        Number(values?.male9) +
-        Number(values?.male10) +
-        Number(values?.male11) +
-        Number(values?.male12) +
-        Number(values?.male13) +
-        Number(values?.male14) +
-        Number(values?.male15) +
-        Number(values?.male16) +
-        Number(values?.male17);
+        Number(values.male1) +
+        Number(values.male2) +
+        Number(values.male3) +
+        Number(values.male4) +
+        Number(values.male5) +
+        Number(values.male6) +
+        Number(values.male7) +
+        Number(values.male8) +
+        Number(values.male9) +
+        Number(values.male10) +
+        Number(values.male11) +
+        Number(values.male12) +
+        Number(values.male13) +
+        Number(values.male14) +
+        Number(values.male15) +
+        Number(values.male16) +
+        Number(values.male17);
 
     const totalFemale =
-        Number(values?.female1) +
-        Number(values?.female2) +
-        Number(values?.female3) +
-        Number(values?.female4) +
-        Number(values?.female5) +
-        Number(values?.female6) +
-        Number(values?.female7) +
-        Number(values?.female8) +
-        Number(values?.female9) +
-        Number(values?.female10) +
-        Number(values?.female11) +
-        Number(values?.female12) +
-        Number(values?.female13) +
-        Number(values?.female14) +
-        Number(values?.female15) +
-        Number(values?.female16) +
-        Number(values?.female17);
+        Number(values.female1) +
+        Number(values.female2) +
+        Number(values.female3) +
+        Number(values.female4) +
+        Number(values.female5) +
+        Number(values.female6) +
+        Number(values.female7) +
+        Number(values.female8) +
+        Number(values.female9) +
+        Number(values.female10) +
+        Number(values.female11) +
+        Number(values.female12) +
+        Number(values.female13) +
+        Number(values.female14) +
+        Number(values.female15) +
+        Number(values.female16) +
+        Number(values.female17);
 
     const { data, error, isValidating } = useSWR(
         "http://localhost:3001/user/me"
     );
 
-    // useEffect(() => {
-    //     setCity(page1Data?.city);
-    // }, [page1Data]);
-
-    // useEffect(() => {
-    //     localStorage.setItem("brgyProfilePage1", JSON.stringify(values));
-    // }, [values]);
-
-    // const SECOND_MS = 3000;
-
-    // useEffect(() => {
-    //     const interval = setInterval(async () => {
-    //         console.log("CITY: ", values.city);
-    //         // setTotalPopulationBoth(
-    //         //     Number(totalPopulationMaleRef.current?.value) +
-    //         //         Number(totalPopulationFemaleRef.current?.value)
-    //         // );
-
-    // const data = {
-    //     city: values.city,
-    //     legalBasis: legalBasisRef.current?.value,
-    //     dateRatification: dateRatificationRef.current?.value,
-    //     sitio1: sitio1Ref.current?.value,
-    //     sitio2: sitio2Ref.current?.value,
-    //     sitio3: sitio3Ref.current?.value,
-    //     sitio4: sitio4Ref.current?.value,
-    //     north: northRef.current?.value,
-    //     south: southRef.current?.value,
-    //     east: eastRef.current?.value,
-    //     west: westRef.current?.value,
-    //     distanceFromCityHall: distanceFromCityHallRef.current?.value,
-    //     distanceFromPoblacion: distanceFromPoblacionRef.current?.value,
-    //     distanceFromCapitol: distanceFromCapitolRef.current?.value,
-    //     distanceFromHighway: distanceFromHighwayRef.current?.value,
-    //     totalLandArea: totalLandAreaRef.current?.value,
-    //     totalPopulation: totalPopulationRef.current?.value,
-    //     totalPopulationMale: totalPopulationMaleRef.current?.value,
-    //     totalPopulationFemale: totalPopulationFemaleRef.current?.value,
-    //     totalPopulationBoth:
-    //         Number(totalPopulationMaleRef.current?.value) +
-    //         Number(totalPopulationFemaleRef.current?.value),
-    //     male1: male1Ref.current?.value,
-    //     male2: male2Ref.current?.value,
-    //     male3: male3Ref.current?.value,
-    //     male4: male4Ref.current?.value,
-    //     male5: male5Ref.current?.value,
-    //     male6: male6Ref.current?.value,
-    //     male7: male7Ref.current?.value,
-    //     male8: male8Ref.current?.value,
-    //     male9: male9Ref.current?.value,
-    //     male10: male10Ref.current?.value,
-    //     male11: male11Ref.current?.value,
-    //     male12: male12Ref.current?.value,
-    //     male13: male13Ref.current?.value,
-    //     male14: male14Ref.current?.value,
-    //     male15: male15Ref.current?.value,
-    //     male16: male16Ref.current?.value,
-    //     male17: male17Ref.current?.value,
-    //     male18: male18Ref.current?.value,
-    //     male19: male19Ref.current?.value,
-    //     male20: male20Ref.current?.value,
-    //     female1: female1Ref.current?.value,
-    //     female2: female2Ref.current?.value,
-    //     female3: female3Ref.current?.value,
-    //     female4: female4Ref.current?.value,
-    //     female5: female5Ref.current?.value,
-    //     female6: female6Ref.current?.value,
-    //     female7: female7Ref.current?.value,
-    //     female8: female8Ref.current?.value,
-    //     female9: female9Ref.current?.value,
-    //     female10: female10Ref.current?.value,
-    //     female11: female11Ref.current?.value,
-    //     female12: female12Ref.current?.value,
-    //     female13: female13Ref.current?.value,
-    //     female14: female14Ref.current?.value,
-    //     female15: female15Ref.current?.value,
-    //     female16: female16Ref.current?.value,
-    //     female17: female17Ref.current?.value,
-    //     female18: female18Ref.current?.value,
-    //     female19: female19Ref.current?.value,
-    //     female20: female20Ref.current?.value,
-    //     both1: both1Ref.current?.value,
-    //     both2: both2Ref.current?.value,
-    //     both3: both3Ref.current?.value,
-    //     both4: both4Ref.current?.value,
-    //     both5: both5Ref.current?.value,
-    //     both6: both6Ref.current?.value,
-    //     both7: both7Ref.current?.value,
-    //     both8: both8Ref.current?.value,
-    //     both9: both9Ref.current?.value,
-    //     both10: both10Ref.current?.value,
-    //     both11: both11Ref.current?.value,
-    //     both12: both12Ref.current?.value,
-    //     both13: both13Ref.current?.value,
-    //     both14: both14Ref.current?.value,
-    //     both15: both15Ref.current?.value,
-    //     both16: both16Ref.current?.value,
-    //     both17: both17Ref.current?.value,
-    //     both18: both18Ref.current?.value,
-    //     both19: both19Ref.current?.value,
-    //     both20: both20Ref.current?.value,
-    //     totalMale: totalMaleRef.current?.value,
-    //     totalFemale: totalFemaleRef.current?.value,
-    //     totalBoth: totalBothRef.current?.value,
-    //     totalHouseholdsCY: totalHouseholdsCYRef.current?.value,
-    //     totalHouseholds: totalHouseholdsRef.current?.value,
-    //     dialectSpoken: dialectSpokenRef.current?.value,
-    //     ethnicGroups: ethnicGroupsRef.current?.value,
-    // };
-    //         await Axios.put(
-    //             "http://localhost:3001/submission/brgyProfilePage1",
-    //             data
-    //         );
-    //     }, SECOND_MS);
-
-    //     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-    // }, []);
-
     useEffect(() => {
         const updateSubmissionBarangayProfilePage1 = async () => {
-            console.log("CITY: ", values.city);
-            // setTotalPopulationBoth(
-            //     Number(totalPopulationMaleRef.current?.value) +
-            //         Number(totalPopulationFemaleRef.current?.value)
-            // );
-
             const data = {
                 city: values.city,
                 legalBasis: values.legalBasis,
@@ -589,7 +265,6 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                         // ref={cityRef}
                         onChange={handleChange}
                         type="text"
-                        a
                         className="border-b border-black w-52 focus:outline-none"
                     />
                 </span>
@@ -800,7 +475,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     value={values.totalPopulation}
                                     name="totalPopulation"
                                     onChange={handleChange}
-                                    type="text"
+                                    type="number"
                                     className="font-normal text-center border-b border-black w-14 focus:outline-none"
                                 />
                                 &#41;
@@ -811,7 +486,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     value={values.totalPopulationMale}
                                     name="totalPopulationMale"
                                     onChange={handleChange}
-                                    type="text"
+                                    type="number"
                                     className="w-10 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
                                 />
                             </span>
@@ -821,7 +496,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     value={values.totalPopulationFemale}
                                     name="totalPopulationFemale"
                                     onChange={handleChange}
-                                    type="text"
+                                    type="number"
                                     className="w-10 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
                                 />
                             </span>
@@ -830,12 +505,18 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                 <input
                                     readOnly
                                     value={
-                                        Number(values.totalPopulationMale) +
-                                        Number(values.totalPopulationFemale)
+                                        !null
+                                            ? Number(
+                                                  values.totalPopulationMale
+                                              ) +
+                                              Number(
+                                                  values.totalPopulationFemale
+                                              )
+                                            : 0
                                     }
                                     name="totalPopulationBoth"
                                     // onChange={handleChange}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center cursor-default focus:outline-none"
                                 />
                             </span>
@@ -867,7 +548,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male1}
                                             name="male1"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -876,7 +557,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female1}
                                             name="female1"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -884,10 +565,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male1) +
-                                                Number(values.female1)
+                                                !null
+                                                    ? Number(values.male1) +
+                                                      Number(values.female1)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -903,7 +586,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male2}
                                             name="male2"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -912,7 +595,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female2}
                                             name="female2"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -920,10 +603,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male2) +
-                                                Number(values.female2)
+                                                !null
+                                                    ? Number(values.male2) +
+                                                      Number(values.female2)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -933,7 +618,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male3}
                                             name="male3"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -942,7 +627,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female3}
                                             name="female3"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -950,10 +635,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male3) +
-                                                Number(values.female3)
+                                                !null
+                                                    ? Number(values.male3) +
+                                                      Number(values.female3)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -965,7 +652,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male4}
                                             name="male4"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -974,7 +661,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female4}
                                             name="female4"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -982,10 +669,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male4) +
-                                                Number(values.female4)
+                                                !null
+                                                    ? Number(values.male4) +
+                                                      Number(values.female4)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -995,7 +684,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male5}
                                             name="male5"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1004,7 +693,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female5}
                                             name="female5"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1012,10 +701,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male5) +
-                                                Number(values.female5)
+                                                !null
+                                                    ? Number(values.male5) +
+                                                      Number(values.female5)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1027,7 +718,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male6}
                                             name="male6"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1036,7 +727,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female6}
                                             name="female6"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1044,10 +735,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male6) +
-                                                Number(values.female6)
+                                                !null
+                                                    ? Number(values.male6) +
+                                                      Number(values.female6)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1057,7 +750,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male7}
                                             name="male7"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1066,7 +759,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female7}
                                             name="female7"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1074,10 +767,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male7) +
-                                                Number(values.female7)
+                                                !null
+                                                    ? Number(values.male7) +
+                                                      Number(values.female7)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1089,7 +784,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male8}
                                             name="male8"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1098,7 +793,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female8}
                                             name="female8"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1106,10 +801,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male8) +
-                                                Number(values.female8)
+                                                !null
+                                                    ? Number(values.male8) +
+                                                      Number(values.female8)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1119,7 +816,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male9}
                                             name="male9"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1128,7 +825,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female9}
                                             name="female9"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1136,10 +833,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male9) +
-                                                Number(values.female9)
+                                                !null
+                                                    ? Number(values.male9) +
+                                                      Number(values.female9)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1151,7 +850,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male10}
                                             name="male10"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1160,7 +859,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female10}
                                             name="female10"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1168,10 +867,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male10) +
-                                                Number(values.female10)
+                                                !null
+                                                    ? Number(values.male10) +
+                                                      Number(values.female10)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1181,7 +882,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male11}
                                             name="male11"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1190,7 +891,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female11}
                                             name="female11"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1198,10 +899,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male11) +
-                                                Number(values.female11)
+                                                !null
+                                                    ? Number(values.male11) +
+                                                      Number(values.female11)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1213,7 +916,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male12}
                                             name="male12"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1222,7 +925,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female12}
                                             name="female12"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1230,10 +933,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male12) +
-                                                Number(values.female12)
+                                                !null
+                                                    ? Number(values.male12) +
+                                                      Number(values.female12)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1243,7 +948,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male13}
                                             name="male13"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1252,7 +957,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female13}
                                             name="female13"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1260,10 +965,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male13) +
-                                                Number(values.female13)
+                                                !null
+                                                    ? Number(values.male13) +
+                                                      Number(values.female13)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1275,7 +982,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male14}
                                             name="male14"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1284,7 +991,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female14}
                                             name="female14"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1292,10 +999,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male14) +
-                                                Number(values.female14)
+                                                !null
+                                                    ? Number(values.male14) +
+                                                      Number(values.female14)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1305,7 +1014,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male15}
                                             name="male15"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1314,7 +1023,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female15}
                                             name="female15"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1322,10 +1031,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male15) +
-                                                Number(values.female15)
+                                                !null
+                                                    ? Number(values.male15) +
+                                                      Number(values.female15)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1337,7 +1048,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male16}
                                             name="male16"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1346,7 +1057,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female16}
                                             name="female16"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1354,10 +1065,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male16) +
-                                                Number(values.female16)
+                                                !null
+                                                    ? Number(values.male16) +
+                                                      Number(values.female16)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1367,7 +1080,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male17}
                                             name="male17"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1376,7 +1089,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female17}
                                             name="female17"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1384,10 +1097,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male17) +
-                                                Number(values.female17)
+                                                !null
+                                                    ? Number(values.male17) +
+                                                      Number(values.female17)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1403,25 +1118,28 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     <td className="border-t border-x">
                                         <input
                                             readOnly
-                                            value={totalMale}
-                                            type="text"
+                                            value={!null ? totalMale : 0}
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
                                     <td className="border-t ">
                                         <input
                                             readOnly
-                                            value={totalFemale}
-                                            type="text"
+                                            value={!null ? totalFemale : 0}
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
                                     <td className="border-t border-l">
                                         <input
                                             readOnly
-                                            value={totalMale + totalFemale}
-                                            ref={dateRatificationRef}
-                                            type="text"
+                                            value={
+                                                !null
+                                                    ? totalMale + totalFemale
+                                                    : 0
+                                            }
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1448,7 +1166,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male1}
                                             name="male1"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1457,7 +1175,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female1}
                                             name="female1"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1465,10 +1183,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male1) +
-                                                Number(values.female1)
+                                                !null
+                                                    ? Number(values.male1) +
+                                                      Number(values.female1)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1480,7 +1200,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male2}
                                             name="male2"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1489,7 +1209,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female2}
                                             name="female2"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1497,10 +1217,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male2) +
-                                                Number(values.female2)
+                                                !null
+                                                    ? Number(values.male2) +
+                                                      Number(values.female2)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1512,7 +1234,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male4}
                                             name="male4"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1521,7 +1243,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female4}
                                             name="female4"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1529,10 +1251,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male4) +
-                                                Number(values.female4)
+                                                !null
+                                                    ? Number(values.male4) +
+                                                      Number(values.female4)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1544,7 +1268,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male6}
                                             name="male6"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1553,7 +1277,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female6}
                                             name="female6"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1561,10 +1285,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male6) +
-                                                Number(values.female6)
+                                                !null
+                                                    ? Number(values.male6) +
+                                                      Number(values.female6)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1576,7 +1302,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male8}
                                             name="male8"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1585,7 +1311,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female8}
                                             name="female8"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1593,10 +1319,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male8) +
-                                                Number(values.female8)
+                                                !null
+                                                    ? Number(values.male8) +
+                                                      Number(values.female8)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1608,7 +1336,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male10}
                                             name="male10"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1617,7 +1345,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female10}
                                             name="female10"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1625,10 +1353,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male10) +
-                                                Number(values.female10)
+                                                !null
+                                                    ? Number(values.male10) +
+                                                      Number(values.female10)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1640,7 +1370,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male12}
                                             name="male12"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1649,7 +1379,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female12}
                                             name="female12"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1657,10 +1387,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male12) +
-                                                Number(values.female12)
+                                                !null
+                                                    ? Number(values.male12) +
+                                                      Number(values.female12)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1672,7 +1404,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male14}
                                             name="male14"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1681,7 +1413,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female14}
                                             name="female14"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1689,10 +1421,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male14) +
-                                                Number(values.female14)
+                                                !null
+                                                    ? Number(values.male14) +
+                                                      Number(values.female14)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1704,7 +1438,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male16}
                                             name="male16"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1713,7 +1447,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female16}
                                             name="female16"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1721,10 +1455,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male16) +
-                                                Number(values.female16)
+                                                !null
+                                                    ? Number(values.male16) +
+                                                      Number(values.female16)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1736,7 +1472,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male3}
                                             name="male3"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1745,7 +1481,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female3}
                                             name="female3"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1753,10 +1489,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male3) +
-                                                Number(values.female3)
+                                                !null
+                                                    ? Number(values.male3) +
+                                                      Number(values.female3)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1768,7 +1506,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male5}
                                             name="male5"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1777,7 +1515,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female5}
                                             name="female5"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1785,10 +1523,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male5) +
-                                                Number(values.female5)
+                                                !null
+                                                    ? Number(values.male5) +
+                                                      Number(values.female5)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1800,7 +1540,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male7}
                                             name="male7"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1809,7 +1549,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female7}
                                             name="female7"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1817,10 +1557,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male7) +
-                                                Number(values.female7)
+                                                !null
+                                                    ? Number(values.male7) +
+                                                      Number(values.female7)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1832,7 +1574,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male9}
                                             name="male9"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1841,7 +1583,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female9}
                                             name="female9"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1849,10 +1591,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male9) +
-                                                Number(values.female9)
+                                                !null
+                                                    ? Number(values.male9) +
+                                                      Number(values.female9)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1864,7 +1608,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male11}
                                             name="male11"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1873,7 +1617,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female11}
                                             name="female11"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1881,10 +1625,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male11) +
-                                                Number(values.female11)
+                                                !null
+                                                    ? Number(values.male11) +
+                                                      Number(values.female11)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1896,7 +1642,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male13}
                                             name="male13"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1905,7 +1651,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female13}
                                             name="female13"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1913,10 +1659,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male13) +
-                                                Number(values.female13)
+                                                !null
+                                                    ? Number(values.male13) +
+                                                      Number(values.female13)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1928,7 +1676,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male15}
                                             name="male15"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1937,7 +1685,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female15}
                                             name="female15"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1945,10 +1693,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male15) +
-                                                Number(values.female15)
+                                                !null
+                                                    ? Number(values.male15) +
+                                                      Number(values.female15)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1960,7 +1710,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.male17}
                                             name="male17"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1969,7 +1719,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                             value={values.female17}
                                             name="female17"
                                             onChange={handleChange}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                         />
                                     </td>
@@ -1977,10 +1727,12 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                         <input
                                             readOnly
                                             value={
-                                                Number(values.male17) +
-                                                Number(values.female17)
+                                                !null
+                                                    ? Number(values.male17) +
+                                                      Number(values.female17)
+                                                    : 0
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -1992,25 +1744,31 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     <td className="border-t border-x">
                                         <input
                                             readOnly
-                                            value={totalMale}
-                                            type="text"
+                                            value={!null ? totalMale : 0}
+                                            name="totalMale"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
                                     <td className="border-t ">
                                         <input
                                             readOnly
-                                            value={totalFemale}
-                                            type="text"
+                                            value={!null ? totalFemale : 0}
+                                            name="totalFemale"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
                                     <td className="border-t border-l">
                                         <input
                                             readOnly
-                                            value={totalMale + totalFemale}
-                                            ref={dateRatificationRef}
-                                            type="text"
+                                            value={
+                                                !null
+                                                    ? totalMale + totalFemale
+                                                    : 0
+                                            }
+                                            name="totalBoth"
+                                            type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
                                     </td>
@@ -2030,10 +1788,10 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                 />
                                 &#41;
                                 <input
-                                    defaultValue={page1Data.totalHouseholds}
+                                    value={values.totalHouseholds}
                                     name="totalHouseholds"
                                     onChange={handleChange}
-                                    type="text"
+                                    type="number"
                                     className="w-16 ml-2 text-center border-b border-black focus:outline-none"
                                 />
                             </span>

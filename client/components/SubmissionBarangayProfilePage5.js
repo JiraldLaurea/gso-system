@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 const getFormValues = () => {
     if (typeof window !== "undefined") {
         const storedValues = localStorage.getItem("brgyProfilePage5");
+        // console.log("STORED VALUES", JSON.parse(storedValues));
+        // console.log("TEST", !storedValues);
         if (!storedValues)
             return {
                 causeEarlyNeonatalDeathsCY: 0,
@@ -93,8 +96,271 @@ const getFormValues = () => {
     }
 };
 
-function SubmissionBarangayProfilePage5() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage5({ page5Data }) {
+    // const [values, setValues] = useState(getFormValues);
+    const [values, setValues] = useState({
+        causeEarlyNeonatalDeathsCY: page5Data.causeEarlyNeonatalDeathsCY,
+        causeEarlyNeonatalCause1: page5Data.causeEarlyNeonatalCause1,
+        causeEarlyNeonatalCause2: page5Data.causeEarlyNeonatalCause2,
+        causeEarlyNeonatalCause3: page5Data.causeEarlyNeonatalCause3,
+        causeEarlyNeonatalNum1: page5Data.causeEarlyNeonatalNum1,
+        causeEarlyNeonatalNum2: page5Data.causeEarlyNeonatalNum2,
+        causeEarlyNeonatalNum3: page5Data.causeEarlyNeonatalNum3,
+        causeMaternalDeathsCY: page5Data.causeMaternalDeathsCY,
+        causeMaternalCause1: page5Data.causeMaternalCause1,
+        causeMaternalCause2: page5Data.causeMaternalCause2,
+        causeMaternalCause3: page5Data.causeMaternalCause3,
+        causeMaternalNum1: page5Data.causeMaternalNum1,
+        causeMaternalNum2: page5Data.causeMaternalNum2,
+        causeMaternalNum3: page5Data.causeMaternalNum3,
+        healthClinicsHospitalName1: page5Data.healthClinicsHospitalName1,
+        healthClinicsHospitalName2: page5Data.healthClinicsHospitalName2,
+        healthClinicsHospitalName3: page5Data.healthClinicsHospitalName3,
+        healthClinicsHospitalName4: page5Data.healthClinicsHospitalName4,
+        healthClinicsHospitalNumGov1: page5Data.healthClinicsHospitalNumGov1,
+        healthClinicsHospitalNumGov2: page5Data.healthClinicsHospitalNumGov2,
+        healthClinicsHospitalNumGov3: page5Data.healthClinicsHospitalNumGov3,
+        healthClinicsHospitalNumGov4: page5Data.healthClinicsHospitalNumGov4,
+        healthClinicsHospitalNumPrivate1:
+            page5Data.healthClinicsHospitalNumPrivate1,
+        healthClinicsHospitalNumPrivate2:
+            page5Data.healthClinicsHospitalNumPrivate2,
+        healthClinicsHospitalNumPrivate3:
+            page5Data.healthClinicsHospitalNumPrivate3,
+        healthClinicsHospitalNumPrivate4:
+            page5Data.healthClinicsHospitalNumPrivate4,
+        medicalHealthPersonnelDoctorNumGov:
+            page5Data.medicalHealthPersonnelDoctorNumGov,
+        medicalHealthPersonnelNurseNumGov:
+            page5Data.medicalHealthPersonnelNurseNumGov,
+        medicalHealthPersonnelMidwifeNumGov:
+            page5Data.medicalHealthPersonnelMidwifeNumGov,
+        medicalHealthPersonnelBHWNumGov:
+            page5Data.medicalHealthPersonnelBHWNumGov,
+        medicalHealthPersonnelDoctorNumPrivate:
+            page5Data.medicalHealthPersonnelDoctorNumPrivate,
+        medicalHealthPersonnelNurseNumPrivate:
+            page5Data.medicalHealthPersonnelNurseNumPrivate,
+        medicalHealthPersonnelMidwifeNumPrivate:
+            page5Data.medicalHealthPersonnelMidwifeNumPrivate,
+        medicalHealthPersonnelBHWNumPrivate:
+            page5Data.medicalHealthPersonnelBHWNumPrivate,
+        medicalServiceType1: page5Data.medicalServiceType1,
+        medicalServiceType2: page5Data.medicalServiceType2,
+        medicalServiceType3: page5Data.medicalServiceType3,
+        medicalServiceType4: page5Data.medicalServiceType4,
+        medicalServiceFrequency1: page5Data.medicalServiceFrequency1,
+        medicalServiceFrequency2: page5Data.medicalServiceFrequency2,
+        medicalServiceFrequency3: page5Data.medicalServiceFrequency3,
+        medicalServiceFrequency4: page5Data.medicalServiceFrequency4,
+        toiletAutoFlush: page5Data.toiletAutoFlush,
+        toiletWaterSealed: page5Data.toiletWaterSealed,
+        toiletAntipolo: page5Data.toiletAntipolo,
+        toiletOthersSpecify: page5Data.toiletOthersSpecify,
+        toiletOthers: page5Data.toiletOthers,
+        toiletTotal: page5Data.toiletTotal,
+        disposalTrucks: page5Data.disposalTrucks,
+        disposalOpenPit: page5Data.disposalOpenPit,
+        disposalBurying: page5Data.disposalBurying,
+        disposalBurning: page5Data.disposalBurning,
+        disposalThrowAnywhere: page5Data.disposalThrowAnywhere,
+        disposalOthersSpecify: page5Data.disposalOthersSpecify,
+        disposalOthers: page5Data.disposalOthers,
+        householdOSYThirteenToTwentyOneMale:
+            page5Data.householdOSYThirteenToTwentyOneMale,
+        householdOSYThirteenToTwentyOneFemale:
+            page5Data.householdOSYThirteenToTwentyOneFemale,
+        householdOSYThirteenToTwentyOneTotal:
+            page5Data.householdOSYThirteenToTwentyOneTotal,
+        householdDisabilitiesMale: page5Data.householdDisabilitiesMale,
+        householdDisabilitiesFemale: page5Data.householdDisabilitiesFemale,
+        householdDisabilitiesTotal: page5Data.householdDisabilitiesTotal,
+        householdTotalFiveToSeventeen: page5Data.householdTotalFiveToSeventeen,
+        householdTotalFiveToSeventeenHelping:
+            page5Data.householdTotalFiveToSeventeenHelping,
+        householdFiveToSeventeenHelpingName1:
+            page5Data.householdFiveToSeventeenHelpingName1,
+        householdFiveToSeventeenHelpingName2:
+            page5Data.householdFiveToSeventeenHelpingName2,
+        householdFiveToSeventeenHelpingName3:
+            page5Data.householdFiveToSeventeenHelpingName3,
+        householdFiveToSeventeenHelpingName4:
+            page5Data.householdFiveToSeventeenHelpingName4,
+        householdFiveToSeventeenHelpingAge1:
+            page5Data.householdFiveToSeventeenHelpingAge1,
+        householdFiveToSeventeenHelpingAge2:
+            page5Data.householdFiveToSeventeenHelpingAge2,
+        householdFiveToSeventeenHelpingAge3:
+            page5Data.householdFiveToSeventeenHelpingAge3,
+        householdFiveToSeventeenHelpingAge4:
+            page5Data.householdFiveToSeventeenHelpingAge4,
+        householdFiveToSeventeenHelpingGradeSchool1:
+            page5Data.householdFiveToSeventeenHelpingGradeSchool1,
+        householdFiveToSeventeenHelpingGradeSchool2:
+            page5Data.householdFiveToSeventeenHelpingGradeSchool2,
+        householdFiveToSeventeenHelpingGradeSchool3:
+            page5Data.householdFiveToSeventeenHelpingGradeSchool3,
+        householdFiveToSeventeenHelpingGradeSchool4:
+            page5Data.householdFiveToSeventeenHelpingGradeSchool4,
+        householdFiveToSeventeenHelpingJobActivity1:
+            page5Data.householdFiveToSeventeenHelpingJobActivity1,
+        householdFiveToSeventeenHelpingJobActivity2:
+            page5Data.householdFiveToSeventeenHelpingJobActivity2,
+        householdFiveToSeventeenHelpingJobActivity3:
+            page5Data.householdFiveToSeventeenHelpingJobActivity3,
+        householdFiveToSeventeenHelpingJobActivity4:
+            page5Data.householdFiveToSeventeenHelpingJobActivity4,
+        householdFiveToSeventeenHelpingIncomeWeekly1:
+            page5Data.householdFiveToSeventeenHelpingIncomeWeekly1,
+        householdFiveToSeventeenHelpingIncomeWeekly2:
+            page5Data.householdFiveToSeventeenHelpingIncomeWeekly2,
+        householdFiveToSeventeenHelpingIncomeWeekly3:
+            page5Data.householdFiveToSeventeenHelpingIncomeWeekly3,
+        householdFiveToSeventeenHelpingIncomeWeekly4:
+            page5Data.householdFiveToSeventeenHelpingIncomeWeekly4,
+        householdFiveToSeventeenHelpingProgramsAvailed:
+            page5Data.householdFiveToSeventeenHelpingProgramsAvailed,
+    });
+
+    useEffect(() => {
+        const updateSubmissionBarangayProfilePage5 = async () => {
+            const data = {
+                causeEarlyNeonatalDeathsCY: values.causeEarlyNeonatalDeathsCY,
+                causeEarlyNeonatalCause1: values.causeEarlyNeonatalCause1,
+                causeEarlyNeonatalCause2: values.causeEarlyNeonatalCause2,
+                causeEarlyNeonatalCause3: values.causeEarlyNeonatalCause3,
+                causeEarlyNeonatalNum1: values.causeEarlyNeonatalNum1,
+                causeEarlyNeonatalNum2: values.causeEarlyNeonatalNum2,
+                causeEarlyNeonatalNum3: values.causeEarlyNeonatalNum3,
+                causeMaternalDeathsCY: values.causeMaternalDeathsCY,
+                causeMaternalCause1: values.causeMaternalCause1,
+                causeMaternalCause2: values.causeMaternalCause2,
+                causeMaternalCause3: values.causeMaternalCause3,
+                causeMaternalNum1: values.causeMaternalNum1,
+                causeMaternalNum2: values.causeMaternalNum2,
+                causeMaternalNum3: values.causeMaternalNum3,
+                healthClinicsHospitalName1: values.healthClinicsHospitalName1,
+                healthClinicsHospitalName2: values.healthClinicsHospitalName2,
+                healthClinicsHospitalName3: values.healthClinicsHospitalName3,
+                healthClinicsHospitalName4: values.healthClinicsHospitalName4,
+                healthClinicsHospitalNumGov1:
+                    values.healthClinicsHospitalNumGov1,
+                healthClinicsHospitalNumGov2:
+                    values.healthClinicsHospitalNumGov2,
+                healthClinicsHospitalNumGov3:
+                    values.healthClinicsHospitalNumGov3,
+                healthClinicsHospitalNumGov4:
+                    values.healthClinicsHospitalNumGov4,
+                healthClinicsHospitalNumPrivate1:
+                    values.healthClinicsHospitalNumPrivate1,
+                healthClinicsHospitalNumPrivate2:
+                    values.healthClinicsHospitalNumPrivate2,
+                healthClinicsHospitalNumPrivate3:
+                    values.healthClinicsHospitalNumPrivate3,
+                healthClinicsHospitalNumPrivate4:
+                    values.healthClinicsHospitalNumPrivate4,
+                medicalHealthPersonnelDoctorNumGov:
+                    values.medicalHealthPersonnelDoctorNumGov,
+                medicalHealthPersonnelNurseNumGov:
+                    values.medicalHealthPersonnelNurseNumGov,
+                medicalHealthPersonnelMidwifeNumGov:
+                    values.medicalHealthPersonnelMidwifeNumGov,
+                medicalHealthPersonnelBHWNumGov:
+                    values.medicalHealthPersonnelBHWNumGov,
+                medicalHealthPersonnelDoctorNumPrivate:
+                    values.medicalHealthPersonnelDoctorNumPrivate,
+                medicalHealthPersonnelNurseNumPrivate:
+                    values.medicalHealthPersonnelNurseNumPrivate,
+                medicalHealthPersonnelMidwifeNumPrivate:
+                    values.medicalHealthPersonnelMidwifeNumPrivate,
+                medicalHealthPersonnelBHWNumPrivate:
+                    values.medicalHealthPersonnelBHWNumPrivate,
+                medicalServiceType1: values.medicalServiceType1,
+                medicalServiceType2: values.medicalServiceType2,
+                medicalServiceType3: values.medicalServiceType3,
+                medicalServiceType4: values.medicalServiceType4,
+                medicalServiceFrequency1: values.medicalServiceFrequency1,
+                medicalServiceFrequency2: values.medicalServiceFrequency2,
+                medicalServiceFrequency3: values.medicalServiceFrequency3,
+                medicalServiceFrequency4: values.medicalServiceFrequency4,
+                toiletAutoFlush: values.toiletAutoFlush,
+                toiletWaterSealed: values.toiletWaterSealed,
+                toiletAntipolo: values.toiletAntipolo,
+                toiletOthersSpecify: values.toiletOthersSpecify,
+                toiletOthers: values.toiletOthers,
+                toiletTotal: values.toiletTotal,
+                disposalTrucks: values.disposalTrucks,
+                disposalOpenPit: values.disposalOpenPit,
+                disposalBurying: values.disposalBurying,
+                disposalBurning: values.disposalBurning,
+                disposalThrowAnywhere: values.disposalThrowAnywhere,
+                disposalOthersSpecify: values.disposalOthersSpecify,
+                disposalOthers: values.disposalOthers,
+                householdOSYThirteenToTwentyOneMale:
+                    values.householdOSYThirteenToTwentyOneMale,
+                householdOSYThirteenToTwentyOneFemale:
+                    values.householdOSYThirteenToTwentyOneFemale,
+                householdOSYThirteenToTwentyOneTotal:
+                    values.householdOSYThirteenToTwentyOneTotal,
+                householdDisabilitiesMale: values.householdDisabilitiesMale,
+                householdDisabilitiesFemale: values.householdDisabilitiesFemale,
+                householdDisabilitiesTotal: values.householdDisabilitiesTotal,
+                householdTotalFiveToSeventeen:
+                    values.householdTotalFiveToSeventeen,
+                householdTotalFiveToSeventeenHelping:
+                    values.householdTotalFiveToSeventeenHelping,
+                householdFiveToSeventeenHelpingName1:
+                    values.householdFiveToSeventeenHelpingName1,
+                householdFiveToSeventeenHelpingName2:
+                    values.householdFiveToSeventeenHelpingName2,
+                householdFiveToSeventeenHelpingName3:
+                    values.householdFiveToSeventeenHelpingName3,
+                householdFiveToSeventeenHelpingName4:
+                    values.householdFiveToSeventeenHelpingName4,
+                householdFiveToSeventeenHelpingAge1:
+                    values.householdFiveToSeventeenHelpingAge1,
+                householdFiveToSeventeenHelpingAge2:
+                    values.householdFiveToSeventeenHelpingAge2,
+                householdFiveToSeventeenHelpingAge3:
+                    values.householdFiveToSeventeenHelpingAge3,
+                householdFiveToSeventeenHelpingAge4:
+                    values.householdFiveToSeventeenHelpingAge4,
+                householdFiveToSeventeenHelpingGradeSchool1:
+                    values.householdFiveToSeventeenHelpingGradeSchool1,
+                householdFiveToSeventeenHelpingGradeSchool2:
+                    values.householdFiveToSeventeenHelpingGradeSchool2,
+                householdFiveToSeventeenHelpingGradeSchool3:
+                    values.householdFiveToSeventeenHelpingGradeSchool3,
+                householdFiveToSeventeenHelpingGradeSchool4:
+                    values.householdFiveToSeventeenHelpingGradeSchool4,
+                householdFiveToSeventeenHelpingJobActivity1:
+                    values.householdFiveToSeventeenHelpingJobActivity1,
+                householdFiveToSeventeenHelpingJobActivity2:
+                    values.householdFiveToSeventeenHelpingJobActivity2,
+                householdFiveToSeventeenHelpingJobActivity3:
+                    values.householdFiveToSeventeenHelpingJobActivity3,
+                householdFiveToSeventeenHelpingJobActivity4:
+                    values.householdFiveToSeventeenHelpingJobActivity4,
+                householdFiveToSeventeenHelpingIncomeWeekly1:
+                    values.householdFiveToSeventeenHelpingIncomeWeekly1,
+                householdFiveToSeventeenHelpingIncomeWeekly2:
+                    values.householdFiveToSeventeenHelpingIncomeWeekly2,
+                householdFiveToSeventeenHelpingIncomeWeekly3:
+                    values.householdFiveToSeventeenHelpingIncomeWeekly3,
+                householdFiveToSeventeenHelpingIncomeWeekly4:
+                    values.householdFiveToSeventeenHelpingIncomeWeekly4,
+                householdFiveToSeventeenHelpingProgramsAvailed:
+                    values.householdFiveToSeventeenHelpingProgramsAvailed,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage5",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage5();
+    }, [values]);
 
     const toiletTotal =
         Number(values?.toiletAutoFlush) +
@@ -102,9 +368,9 @@ function SubmissionBarangayProfilePage5() {
         Number(values?.toiletAntipolo) +
         Number(values?.toiletOthers);
 
-    useEffect(() => {
-        localStorage.setItem("brgyProfilePage5", JSON.stringify(values));
-    }, [values]);
+    // useEffect(() => {
+    //     localStorage.setItem("brgyProfilePage5", JSON.stringify(values));
+    // }, [values]);
 
     const handleChange = (e) => {
         setValues((previousValues) => ({
@@ -112,17 +378,18 @@ function SubmissionBarangayProfilePage5() {
             [e.target.name]: e.target.value,
         }));
     };
+
     return (
         <div>
             <div className="flex justify-between">
                 <div className="max-w-xs">
                     <p className="mb-2 font-bold">
                         A.1.11 Five Leading Causes of Early Neonatal Deaths
-                        &#40;0-6 days&#41;, CY{" "}
+                        &#40;0-6 days&#41;, CY
                         <input
                             name="causeEarlyNeonatalDeathsCY"
                             value={values?.causeEarlyNeonatalDeathsCY}
-                            type="text"
+                            type="number"
                             className="w-10 font-normal text-center border-b border-black focus:outline-none"
                             onChange={handleChange}
                         />
@@ -149,7 +416,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="causeEarlyNeonatalNum1"
                                         value={values?.causeEarlyNeonatalNum1}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -169,7 +436,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="causeEarlyNeonatalNum2"
                                         value={values?.causeEarlyNeonatalNum2}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -189,7 +456,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="causeEarlyNeonatalNum3"
                                         value={values?.causeEarlyNeonatalNum3}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -204,7 +471,7 @@ function SubmissionBarangayProfilePage5() {
                         <input
                             name="causeMaternalDeathsCY"
                             value={values?.causeMaternalDeathsCY}
-                            type="text"
+                            type="number"
                             className="w-10 font-normal text-center border-b border-black focus:outline-none"
                             onChange={handleChange}
                         />
@@ -231,7 +498,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="causeMaternalNum1"
                                         value={values?.causeMaternalNum1}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -251,7 +518,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="causeMaternalNum2"
                                         value={values?.causeMaternalNum2}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -271,7 +538,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="causeMaternalNum3"
                                         value={values?.causeMaternalNum3}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -331,7 +598,7 @@ function SubmissionBarangayProfilePage5() {
                                 <input
                                     name="healthClinicsHospitalNumGov1"
                                     value={values?.healthClinicsHospitalNumGov1}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -342,7 +609,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.healthClinicsHospitalNumPrivate1
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -354,7 +621,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelDoctorNumGov
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -365,7 +632,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelDoctorNumPrivate
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -403,7 +670,7 @@ function SubmissionBarangayProfilePage5() {
                                 <input
                                     name="healthClinicsHospitalNumGov2"
                                     value={values?.healthClinicsHospitalNumGov2}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -414,7 +681,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.healthClinicsHospitalNumPrivate2
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -426,7 +693,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelNurseNumGov
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -437,7 +704,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelNurseNumPrivate
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -475,7 +742,7 @@ function SubmissionBarangayProfilePage5() {
                                 <input
                                     name="healthClinicsHospitalNumGov3"
                                     value={values?.healthClinicsHospitalNumGov3}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -486,7 +753,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.healthClinicsHospitalNumPrivate3
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -498,7 +765,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelMidwifeNumGov
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -509,7 +776,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelMidwifeNumPrivate
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -547,7 +814,7 @@ function SubmissionBarangayProfilePage5() {
                                 <input
                                     name="healthClinicsHospitalNumGov4"
                                     value={values?.healthClinicsHospitalNumGov4}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -558,7 +825,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.healthClinicsHospitalNumPrivate4
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -570,7 +837,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelBHWNumGov
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -581,7 +848,7 @@ function SubmissionBarangayProfilePage5() {
                                     value={
                                         values?.medicalHealthPersonnelBHWNumPrivate
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -628,7 +895,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="toiletAutoFlush"
                                         value={values?.toiletAutoFlush}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -642,7 +909,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="toiletWaterSealed"
                                         value={values?.toiletWaterSealed}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -656,7 +923,7 @@ function SubmissionBarangayProfilePage5() {
                                     <input
                                         name="toiletAntipolo"
                                         value={values?.toiletAntipolo}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -665,12 +932,19 @@ function SubmissionBarangayProfilePage5() {
                             <tr className="border-t">
                                 <td className="pl-2 border-r">
                                     4. Others &#40;specify&#41;
+                                    <input
+                                        name="toiletOthersSpecify"
+                                        value={values?.toiletOthersSpecify}
+                                        type="text"
+                                        className="w-full focus:outline-none"
+                                        onChange={handleChange}
+                                    />
                                 </td>
                                 <td>
                                     <input
                                         name="toiletOthers"
                                         value={values?.toiletOthers}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -773,12 +1047,12 @@ function SubmissionBarangayProfilePage5() {
                             </tr>
                             <tr className="border-t">
                                 <td className="pl-2 border-r">
-                                    6. Others &#40;specify&#41;{" "}
+                                    6. Others &#40;specify&#41;
                                     <input
                                         name="disposalOthersSpecify"
                                         value={values?.disposalOthersSpecify}
                                         type="text"
-                                        className="w-28 focus:outline-none"
+                                        className="w-full focus:outline-none"
                                         onChange={handleChange}
                                     />
                                 </td>

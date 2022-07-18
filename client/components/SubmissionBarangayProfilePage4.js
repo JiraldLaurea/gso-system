@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 const getFormValues = () => {
     if (typeof window !== "undefined") {
@@ -104,8 +105,243 @@ const getFormValues = () => {
     }
 };
 
-function SubmissionBarangayProfilePage4() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage4({ page4Data }) {
+    // const [values, setValues] = useState(getFormValues);
+    const [values, setValues] = useState({
+        numPaperManufacturing: page4Data.numPaperManufacturing,
+        numCockpit: page4Data.numCockpit,
+        numCementManufacturing: page4Data.numCementManufacturing,
+        numFinancialInstitutions: page4Data.numFinancialInstitutions,
+        numHallowBlocksMaking: page4Data.numHallowBlocksMaking,
+        numRestaurants: page4Data.numRestaurants,
+        numMarbleCraft: page4Data.numMarbleCraft,
+        numRealEstate: page4Data.numRealEstate,
+        numBlacksmith: page4Data.numBlacksmith,
+        numNightClubBarMassage: page4Data.numNightClubBarMassage,
+        numIronMetalCraft: page4Data.numIronMetalCraft,
+        numMemorialParks: page4Data.numMemorialParks,
+        numEngineeringWorkMachineShop: page4Data.numEngineeringWorkMachineShop,
+        numInsurance: page4Data.numInsurance,
+        numJewelryManufacturingGoldsmith:
+            page4Data.numJewelryManufacturingGoldsmith,
+        numGasolineStation: page4Data.numGasolineStation,
+        numCeramicsPottery: page4Data.numCeramicsPottery,
+        numGeneralServiceContractors: page4Data.numGeneralServiceContractors,
+        numWoodcraft: page4Data.numWoodcraft,
+        numArrastreServices: page4Data.numArrastreServices,
+        numEngraving: page4Data.numEngraving,
+        numBodyWorkshop: page4Data.numBodyWorkshop,
+        numFashionAccessories: page4Data.numFashionAccessories,
+        numFitnessGym: page4Data.numFitnessGym,
+        numOthersManufacturing: page4Data.numOthersManufacturing,
+        numOthersManufacturingSpecify: page4Data.numOthersManufacturingSpecify,
+        numBeautyParlorBarberShop: page4Data.numBeautyParlorBarberShop,
+        numCooperativeRiceGrowers: page4Data.numCooperativeRiceGrowers,
+        numOthersCommercial: page4Data.numOthersCommercial,
+        numOthersCommercialSpecify: page4Data.numOthersCommercialSpecify,
+        totalNumBirths: page4Data.totalNumBirths,
+        totalNumDeathsAllCauses: page4Data.totalNumDeathsAllCauses,
+        totalNumStillBirth: page4Data.totalNumStillBirth,
+        totalNumInfantDeaths: page4Data.totalNumInfantDeaths,
+        totalNumEarlyNeonatalDeaths: page4Data.totalNumEarlyNeonatalDeaths,
+        fiveLeadingCausesMortalityCY: page4Data.fiveLeadingCausesMortalityCY,
+        fiveLeadingMorbidityCY: page4Data.fiveLeadingMorbidityCY,
+        causeCardiovascularDisorder: page4Data.causeCardiovascularDisorder,
+        causeCancer: page4Data.causeCancer,
+        causeOldAge: page4Data.causeOldAge,
+        causeKidneyFailure: page4Data.causeKidneyFailure,
+        causeTB: page4Data.causeTB,
+        causeFeverFlu: page4Data.causeFeverFlu,
+        causeCough: page4Data.causeCough,
+        causeAsthma: page4Data.causeAsthma,
+        causeHypertension: page4Data.causeHypertension,
+        causePTB: page4Data.causePTB,
+        numMalnourishedChildrenCY: page4Data.numMalnourishedChildrenCY,
+        totalNumChildWeighted: page4Data.totalNumChildWeighted,
+        childSUUnderOneYearNum: page4Data.childSUUnderOneYearNum,
+        childSUUnderOneYearPercent: page4Data.childSUUnderOneYearPercent,
+        childSUOneToFourYearsNum: page4Data.childSUOneToFourYearsNum,
+        childSUOneToFourYearsPercent: page4Data.childSUOneToFourYearsPercent,
+        childSUFiveToSixYearsNum: page4Data.childSUFiveToSixYearsNum,
+        childSUFiveToSixYearsPercent: page4Data.childSUFiveToSixYearsPercent,
+        childSUTotalNum: page4Data.childSUTotalNum,
+        childSUPercent: page4Data.childSUPercent,
+        childModUUnderOneYearNum: page4Data.childModUUnderOneYearNum,
+        childModUUnderOneYearPercent: page4Data.childModUUnderOneYearPercent,
+        childModUOneToFourYearsNum: page4Data.childModUOneToFourYearsNum,
+        childModUOneToFourYearsPercent:
+            page4Data.childModUOneToFourYearsPercent,
+        childModUFiveToSixYearsNum: page4Data.childModUFiveToSixYearsNum,
+        childModUFiveToSixYearsPercent:
+            page4Data.childModUFiveToSixYearsPercent,
+        childModUTotalNum: page4Data.childModUTotalNum,
+        childModUPercent: page4Data.childModUPercent,
+        childMildUUnderOneYearNum: page4Data.childMildUUnderOneYearNum,
+        childMildUUnderOneYearPercent: page4Data.childMildUUnderOneYearPercent,
+        childMildUOneToFourYearsNum: page4Data.childMildUOneToFourYearsNum,
+        childMildUOneToFourYearsPercent:
+            page4Data.childMildUOneToFourYearsPercent,
+        childMildUFiveToSixYearsNum: page4Data.childMildUFiveToSixYearsNum,
+        childMildUFiveToSixYearsPercent:
+            page4Data.childMildUFiveToSixYearsPercent,
+        childMildUTotalNum: page4Data.childMildUTotalNum,
+        childMildUPercent: page4Data.childMildUPercent,
+        childTotalUnderOneYearNum: page4Data.childTotalUnderOneYearNum,
+        childTotalUnderOneYearPercent: page4Data.childTotalUnderOneYearPercent,
+        childTotalOneToFourYearsNum: page4Data.childTotalOneToFourYearsNum,
+        childTotalOneToFourYearsPercent:
+            page4Data.childTotalOneToFourYearsPercent,
+        childTotalFiveToSixYearsNum: page4Data.childTotalFiveToSixYearsNum,
+        childTotalFiveToSixYearsPercent:
+            page4Data.childTotalFiveToSixYearsPercent,
+        childTotalTotalNum: page4Data.childTotalTotalNum,
+        childTotalPercent: page4Data.childTotalPercent,
+        infantLeadingCausesMortalityCY:
+            page4Data.infantLeadingCausesMortalityCY,
+        infantLeadingCausesMorbidityCY:
+            page4Data.infantLeadingCausesMorbidityCY,
+        infantMortalityCause1: page4Data.infantMortalityCause1,
+        infantMortalityCause2: page4Data.infantMortalityCause2,
+        infantMortalityCause3: page4Data.infantMortalityCause3,
+        infantMortalityNum1: page4Data.infantMortalityNum1,
+        infantMortalityNum2: page4Data.infantMortalityNum2,
+        infantMortalityNum3: page4Data.infantMortalityNum3,
+        infantMorbidityFeverNum: page4Data.infantMorbidityFeverNum,
+        infantMorbidityCoughNum: page4Data.infantMorbidityCoughNum,
+        infantMorbidityMalnutritionNum:
+            page4Data.infantMorbidityMalnutritionNum,
+        infantMorbidityDiarrheaNum: page4Data.infantMorbidityDiarrheaNum,
+        infantMorbidityTCPrimaryComplexNum:
+            page4Data.infantMorbidityTCPrimaryComplexNum,
+    });
+
+    useEffect(() => {
+        const updateSubmissionBarangayProfilePage4 = async () => {
+            const data = {
+                numPaperManufacturing: values.numPaperManufacturing,
+                numCockpit: values.numCockpit,
+                numCementManufacturing: values.numCementManufacturing,
+                numFinancialInstitutions: values.numFinancialInstitutions,
+                numHallowBlocksMaking: values.numHallowBlocksMaking,
+                numRestaurants: values.numRestaurants,
+                numMarbleCraft: values.numMarbleCraft,
+                numRealEstate: values.numRealEstate,
+                numBlacksmith: values.numBlacksmith,
+                numNightClubBarMassage: values.numNightClubBarMassage,
+                numIronMetalCraft: values.numIronMetalCraft,
+                numMemorialParks: values.numMemorialParks,
+                numEngineeringWorkMachineShop:
+                    values.numEngineeringWorkMachineShop,
+                numInsurance: values.numInsurance,
+                numJewelryManufacturingGoldsmith:
+                    values.numJewelryManufacturingGoldsmith,
+                numGasolineStation: values.numGasolineStation,
+                numCeramicsPottery: values.numCeramicsPottery,
+                numGeneralServiceContractors:
+                    values.numGeneralServiceContractors,
+                numWoodcraft: values.numWoodcraft,
+                numArrastreServices: values.numArrastreServices,
+                numEngraving: values.numEngraving,
+                numBodyWorkshop: values.numBodyWorkshop,
+                numFashionAccessories: values.numFashionAccessories,
+                numFitnessGym: values.numFitnessGym,
+                numOthersManufacturing: values.numOthersManufacturing,
+                numOthersManufacturingSpecify:
+                    values.numOthersManufacturingSpecify,
+                numBeautyParlorBarberShop: values.numBeautyParlorBarberShop,
+                numCooperativeRiceGrowers: values.numCooperativeRiceGrowers,
+                numOthersCommercial: values.numOthersCommercial,
+                numOthersCommercialSpecify: values.numOthersCommercialSpecify,
+                totalNumBirths: values.totalNumBirths,
+                totalNumDeathsAllCauses: values.totalNumDeathsAllCauses,
+                totalNumStillBirth: values.totalNumStillBirth,
+                totalNumInfantDeaths: values.totalNumInfantDeaths,
+                totalNumEarlyNeonatalDeaths: values.totalNumEarlyNeonatalDeaths,
+                fiveLeadingCausesMortalityCY:
+                    values.fiveLeadingCausesMortalityCY,
+                fiveLeadingMorbidityCY: values.fiveLeadingMorbidityCY,
+                causeCardiovascularDisorder: values.causeCardiovascularDisorder,
+                causeCancer: values.causeCancer,
+                causeOldAge: values.causeOldAge,
+                causeKidneyFailure: values.causeKidneyFailure,
+                causeTB: values.causeTB,
+                causeFeverFlu: values.causeFeverFlu,
+                causeCough: values.causeCough,
+                causeAsthma: values.causeAsthma,
+                causeHypertension: values.causeHypertension,
+                causePTB: values.causePTB,
+                numMalnourishedChildrenCY: values.numMalnourishedChildrenCY,
+                totalNumChildWeighted: values.totalNumChildWeighted,
+                childSUUnderOneYearNum: values.childSUUnderOneYearNum,
+                childSUUnderOneYearPercent: values.childSUUnderOneYearPercent,
+                childSUOneToFourYearsNum: values.childSUOneToFourYearsNum,
+                childSUOneToFourYearsPercent:
+                    values.childSUOneToFourYearsPercent,
+                childSUFiveToSixYearsNum: values.childSUFiveToSixYearsNum,
+                childSUFiveToSixYearsPercent:
+                    values.childSUFiveToSixYearsPercent,
+                childSUTotalNum: values.childSUTotalNum,
+                childSUPercent: values.childSUPercent,
+                childModUUnderOneYearNum: values.childModUUnderOneYearNum,
+                childModUUnderOneYearPercent:
+                    values.childModUUnderOneYearPercent,
+                childModUOneToFourYearsNum: values.childModUOneToFourYearsNum,
+                childModUOneToFourYearsPercent:
+                    values.childModUOneToFourYearsPercent,
+                childModUFiveToSixYearsNum: values.childModUFiveToSixYearsNum,
+                childModUFiveToSixYearsPercent:
+                    values.childModUFiveToSixYearsPercent,
+                childModUTotalNum: values.childModUTotalNum,
+                childModUPercent: values.childModUPercent,
+                childMildUUnderOneYearNum: values.childMildUUnderOneYearNum,
+                childMildUUnderOneYearPercent:
+                    values.childMildUUnderOneYearPercent,
+                childMildUOneToFourYearsNum: values.childMildUOneToFourYearsNum,
+                childMildUOneToFourYearsPercent:
+                    values.childMildUOneToFourYearsPercent,
+                childMildUFiveToSixYearsNum: values.childMildUFiveToSixYearsNum,
+                childMildUFiveToSixYearsPercent:
+                    values.childMildUFiveToSixYearsPercent,
+                childMildUTotalNum: values.childMildUTotalNum,
+                childMildUPercent: values.childMildUPercent,
+                childTotalUnderOneYearNum: values.childTotalUnderOneYearNum,
+                childTotalUnderOneYearPercent:
+                    values.childTotalUnderOneYearPercent,
+                childTotalOneToFourYearsNum: values.childTotalOneToFourYearsNum,
+                childTotalOneToFourYearsPercent:
+                    values.childTotalOneToFourYearsPercent,
+                childTotalFiveToSixYearsNum: values.childTotalFiveToSixYearsNum,
+                childTotalFiveToSixYearsPercent:
+                    values.childTotalFiveToSixYearsPercent,
+                childTotalTotalNum: values.childTotalTotalNum,
+                childTotalPercent: values.childTotalPercent,
+                infantLeadingCausesMortalityCY:
+                    values.infantLeadingCausesMortalityCY,
+                infantLeadingCausesMorbidityCY:
+                    values.infantLeadingCausesMorbidityCY,
+                infantMortalityCause1: values.infantMortalityCause1,
+                infantMortalityCause2: values.infantMortalityCause2,
+                infantMortalityCause3: values.infantMortalityCause3,
+                infantMortalityNum1: values.infantMortalityNum1,
+                infantMortalityNum2: values.infantMortalityNum2,
+                infantMortalityNum3: values.infantMortalityNum3,
+                infantMorbidityFeverNum: values.infantMorbidityFeverNum,
+                infantMorbidityCoughNum: values.infantMorbidityCoughNum,
+                infantMorbidityMalnutritionNum:
+                    values.infantMorbidityMalnutritionNum,
+                infantMorbidityDiarrheaNum: values.infantMorbidityDiarrheaNum,
+                infantMorbidityTCPrimaryComplexNum:
+                    values.infantMorbidityTCPrimaryComplexNum,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage4",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage4();
+    }, [values]);
 
     const childTotalUnderOneYearNum =
         Number(values?.childSUUnderOneYearNum) +
@@ -114,13 +350,13 @@ function SubmissionBarangayProfilePage4() {
 
     const childTotalUnderOneYearPercent =
         Number(
-            values?.childSUUnderOneYearPercent.toString().replace(/%/g, "")
+            values.childSUUnderOneYearPercent?.toString().replace(/%/g, "")
         ) +
         Number(
-            values?.childModUUnderOneYearPercent.toString().replace(/%/g, "")
+            values.childModUUnderOneYearPercent?.toString().replace(/%/g, "")
         ) +
         Number(
-            values?.childMildUUnderOneYearPercent.toString().replace(/%/g, "")
+            values.childMildUUnderOneYearPercent?.toString().replace(/%/g, "")
         );
 
     const childTotalOneToFourYearsNum =
@@ -130,13 +366,13 @@ function SubmissionBarangayProfilePage4() {
 
     const childTotalOneToFourYearsPercent =
         Number(
-            values?.childSUOneToFourYearsPercent.toString().replace(/%/g, "")
+            values.childSUOneToFourYearsPercent?.toString().replace(/%/g, "")
         ) +
         Number(
-            values?.childModUOneToFourYearsPercent.toString().replace(/%/g, "")
+            values.childModUOneToFourYearsPercent?.toString().replace(/%/g, "")
         ) +
         Number(
-            values?.childMildUOneToFourYearsPercent.toString().replace(/%/g, "")
+            values.childMildUOneToFourYearsPercent?.toString().replace(/%/g, "")
         );
 
     const childTotalFiveToSixYearsNum =
@@ -146,13 +382,13 @@ function SubmissionBarangayProfilePage4() {
 
     const childTotalFiveToSixYearsPercent =
         Number(
-            values?.childSUFiveToSixYearsPercent.toString().replace(/%/g, "")
+            values.childSUFiveToSixYearsPercent?.toString().replace(/%/g, "")
         ) +
         Number(
-            values?.childModUFiveToSixYearsPercent.toString().replace(/%/g, "")
+            values.childModUFiveToSixYearsPercent?.toString().replace(/%/g, "")
         ) +
         Number(
-            values?.childMildUFiveToSixYearsPercent.toString().replace(/%/g, "")
+            values.childMildUFiveToSixYearsPercent?.toString().replace(/%/g, "")
         );
 
     const childTotalTotalNum =
@@ -161,13 +397,13 @@ function SubmissionBarangayProfilePage4() {
         Number(values?.childMildUTotalNum);
 
     const childTotalPercent =
-        Number(values?.childSUPercent.toString().replace(/%/g, "")) +
-        Number(values?.childModUPercent.toString().replace(/%/g, "")) +
-        Number(values?.childMildUPercent.toString().replace(/%/g, ""));
+        Number(values.childSUPercent?.toString().replace(/%/g, "")) +
+        Number(values.childModUPercent?.toString().replace(/%/g, "")) +
+        Number(values.childMildUPercent?.toString().replace(/%/g, ""));
 
-    useEffect(() => {
-        localStorage.setItem("brgyProfilePage4", JSON.stringify(values));
-    }, [values]);
+    // useEffect(() => {
+    //     localStorage.setItem("brgyProfilePage4", JSON.stringify(values));
+    // }, [values]);
 
     const handleChange = (e) => {
         setValues((previousValues) => ({
@@ -187,7 +423,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numPaperManufacturing"
                                 value={values?.numPaperManufacturing}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -197,7 +433,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numCockpit"
                                 value={values?.numCockpit}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -209,7 +445,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numCementManufacturing"
                                 value={values?.numCementManufacturing}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -221,7 +457,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numFinancialInstitutions"
                                 value={values?.numFinancialInstitutions}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -234,7 +470,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numHallowBlocksMaking"
                                 value={values?.numHallowBlocksMaking}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -246,7 +482,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numRestaurants"
                                 value={values?.numRestaurants}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -259,7 +495,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numMarbleCraft"
                                 value={values?.numMarbleCraft}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -269,7 +505,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numRealEstate"
                                 value={values?.numRealEstate}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -282,7 +518,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numBlacksmith"
                                 value={values?.numBlacksmith}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -294,7 +530,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numNightClubBarMassage"
                                 value={values?.numNightClubBarMassage}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -307,7 +543,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numIronMetalCraft"
                                 value={values?.numIronMetalCraft}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -317,7 +553,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numMemorialParks"
                                 value={values?.numMemorialParks}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -330,7 +566,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numEngineeringWorkMachineShop"
                                 value={values?.numEngineeringWorkMachineShop}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -342,7 +578,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numInsurance"
                                 value={values?.numInsurance}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -357,7 +593,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numJewelryManufacturingGoldsmith"
                                 value={values?.numJewelryManufacturingGoldsmith}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -367,7 +603,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numGasolineStation"
                                 value={values?.numGasolineStation}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -380,7 +616,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numCeramicsPottery"
                                 value={values?.numCeramicsPottery}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -392,7 +628,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numGeneralServiceContractors"
                                 value={values?.numGeneralServiceContractors}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -405,7 +641,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numWoodcraft"
                                 value={values?.numWoodcraft}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -415,7 +651,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numArrastreServices"
                                 value={values?.numArrastreServices}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -428,7 +664,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numEngraving"
                                 value={values?.numEngraving}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -440,7 +676,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numBodyWorkshop"
                                 value={values?.numBodyWorkshop}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -453,7 +689,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numFashionAccessories"
                                 value={values?.numFashionAccessories}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -463,7 +699,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numFitnessGym"
                                 value={values?.numFitnessGym}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -484,7 +720,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numOthersManufacturing"
                                 value={values?.numOthersManufacturing}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -496,7 +732,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numBeautyParlorBarberShop"
                                 value={values?.numBeautyParlorBarberShop}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -508,7 +744,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numCooperativeRiceGrowers"
                                 value={values?.numCooperativeRiceGrowers}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -527,7 +763,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="numOthersCommercial"
                                 value={values?.numOthersCommercial}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -549,7 +785,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="totalNumBirths"
                                     value={values?.totalNumBirths}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -564,7 +800,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="totalNumDeathsAllCauses"
                                     value={values?.totalNumDeathsAllCauses}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -576,7 +812,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="totalNumStillBirth"
                                     value={values?.totalNumStillBirth}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -588,7 +824,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="totalNumInfantDeaths"
                                     value={values?.totalNumInfantDeaths}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -603,7 +839,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="totalNumEarlyNeonatalDeaths"
                                     value={values?.totalNumEarlyNeonatalDeaths}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -653,7 +889,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeCardiovascularDisorder"
                                     value={values?.causeCardiovascularDisorder}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -665,7 +901,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeCancer"
                                     value={values?.causeCancer}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -677,7 +913,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeOldAge"
                                     value={values?.causeOldAge}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -689,7 +925,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeKidneyFailure"
                                     value={values?.causeKidneyFailure}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -701,7 +937,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeTB"
                                     value={values?.causeTB}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -724,7 +960,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeFeverFlu"
                                     value={values?.causeFeverFlu}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -736,7 +972,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeCough"
                                     value={values?.causeCough}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -748,7 +984,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeAsthma"
                                     value={values?.causeAsthma}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -760,7 +996,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causeHypertension"
                                     value={values?.causeHypertension}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -772,7 +1008,7 @@ function SubmissionBarangayProfilePage4() {
                                 <input
                                     name="causePTB"
                                     value={values?.causePTB}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -787,7 +1023,7 @@ function SubmissionBarangayProfilePage4() {
                 <input
                     name="numMalnourishedChildrenCY"
                     value={values?.numMalnourishedChildrenCY}
-                    type="text"
+                    type="number"
                     className="w-10 font-normal text-center border-b border-black focus:outline-none"
                     onChange={handleChange}
                 />
@@ -841,7 +1077,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childSUUnderOneYearNum"
                                 value={values?.childSUUnderOneYearNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -859,7 +1095,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childSUOneToFourYearsNum"
                                 value={values?.childSUOneToFourYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -877,7 +1113,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childSUFiveToSixYearsNum"
                                 value={values?.childSUFiveToSixYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -895,7 +1131,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childSUTotalNum"
                                 value={values?.childSUTotalNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -918,7 +1154,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childModUUnderOneYearNum"
                                 value={values?.childModUUnderOneYearNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -936,7 +1172,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childModUOneToFourYearsNum"
                                 value={values?.childModUOneToFourYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -954,7 +1190,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childModUFiveToSixYearsNum"
                                 value={values?.childModUFiveToSixYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -972,7 +1208,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childModUTotalNum"
                                 value={values?.childModUTotalNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -993,7 +1229,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childMildUUnderOneYearNum"
                                 value={values?.childMildUUnderOneYearNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1011,7 +1247,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childMildUOneToFourYearsNum"
                                 value={values?.childMildUOneToFourYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1029,7 +1265,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childMildUFiveToSixYearsNum"
                                 value={values?.childMildUFiveToSixYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1047,7 +1283,7 @@ function SubmissionBarangayProfilePage4() {
                             <input
                                 name="childMildUTotalNum"
                                 value={values?.childMildUTotalNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1069,7 +1305,7 @@ function SubmissionBarangayProfilePage4() {
                                 readOnly
                                 name="childTotalUnderOneYearNum"
                                 value={childTotalUnderOneYearNum}
-                                type="text"
+                                type="number"
                                 className="w-full cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1089,7 +1325,7 @@ function SubmissionBarangayProfilePage4() {
                                 readOnly
                                 name="childTotalOneToFourYearsNum"
                                 value={childTotalOneToFourYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1109,7 +1345,7 @@ function SubmissionBarangayProfilePage4() {
                                 readOnly
                                 name="childTotalFiveToSixYearsNum"
                                 value={childTotalFiveToSixYearsNum}
-                                type="text"
+                                type="number"
                                 className="w-full cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1129,7 +1365,7 @@ function SubmissionBarangayProfilePage4() {
                                 readOnly
                                 name="childTotalTotalNum"
                                 value={childTotalTotalNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />

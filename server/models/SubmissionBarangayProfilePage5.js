@@ -1,342 +1,427 @@
 module.exports = (sequelize, DataTypes) => {
-    const SubmissionBarangayProfilePage1 = sequelize.define(
-        "SubmissionBarangayProfilePage1",
+    const SubmissionBarangayProfilePage5 = sequelize.define(
+        "SubmissionBarangayProfilePage5",
         {
             barangayId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            city: {
+            causeEarlyNeonatalDeathsCY: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            causeEarlyNeonatalCause1: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            legalBasis: {
+            causeEarlyNeonatalCause2: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            dateRatification: {
+            causeEarlyNeonatalCause3: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            sitio1: {
+            causeEarlyNeonatalNum1: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            causeEarlyNeonatalNum2: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            causeEarlyNeonatalNum3: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            causeMaternalDeathsCY: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            causeMaternalCause1: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            sitio2: {
+            causeMaternalCause2: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            sitio3: {
+            causeMaternalCause3: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            sitio4: {
+            causeMaternalNum1: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            causeMaternalNum2: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            causeMaternalNum3: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalName1: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            north: {
+            healthClinicsHospitalName2: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            south: {
+            healthClinicsHospitalName3: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            east: {
+            healthClinicsHospitalName4: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            west: {
+            healthClinicsHospitalNumGov1: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalNumGov2: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalNumGov3: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalNumGov4: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalNumPrivate1: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalNumPrivate2: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalNumPrivate3: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            healthClinicsHospitalNumPrivate4: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelDoctorNumGov: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelNurseNumGov: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelMidwifeNumGov: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelBHWNumGov: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelDoctorNumPrivate: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelNurseNumPrivate: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelMidwifeNumPrivate: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalHealthPersonnelBHWNumPrivate: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            medicalServiceType1: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            distanceFromCityHall: {
+            medicalServiceType2: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            distanceFromPoblacion: {
+            medicalServiceType3: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            distanceFromCapitol: {
+            medicalServiceType4: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            distanceFromHighway: {
+            medicalServiceFrequency1: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            totalLandArea: {
+            medicalServiceFrequency2: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            totalPopulation: {
+            medicalServiceFrequency3: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            totalPopulationMale: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            totalPopulationFemale: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            totalPopulationBoth: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male1: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male2: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male3: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male4: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male5: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male6: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male7: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male8: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male9: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male10: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male11: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male12: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male13: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male14: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male15: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male16: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male17: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male18: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male19: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            male20: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female1: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female2: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female3: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female4: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female5: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female6: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female7: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female8: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female9: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female10: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female11: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female12: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female13: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female14: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female15: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female16: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female17: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female18: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female19: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            female20: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            totalMale: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            totalFemale: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            totalBoth: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                defaultValue: 0,
-            },
-            totalHouseholdsCY: {
+            medicalServiceFrequency4: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            totalHouseholds: {
+            toiletAutoFlush: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
                 defaultValue: 0,
             },
-            dialectSpoken: {
+            toiletWaterSealed: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            toiletAntipolo: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            toiletOthersSpecify: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            ethnicGroups: {
+            toiletOthers: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            toiletTotal: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            disposalTrucks: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            disposalOpenPit: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            disposalBurying: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            disposalBurning: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            disposalThrowAnywhere: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            disposalOthersSpecify: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            disposalOthers: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdOSYThirteenToTwentyOneMale: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdOSYThirteenToTwentyOneFemale: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdOSYThirteenToTwentyOneTotal: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdDisabilitiesMale: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdDisabilitiesFemale: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdDisabilitiesTotal: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdTotalFiveToSeventeen: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdTotalFiveToSeventeenHelping: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingName1: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingName2: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingName3: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingName4: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingAge1: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingAge2: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingAge3: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingAge4: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingGradeSchool1: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingGradeSchool2: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingGradeSchool3: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingGradeSchool4: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingJobActivity1: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingJobActivity2: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingJobActivity3: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingJobActivity4: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            householdFiveToSeventeenHelpingIncomeWeekly1: {
+                type: DataTypes.FLOAT,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingIncomeWeekly2: {
+                type: DataTypes.FLOAT,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingIncomeWeekly3: {
+                type: DataTypes.FLOAT,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingIncomeWeekly4: {
+                type: DataTypes.FLOAT,
+                allowNull: true,
+                defaultValue: 0,
+            },
+            householdFiveToSeventeenHelpingProgramsAvailed: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
@@ -346,5 +431,5 @@ module.exports = (sequelize, DataTypes) => {
             freezeTableName: true,
         }
     );
-    return SubmissionBarangayProfilePage1;
+    return SubmissionBarangayProfilePage5;
 };

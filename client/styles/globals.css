@@ -9,6 +9,12 @@ body {
     font-family: "Roboto Flex", "system-ui";
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 /* Change default table border color */
 th,
 td {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 const getFormValues = () => {
     if (typeof window !== "undefined") {
@@ -82,6 +83,7 @@ const getFormValues = () => {
                 practicalElectricitySponsoredBy: "",
                 practicalElectricityPublic: "",
                 practicalElectricityPrivate: "",
+                othersNumSpecify: "",
                 othersNum: 0,
                 othersSponsoredBy: "",
                 othersPublic: "",
@@ -115,12 +117,261 @@ const getFormValues = () => {
     }
 };
 
-function SubmissionBarangayProfilePage6() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage6({ page6Data }) {
+    // const [values, setValues] = useState(getFormValues);
+
+    const [values, setValues] = useState({
+        numGradeCompleted: page6Data.numGradeCompleted,
+        nurseryPrepKinder: page6Data.nurseryPrepKinder,
+        grade1: page6Data.grade1,
+        grade2: page6Data.grade2,
+        grade3: page6Data.grade3,
+        grade4: page6Data.grade4,
+        grade5: page6Data.grade5,
+        grade6: page6Data.grade6,
+        grade7: page6Data.grade7,
+        grade8: page6Data.grade8,
+        grade9: page6Data.grade9,
+        grade10: page6Data.grade10,
+        juniorHigh: page6Data.juniorHigh,
+        seniorHigh: page6Data.seniorHigh,
+        college1: page6Data.college1,
+        college2: page6Data.college2,
+        college3: page6Data.college3,
+        college4: page6Data.college4,
+        college5: page6Data.college5,
+        baccalaureate: page6Data.baccalaureate,
+        postBaccalaureate: page6Data.postBaccalaureate,
+        aquacultureNum: page6Data.aquacultureNum,
+        aquacultureSponsoredBy: page6Data.aquacultureSponsoredBy,
+        aquaculturePublic: page6Data.aquaculturePublic,
+        aquaculturePrivate: page6Data.aquaculturePrivate,
+        sewingNum: page6Data.sewingNum,
+        sewingSponsoredBy: page6Data.sewingSponsoredBy,
+        sewingPublic: page6Data.sewingPublic,
+        sewingPrivate: page6Data.sewingPrivate,
+        flowerMakingNum: page6Data.flowerMakingNum,
+        flowerMakingSponsoredBy: page6Data.flowerMakingSponsoredBy,
+        flowerMakingPublic: page6Data.flowerMakingPublic,
+        flowerMakingPrivate: page6Data.flowerMakingPrivate,
+        backyardGardeningNum: page6Data.backyardGardeningNum,
+        backyardGardeningSponsoredBy: page6Data.backyardGardeningSponsoredBy,
+        backyardGardeningPublic: page6Data.backyardGardeningPublic,
+        backyardGardeningPrivate: page6Data.backyardGardeningPrivate,
+        handicraftNum: page6Data.handicraftNum,
+        handicraftSponsoredBy: page6Data.handicraftSponsoredBy,
+        handicraftPublic: page6Data.handicraftPublic,
+        handicraftPrivate: page6Data.handicraftPrivate,
+        beautyCulturalNum: page6Data.beautyCulturalNum,
+        beautyCulturalSponsoredBy: page6Data.beautyCulturalSponsoredBy,
+        beautyCulturalPublic: page6Data.beautyCulturalPublic,
+        beautyCulturalPrivate: page6Data.beautyCulturalPrivate,
+        livestockRaisingNum: page6Data.livestockRaisingNum,
+        livestockRaisingSponsoredBy: page6Data.livestockRaisingSponsoredBy,
+        livestockRaisingPublic: page6Data.livestockRaisingPublic,
+        livestockRaisingPrivate: page6Data.livestockRaisingPrivate,
+        carpentryNum: page6Data.carpentryNum,
+        carpentrySponsoredBy: page6Data.carpentrySponsoredBy,
+        carpentryPublic: page6Data.carpentryPublic,
+        carpentryPrivate: page6Data.carpentryPrivate,
+        cosmetologyNum: page6Data.cosmetologyNum,
+        cosmetologySponsoredBy: page6Data.cosmetologySponsoredBy,
+        cosmetologyPublic: page6Data.cosmetologyPublic,
+        cosmetologyPrivate: page6Data.cosmetologyPrivate,
+        recyclingOfMaterialNum: page6Data.recyclingOfMaterialNum,
+        recyclingOfMaterialSponsoredBy:
+            page6Data.recyclingOfMaterialSponsoredBy,
+        recyclingOfMaterialPublic: page6Data.recyclingOfMaterialPublic,
+        recyclingOfMaterialPrivate: page6Data.recyclingOfMaterialPrivate,
+        culinaryArtNum: page6Data.culinaryArtNum,
+        culinaryArtSponsoredBy: page6Data.culinaryArtSponsoredBy,
+        culinaryArtPublic: page6Data.culinaryArtPublic,
+        culinaryArtPrivate: page6Data.culinaryArtPrivate,
+        typingEncodingNum: page6Data.typingEncodingNum,
+        typingEncodingSponsoredBy: page6Data.typingEncodingSponsoredBy,
+        typingEncodingPublic: page6Data.typingEncodingPublic,
+        typingEncodingPrivate: page6Data.typingEncodingPrivate,
+        electronicsNum: page6Data.electronicsNum,
+        electronicsSponsoredBy: page6Data.electronicsSponsoredBy,
+        electronicsPublic: page6Data.electronicsPublic,
+        electronicsPrivate: page6Data.electronicsPrivate,
+        practicalElectricityNum: page6Data.practicalElectricityNum,
+        practicalElectricitySponsoredBy:
+            page6Data.practicalElectricitySponsoredBy,
+        practicalElectricityPublic: page6Data.practicalElectricityPublic,
+        practicalElectricityPrivate: page6Data.practicalElectricityPrivate,
+        othersNumSpecify: page6Data.othersNumSpecify,
+        othersNum: page6Data.othersNum,
+        othersSponsoredBy: page6Data.othersSponsoredBy,
+        othersPublic: page6Data.othersPublic,
+        othersPrivate: page6Data.othersPrivate,
+        educInstructionPublic1: page6Data.educInstructionPublic1,
+        educInstructionPrivate1: page6Data.educInstructionPrivate1,
+        educInstructionDayCare1: page6Data.educInstructionDayCare1,
+        educInstructionPreschoolKinder1:
+            page6Data.educInstructionPreschoolKinder1,
+        educInstructionElementary1: page6Data.educInstructionElementary1,
+        educInstructionSecondary1: page6Data.educInstructionSecondary1,
+        educInstructionTertiaryCollege1:
+            page6Data.educInstructionTertiaryCollege1,
+        educInstructionPostGraduate1: page6Data.educInstructionPostGraduate1,
+        educInstructionPublic2: page6Data.educInstructionPublic2,
+        educInstructionPrivate2: page6Data.educInstructionPrivate2,
+        educInstructionDayCare2: page6Data.educInstructionDayCare2,
+        educInstructionPreschoolKinder2:
+            page6Data.educInstructionPreschoolKinder2,
+        educInstructionElementary2: page6Data.educInstructionElementary2,
+        educInstructionSecondary2: page6Data.educInstructionSecondary2,
+        educInstructionTertiaryCollege2:
+            page6Data.educInstructionTertiaryCollege2,
+        educInstructionPostGraduate2: page6Data.educInstructionPostGraduate2,
+        educInstructionPublic3: page6Data.educInstructionPublic3,
+        educInstructionPrivate3: page6Data.educInstructionPrivate3,
+        educInstructionDayCare3: page6Data.educInstructionDayCare3,
+        educInstructionPreschoolKinder3:
+            page6Data.educInstructionPreschoolKinder3,
+        educInstructionElementary3: page6Data.educInstructionElementary3,
+        educInstructionSecondary3: page6Data.educInstructionSecondary3,
+        educInstructionTertiaryCollege3:
+            page6Data.educInstructionTertiaryCollege3,
+        educInstructionPostGraduate3: page6Data.educInstructionPostGraduate3,
+    });
 
     useEffect(() => {
-        localStorage.setItem("brgyProfilePage6", JSON.stringify(values));
+        const updateSubmissionBarangayProfilePage6 = async () => {
+            const data = {
+                numGradeCompleted: values.numGradeCompleted,
+                nurseryPrepKinder: values.nurseryPrepKinder,
+                grade1: values.grade1,
+                grade2: values.grade2,
+                grade3: values.grade3,
+                grade4: values.grade4,
+                grade5: values.grade5,
+                grade6: values.grade6,
+                grade7: values.grade7,
+                grade8: values.grade8,
+                grade9: values.grade9,
+                grade10: values.grade10,
+                juniorHigh: values.juniorHigh,
+                seniorHigh: values.seniorHigh,
+                college1: values.college1,
+                college2: values.college2,
+                college3: values.college3,
+                college4: values.college4,
+                college5: values.college5,
+                baccalaureate: values.baccalaureate,
+                postBaccalaureate: values.postBaccalaureate,
+                aquacultureNum: values.aquacultureNum,
+                aquacultureSponsoredBy: values.aquacultureSponsoredBy,
+                aquaculturePublic: values.aquaculturePublic,
+                aquaculturePrivate: values.aquaculturePrivate,
+                sewingNum: values.sewingNum,
+                sewingSponsoredBy: values.sewingSponsoredBy,
+                sewingPublic: values.sewingPublic,
+                sewingPrivate: values.sewingPrivate,
+                flowerMakingNum: values.flowerMakingNum,
+                flowerMakingSponsoredBy: values.flowerMakingSponsoredBy,
+                flowerMakingPublic: values.flowerMakingPublic,
+                flowerMakingPrivate: values.flowerMakingPrivate,
+                backyardGardeningNum: values.backyardGardeningNum,
+                backyardGardeningSponsoredBy:
+                    values.backyardGardeningSponsoredBy,
+                backyardGardeningPublic: values.backyardGardeningPublic,
+                backyardGardeningPrivate: values.backyardGardeningPrivate,
+                handicraftNum: values.handicraftNum,
+                handicraftSponsoredBy: values.handicraftSponsoredBy,
+                handicraftPublic: values.handicraftPublic,
+                handicraftPrivate: values.handicraftPrivate,
+                beautyCulturalNum: values.beautyCulturalNum,
+                beautyCulturalSponsoredBy: values.beautyCulturalSponsoredBy,
+                beautyCulturalPublic: values.beautyCulturalPublic,
+                beautyCulturalPrivate: values.beautyCulturalPrivate,
+                livestockRaisingNum: values.livestockRaisingNum,
+                livestockRaisingSponsoredBy: values.livestockRaisingSponsoredBy,
+                livestockRaisingPublic: values.livestockRaisingPublic,
+                livestockRaisingPrivate: values.livestockRaisingPrivate,
+                carpentryNum: values.carpentryNum,
+                carpentrySponsoredBy: values.carpentrySponsoredBy,
+                carpentryPublic: values.carpentryPublic,
+                carpentryPrivate: values.carpentryPrivate,
+                cosmetologyNum: values.cosmetologyNum,
+                cosmetologySponsoredBy: values.cosmetologySponsoredBy,
+                cosmetologyPublic: values.cosmetologyPublic,
+                cosmetologyPrivate: values.cosmetologyPrivate,
+                recyclingOfMaterialNum: values.recyclingOfMaterialNum,
+                recyclingOfMaterialSponsoredBy:
+                    values.recyclingOfMaterialSponsoredBy,
+                recyclingOfMaterialPublic: values.recyclingOfMaterialPublic,
+                recyclingOfMaterialPrivate: values.recyclingOfMaterialPrivate,
+                culinaryArtNum: values.culinaryArtNum,
+                culinaryArtSponsoredBy: values.culinaryArtSponsoredBy,
+                culinaryArtPublic: values.culinaryArtPublic,
+                culinaryArtPrivate: values.culinaryArtPrivate,
+                typingEncodingNum: values.typingEncodingNum,
+                typingEncodingSponsoredBy: values.typingEncodingSponsoredBy,
+                typingEncodingPublic: values.typingEncodingPublic,
+                typingEncodingPrivate: values.typingEncodingPrivate,
+                electronicsNum: values.electronicsNum,
+                electronicsSponsoredBy: values.electronicsSponsoredBy,
+                electronicsPublic: values.electronicsPublic,
+                electronicsPrivate: values.electronicsPrivate,
+                practicalElectricityNum: values.practicalElectricityNum,
+                practicalElectricitySponsoredBy:
+                    values.practicalElectricitySponsoredBy,
+                practicalElectricityPublic: values.practicalElectricityPublic,
+                practicalElectricityPrivate: values.practicalElectricityPrivate,
+                othersNumSpecify: values.othersNumSpecify,
+                othersNum: values.othersNum,
+                othersSponsoredBy: values.othersSponsoredBy,
+                othersPublic: values.othersPublic,
+                othersPrivate: values.othersPrivate,
+                educInstructionPublic1: values.educInstructionPublic1,
+                educInstructionPrivate1: values.educInstructionPrivate1,
+                educInstructionDayCare1: values.educInstructionDayCare1,
+                educInstructionPreschoolKinder1:
+                    values.educInstructionPreschoolKinder1,
+                educInstructionElementary1: values.educInstructionElementary1,
+                educInstructionSecondary1: values.educInstructionSecondary1,
+                educInstructionTertiaryCollege1:
+                    values.educInstructionTertiaryCollege1,
+                educInstructionPostGraduate1:
+                    values.educInstructionPostGraduate1,
+                educInstructionPublic2: values.educInstructionPublic2,
+                educInstructionPrivate2: values.educInstructionPrivate2,
+                educInstructionDayCare2: values.educInstructionDayCare2,
+                educInstructionPreschoolKinder2:
+                    values.educInstructionPreschoolKinder2,
+                educInstructionElementary2: values.educInstructionElementary2,
+                educInstructionSecondary2: values.educInstructionSecondary2,
+                educInstructionTertiaryCollege2:
+                    values.educInstructionTertiaryCollege2,
+                educInstructionPostGraduate2:
+                    values.educInstructionPostGraduate2,
+                educInstructionPublic3: values.educInstructionPublic3,
+                educInstructionPrivate3: values.educInstructionPrivate3,
+                educInstructionDayCare3: values.educInstructionDayCare3,
+                educInstructionPreschoolKinder3:
+                    values.educInstructionPreschoolKinder3,
+                educInstructionElementary3: values.educInstructionElementary3,
+                educInstructionSecondary3: values.educInstructionSecondary3,
+                educInstructionTertiaryCollege3:
+                    values.educInstructionTertiaryCollege3,
+                educInstructionPostGraduate3:
+                    values.educInstructionPostGraduate3,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage6",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage6();
     }, [values]);
+
+    // useEffect(() => {
+    //     localStorage.setItem("brgyProfilePage6", JSON.stringify(values));
+    // }, [values]);
 
     const handleChange = (e) => {
         setValues((previousValues) => ({
@@ -147,7 +398,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="numGradeCompleted"
                                 value={values?.numGradeCompleted}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -161,7 +412,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="nurseryPrepKinder"
                                 value={values?.nurseryPrepKinder}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -181,7 +432,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade1"
                                 value={values?.grade1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -197,7 +448,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade2"
                                 value={values?.grade2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -213,7 +464,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade3"
                                 value={values?.grade3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -229,7 +480,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade4"
                                 value={values?.grade4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -245,7 +496,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade5"
                                 value={values?.grade5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -261,7 +512,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade6"
                                 value={values?.grade6}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -283,7 +534,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade7"
                                 value={values?.grade7}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -299,7 +550,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade8"
                                 value={values?.grade8}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -315,7 +566,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade9"
                                 value={values?.grade9}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -331,7 +582,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="grade10"
                                 value={values?.grade10}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -347,7 +598,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="juniorHigh"
                                 value={values?.juniorHigh}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -363,7 +614,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="seniorHigh"
                                 value={values?.seniorHigh}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -383,7 +634,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="college1"
                                 value={values?.college1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -399,7 +650,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="college2"
                                 value={values?.college2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -415,7 +666,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="college3"
                                 value={values?.college3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -431,7 +682,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="college4"
                                 value={values?.college4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -447,7 +698,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="college5"
                                 value={values?.college5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -461,7 +712,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="baccalaureate"
                                 value={values?.baccalaureate}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -475,7 +726,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="postBaccalaureate"
                                 value={values?.postBaccalaureate}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -512,7 +763,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="aquacultureNum"
                                 value={values?.aquacultureNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -551,7 +802,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="sewingNum"
                                 value={values?.sewingNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -590,7 +841,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="flowerMakingNum"
                                 value={values?.flowerMakingNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -629,7 +880,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="backyardGardeningNum"
                                 value={values?.backyardGardeningNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -670,7 +921,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="handicraftNum"
                                 value={values?.handicraftNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -709,7 +960,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="beautyCulturalNum"
                                 value={values?.beautyCulturalNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -748,7 +999,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="livestockRaisingNum"
                                 value={values?.livestockRaisingNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -789,7 +1040,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="carpentryNum"
                                 value={values?.carpentryNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -828,7 +1079,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="cosmetologyNum"
                                 value={values?.cosmetologyNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -869,7 +1120,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="recyclingOfMaterialNum"
                                 value={values?.recyclingOfMaterialNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -911,7 +1162,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="culinaryArtNum"
                                 value={values?.culinaryArtNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -950,7 +1201,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="typingEncodingNum"
                                 value={values?.typingEncodingNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -989,7 +1240,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="electronicsNum"
                                 value={values?.electronicsNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1030,7 +1281,7 @@ function SubmissionBarangayProfilePage6() {
                             <input
                                 name="practicalElectricityNum"
                                 value={values?.practicalElectricityNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1066,12 +1317,19 @@ function SubmissionBarangayProfilePage6() {
                     <tr className="border-t">
                         <td className="pl-2 font-bold">
                             Others &#40;Pls. Specify&#41;
+                            <input
+                                name="othersNumSpecify"
+                                value={values?.othersNumSpecify}
+                                type="text"
+                                className="w-full focus:outline-none"
+                                onChange={handleChange}
+                            />
                         </td>
                         <td className="border-x">
                             <input
                                 name="othersNum"
                                 value={values?.othersNum}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />

@@ -1,130 +1,125 @@
 import React, { useEffect, useRef, useState } from "react";
+import Axios from "axios";
 
-const getFormValues = () => {
-    if (typeof window !== "undefined") {
-        const storedValues = localStorage.getItem("brgyProfilePage2");
-        if (!storedValues)
-            return {
-                dateLastElection: "",
-                numRegisteredVoters: 0,
-                numPredominantVoters: 0,
-                numPrecincts: 0,
-                majorSourcesLivelihood: "",
-                totalSelfEmployed: 0,
-                totalDriver: 0,
-                totalEmployee: 0,
-                totalTrisikadDriver: 0,
-                totalTeacher: 0,
-                totalFishermanFarmer: 0,
-                totalOFWSeaman: 0,
-                totalVendor: 0,
-                totalMedicalProfession: 0,
-                totalDressmakerTailor: 0,
-                totalCarpenterPlumber: 0,
-                totalBarbersHairdresser: 0,
-                totalLaborerOddJobs: 0,
-                totalBusinessman: 0,
-                totalJanitorGardener: 0,
-                totalBeautician: 0,
-                totalSecretary: 0,
-                totalElectricianTechnician: 0,
-                totalSalesClerk: 0,
-                totalOthers: 0,
-                totalOthersSpecify: "",
-                totalOneToTen: 0,
-                totalElevenToTwenty: 0,
-                totalGrand: 0,
-                employmentMale1: 0,
-                employmentMale2: 0,
-                employmentMale3: 0,
-                employmentMale4: 0,
-                employmentMale5: 0,
-                employmentMale6: 0,
-                employmentMale7: 0,
-                employmentMale8: 0,
-                employmentMale9: 0,
-                employmentMale10: 0,
-                employmentMale11: 0,
-                employmentFemale10: 0,
-                employmentFemale11: 0,
-                employmentFemale1: 0,
-                employmentFemale2: 0,
-                employmentFemale3: 0,
-                employmentFemale4: 0,
-                employmentFemale5: 0,
-                employmentFemale6: 0,
-                employmentFemale7: 0,
-                employmentFemale8: 0,
-                employmentFemale9: 0,
-                employmentFemale10: 0,
-                employmentFemale11: 0,
-                employmentTotalMale: 0,
-                employmentTotalFemale: 0,
-                monthlyIncome1: 0,
-                monthlyIncome2: 0,
-                monthlyIncome3: 0,
-                monthlyIncome4: 0,
-                monthlyIncome5: 0,
-                monthlyIncome6: 0,
-                monthlyIncome7: 0,
-                monthlyIncome8: 0,
-                monthlyIncome9: 0,
-                monthlyIncome10: 0,
-                monthlyIncome11: 0,
-                monthlyIncome12: 0,
-                monthlyIncome13: 0,
-                monthlyIncome14: 0,
-                monthlyIncome15: 0,
-                monthlyIncomeGrandTotal: 0,
-                farmingTechnique: "",
-                methodUsed: "",
-                annualIncomeFarmerTenant: 0,
-                cropsRice: 0,
-                cropsVegetableCorn: 0,
-                cropsRiceYieldYearKg: 0,
-                cropsVegetableCornYieldYearKg: 0,
-                numFarmersTenantsRice: 0,
-                numFarmersTenantsVegetableCorn: 0,
-                cropsProduced1: "",
-                cropsProduced1Number: 0,
-                cropsProduced1YieldYear: 0,
-                cropsProduced1FarmersTenants: 0,
-                agriFacilityRicemills: 0,
-                agriFacilityCono: 0,
-                agriFacilityKiskisan: 0,
-                agriFacilityWarehouse: 0,
-                agriFacilityBuyingStations: 0,
-                agriFacilityTractors: 0,
-                agriFacilityOthers: 0,
-                agriFacilityOthersSpecify: "",
-                irrigationSystem1: "",
-                irrigationSystem1ServicesArea: "",
-                irrigationSystem1NumFarmers: 0,
-                irrigationSystem1ThrougoutTheYear: "",
-                irrigationSystem1TwiceAYear: "",
-                irrigationSystem1OnceAYear: "",
-                irrigationSystem2: "",
-                irrigationSystem2ServicesArea: "",
-                irrigationSystem2NumFarmers: 0,
-                irrigationSystem2ThrougoutTheYear: "",
-                irrigationSystem2TwiceAYear: "",
-                irrigationSystem2OnceAYear: "",
-                irrigationSystem3: "",
-                irrigationSystem3ServicesArea: "",
-                irrigationSystem3NumFarmers: 0,
-                irrigationSystem3ThrougoutTheYear: "",
-                irrigationSystem3TwiceAYear: "",
-                irrigationSystem3OnceAYear: "",
-            };
-
-        return JSON.parse(storedValues);
-    }
-};
-
-function SubmissionBarangayProfilePage2() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage2({ page2Data }) {
+    // const [values, setValues] = useState(getFormValues);
     // const { user, authenticated, loading } = useAuthState();
     const contentRef = useRef(null);
+
+    const [values, setValues] = useState({
+        dateLastElection: page2Data.dateLastElection,
+        numRegisteredVoters: page2Data.numRegisteredVoters,
+        numPredominantVoters: page2Data.numPredominantVoters,
+        numPrecincts: page2Data.numPrecincts,
+        majorSourcesLivelihood: page2Data.majorSourcesLivelihood,
+        totalSelfEmployed: page2Data.totalSelfEmployed,
+        totalDriver: page2Data.totalDriver,
+        totalEmployee: page2Data.totalEmployee,
+        totalTrisikadDriver: page2Data.totalTrisikadDriver,
+        totalTeacher: page2Data.totalTeacher,
+        totalFishermanFarmer: page2Data.totalFishermanFarmer,
+        totalOFWSeaman: page2Data.totalOFWSeaman,
+        totalVendor: page2Data.totalVendor,
+        totalMedicalProfession: page2Data.totalMedicalProfession,
+        totalDressmakerTailor: page2Data.totalDressmakerTailor,
+        totalCarpenterPlumber: page2Data.totalCarpenterPlumber,
+        totalBarbersHairdresser: page2Data.totalBarbersHairdresser,
+        totalLaborerOddJobs: page2Data.totalLaborerOddJobs,
+        totalBusinessman: page2Data.totalBusinessman,
+        totalJanitorGardener: page2Data.totalJanitorGardener,
+        totalBeautician: page2Data.totalBeautician,
+        totalSecretary: page2Data.totalSecretary,
+        totalElectricianTechnician: page2Data.totalElectricianTechnician,
+        totalSalesClerk: page2Data.totalSalesClerk,
+        totalOthers: page2Data.totalOthers,
+        totalOthersSpecify: page2Data.totalOthersSpecify,
+        totalOneToTen: page2Data.totalOneToTen,
+        totalElevenToTwenty: page2Data.totalElevenToTwenty,
+        totalGrand: page2Data.totalGrand,
+        employmentMale1: page2Data.employmentMale1,
+        employmentMale2: page2Data.employmentMale2,
+        employmentMale3: page2Data.employmentMale3,
+        employmentMale4: page2Data.employmentMale4,
+        employmentMale5: page2Data.employmentMale5,
+        employmentMale6: page2Data.employmentMale6,
+        employmentMale7: page2Data.employmentMale7,
+        employmentMale8: page2Data.employmentMale8,
+        employmentMale9: page2Data.employmentMale9,
+        employmentMale10: page2Data.employmentMale10,
+        employmentMale11: page2Data.employmentMale11,
+        employmentFemale1: page2Data.employmentFemale1,
+        employmentFemale2: page2Data.employmentFemale2,
+        employmentFemale3: page2Data.employmentFemale3,
+        employmentFemale4: page2Data.employmentFemale4,
+        employmentFemale5: page2Data.employmentFemale5,
+        employmentFemale6: page2Data.employmentFemale6,
+        employmentFemale7: page2Data.employmentFemale7,
+        employmentFemale8: page2Data.employmentFemale8,
+        employmentFemale9: page2Data.employmentFemale9,
+        employmentFemale10: page2Data.employmentFemale10,
+        employmentFemale11: page2Data.employmentFemale11,
+        employmentTotalMale: page2Data.employmentTotalMale,
+        employmentTotalFemale: page2Data.employmentTotalFemale,
+        monthlyIncome1: page2Data.monthlyIncome1,
+        monthlyIncome2: page2Data.monthlyIncome2,
+        monthlyIncome3: page2Data.monthlyIncome3,
+        monthlyIncome4: page2Data.monthlyIncome4,
+        monthlyIncome5: page2Data.monthlyIncome5,
+        monthlyIncome6: page2Data.monthlyIncome6,
+        monthlyIncome7: page2Data.monthlyIncome7,
+        monthlyIncome8: page2Data.monthlyIncome8,
+        monthlyIncome9: page2Data.monthlyIncome9,
+        monthlyIncome10: page2Data.monthlyIncome10,
+        monthlyIncome11: page2Data.monthlyIncome11,
+        monthlyIncome12: page2Data.monthlyIncome12,
+        monthlyIncome13: page2Data.monthlyIncome13,
+        monthlyIncome14: page2Data.monthlyIncome14,
+        monthlyIncome15: page2Data.monthlyIncome15,
+        monthlyIncomeGrandTotal: page2Data.monthlyIncomeGrandTotal,
+        farmingTechnique: page2Data.farmingTechnique,
+        methodUsed: page2Data.methodUsed,
+        annualIncomeFarmerTenant: page2Data.annualIncomeFarmerTenant,
+        cropsRice: page2Data.cropsRice,
+        cropsVegetableCorn: page2Data.cropsVegetableCorn,
+        cropsRiceYieldYearKg: page2Data.cropsRiceYieldYearKg,
+        cropsVegetableCornYieldYearKg: page2Data.cropsVegetableCornYieldYearKg,
+        numFarmersTenantsRice: page2Data.numFarmersTenantsRice,
+        numFarmersTenantsVegetableCorn:
+            page2Data.numFarmersTenantsVegetableCorn,
+        cropsProduced1: page2Data.cropsProduced1,
+        cropsProduced1Number: page2Data.cropsProduced1Number,
+        cropsProduced1YieldYear: page2Data.cropsProduced1YieldYear,
+        cropsProduced1FarmersTenants: page2Data.cropsProduced1FarmersTenants,
+        agriFacilityRicemills: page2Data.agriFacilityRicemills,
+        agriFacilityCono: page2Data.agriFacilityCono,
+        agriFacilityKiskisan: page2Data.agriFacilityKiskisan,
+        agriFacilityWarehouse: page2Data.agriFacilityWarehouse,
+        agriFacilityBuyingStations: page2Data.agriFacilityBuyingStations,
+        agriFacilityTractors: page2Data.agriFacilityTractors,
+        agriFacilityOthers: page2Data.agriFacilityOthers,
+        agriFacilityOthersSpecify: page2Data.agriFacilityOthersSpecify,
+        irrigationSystem1: page2Data.irrigationSystem1,
+        irrigationSystem1ServicesArea: page2Data.irrigationSystem1ServicesArea,
+        irrigationSystem1NumFarmers: page2Data.irrigationSystem1NumFarmers,
+        irrigationSystem1ThrougoutTheYear:
+            page2Data.irrigationSystem1ThrougoutTheYear,
+        irrigationSystem1TwiceAYear: page2Data.irrigationSystem1TwiceAYear,
+        irrigationSystem1OnceAYear: page2Data.irrigationSystem1OnceAYear,
+        irrigationSystem2: page2Data.irrigationSystem2,
+        irrigationSystem2ServicesArea: page2Data.irrigationSystem2ServicesArea,
+        irrigationSystem2NumFarmers: page2Data.irrigationSystem2NumFarmers,
+        irrigationSystem2ThrougoutTheYear:
+            page2Data.irrigationSystem2ThrougoutTheYear,
+        irrigationSystem2TwiceAYear: page2Data.irrigationSystem2TwiceAYear,
+        irrigationSystem2OnceAYear: page2Data.irrigationSystem2OnceAYear,
+        irrigationSystem3: page2Data.irrigationSystem3,
+        irrigationSystem3ServicesArea: page2Data.irrigationSystem3ServicesArea,
+        irrigationSystem3NumFarmers: page2Data.irrigationSystem3NumFarmers,
+        irrigationSystem3ThrougoutTheYear:
+            page2Data.irrigationSystem3ThrougoutTheYear,
+        irrigationSystem3TwiceAYear: page2Data.irrigationSystem3TwiceAYear,
+        irrigationSystem3OnceAYear: page2Data.irrigationSystem3OnceAYear,
+    });
 
     const totalOneToTen =
         Number(values?.totalSelfEmployed) +
@@ -193,8 +188,145 @@ function SubmissionBarangayProfilePage2() {
         Number(values?.monthlyIncome14) +
         Number(values?.monthlyIncome15);
 
+    // useEffect(() => {
+    //     localStorage.setItem("brgyProfilePage2", JSON.stringify(values));
+    // }, [values]);
+
     useEffect(() => {
-        localStorage.setItem("brgyProfilePage2", JSON.stringify(values));
+        const updateSubmissionBarangayProfilePage2 = async () => {
+            // console.log("CITY: ", values.city);
+            // setTotalPopulationBoth(
+            //     Number(totalPopulationMaleRef.current?.value) +
+            //         Number(totalPopulationFemaleRef.current?.value)
+            // );
+
+            const data = {
+                dateLastElection: values.dateLastElection,
+                numRegisteredVoters: values.numRegisteredVoters,
+                numPredominantVoters: values.numPredominantVoters,
+                numPrecincts: values.numPrecincts,
+                majorSourcesLivelihood: values.majorSourcesLivelihood,
+                totalSelfEmployed: values.totalSelfEmployed,
+                totalDriver: values.totalDriver,
+                totalEmployee: values.totalEmployee,
+                totalTrisikadDriver: values.totalTrisikadDriver,
+                totalTeacher: values.totalTeacher,
+                totalFishermanFarmer: values.totalFishermanFarmer,
+                totalOFWSeaman: values.totalOFWSeaman,
+                totalVendor: values.totalVendor,
+                totalMedicalProfession: values.totalMedicalProfession,
+                totalDressmakerTailor: values.totalDressmakerTailor,
+                totalCarpenterPlumber: values.totalCarpenterPlumber,
+                totalBarbersHairdresser: values.totalBarbersHairdresser,
+                totalLaborerOddJobs: values.totalLaborerOddJobs,
+                totalBusinessman: values.totalBusinessman,
+                totalJanitorGardener: values.totalJanitorGardener,
+                totalBeautician: values.totalBeautician,
+                totalSecretary: values.totalSecretary,
+                totalElectricianTechnician: values.totalElectricianTechnician,
+                totalSalesClerk: values.totalSalesClerk,
+                totalOthers: values.totalOthers,
+                totalOthersSpecify: values.totalOthersSpecify,
+                totalOneToTen: values.totalOneToTen,
+                totalElevenToTwenty: values.totalElevenToTwenty,
+                totalGrand: values.totalGrand,
+                employmentMale1: values.employmentMale1,
+                employmentMale2: values.employmentMale2,
+                employmentMale3: values.employmentMale3,
+                employmentMale4: values.employmentMale4,
+                employmentMale5: values.employmentMale5,
+                employmentMale6: values.employmentMale6,
+                employmentMale7: values.employmentMale7,
+                employmentMale8: values.employmentMale8,
+                employmentMale9: values.employmentMale9,
+                employmentMale10: values.employmentMale10,
+                employmentMale11: values.employmentMale11,
+                employmentFemale1: values.employmentFemale1,
+                employmentFemale2: values.employmentFemale2,
+                employmentFemale3: values.employmentFemale3,
+                employmentFemale4: values.employmentFemale4,
+                employmentFemale5: values.employmentFemale5,
+                employmentFemale6: values.employmentFemale6,
+                employmentFemale7: values.employmentFemale7,
+                employmentFemale8: values.employmentFemale8,
+                employmentFemale9: values.employmentFemale9,
+                employmentFemale10: values.employmentFemale10,
+                employmentFemale11: values.employmentFemale11,
+                employmentTotalMale: values.employmentTotalMale,
+                employmentTotalFemale: values.employmentTotalFemale,
+                monthlyIncome1: values.monthlyIncome1,
+                monthlyIncome2: values.monthlyIncome2,
+                monthlyIncome3: values.monthlyIncome3,
+                monthlyIncome4: values.monthlyIncome4,
+                monthlyIncome5: values.monthlyIncome5,
+                monthlyIncome6: values.monthlyIncome6,
+                monthlyIncome7: values.monthlyIncome7,
+                monthlyIncome8: values.monthlyIncome8,
+                monthlyIncome9: values.monthlyIncome9,
+                monthlyIncome10: values.monthlyIncome10,
+                monthlyIncome11: values.monthlyIncome11,
+                monthlyIncome12: values.monthlyIncome12,
+                monthlyIncome13: values.monthlyIncome13,
+                monthlyIncome14: values.monthlyIncome14,
+                monthlyIncome15: values.monthlyIncome15,
+                monthlyIncomeGrandTotal: values.monthlyIncomeGrandTotal,
+                farmingTechnique: values.farmingTechnique,
+                methodUsed: values.methodUsed,
+                annualIncomeFarmerTenant: values.annualIncomeFarmerTenant,
+                cropsRice: values.cropsRice,
+                cropsVegetableCorn: values.cropsVegetableCorn,
+                cropsRiceYieldYearKg: values.cropsRiceYieldYearKg,
+                cropsVegetableCornYieldYearKg:
+                    values.cropsVegetableCornYieldYearKg,
+                numFarmersTenantsRice: values.numFarmersTenantsRice,
+                numFarmersTenantsVegetableCorn:
+                    values.numFarmersTenantsVegetableCorn,
+                cropsProduced1: values.cropsProduced1,
+                cropsProduced1Number: values.cropsProduced1Number,
+                cropsProduced1YieldYear: values.cropsProduced1YieldYear,
+                cropsProduced1FarmersTenants:
+                    values.cropsProduced1FarmersTenants,
+                agriFacilityRicemills: values.agriFacilityRicemills,
+                agriFacilityCono: values.agriFacilityCono,
+                agriFacilityKiskisan: values.agriFacilityKiskisan,
+                agriFacilityWarehouse: values.agriFacilityWarehouse,
+                agriFacilityBuyingStations: values.agriFacilityBuyingStations,
+                agriFacilityTractors: values.agriFacilityTractors,
+                agriFacilityOthers: values.agriFacilityOthers,
+                agriFacilityOthersSpecify: values.agriFacilityOthersSpecify,
+                irrigationSystem1: values.irrigationSystem1,
+                irrigationSystem1ServicesArea:
+                    values.irrigationSystem1ServicesArea,
+                irrigationSystem1NumFarmers: values.irrigationSystem1NumFarmers,
+                irrigationSystem1ThrougoutTheYear:
+                    values.irrigationSystem1ThrougoutTheYear,
+                irrigationSystem1TwiceAYear: values.irrigationSystem1TwiceAYear,
+                irrigationSystem1OnceAYear: values.irrigationSystem1OnceAYear,
+                irrigationSystem2: values.irrigationSystem2,
+                irrigationSystem2ServicesArea:
+                    values.irrigationSystem2ServicesArea,
+                irrigationSystem2NumFarmers: values.irrigationSystem2NumFarmers,
+                irrigationSystem2ThrougoutTheYear:
+                    values.irrigationSystem2ThrougoutTheYear,
+                irrigationSystem2TwiceAYear: values.irrigationSystem2TwiceAYear,
+                irrigationSystem2OnceAYear: values.irrigationSystem2OnceAYear,
+                irrigationSystem3: values.irrigationSystem3,
+                irrigationSystem3ServicesArea:
+                    values.irrigationSystem3ServicesArea,
+                irrigationSystem3NumFarmers: values.irrigationSystem3NumFarmers,
+                irrigationSystem3ThrougoutTheYear:
+                    values.irrigationSystem3ThrougoutTheYear,
+                irrigationSystem3TwiceAYear: values.irrigationSystem3TwiceAYear,
+                irrigationSystem3OnceAYear: values.irrigationSystem3OnceAYear,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage2",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage2();
     }, [values]);
 
     const handleChange = (e) => {
@@ -219,7 +351,7 @@ function SubmissionBarangayProfilePage2() {
                 </div>
                 <div>
                     <p className="font-bold">
-                        Date of Last Election:{" "}
+                        Date of Last Election:
                         <input
                             name="dateLastElection"
                             value={values?.dateLastElection}
@@ -232,21 +364,21 @@ function SubmissionBarangayProfilePage2() {
                         <input
                             name="numRegisteredVoters"
                             value={values?.numRegisteredVoters}
-                            type="text"
+                            type="number"
                             className="w-32 border-b border-black focus:outline-none"
                             onChange={handleChange}
                         />
                         <input
                             name="numPredominantVoters"
                             value={values?.numPredominantVoters}
-                            type="text"
+                            type="number"
                             className="w-32 border-b border-black focus:outline-none"
                             onChange={handleChange}
                         />
                         <input
                             name="numPrecincts"
                             value={values?.numPrecincts}
-                            type="text"
+                            type="number"
                             className="w-32 border-b border-black focus:outline-none"
                             onChange={handleChange}
                         />
@@ -288,7 +420,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalSelfEmployed"
                                 value={values?.totalSelfEmployed}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -300,7 +432,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalDriver"
                                 value={values?.totalDriver}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -314,7 +446,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalEmployee"
                                 value={values?.totalEmployee}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -324,7 +456,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalTrisikadDriver"
                                 value={values?.totalTrisikadDriver}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -338,7 +470,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalTeacher"
                                 value={values?.totalTeacher}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -348,7 +480,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalFishermanFarmer"
                                 value={values?.totalFishermanFarmer}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -360,7 +492,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalOFWSeaman"
                                 value={values?.totalOFWSeaman}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -373,7 +505,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalVendor"
                                 value={values?.totalVendor}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -387,7 +519,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalMedicalProfession"
                                 value={values?.totalMedicalProfession}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -397,7 +529,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalDressmakerTailor"
                                 value={values?.totalDressmakerTailor}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -411,7 +543,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalCarpenterPlumber"
                                 value={values?.totalCarpenterPlumber}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -423,7 +555,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalBarbersHairdresser"
                                 value={values?.totalBarbersHairdresser}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -435,7 +567,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalLaborerOddJobs"
                                 value={values?.totalLaborerOddJobs}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -445,7 +577,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalBusinessman"
                                 value={values?.totalBusinessman}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -457,7 +589,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalJanitorGardener"
                                 value={values?.totalJanitorGardener}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -469,7 +601,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalBeautician"
                                 value={values?.totalBeautician}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -483,7 +615,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalSecretary"
                                 value={values?.totalSecretary}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -495,7 +627,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalElectricianTechnician"
                                 value={values?.totalElectricianTechnician}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -509,7 +641,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalSalesClerk"
                                 value={values?.totalSalesClerk}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -528,7 +660,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="totalOthers"
                                 value={values?.totalOthers}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -541,7 +673,7 @@ function SubmissionBarangayProfilePage2() {
                                 readOnly
                                 name="totalMale"
                                 value={Number(totalOneToTen)}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -552,7 +684,7 @@ function SubmissionBarangayProfilePage2() {
                                 readOnly
                                 name="totalMale"
                                 value={Number(totalElevenToTwenty)}
-                                type="text"
+                                type="number"
                                 className="w-10 text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -568,7 +700,7 @@ function SubmissionBarangayProfilePage2() {
                                     Number(totalOneToTen) +
                                     Number(totalElevenToTwenty)
                                 }
-                                type="text"
+                                type="number"
                                 className="w-16 text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -603,7 +735,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale1"
                                     value={values?.employmentMale1}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -612,7 +744,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale1"
                                     value={values?.employmentFemale1}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -624,7 +756,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale2"
                                     value={values?.employmentMale2}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -633,7 +765,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale2"
                                     value={values?.employmentFemale2}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -645,7 +777,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale3"
                                     value={values?.employmentMale3}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -654,7 +786,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale3"
                                     value={values?.employmentFemale3}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -666,7 +798,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale4"
                                     value={values?.employmentMale4}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -675,7 +807,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale4"
                                     value={values?.employmentFemale4}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -687,7 +819,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale5"
                                     value={values?.employmentMale5}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -696,7 +828,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale5"
                                     value={values?.employmentFemale5}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -708,7 +840,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale6"
                                     value={values?.employmentMale6}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -717,7 +849,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale6"
                                     value={values?.employmentFemale6}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -729,7 +861,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale7"
                                     value={values?.employmentMale7}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -738,7 +870,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale7"
                                     value={values?.employmentFemale7}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -750,7 +882,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale8"
                                     value={values?.employmentMale8}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -759,7 +891,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale8"
                                     value={values?.employmentFemale8}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -771,7 +903,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale9"
                                     value={values?.employmentMale9}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -780,7 +912,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale9"
                                     value={values?.employmentFemale9}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -792,7 +924,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale10"
                                     value={values?.employmentMale10}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -801,7 +933,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale10"
                                     value={values?.employmentFemale10}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -813,7 +945,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentMale11"
                                     value={values?.employmentMale11}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -822,7 +954,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="employmentFemale11"
                                     value={values?.employmentFemale11}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -835,7 +967,7 @@ function SubmissionBarangayProfilePage2() {
                                     readOnly
                                     name="employmentTotalMale"
                                     value={employmentTotalMale}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center cursor-default focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -845,7 +977,7 @@ function SubmissionBarangayProfilePage2() {
                                     readOnly
                                     name="employmentTotalFemale"
                                     value={employmentTotalFemale}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center cursor-default focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -871,7 +1003,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome1"
                                     value={values?.monthlyIncome1}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -883,7 +1015,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome2"
                                     value={values?.monthlyIncome2}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -896,7 +1028,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome3"
                                     value={values?.monthlyIncome3}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -908,7 +1040,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome4"
                                     value={values?.monthlyIncome4}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -921,7 +1053,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome5"
                                     value={values?.monthlyIncome5}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -933,7 +1065,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome6"
                                     value={values?.monthlyIncome6}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -946,7 +1078,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome7"
                                     value={values?.monthlyIncome7}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -958,7 +1090,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome8"
                                     value={values?.monthlyIncome8}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -971,7 +1103,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome9"
                                     value={values?.monthlyIncome9}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -983,7 +1115,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome10"
                                     value={values?.monthlyIncome10}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -996,7 +1128,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome11"
                                     value={values?.monthlyIncome11}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1008,7 +1140,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome12"
                                     value={values?.monthlyIncome12}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1021,7 +1153,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome13"
                                     value={values?.monthlyIncome13}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1033,7 +1165,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome14"
                                     value={values?.monthlyIncome14}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1050,7 +1182,7 @@ function SubmissionBarangayProfilePage2() {
                                 <input
                                     name="monthlyIncome15"
                                     value={values?.monthlyIncome15}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1070,7 +1202,7 @@ function SubmissionBarangayProfilePage2() {
                                     readOnly
                                     name="monthlyIncomeGrandTotal"
                                     value={monthlyIncomeGrandTotal}
-                                    type="text"
+                                    type="number"
                                     className="w-10 text-center cursor-default focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1105,7 +1237,7 @@ function SubmissionBarangayProfilePage2() {
                                     <input
                                         name="cropsRice"
                                         value={values?.cropsRice}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1114,7 +1246,7 @@ function SubmissionBarangayProfilePage2() {
                                     <input
                                         name="cropsRiceYieldYearKg"
                                         value={values?.cropsRiceYieldYearKg}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1123,7 +1255,7 @@ function SubmissionBarangayProfilePage2() {
                                     <input
                                         name="numFarmersTenantsRice"
                                         value={values?.numFarmersTenantsRice}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1134,11 +1266,10 @@ function SubmissionBarangayProfilePage2() {
                                     Vegetable/Corn
                                 </td>
                                 <td className="text-center">
-                                    {" "}
                                     <input
                                         name="cropsVegetableCorn"
                                         value={values?.cropsVegetableCorn}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1149,7 +1280,7 @@ function SubmissionBarangayProfilePage2() {
                                         value={
                                             values?.cropsVegetableCornYieldYearKg
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1160,7 +1291,7 @@ function SubmissionBarangayProfilePage2() {
                                         value={
                                             values?.numFarmersTenantsVegetableCorn
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1180,7 +1311,7 @@ function SubmissionBarangayProfilePage2() {
                                     <input
                                         name="cropsProduced1Number"
                                         value={values?.cropsProduced1Number}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1189,7 +1320,7 @@ function SubmissionBarangayProfilePage2() {
                                     <input
                                         name="cropsProduced1YieldYear"
                                         value={values?.cropsProduced1YieldYear}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1200,7 +1331,7 @@ function SubmissionBarangayProfilePage2() {
                                         value={
                                             values?.cropsProduced1FarmersTenants
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1264,7 +1395,7 @@ function SubmissionBarangayProfilePage2() {
                                         value={
                                             values?.irrigationSystem1NumFarmers
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-20 text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1330,7 +1461,7 @@ function SubmissionBarangayProfilePage2() {
                                         value={
                                             values?.irrigationSystem2NumFarmers
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-20 text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1396,7 +1527,7 @@ function SubmissionBarangayProfilePage2() {
                                         value={
                                             values?.irrigationSystem3NumFarmers
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-20 text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1462,7 +1593,7 @@ function SubmissionBarangayProfilePage2() {
                             <input
                                 name="annualIncomeFarmerTenant"
                                 value={values?.annualIncomeFarmerTenant}
-                                type="text"
+                                type="number"
                                 className="w-48 text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1483,13 +1614,12 @@ function SubmissionBarangayProfilePage2() {
                                         Ricemills/Cornmills
                                     </td>
                                     <td className="text-center">
-                                        {" "}
                                         <input
                                             name="agriFacilityRicemills"
                                             value={
                                                 values?.agriFacilityRicemills
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-10 focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -1501,7 +1631,7 @@ function SubmissionBarangayProfilePage2() {
                                         <input
                                             name="agriFacilityCono"
                                             value={values?.agriFacilityCono}
-                                            type="text"
+                                            type="number"
                                             className="w-10 focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -1510,11 +1640,10 @@ function SubmissionBarangayProfilePage2() {
                                 <tr className="border-b">
                                     <td className="pl-2 border-r">Kiskisan</td>
                                     <td className="text-center">
-                                        {" "}
                                         <input
                                             name="agriFacilityKiskisan"
                                             value={values?.agriFacilityKiskisan}
-                                            type="text"
+                                            type="number"
                                             className="w-10 focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -1528,7 +1657,7 @@ function SubmissionBarangayProfilePage2() {
                                             value={
                                                 values?.agriFacilityWarehouse
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-10 focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -1544,7 +1673,7 @@ function SubmissionBarangayProfilePage2() {
                                             value={
                                                 values?.agriFacilityBuyingStations
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-10 focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -1556,7 +1685,7 @@ function SubmissionBarangayProfilePage2() {
                                         <input
                                             name="agriFacilityTractors"
                                             value={values?.agriFacilityTractors}
-                                            type="text"
+                                            type="number"
                                             className="w-10 focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -1579,7 +1708,7 @@ function SubmissionBarangayProfilePage2() {
                                         <input
                                             name="agriFacilityOthers"
                                             value={values?.agriFacilityOthers}
-                                            type="text"
+                                            type="number"
                                             className="w-10 focus:outline-none"
                                             onChange={handleChange}
                                         />

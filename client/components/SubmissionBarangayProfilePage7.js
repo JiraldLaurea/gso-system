@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 const getFormValues = () => {
     if (typeof window !== "undefined") {
@@ -90,12 +91,193 @@ const getFormValues = () => {
     }
 };
 
-function SubmissionBarangayProfilePage7() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage7({ page7Data }) {
+    // const [values, setValues] = useState(getFormValues);
+
+    const [values, setValues] = useState({
+        typeOfBuildingNum1: page7Data.typeOfBuildingNum1,
+        typeOfBuildingNum2: page7Data.typeOfBuildingNum2,
+        typeOfBuildingNum3: page7Data.typeOfBuildingNum3,
+        typeOfBuildingNum4: page7Data.typeOfBuildingNum4,
+        typeOfBuildingNum5: page7Data.typeOfBuildingNum5,
+        typeOfBuildingNum6: page7Data.typeOfBuildingNum6,
+        typeOfBuildingNum6Specify: page7Data.typeOfBuildingNum6Specify,
+        typeOfConstructionMats1: page7Data.typeOfConstructionMats1,
+        typeOfConstructionMats2: page7Data.typeOfConstructionMats2,
+        typeOfConstructionMats3: page7Data.typeOfConstructionMats3,
+        typeOfConstructionMats4: page7Data.typeOfConstructionMats4,
+        typeOfConstructionMats5: page7Data.typeOfConstructionMats5,
+        typeOfConstructionMats5Specify:
+            page7Data.typeOfConstructionMats5Specify,
+        numInformalSettler1: page7Data.numInformalSettler1,
+        numInformalSettler2: page7Data.numInformalSettler2,
+        numInformalSettler3: page7Data.numInformalSettler3,
+        numInformalSettler4: page7Data.numInformalSettler4,
+        numInformalSettler5: page7Data.numInformalSettler5,
+        numInformalSettlerLocation1: page7Data.numInformalSettlerLocation1,
+        numInformalSettlerLocation2: page7Data.numInformalSettlerLocation2,
+        numInformalSettlerLocation3: page7Data.numInformalSettlerLocation3,
+        numInformalSettlerLocation4: page7Data.numInformalSettlerLocation4,
+        numInformalSettlerLocation5: page7Data.numInformalSettlerLocation5,
+        numHeritageStructure1: page7Data.numHeritageStructure1,
+        numHeritageStructure2: page7Data.numHeritageStructure2,
+        numHeritageStructure3: page7Data.numHeritageStructure3,
+        numHeritageStructure4: page7Data.numHeritageStructure4,
+        numHeritageStructure5: page7Data.numHeritageStructure5,
+        numHeritageStructure6: page7Data.numHeritageStructure6,
+        heritageStructureLocation1: page7Data.heritageStructureLocation1,
+        heritageStructureLocation2: page7Data.heritageStructureLocation2,
+        heritageStructureLocation3: page7Data.heritageStructureLocation3,
+        heritageStructureLocation4: page7Data.heritageStructureLocation4,
+        heritageStructureLocation5: page7Data.heritageStructureLocation5,
+        heritageStructureLocation6: page7Data.heritageStructureLocation6,
+        presenceProtectiveService1: page7Data.presenceProtectiveService1,
+        presenceProtectiveService2: page7Data.presenceProtectiveService2,
+        presenceProtectiveService3: page7Data.presenceProtectiveService3,
+        presenceProtectiveService4: page7Data.presenceProtectiveService4,
+        presenceProtectiveService5: page7Data.presenceProtectiveService5,
+        presenceProtectiveService5Specify:
+            page7Data.presenceProtectiveService5Specify,
+        presenceNumPersonnel1: page7Data.presenceNumPersonnel1,
+        presenceNumPersonnel2: page7Data.presenceNumPersonnel2,
+        presenceNumPersonnel3: page7Data.presenceNumPersonnel3,
+        presenceNumPersonnel4: page7Data.presenceNumPersonnel4,
+        presenceNumPersonnel5: page7Data.presenceNumPersonnel5,
+        sportsFacilitiesPublic1: page7Data.sportsFacilitiesPublic1,
+        sportsFacilitiesPublic2: page7Data.sportsFacilitiesPublic2,
+        sportsFacilitiesPublic3: page7Data.sportsFacilitiesPublic3,
+        sportsFacilitiesPublic4: page7Data.sportsFacilitiesPublic4,
+        sportsFacilitiesPublic5: page7Data.sportsFacilitiesPublic5,
+        sportsFacilitiesPublic6: page7Data.sportsFacilitiesPublic6,
+        sportsFacilitiesPublic7: page7Data.sportsFacilitiesPublic7,
+        sportsFacilitiesPublic8: page7Data.sportsFacilitiesPublic8,
+        sportsFacilitiesPrivate1: page7Data.sportsFacilitiesPrivate1,
+        sportsFacilitiesPrivate2: page7Data.sportsFacilitiesPrivate2,
+        sportsFacilitiesPrivate3: page7Data.sportsFacilitiesPrivate3,
+        sportsFacilitiesPrivate4: page7Data.sportsFacilitiesPrivate4,
+        sportsFacilitiesPrivate5: page7Data.sportsFacilitiesPrivate5,
+        sportsFacilitiesPrivate6: page7Data.sportsFacilitiesPrivate6,
+        sportsFacilitiesPrivate7: page7Data.sportsFacilitiesPrivate7,
+        sportsFacilitiesPrivate8: page7Data.sportsFacilitiesPrivate8,
+        sportsFacilities8Specify: page7Data.sportsFacilities8Specify,
+        recreationalPublic1: page7Data.recreationalPublic1,
+        recreationalPublic2: page7Data.recreationalPublic2,
+        recreationalPublic3: page7Data.recreationalPublic3,
+        recreationalPublic4: page7Data.recreationalPublic4,
+        recreationalPublic5: page7Data.recreationalPublic5,
+        recreationalPublic6: page7Data.recreationalPublic6,
+        recreationalPublic7: page7Data.recreationalPublic7,
+        recreationalPublic8: page7Data.recreationalPublic8,
+        recreationalPrivate1: page7Data.recreationalPrivate1,
+        recreationalPrivate2: page7Data.recreationalPrivate2,
+        recreationalPrivate3: page7Data.recreationalPrivate3,
+        recreationalPrivate4: page7Data.recreationalPrivate4,
+        recreationalPrivate5: page7Data.recreationalPrivate5,
+        recreationalPrivate6: page7Data.recreationalPrivate6,
+        recreationalPrivate7: page7Data.recreationalPrivate7,
+        recreationalPrivate8: page7Data.recreationalPrivate8,
+        recreational8Specify: page7Data.recreational8Specify,
+    });
 
     useEffect(() => {
-        localStorage.setItem("brgyProfilePage7", JSON.stringify(values));
+        const updateSubmissionBarangayProfilePage7 = async () => {
+            const data = {
+                typeOfBuildingNum1: values.typeOfBuildingNum1,
+                typeOfBuildingNum2: values.typeOfBuildingNum2,
+                typeOfBuildingNum3: values.typeOfBuildingNum3,
+                typeOfBuildingNum4: values.typeOfBuildingNum4,
+                typeOfBuildingNum5: values.typeOfBuildingNum5,
+                typeOfBuildingNum6: values.typeOfBuildingNum6,
+                typeOfBuildingNum6Specify: values.typeOfBuildingNum6Specify,
+                typeOfConstructionMats1: values.typeOfConstructionMats1,
+                typeOfConstructionMats2: values.typeOfConstructionMats2,
+                typeOfConstructionMats3: values.typeOfConstructionMats3,
+                typeOfConstructionMats4: values.typeOfConstructionMats4,
+                typeOfConstructionMats5: values.typeOfConstructionMats5,
+                typeOfConstructionMats5Specify:
+                    values.typeOfConstructionMats5Specify,
+                numInformalSettler1: values.numInformalSettler1,
+                numInformalSettler2: values.numInformalSettler2,
+                numInformalSettler3: values.numInformalSettler3,
+                numInformalSettler4: values.numInformalSettler4,
+                numInformalSettler5: values.numInformalSettler5,
+                numInformalSettlerLocation1: values.numInformalSettlerLocation1,
+                numInformalSettlerLocation2: values.numInformalSettlerLocation2,
+                numInformalSettlerLocation3: values.numInformalSettlerLocation3,
+                numInformalSettlerLocation4: values.numInformalSettlerLocation4,
+                numInformalSettlerLocation5: values.numInformalSettlerLocation5,
+                numHeritageStructure1: values.numHeritageStructure1,
+                numHeritageStructure2: values.numHeritageStructure2,
+                numHeritageStructure3: values.numHeritageStructure3,
+                numHeritageStructure4: values.numHeritageStructure4,
+                numHeritageStructure5: values.numHeritageStructure5,
+                numHeritageStructure6: values.numHeritageStructure6,
+                heritageStructureLocation1: values.heritageStructureLocation1,
+                heritageStructureLocation2: values.heritageStructureLocation2,
+                heritageStructureLocation3: values.heritageStructureLocation3,
+                heritageStructureLocation4: values.heritageStructureLocation4,
+                heritageStructureLocation5: values.heritageStructureLocation5,
+                heritageStructureLocation6: values.heritageStructureLocation6,
+                presenceProtectiveService1: values.presenceProtectiveService1,
+                presenceProtectiveService2: values.presenceProtectiveService2,
+                presenceProtectiveService3: values.presenceProtectiveService3,
+                presenceProtectiveService4: values.presenceProtectiveService4,
+                presenceProtectiveService5: values.presenceProtectiveService5,
+                presenceProtectiveService5Specify:
+                    values.presenceProtectiveService5Specify,
+                presenceNumPersonnel1: values.presenceNumPersonnel1,
+                presenceNumPersonnel2: values.presenceNumPersonnel2,
+                presenceNumPersonnel3: values.presenceNumPersonnel3,
+                presenceNumPersonnel4: values.presenceNumPersonnel4,
+                presenceNumPersonnel5: values.presenceNumPersonnel5,
+                sportsFacilitiesPublic1: values.sportsFacilitiesPublic1,
+                sportsFacilitiesPublic2: values.sportsFacilitiesPublic2,
+                sportsFacilitiesPublic3: values.sportsFacilitiesPublic3,
+                sportsFacilitiesPublic4: values.sportsFacilitiesPublic4,
+                sportsFacilitiesPublic5: values.sportsFacilitiesPublic5,
+                sportsFacilitiesPublic6: values.sportsFacilitiesPublic6,
+                sportsFacilitiesPublic7: values.sportsFacilitiesPublic7,
+                sportsFacilitiesPublic8: values.sportsFacilitiesPublic8,
+                sportsFacilitiesPrivate1: values.sportsFacilitiesPrivate1,
+                sportsFacilitiesPrivate2: values.sportsFacilitiesPrivate2,
+                sportsFacilitiesPrivate3: values.sportsFacilitiesPrivate3,
+                sportsFacilitiesPrivate4: values.sportsFacilitiesPrivate4,
+                sportsFacilitiesPrivate5: values.sportsFacilitiesPrivate5,
+                sportsFacilitiesPrivate6: values.sportsFacilitiesPrivate6,
+                sportsFacilitiesPrivate7: values.sportsFacilitiesPrivate7,
+                sportsFacilitiesPrivate8: values.sportsFacilitiesPrivate8,
+                sportsFacilities8Specify: values.sportsFacilities8Specify,
+                recreationalPublic1: values.recreationalPublic1,
+                recreationalPublic2: values.recreationalPublic2,
+                recreationalPublic3: values.recreationalPublic3,
+                recreationalPublic4: values.recreationalPublic4,
+                recreationalPublic5: values.recreationalPublic5,
+                recreationalPublic6: values.recreationalPublic6,
+                recreationalPublic7: values.recreationalPublic7,
+                recreationalPublic8: values.recreationalPublic8,
+                recreationalPrivate1: values.recreationalPrivate1,
+                recreationalPrivate2: values.recreationalPrivate2,
+                recreationalPrivate3: values.recreationalPrivate3,
+                recreationalPrivate4: values.recreationalPrivate4,
+                recreationalPrivate5: values.recreationalPrivate5,
+                recreationalPrivate6: values.recreationalPrivate6,
+                recreationalPrivate7: values.recreationalPrivate7,
+                recreationalPrivate8: values.recreationalPrivate8,
+                recreational8Specify: values.recreational8Specify,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage7",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage7();
     }, [values]);
+
+    // useEffect(() => {
+    //     localStorage.setItem("brgyProfilePage7", JSON.stringify(values));
+    // }, [values]);
 
     const handleChange = (e) => {
         setValues((previousValues) => ({
@@ -130,7 +312,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfBuildingNum1"
                                         value={values?.typeOfBuildingNum1}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -144,7 +326,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfBuildingNum2"
                                         value={values?.typeOfBuildingNum2}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -158,7 +340,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfBuildingNum3"
                                         value={values?.typeOfBuildingNum3}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -174,7 +356,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfBuildingNum4"
                                         value={values?.typeOfBuildingNum4}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -188,7 +370,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfBuildingNum5"
                                         value={values?.typeOfBuildingNum5}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -211,7 +393,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfBuildingNum6"
                                         value={values?.typeOfBuildingNum6}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -244,7 +426,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfConstructionMats1"
                                         value={values?.typeOfConstructionMats1}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -258,7 +440,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfConstructionMats2"
                                         value={values?.typeOfConstructionMats2}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -272,7 +454,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfConstructionMats3"
                                         value={values?.typeOfConstructionMats3}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -286,7 +468,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfConstructionMats4"
                                         value={values?.typeOfConstructionMats4}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -309,7 +491,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="typeOfConstructionMats5"
                                         value={values?.typeOfConstructionMats5}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -343,7 +525,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numInformalSettler1"
                                         value={values?.numInformalSettler1}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -365,7 +547,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numInformalSettler2"
                                         value={values?.numInformalSettler2}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -387,7 +569,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numInformalSettler3"
                                         value={values?.numInformalSettler3}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -409,7 +591,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numInformalSettler4"
                                         value={values?.numInformalSettler4}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -431,7 +613,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numInformalSettler5"
                                         value={values?.numInformalSettler5}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -473,7 +655,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numHeritageStructure1"
                                         value={values?.numHeritageStructure1}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -495,7 +677,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numHeritageStructure2"
                                         value={values?.numHeritageStructure2}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -517,7 +699,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numHeritageStructure3"
                                         value={values?.numHeritageStructure3}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -539,7 +721,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numHeritageStructure4"
                                         value={values?.numHeritageStructure4}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -561,7 +743,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numHeritageStructure5"
                                         value={values?.numHeritageStructure5}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -583,7 +765,7 @@ function SubmissionBarangayProfilePage7() {
                                     <input
                                         name="numHeritageStructure6"
                                         value={values?.numHeritageStructure6}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -623,7 +805,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="presenceNumPersonnel1"
                                 value={values?.presenceNumPersonnel1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -637,7 +819,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="presenceNumPersonnel2"
                                 value={values?.presenceNumPersonnel2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -651,7 +833,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="presenceNumPersonnel3"
                                 value={values?.presenceNumPersonnel3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -665,7 +847,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="presenceNumPersonnel4"
                                 value={values?.presenceNumPersonnel4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -688,7 +870,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="presenceNumPersonnel5"
                                 value={values?.presenceNumPersonnel5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -730,7 +912,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic1"
                                 value={values?.sportsFacilitiesPublic1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -739,7 +921,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate1"
                                 value={values?.sportsFacilitiesPrivate1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -751,7 +933,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic2"
                                 value={values?.sportsFacilitiesPublic2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -760,7 +942,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate2"
                                 value={values?.sportsFacilitiesPrivate2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -772,7 +954,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic3"
                                 value={values?.sportsFacilitiesPublic3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -781,7 +963,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate3"
                                 value={values?.sportsFacilitiesPrivate3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -793,7 +975,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic4"
                                 value={values?.sportsFacilitiesPublic4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -802,7 +984,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate4"
                                 value={values?.sportsFacilitiesPrivate4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -814,7 +996,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic5"
                                 value={values?.sportsFacilitiesPublic5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -823,7 +1005,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate5"
                                 value={values?.sportsFacilitiesPrivate5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -835,7 +1017,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic6"
                                 value={values?.sportsFacilitiesPublic6}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -844,7 +1026,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate6"
                                 value={values?.sportsFacilitiesPrivate6}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -856,7 +1038,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic7"
                                 value={values?.sportsFacilitiesPublic7}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -865,7 +1047,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate7"
                                 value={values?.sportsFacilitiesPrivate7}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -886,7 +1068,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPublic8"
                                 value={values?.sportsFacilitiesPublic8}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -895,7 +1077,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="sportsFacilitiesPrivate8"
                                 value={values?.sportsFacilitiesPrivate8}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -912,7 +1094,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic1"
                                 value={values?.recreationalPublic1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -921,7 +1103,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate1"
                                 value={values?.recreationalPrivate1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -933,7 +1115,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic2"
                                 value={values?.recreationalPublic2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -942,7 +1124,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate2"
                                 value={values?.recreationalPrivate2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -954,7 +1136,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic3"
                                 value={values?.recreationalPublic3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -963,7 +1145,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate3"
                                 value={values?.recreationalPrivate3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -975,7 +1157,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic4"
                                 value={values?.recreationalPublic4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -984,7 +1166,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate4"
                                 value={values?.recreationalPrivate4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -996,7 +1178,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic5"
                                 value={values?.recreationalPublic5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1005,7 +1187,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate5"
                                 value={values?.recreationalPrivate5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1019,7 +1201,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic6"
                                 value={values?.recreationalPublic6}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1028,7 +1210,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate6"
                                 value={values?.recreationalPrivate6}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1042,7 +1224,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic7"
                                 value={values?.recreationalPublic7}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1051,7 +1233,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate7"
                                 value={values?.recreationalPrivate7}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1072,7 +1254,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPublic8"
                                 value={values?.recreationalPublic8}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1081,7 +1263,7 @@ function SubmissionBarangayProfilePage7() {
                             <input
                                 name="recreationalPrivate8"
                                 value={values?.recreationalPrivate8}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />

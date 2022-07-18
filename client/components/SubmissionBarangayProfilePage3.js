@@ -1,125 +1,237 @@
 import React, { useEffect, useRef, useState } from "react";
+import Axios from "axios";
 
-const getFormValues = () => {
-    if (typeof window !== "undefined") {
-        const storedValues = localStorage.getItem("brgyProfilePage3");
-        if (!storedValues)
-            return {
-                fishFarm1Type: "",
-                fishFarm1Num: 0,
-                fishFarm1NumWorkers: 0,
-                fishFarm1AreasCovered: "",
-                fishFarm1VolumeCatch: "",
-                fishFarm1ProductionValue: 0,
-                fishFarm2Type: "",
-                fishFarm2Num: 0,
-                fishFarm2NumWorkers: 0,
-                fishFarm2AreasCovered: "",
-                fishFarm2VolumeCatch: "",
-                fishFarm2ProductionValue: 0,
-                fishFarm3Type: "",
-                fishFarm3Num: 0,
-                fishFarm3NumWorkers: 0,
-                fishFarm3AreasCovered: "",
-                fishFarm3VolumeCatch: "",
-                fishFarm3ProductionValue: 0,
-                fishVolume: 0,
-                fishProductionValue: 0,
-                shrimpVolume: 0,
-                shrimpProductionValue: 0,
-                shellsVolume: 0,
-                shellsProductionValue: 0,
-                fishFryVolume: 0,
-                fishFryProductionValue: 0,
-                musselsVolume: 0,
-                musselsProductionValue: 0,
-                oystersVolume: 0,
-                oystersProductionValue: 0,
-                fishOthersVolume: 0,
-                fishOthersProductionValue: 0,
-                fishOthersSpecify: "",
-                numFisherman: 0,
-                averageIncomeFisherman: 0,
-                livestockLayers: 0,
-                livestockCattles: 0,
-                livestockBroilers: 0,
-                livestockCarabaos: 0,
-                livestockMuscovy: 0,
-                livestockHogs: 0,
-                livestockGeese: 0,
-                livestockGoats: 0,
-                livestockPigeons: 0,
-                livestockHorses: 0,
-                livestockQuails: 0,
-                livestockDogs: 0,
-                livestockPoultryOthers: 0,
-                livestockPoultryOthersSpecify: "",
-                livestockOthers: 0,
-                livestockTurkey: 0,
-                livestockCats: 0,
-                livestockLoveBirds: 0,
-                livestockFightingCocks: 0,
-                livestockPig: 0,
-                livestockChicken: 0,
-                prescenceAgricultural: "",
-                prescenceWeeklyVisitation: "",
-                prescenceSeedCollection: "",
-                prescenceStorageAndProcessing: "",
-                prescenceCreditAndCooperative: "",
-                prescenceOthers: "",
-                prescenceOthersInput: "",
-                numBakery: 0,
-                numGrocery: 0,
-                numIceCream: 0,
-                numSariSariStore: 0,
-                numNativeDelicacies: 0,
-                numHardwareElectrical: 0,
-                numSweetPreserves: 0,
-                numConstructionConcrete: 0,
-                numSitcharon: 0,
-                numCarJeepPartsSupplies: 0,
-                numNoodles: 0,
-                numMotorcyclesBicyclesSupplies: 0,
-                numBalut: 0,
-                numAgriculturalEquipmentSupplies: 0,
-                numVinegar: 0,
-                numSchoolOfficeSupplies: 0,
-                numFishDryingSmoking: 0,
-                numPhotoCenterSupplies: 0,
-                numLaboratories: 0,
-                numAppliance: 0,
-                numChemicalIndustries: 0,
-                numJewelryShopStore: 0,
-                numFeedmills: 0,
-                numBagsFootwearStore: 0,
-                numGarmentEmbroidery: 0,
-                numVideoTapesCenter: 0,
-                numFootwearFactories: 0,
-                numBazaars: 0,
-                numTextileMills: 0,
-                numPrintingPress: 0,
-                numBagsWalletFactories: 0,
-                numPawnshop: 0,
-                numFurnitureWooden: 0,
-                numFurnitureRattan: 0,
-                numFurnitureBamboo: 0,
-                numFurnitureMetal: 0,
-                numFuneralParlor: 0,
-                numDrugStore: 0,
-                numPublicMarket: 0,
-                numTalipapa: 0,
-                numCinema: 0,
-            };
-
-        return JSON.parse(storedValues);
-    }
-};
-
-function SubmissionBarangayProfilePage3() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage3({ page3Data }) {
+    const [values, setValues] = useState({
+        fishFarm1Type: page3Data.fishFarm1Type,
+        fishFarm1Num: page3Data.fishFarm1Num,
+        fishFarm1NumWorkers: page3Data.fishFarm1NumWorkers,
+        fishFarm1AreasCovered: page3Data.fishFarm1AreasCovered,
+        fishFarm1VolumeCatch: page3Data.fishFarm1VolumeCatch,
+        fishFarm1ProductionValue: page3Data.fishFarm1ProductionValue,
+        fishFarm2Type: page3Data.fishFarm2Type,
+        fishFarm2Num: page3Data.fishFarm2Num,
+        fishFarm2NumWorkers: page3Data.fishFarm2NumWorkers,
+        fishFarm2AreasCovered: page3Data.fishFarm2AreasCovered,
+        fishFarm2VolumeCatch: page3Data.fishFarm2VolumeCatch,
+        fishFarm2ProductionValue: page3Data.fishFarm2ProductionValue,
+        fishFarm3Type: page3Data.fishFarm3Type,
+        fishFarm3Num: page3Data.fishFarm3Num,
+        fishFarm3NumWorkers: page3Data.fishFarm3NumWorkers,
+        fishFarm3AreasCovered: page3Data.fishFarm3AreasCovered,
+        fishFarm3VolumeCatch: page3Data.fishFarm3VolumeCatch,
+        fishFarm3ProductionValue: page3Data.fishFarm3ProductionValue,
+        fishVolume: page3Data.fishVolume,
+        fishProductionValue: page3Data.fishProductionValue,
+        shrimpVolume: page3Data.shrimpVolume,
+        shrimpProductionValue: page3Data.shrimpProductionValue,
+        shellsVolume: page3Data.shellsVolume,
+        shellsProductionValue: page3Data.shellsProductionValue,
+        fishFryVolume: page3Data.fishFryVolume,
+        fishFryProductionValue: page3Data.fishFryProductionValue,
+        musselsVolume: page3Data.musselsVolume,
+        musselsProductionValue: page3Data.musselsProductionValue,
+        oystersVolume: page3Data.oystersVolume,
+        oystersProductionValue: page3Data.oystersProductionValue,
+        fishOthersVolume: page3Data.fishOthersVolume,
+        fishOthersProductionValue: page3Data.fishOthersProductionValue,
+        fishOthersSpecify: page3Data.fishOthersSpecify,
+        numFisherman: page3Data.numFisherman,
+        averageIncomeFisherman: page3Data.averageIncomeFisherman,
+        livestockLayers: page3Data.livestockLayers,
+        livestockCattles: page3Data.livestockCattles,
+        livestockBroilers: page3Data.livestockBroilers,
+        livestockCarabaos: page3Data.livestockCarabaos,
+        livestockMuscovy: page3Data.livestockMuscovy,
+        livestockHogs: page3Data.livestockHogs,
+        livestockGeese: page3Data.livestockGeese,
+        livestockGoats: page3Data.livestockGoats,
+        livestockPigeons: page3Data.livestockPigeons,
+        livestockHorses: page3Data.livestockHorses,
+        livestockQuails: page3Data.livestockQuails,
+        livestockDogs: page3Data.livestockDogs,
+        livestockPoultryOthers: page3Data.livestockPoultryOthers,
+        livestockPoultryOthersSpecify: page3Data.livestockPoultryOthersSpecify,
+        livestockOthers: page3Data.livestockOthers,
+        livestockTurkey: page3Data.livestockTurkey,
+        livestockCats: page3Data.livestockCats,
+        livestockLoveBirds: page3Data.livestockLoveBirds,
+        livestockFightingCocks: page3Data.livestockFightingCocks,
+        livestockPig: page3Data.livestockPig,
+        livestockChicken: page3Data.livestockChicken,
+        prescenceAgricultural: page3Data.prescenceAgricultural,
+        prescenceWeeklyVisitation: page3Data.prescenceWeeklyVisitation,
+        prescenceSeedCollection: page3Data.prescenceSeedCollection,
+        prescenceStorageAndProcessing: page3Data.prescenceStorageAndProcessing,
+        prescenceCreditAndCooperative: page3Data.prescenceCreditAndCooperative,
+        prescenceOthers: page3Data.prescenceOthers,
+        prescenceOthersInput: page3Data.prescenceOthersInput,
+        numBakery: page3Data.numBakery,
+        numGrocery: page3Data.numGrocery,
+        numIceCream: page3Data.numIceCream,
+        numSariSariStore: page3Data.numSariSariStore,
+        numNativeDelicacies: page3Data.numNativeDelicacies,
+        numHardwareElectrical: page3Data.numHardwareElectrical,
+        numSweetPreserves: page3Data.numSweetPreserves,
+        numConstructionConcrete: page3Data.numConstructionConcrete,
+        numSitcharon: page3Data.numSitcharon,
+        numCarJeepPartsSupplies: page3Data.numCarJeepPartsSupplies,
+        numNoodles: page3Data.numNoodles,
+        numMotorcyclesBicyclesSupplies:
+            page3Data.numMotorcyclesBicyclesSupplies,
+        numBalut: page3Data.numBalut,
+        numAgriculturalEquipmentSupplies:
+            page3Data.numAgriculturalEquipmentSupplies,
+        numVinegar: page3Data.numVinegar,
+        numSchoolOfficeSupplies: page3Data.numSchoolOfficeSupplies,
+        numFishDryingSmoking: page3Data.numFishDryingSmoking,
+        numPhotoCenterSupplies: page3Data.numPhotoCenterSupplies,
+        numLaboratories: page3Data.numLaboratories,
+        numAppliance: page3Data.numAppliance,
+        numChemicalIndustries: page3Data.numChemicalIndustries,
+        numJewelryShopStore: page3Data.numJewelryShopStore,
+        numFeedmills: page3Data.numFeedmills,
+        numBagsFootwearStore: page3Data.numBagsFootwearStore,
+        numGarmentEmbroidery: page3Data.numGarmentEmbroidery,
+        numVideoTapesCenter: page3Data.numVideoTapesCenter,
+        numFootwearFactories: page3Data.numFootwearFactories,
+        numBazaars: page3Data.numBazaars,
+        numTextileMills: page3Data.numTextileMills,
+        numPrintingPress: page3Data.numPrintingPress,
+        numBagsWalletFactories: page3Data.numBagsWalletFactories,
+        numPawnshop: page3Data.numPawnshop,
+        numFurnitureWooden: page3Data.numFurnitureWooden,
+        numFurnitureRattan: page3Data.numFurnitureRattan,
+        numFurnitureBamboo: page3Data.numFurnitureBamboo,
+        numFurnitureMetal: page3Data.numFurnitureMetal,
+        numFuneralParlor: page3Data.numFuneralParlor,
+        numDrugStore: page3Data.numDrugStore,
+        numPublicMarket: page3Data.numPublicMarket,
+        numTalipapa: page3Data.numTalipapa,
+        numCinema: page3Data.numCinema,
+    });
 
     useEffect(() => {
-        localStorage.setItem("brgyProfilePage3", JSON.stringify(values));
+        const updateSubmissionBarangayProfilePage3 = async () => {
+            const data = {
+                fishFarm1Type: values.fishFarm1Type,
+                fishFarm1Num: values.fishFarm1Num,
+                fishFarm1NumWorkers: values.fishFarm1NumWorkers,
+                fishFarm1AreasCovered: values.fishFarm1AreasCovered,
+                fishFarm1VolumeCatch: values.fishFarm1VolumeCatch,
+                fishFarm1ProductionValue: values.fishFarm1ProductionValue,
+                fishFarm2Type: values.fishFarm2Type,
+                fishFarm2Num: values.fishFarm2Num,
+                fishFarm2NumWorkers: values.fishFarm2NumWorkers,
+                fishFarm2AreasCovered: values.fishFarm2AreasCovered,
+                fishFarm2VolumeCatch: values.fishFarm2VolumeCatch,
+                fishFarm2ProductionValue: values.fishFarm2ProductionValue,
+                fishFarm3Type: values.fishFarm3Type,
+                fishFarm3Num: values.fishFarm3Num,
+                fishFarm3NumWorkers: values.fishFarm3NumWorkers,
+                fishFarm3AreasCovered: values.fishFarm3AreasCovered,
+                fishFarm3VolumeCatch: values.fishFarm3VolumeCatch,
+                fishFarm3ProductionValue: values.fishFarm3ProductionValue,
+                fishVolume: values.fishVolume,
+                fishProductionValue: values.fishProductionValue,
+                shrimpVolume: values.shrimpVolume,
+                shrimpProductionValue: values.shrimpProductionValue,
+                shellsVolume: values.shellsVolume,
+                shellsProductionValue: values.shellsProductionValue,
+                fishFryVolume: values.fishFryVolume,
+                fishFryProductionValue: values.fishFryProductionValue,
+                musselsVolume: values.musselsVolume,
+                musselsProductionValue: values.musselsProductionValue,
+                oystersVolume: values.oystersVolume,
+                oystersProductionValue: values.oystersProductionValue,
+                fishOthersVolume: values.fishOthersVolume,
+                fishOthersProductionValue: values.fishOthersProductionValue,
+                fishOthersSpecify: values.fishOthersSpecify,
+                numFisherman: values.numFisherman,
+                averageIncomeFisherman: values.averageIncomeFisherman,
+                livestockLayers: values.livestockLayers,
+                livestockCattles: values.livestockCattles,
+                livestockBroilers: values.livestockBroilers,
+                livestockCarabaos: values.livestockCarabaos,
+                livestockMuscovy: values.livestockMuscovy,
+                livestockHogs: values.livestockHogs,
+                livestockGeese: values.livestockGeese,
+                livestockGoats: values.livestockGoats,
+                livestockPigeons: values.livestockPigeons,
+                livestockHorses: values.livestockHorses,
+                livestockQuails: values.livestockQuails,
+                livestockDogs: values.livestockDogs,
+                livestockPoultryOthers: values.livestockPoultryOthers,
+                livestockPoultryOthersSpecify:
+                    values.livestockPoultryOthersSpecify,
+                livestockOthers: values.livestockOthers,
+                livestockTurkey: values.livestockTurkey,
+                livestockCats: values.livestockCats,
+                livestockLoveBirds: values.livestockLoveBirds,
+                livestockFightingCocks: values.livestockFightingCocks,
+                livestockPig: values.livestockPig,
+                livestockChicken: values.livestockChicken,
+                prescenceAgricultural: values.prescenceAgricultural,
+                prescenceWeeklyVisitation: values.prescenceWeeklyVisitation,
+                prescenceSeedCollection: values.prescenceSeedCollection,
+                prescenceStorageAndProcessing:
+                    values.prescenceStorageAndProcessing,
+                prescenceCreditAndCooperative:
+                    values.prescenceCreditAndCooperative,
+                prescenceOthers: values.prescenceOthers,
+                prescenceOthersInput: values.prescenceOthersInput,
+                numBakery: values.numBakery,
+                numGrocery: values.numGrocery,
+                numIceCream: values.numIceCream,
+                numSariSariStore: values.numSariSariStore,
+                numNativeDelicacies: values.numNativeDelicacies,
+                numHardwareElectrical: values.numHardwareElectrical,
+                numSweetPreserves: values.numSweetPreserves,
+                numConstructionConcrete: values.numConstructionConcrete,
+                numSitcharon: values.numSitcharon,
+                numCarJeepPartsSupplies: values.numCarJeepPartsSupplies,
+                numNoodles: values.numNoodles,
+                numMotorcyclesBicyclesSupplies:
+                    values.numMotorcyclesBicyclesSupplies,
+                numBalut: values.numBalut,
+                numAgriculturalEquipmentSupplies:
+                    values.numAgriculturalEquipmentSupplies,
+                numVinegar: values.numVinegar,
+                numSchoolOfficeSupplies: values.numSchoolOfficeSupplies,
+                numFishDryingSmoking: values.numFishDryingSmoking,
+                numPhotoCenterSupplies: values.numPhotoCenterSupplies,
+                numLaboratories: values.numLaboratories,
+                numAppliance: values.numAppliance,
+                numChemicalIndustries: values.numChemicalIndustries,
+                numJewelryShopStore: values.numJewelryShopStore,
+                numFeedmills: values.numFeedmills,
+                numBagsFootwearStore: values.numBagsFootwearStore,
+                numGarmentEmbroidery: values.numGarmentEmbroidery,
+                numVideoTapesCenter: values.numVideoTapesCenter,
+                numFootwearFactories: values.numFootwearFactories,
+                numBazaars: values.numBazaars,
+                numTextileMills: values.numTextileMills,
+                numPrintingPress: values.numPrintingPress,
+                numBagsWalletFactories: values.numBagsWalletFactories,
+                numPawnshop: values.numPawnshop,
+                numFurnitureWooden: values.numFurnitureWooden,
+                numFurnitureRattan: values.numFurnitureRattan,
+                numFurnitureBamboo: values.numFurnitureBamboo,
+                numFurnitureMetal: values.numFurnitureMetal,
+                numFuneralParlor: values.numFuneralParlor,
+                numDrugStore: values.numDrugStore,
+                numPublicMarket: values.numPublicMarket,
+                numTalipapa: values.numTalipapa,
+                numCinema: values.numCinema,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage3",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage3();
     }, [values]);
 
     const handleChange = (e) => {
@@ -160,7 +272,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm1Type"
                                     value={values?.fishFarm1Type}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -168,8 +280,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm1Num"
                                     value={values?.fishFarm1Num}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -177,8 +289,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm1NumWorkers"
                                     value={values?.fishFarm1NumWorkers}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -187,7 +299,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm1AreasCovered"
                                     value={values?.fishFarm1AreasCovered}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -196,7 +308,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm1VolumeCatch"
                                     value={values?.fishFarm1VolumeCatch}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -204,8 +316,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm1ProductionValue"
                                     value={values?.fishFarm1ProductionValue}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -216,7 +328,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm2Type"
                                     value={values?.fishFarm2Type}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -224,8 +336,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm2Num"
                                     value={values?.fishFarm2Num}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -233,8 +345,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm2NumWorkers"
                                     value={values?.fishFarm2NumWorkers}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -243,7 +355,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm2AreasCovered"
                                     value={values?.fishFarm2AreasCovered}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -252,7 +364,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm2VolumeCatch"
                                     value={values?.fishFarm2VolumeCatch}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -260,8 +372,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm2ProductionValue"
                                     value={values?.fishFarm2ProductionValue}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -272,7 +384,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm3Type"
                                     value={values?.fishFarm3Type}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -280,8 +392,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm3Num"
                                     value={values?.fishFarm3Num}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -289,8 +401,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm3NumWorkers"
                                     value={values?.fishFarm3NumWorkers}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -299,7 +411,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm3AreasCovered"
                                     value={values?.fishFarm3AreasCovered}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -308,7 +420,7 @@ function SubmissionBarangayProfilePage3() {
                                     name="fishFarm3VolumeCatch"
                                     value={values?.fishFarm3VolumeCatch}
                                     type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -316,8 +428,8 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="fishFarm3ProductionValue"
                                     value={values?.fishFarm3ProductionValue}
-                                    type="text"
-                                    className="w-10 text-center focus:outline-none"
+                                    type="number"
+                                    className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -344,7 +456,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="fishVolume"
                                             value={values?.fishVolume}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -353,7 +465,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="fishProductionValue"
                                             value={values?.fishProductionValue}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -365,7 +477,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="shrimpVolume"
                                             value={values?.shrimpVolume}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -376,7 +488,7 @@ function SubmissionBarangayProfilePage3() {
                                             value={
                                                 values?.shrimpProductionValue
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -388,7 +500,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="shellsVolume"
                                             value={values?.shellsVolume}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -399,7 +511,7 @@ function SubmissionBarangayProfilePage3() {
                                             value={
                                                 values?.shellsProductionValue
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -411,7 +523,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="fishFryVolume"
                                             value={values?.fishFryVolume}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -422,7 +534,7 @@ function SubmissionBarangayProfilePage3() {
                                             value={
                                                 values?.fishFryProductionValue
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -434,7 +546,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="musselsVolume"
                                             value={values?.musselsVolume}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -445,7 +557,7 @@ function SubmissionBarangayProfilePage3() {
                                             value={
                                                 values?.musselsProductionValue
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -457,7 +569,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="oystersVolume"
                                             value={values?.oystersVolume}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -468,7 +580,7 @@ function SubmissionBarangayProfilePage3() {
                                             value={
                                                 values?.oystersProductionValue
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -489,7 +601,7 @@ function SubmissionBarangayProfilePage3() {
                                         <input
                                             name="fishOthersVolume"
                                             value={values?.fishOthersVolume}
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -500,7 +612,7 @@ function SubmissionBarangayProfilePage3() {
                                             value={
                                                 values?.fishOthersProductionValue
                                             }
-                                            type="text"
+                                            type="number"
                                             className="w-full text-center focus:outline-none"
                                             onChange={handleChange}
                                         />
@@ -517,7 +629,7 @@ function SubmissionBarangayProfilePage3() {
                             <input
                                 name="numFisherman"
                                 value={values?.numFisherman}
-                                type="text"
+                                type="number"
                                 className="w-20 font-normal text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -529,7 +641,7 @@ function SubmissionBarangayProfilePage3() {
                             <input
                                 name="averageIncomeFisherman"
                                 value={values?.averageIncomeFisherman}
-                                type="text"
+                                type="number"
                                 className="w-20 font-normal text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -559,11 +671,10 @@ function SubmissionBarangayProfilePage3() {
                         <tr className="border-t">
                             <td className="pl-6">Layers</td>
                             <td className="border-x">
-                                {" "}
                                 <input
                                     name="livestockLayers"
                                     value={values?.livestockLayers}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -573,7 +684,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockCattles"
                                     value={values?.livestockCattles}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -582,11 +693,10 @@ function SubmissionBarangayProfilePage3() {
                         <tr className="border-t">
                             <td className="pl-6">Broilers</td>
                             <td className="border-x">
-                                {" "}
                                 <input
                                     name="livestockBroilers"
                                     value={values?.livestockBroilers}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -596,7 +706,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockCarabaos"
                                     value={values?.livestockCarabaos}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -608,7 +718,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockMuscovy"
                                     value={values?.livestockMuscovy}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -618,7 +728,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockHogs"
                                     value={values?.livestockHogs}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -631,7 +741,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockGeese"
                                     value={values?.livestockGeese}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -641,7 +751,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockGoats"
                                     value={values?.livestockGoats}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -654,7 +764,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockPigeons"
                                     value={values?.livestockPigeons}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -664,7 +774,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockHorses"
                                     value={values?.livestockHorses}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -676,7 +786,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockQuails"
                                     value={values?.livestockQuails}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -686,7 +796,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockDogs"
                                     value={values?.livestockDogs}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -709,7 +819,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockPoultryOthers"
                                     value={values?.livestockPoultryOthers}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -719,7 +829,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockOthers"
                                     value={values?.livestockOthers}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -731,7 +841,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockTurkey"
                                     value={values?.livestockTurkey}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -741,7 +851,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockCats"
                                     value={values?.livestockCats}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -753,7 +863,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockLoveBirds"
                                     value={values?.livestockLoveBirds}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -763,7 +873,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockFightingCocks"
                                     value={values?.livestockFightingCocks}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -775,7 +885,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockPig"
                                     value={values?.livestockPig}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -785,7 +895,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="livestockChicken"
                                     value={values?.livestockChicken}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -911,7 +1021,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numBakery"
                                     value={values?.numBakery}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -921,7 +1031,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numGrocery"
                                     value={values?.numGrocery}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -933,7 +1043,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numIceCream"
                                     value={values?.numIceCream}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -943,7 +1053,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numSariSariStore"
                                     value={values?.numSariSariStore}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -955,7 +1065,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numNativeDelicacies"
                                     value={values?.numNativeDelicacies}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -967,7 +1077,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numHardwareElectrical"
                                     value={values?.numHardwareElectrical}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -979,7 +1089,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numSweetPreserves"
                                     value={values?.numSweetPreserves}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -991,7 +1101,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numConstructionConcrete"
                                     value={values?.numConstructionConcrete}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1003,7 +1113,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numSitcharon"
                                     value={values?.numSitcharon}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1015,7 +1125,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numCarJeepPartsSupplies"
                                     value={values?.numCarJeepPartsSupplies}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1027,7 +1137,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numNoodles"
                                     value={values?.numNoodles}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1041,7 +1151,7 @@ function SubmissionBarangayProfilePage3() {
                                     value={
                                         values?.numMotorcyclesBicyclesSupplies
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1053,7 +1163,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numBalut"
                                     value={values?.numBalut}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1067,7 +1177,7 @@ function SubmissionBarangayProfilePage3() {
                                     value={
                                         values?.numAgriculturalEquipmentSupplies
                                     }
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1079,7 +1189,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numVinegar"
                                     value={values?.numVinegar}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1091,7 +1201,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numSchoolOfficeSupplies"
                                     value={values?.numSchoolOfficeSupplies}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1103,7 +1213,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFishDryingSmoking"
                                     value={values?.numFishDryingSmoking}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1115,7 +1225,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numPhotoCenterSupplies"
                                     value={values?.numPhotoCenterSupplies}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1127,7 +1237,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numLaboratories"
                                     value={values?.numLaboratories}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1137,7 +1247,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numAppliance"
                                     value={values?.numAppliance}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1149,7 +1259,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numChemicalIndustries"
                                     value={values?.numChemicalIndustries}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1161,7 +1271,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numJewelryShopStore"
                                     value={values?.numJewelryShopStore}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1173,7 +1283,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFeedmills"
                                     value={values?.numFeedmills}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1185,7 +1295,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numBagsFootwearStore"
                                     value={values?.numBagsFootwearStore}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1197,7 +1307,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numGarmentEmbroidery"
                                     value={values?.numGarmentEmbroidery}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1209,7 +1319,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numVideoTapesCenter"
                                     value={values?.numVideoTapesCenter}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1221,7 +1331,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFootwearFactories"
                                     value={values?.numFootwearFactories}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1233,7 +1343,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numBazaars"
                                     value={values?.numBazaars}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1245,7 +1355,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numTextileMills"
                                     value={values?.numTextileMills}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1255,7 +1365,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numPrintingPress"
                                     value={values?.numPrintingPress}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1267,7 +1377,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numBagsWalletFactories"
                                     value={values?.numBagsWalletFactories}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1277,7 +1387,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numPawnshop"
                                     value={values?.numPawnshop}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1291,7 +1401,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFurnitureWooden"
                                     value={values?.numFurnitureWooden}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1301,7 +1411,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFuneralParlor"
                                     value={values?.numFuneralParlor}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1313,7 +1423,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFurnitureRattan"
                                     value={values?.numFurnitureRattan}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1323,7 +1433,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numDrugStore"
                                     value={values?.numDrugStore}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1335,7 +1445,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFurnitureBamboo"
                                     value={values?.numFurnitureBamboo}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1345,7 +1455,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numPublicMarket"
                                     value={values?.numPublicMarket}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1357,7 +1467,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numFurnitureMetal"
                                     value={values?.numFurnitureMetal}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1367,7 +1477,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numTalipapa"
                                     value={values?.numTalipapa}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />
@@ -1381,7 +1491,7 @@ function SubmissionBarangayProfilePage3() {
                                 <input
                                     name="numCinema"
                                     value={values?.numCinema}
-                                    type="text"
+                                    type="number"
                                     className="w-full text-center focus:outline-none"
                                     onChange={handleChange}
                                 />

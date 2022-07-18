@@ -13,7 +13,15 @@ import SubmissionBarangayProfilePage7 from "../components/SubmissionBarangayProf
 import SubmissionBarangayProfilePage8 from "../components/SubmissionBarangayProfilePage8";
 import SubmissionBarangayProfilePage9 from "../components/SubmissionBarangayProfilePage9";
 
-function submissionBarangayProfile({ page1Data }) {
+function submissionBarangayProfile({
+    page1Data,
+    page2Data,
+    page3Data,
+    page4Data,
+    page5Data,
+    page6Data,
+    page7Data,
+}) {
     const contentRef = useRef(null);
     const page1Ref = useRef(null);
     const page2Ref = useRef(null);
@@ -158,37 +166,37 @@ function submissionBarangayProfile({ page1Data }) {
                         ref={page2Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage2 />
+                        <SubmissionBarangayProfilePage2 page2Data={page2Data} />
                     </div>
                     <div
                         ref={page3Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage3 />
+                        <SubmissionBarangayProfilePage3 page3Data={page3Data} />
                     </div>
                     <div
                         ref={page4Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage4 />
+                        <SubmissionBarangayProfilePage4 page4Data={page4Data} />
                     </div>
                     <div
                         ref={page5Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage5 />
+                        <SubmissionBarangayProfilePage5 page5Data={page5Data} />
                     </div>
                     <div
                         ref={page6Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage6 />
+                        <SubmissionBarangayProfilePage6 page6Data={page6Data} />
                     </div>
                     <div
                         ref={page7Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage7 />
+                        <SubmissionBarangayProfilePage7 page7Data={page7Data} />
                     </div>
                     <div
                         ref={page8Ref}
@@ -319,8 +327,21 @@ function submissionBarangayProfile({ page1Data }) {
 export default submissionBarangayProfile;
 
 export const getServerSideProps = async (context) => {
-    const data = await fetch(
-        "http://localhost:3001/submission/brgyProfilePage1",
+    const me = await fetch("http://localhost:3001/user/me", {
+        headers: { Cookie: context.req.headers.cookie },
+    }).then((res) => res.json());
+
+    if (me.isAdmin == true) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/",
+            },
+        };
+    }
+
+    const pageData = await fetch(
+        "http://localhost:3001/submission/brgyProfilePages",
         {
             headers: { Cookie: context.req.headers.cookie },
         }
@@ -328,7 +349,13 @@ export const getServerSideProps = async (context) => {
 
     return {
         props: {
-            page1Data: data,
+            page1Data: pageData[0],
+            page2Data: pageData[1],
+            page3Data: pageData[2],
+            page4Data: pageData[3],
+            page5Data: pageData[4],
+            page6Data: pageData[5],
+            page7Data: pageData[6],
         },
     };
 };
