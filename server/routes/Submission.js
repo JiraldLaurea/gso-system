@@ -12,6 +12,8 @@ const { SubmissionBarangayProfilePage4 } = require("../models");
 const { SubmissionBarangayProfilePage5 } = require("../models");
 const { SubmissionBarangayProfilePage6 } = require("../models");
 const { SubmissionBarangayProfilePage7 } = require("../models");
+const { SubmissionBarangayProfilePage8 } = require("../models");
+const { SubmissionBarangayProfilePage9 } = require("../models");
 
 router.get("/", async (req, res) => {
     const submissions = await Submission.findAll({
@@ -168,6 +170,16 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
             where: { barangayId: user.barangayId },
         });
 
+    const submissionBarangayProfilePage8 =
+        await SubmissionBarangayProfilePage8.findOne({
+            where: { barangayId: user.barangayId },
+        });
+
+    const submissionBarangayProfilePage9 =
+        await SubmissionBarangayProfilePage9.findOne({
+            where: { barangayId: user.barangayId },
+        });
+
     res.json([
         submissionBarangayProfilePage1,
         submissionBarangayProfilePage2,
@@ -176,6 +188,8 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         submissionBarangayProfilePage5,
         submissionBarangayProfilePage6,
         submissionBarangayProfilePage7,
+        submissionBarangayProfilePage8,
+        submissionBarangayProfilePage9,
     ]);
 };
 
@@ -208,7 +222,15 @@ const createSubmissionBarangayProfilePages = async (req, res) => {
     //     barangayId: user.barangayId,
     // });
 
-    await SubmissionBarangayProfilePage7.create({
+    // await SubmissionBarangayProfilePage7.create({
+    //     barangayId: user.barangayId,
+    // });
+
+    // await SubmissionBarangayProfilePage8.create({
+    //     barangayId: user.barangayId,
+    // });
+
+    await SubmissionBarangayProfilePage9.create({
         barangayId: user.barangayId,
     });
 
@@ -1783,6 +1805,300 @@ const updateSubmissionBarangayProfilePage7 = async (req, res) => {
     res.json("SUCCESS");
 };
 
+const updateSubmissionBarangayProfilePage8 = async (req, res) => {
+    const user = res.locals.user;
+
+    const {
+        tricycleWithinBarangay,
+        tricycleWithinDistrict,
+        tricycleWithinCityProper,
+        trisikadWithinBarangay,
+        trisikadWithinDistrict,
+        trisikadWithinCityProper,
+        jeepneyWithinBarangay,
+        jeepneyWithinDistrict,
+        jeepneyWithinCityProper,
+        carWithinBarangay,
+        carWithinDistrict,
+        carWithinCityProper,
+        busWithinBarangay,
+        busWithinDistrict,
+        busWithinCityProper,
+        boatMotorizedWithinBarangay,
+        boatMotorizedWithinDistrict,
+        boatMotorizedWithinCityProper,
+        boatNonMotorizedWithinBarangay,
+        boatNonMotorizedWithinDistrict,
+        boatNonMotorizedWithinCityProper,
+        othersWithinBarangay,
+        othersWithinDistrict,
+        othersWithinCityProper,
+        othersTransportFacilitySpecify,
+        waterSupplyNumHousehold1,
+        waterSupplyNumHousehold2,
+        waterSupplyNumHousehold3,
+        waterSupplyNumHousehold4,
+        waterSupplyNumHousehold5,
+        waterSupplyNumHousehold6,
+        waterSupplyNumHousehold7,
+        waterSupplyPercentHousehold1,
+        waterSupplyPercentHousehold2,
+        waterSupplyPercentHousehold3,
+        waterSupplyPercentHousehold4,
+        waterSupplyPercentHousehold5,
+        waterSupplyPercentHousehold6,
+        waterSupplyPercentHousehold7,
+        waterSupply7Specify,
+        waterSupplyNumTotal,
+        waterSupplyPercentTotal,
+        inventoryExistingPowerSupplyNum1,
+        inventoryExistingPowerSupplyPercent1,
+        inventoryExistingPowerSupplyNum2,
+        inventoryExistingPowerSupplyPercent2,
+        inventoryExistingPowerSupplySpecify,
+        inventoryExistingPowerSupplyNumTotal,
+        inventoryExistingPowerSupplyPercentTotal,
+        inventoryFuelUsedNum1,
+        inventoryFuelUsedPercent1,
+        inventoryFuelUsedNum2,
+        inventoryFuelUsedPercent2,
+        inventoryFuelUsedNum3,
+        inventoryFuelUsedPercent3,
+        inventoryFuelUsedNum4,
+        inventoryFuelUsedPercent4,
+        inventoryFuelUsed4Specify,
+        inventoryFuelUsedNumTotal,
+        inventoryFuelUsedPercentTotal,
+        sourceIncomeCY1,
+        sourceIncomeCY2,
+        sourceIncomeAmount1CY1,
+        sourceIncomeAmount1CY2,
+        sourceIncomeAmount2CY1,
+        sourceIncomeAmount2CY2,
+        sourceIncomeAmount3CY1,
+        sourceIncomeAmount3CY2,
+        sourceIncomeAmount4CY1,
+        sourceIncomeAmount4CY2,
+        sourceIncomeAmount5CY1,
+        sourceIncomeAmount5CY2,
+        sourceIncomeAmount6CY1,
+        sourceIncomeAmount6CY2,
+        sourceIncomeAmount7CY1,
+        sourceIncomeAmount7CY2,
+        sourceIncomeAmount8CY1,
+        sourceIncomeAmount8CY2,
+        sourceIncomeAmount9CY1,
+        sourceIncomeAmount9CY2,
+        sourceIncomeAmount10CY1,
+        sourceIncomeAmount10CY2,
+        sourceIncomeAmountTotalCY1,
+        sourceIncomeAmountTotalCY2,
+    } = req.body;
+
+    await SubmissionBarangayProfilePage8.update(
+        {
+            tricycleWithinBarangay: tricycleWithinBarangay,
+            tricycleWithinDistrict: tricycleWithinDistrict,
+            tricycleWithinCityProper: tricycleWithinCityProper,
+            trisikadWithinBarangay: trisikadWithinBarangay,
+            trisikadWithinDistrict: trisikadWithinDistrict,
+            trisikadWithinCityProper: trisikadWithinCityProper,
+            jeepneyWithinBarangay: jeepneyWithinBarangay,
+            jeepneyWithinDistrict: jeepneyWithinDistrict,
+            jeepneyWithinCityProper: jeepneyWithinCityProper,
+            carWithinBarangay: carWithinBarangay,
+            carWithinDistrict: carWithinDistrict,
+            carWithinCityProper: carWithinCityProper,
+            busWithinBarangay: busWithinBarangay,
+            busWithinDistrict: busWithinDistrict,
+            busWithinCityProper: busWithinCityProper,
+            boatMotorizedWithinBarangay: boatMotorizedWithinBarangay,
+            boatMotorizedWithinDistrict: boatMotorizedWithinDistrict,
+            boatMotorizedWithinCityProper: boatMotorizedWithinCityProper,
+            boatNonMotorizedWithinBarangay: boatNonMotorizedWithinBarangay,
+            boatNonMotorizedWithinDistrict: boatNonMotorizedWithinDistrict,
+            boatNonMotorizedWithinCityProper: boatNonMotorizedWithinCityProper,
+            othersWithinBarangay: othersWithinBarangay,
+            othersWithinDistrict: othersWithinDistrict,
+            othersWithinCityProper: othersWithinCityProper,
+            othersTransportFacilitySpecify: othersTransportFacilitySpecify,
+            waterSupplyNumHousehold1: waterSupplyNumHousehold1,
+            waterSupplyNumHousehold2: waterSupplyNumHousehold2,
+            waterSupplyNumHousehold3: waterSupplyNumHousehold3,
+            waterSupplyNumHousehold4: waterSupplyNumHousehold4,
+            waterSupplyNumHousehold5: waterSupplyNumHousehold5,
+            waterSupplyNumHousehold6: waterSupplyNumHousehold6,
+            waterSupplyNumHousehold7: waterSupplyNumHousehold7,
+            waterSupplyPercentHousehold1: waterSupplyPercentHousehold1,
+            waterSupplyPercentHousehold2: waterSupplyPercentHousehold2,
+            waterSupplyPercentHousehold3: waterSupplyPercentHousehold3,
+            waterSupplyPercentHousehold4: waterSupplyPercentHousehold4,
+            waterSupplyPercentHousehold5: waterSupplyPercentHousehold5,
+            waterSupplyPercentHousehold6: waterSupplyPercentHousehold6,
+            waterSupplyPercentHousehold7: waterSupplyPercentHousehold7,
+            waterSupply7Specify: waterSupply7Specify,
+            waterSupplyNumTotal: waterSupplyNumTotal,
+            waterSupplyPercentTotal: waterSupplyPercentTotal,
+            inventoryExistingPowerSupplyNum1: inventoryExistingPowerSupplyNum1,
+            inventoryExistingPowerSupplyPercent1:
+                inventoryExistingPowerSupplyPercent1,
+            inventoryExistingPowerSupplyNum2: inventoryExistingPowerSupplyNum2,
+            inventoryExistingPowerSupplyPercent2:
+                inventoryExistingPowerSupplyPercent2,
+            inventoryExistingPowerSupplySpecify:
+                inventoryExistingPowerSupplySpecify,
+            inventoryExistingPowerSupplyNumTotal:
+                inventoryExistingPowerSupplyNumTotal,
+            inventoryExistingPowerSupplyPercentTotal:
+                inventoryExistingPowerSupplyPercentTotal,
+            inventoryFuelUsedNum1: inventoryFuelUsedNum1,
+            inventoryFuelUsedPercent1: inventoryFuelUsedPercent1,
+            inventoryFuelUsedNum2: inventoryFuelUsedNum2,
+            inventoryFuelUsedPercent2: inventoryFuelUsedPercent2,
+            inventoryFuelUsedNum3: inventoryFuelUsedNum3,
+            inventoryFuelUsedPercent3: inventoryFuelUsedPercent3,
+            inventoryFuelUsedNum4: inventoryFuelUsedNum4,
+            inventoryFuelUsedPercent4: inventoryFuelUsedPercent4,
+            inventoryFuelUsed4Specify: inventoryFuelUsed4Specify,
+            inventoryFuelUsedNumTotal: inventoryFuelUsedNumTotal,
+            inventoryFuelUsedPercentTotal: inventoryFuelUsedPercentTotal,
+            sourceIncomeCY1: sourceIncomeCY1,
+            sourceIncomeCY2: sourceIncomeCY2,
+            sourceIncomeAmount1CY1: sourceIncomeAmount1CY1,
+            sourceIncomeAmount1CY2: sourceIncomeAmount1CY2,
+            sourceIncomeAmount2CY1: sourceIncomeAmount2CY1,
+            sourceIncomeAmount2CY2: sourceIncomeAmount2CY2,
+            sourceIncomeAmount3CY1: sourceIncomeAmount3CY1,
+            sourceIncomeAmount3CY2: sourceIncomeAmount3CY2,
+            sourceIncomeAmount4CY1: sourceIncomeAmount4CY1,
+            sourceIncomeAmount4CY2: sourceIncomeAmount4CY2,
+            sourceIncomeAmount5CY1: sourceIncomeAmount5CY1,
+            sourceIncomeAmount5CY2: sourceIncomeAmount5CY2,
+            sourceIncomeAmount6CY1: sourceIncomeAmount6CY1,
+            sourceIncomeAmount6CY2: sourceIncomeAmount6CY2,
+            sourceIncomeAmount7CY1: sourceIncomeAmount7CY1,
+            sourceIncomeAmount7CY2: sourceIncomeAmount7CY2,
+            sourceIncomeAmount8CY1: sourceIncomeAmount8CY1,
+            sourceIncomeAmount8CY2: sourceIncomeAmount8CY2,
+            sourceIncomeAmount9CY1: sourceIncomeAmount9CY1,
+            sourceIncomeAmount9CY2: sourceIncomeAmount9CY2,
+            sourceIncomeAmount10CY1: sourceIncomeAmount10CY1,
+            sourceIncomeAmount10CY2: sourceIncomeAmount10CY2,
+            sourceIncomeAmountTotalCY1: sourceIncomeAmountTotalCY1,
+            sourceIncomeAmountTotalCY2: sourceIncomeAmountTotalCY2,
+        },
+        { where: { barangayId: user.barangayId } }
+    );
+
+    res.json("SUCCESS");
+};
+
+const updateSubmissionBarangayProfilePage9 = async (req, res) => {
+    const user = res.locals.user;
+
+    const {
+        actualExpendituresCY1,
+        actualExpendituresCY2,
+        actualExpendituresAmount1CY1,
+        actualExpendituresAmount1CY2,
+        actualExpendituresAmount2CY1,
+        actualExpendituresAmount2CY2,
+        actualExpendituresAmount3CY1,
+        actualExpendituresAmount3CY2,
+        actualExpendituresAmountTotalCY1,
+        actualExpendituresAmountTotalCY2,
+        governanceOwnedFacilities1,
+        governanceOwnedFacilities2,
+        governanceOwnedFacilities3,
+        governanceOwnedFacilities4,
+        governanceOwnedFacilities5,
+        governanceOwnedFacilities6,
+        governanceOwnedFacilities7,
+        governanceOwnedFacilities8,
+        governanceOwnedFacilities8StateOwnership,
+        governanceOwnedFacilities9,
+        governanceOwnedFacilities9StateOwnership,
+        governanceOwnedFacilities10,
+        governanceOwnedFacilities11,
+        governanceOwnedFacilities12,
+        governanceOwnedFacilities12Specify,
+        barangayGovSupportOrgNum1,
+        barangayGovSupportOrgNum2,
+        barangayGovSupportOrgNum3,
+        barangayGovSupportOrgNum4,
+        barangayGovSupportOrgNum5,
+        barangayGovSupportOrgNum6,
+        barangayGovSupportOrgNum7,
+        barangayGovSupportOrgNum7Specify,
+        barangayGovSupportOrgNum8,
+        barangayGovSupportOrgNum8Specify,
+        barangayGovSupportOrgNum9,
+        barangayGovSupportOrgNum10,
+        barangayGovSupportOrgNum11,
+        barangayGovSupportOrgNum12,
+        signatureOverPrintedName,
+        position,
+        date1,
+        barangayCaptain,
+        date2,
+    } = req.body;
+
+    await SubmissionBarangayProfilePage9.update(
+        {
+            actualExpendituresCY1: actualExpendituresCY1,
+            actualExpendituresCY2: actualExpendituresCY2,
+            actualExpendituresAmount1CY1: actualExpendituresAmount1CY1,
+            actualExpendituresAmount1CY2: actualExpendituresAmount1CY2,
+            actualExpendituresAmount2CY1: actualExpendituresAmount2CY1,
+            actualExpendituresAmount2CY2: actualExpendituresAmount2CY2,
+            actualExpendituresAmount3CY1: actualExpendituresAmount3CY1,
+            actualExpendituresAmount3CY2: actualExpendituresAmount3CY2,
+            actualExpendituresAmountTotalCY1: actualExpendituresAmountTotalCY1,
+            actualExpendituresAmountTotalCY2: actualExpendituresAmountTotalCY2,
+            governanceOwnedFacilities1: governanceOwnedFacilities1,
+            governanceOwnedFacilities2: governanceOwnedFacilities2,
+            governanceOwnedFacilities3: governanceOwnedFacilities3,
+            governanceOwnedFacilities4: governanceOwnedFacilities4,
+            governanceOwnedFacilities5: governanceOwnedFacilities5,
+            governanceOwnedFacilities6: governanceOwnedFacilities6,
+            governanceOwnedFacilities7: governanceOwnedFacilities7,
+            governanceOwnedFacilities8: governanceOwnedFacilities8,
+            governanceOwnedFacilities8StateOwnership:
+                governanceOwnedFacilities8StateOwnership,
+            governanceOwnedFacilities9: governanceOwnedFacilities9,
+            governanceOwnedFacilities9StateOwnership:
+                governanceOwnedFacilities9StateOwnership,
+            governanceOwnedFacilities10: governanceOwnedFacilities10,
+            governanceOwnedFacilities11: governanceOwnedFacilities11,
+            governanceOwnedFacilities12: governanceOwnedFacilities12,
+            governanceOwnedFacilities12Specify:
+                governanceOwnedFacilities12Specify,
+            barangayGovSupportOrgNum1: barangayGovSupportOrgNum1,
+            barangayGovSupportOrgNum2: barangayGovSupportOrgNum2,
+            barangayGovSupportOrgNum3: barangayGovSupportOrgNum3,
+            barangayGovSupportOrgNum4: barangayGovSupportOrgNum4,
+            barangayGovSupportOrgNum5: barangayGovSupportOrgNum5,
+            barangayGovSupportOrgNum6: barangayGovSupportOrgNum6,
+            barangayGovSupportOrgNum7: barangayGovSupportOrgNum7,
+            barangayGovSupportOrgNum7Specify: barangayGovSupportOrgNum7Specify,
+            barangayGovSupportOrgNum8: barangayGovSupportOrgNum8,
+            barangayGovSupportOrgNum8Specify: barangayGovSupportOrgNum8Specify,
+            barangayGovSupportOrgNum9: barangayGovSupportOrgNum9,
+            barangayGovSupportOrgNum10: barangayGovSupportOrgNum10,
+            barangayGovSupportOrgNum11: barangayGovSupportOrgNum11,
+            barangayGovSupportOrgNum12: barangayGovSupportOrgNum12,
+            signatureOverPrintedName: signatureOverPrintedName,
+            position: position,
+            date1: date1,
+            barangayCaptain: barangayCaptain,
+            date2: date2,
+        },
+        { where: { barangayId: user.barangayId } }
+    );
+
+    res.json("SUCCESS");
+};
+
 router.get("/submissions", validateUser, validate, getSubmissions);
 router.get(
     "/brgyProfilePages",
@@ -1837,6 +2153,18 @@ router.put(
     validateUser,
     validate,
     updateSubmissionBarangayProfilePage7
+);
+router.put(
+    "/brgyProfilePage8",
+    validateUser,
+    validate,
+    updateSubmissionBarangayProfilePage8
+);
+router.put(
+    "/brgyProfilePage9",
+    validateUser,
+    validate,
+    updateSubmissionBarangayProfilePage9
 );
 
 module.exports = router;

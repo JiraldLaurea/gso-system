@@ -21,6 +21,8 @@ function submissionBarangayProfile({
     page5Data,
     page6Data,
     page7Data,
+    page8Data,
+    page9Data,
 }) {
     const contentRef = useRef(null);
     const page1Ref = useRef(null);
@@ -202,13 +204,13 @@ function submissionBarangayProfile({
                         ref={page8Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage8 />
+                        <SubmissionBarangayProfilePage8 page8Data={page8Data} />
                     </div>
                     <div
                         ref={page9Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
                     >
-                        <SubmissionBarangayProfilePage9 />
+                        <SubmissionBarangayProfilePage9 page9Data={page9Data} />
                     </div>
                 </form>
             </div>
@@ -356,6 +358,8 @@ export const getServerSideProps = async (context) => {
             page5Data: pageData[4],
             page6Data: pageData[5],
             page7Data: pageData[6],
+            page8Data: pageData[7],
+            page9Data: pageData[8],
         },
     };
 };

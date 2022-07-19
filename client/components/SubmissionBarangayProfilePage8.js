@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 const getFormValues = () => {
     if (typeof window !== "undefined") {
@@ -96,8 +97,228 @@ const getFormValues = () => {
     }
 };
 
-function SubmissionBarangayProfilePage8() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage8({ page8Data }) {
+    // const [values, setValues] = useState(getFormValues);
+
+    const [values, setValues] = useState({
+        tricycleWithinBarangay: page8Data.tricycleWithinBarangay,
+        tricycleWithinDistrict: page8Data.tricycleWithinDistrict,
+        tricycleWithinCityProper: page8Data.tricycleWithinCityProper,
+        trisikadWithinBarangay: page8Data.trisikadWithinBarangay,
+        trisikadWithinDistrict: page8Data.trisikadWithinDistrict,
+        trisikadWithinCityProper: page8Data.trisikadWithinCityProper,
+        jeepneyWithinBarangay: page8Data.jeepneyWithinBarangay,
+        jeepneyWithinDistrict: page8Data.jeepneyWithinDistrict,
+        jeepneyWithinCityProper: page8Data.jeepneyWithinCityProper,
+        carWithinBarangay: page8Data.carWithinBarangay,
+        carWithinDistrict: page8Data.carWithinDistrict,
+        carWithinCityProper: page8Data.carWithinCityProper,
+        busWithinBarangay: page8Data.busWithinBarangay,
+        busWithinDistrict: page8Data.busWithinDistrict,
+        busWithinCityProper: page8Data.busWithinCityProper,
+        boatMotorizedWithinBarangay: page8Data.boatMotorizedWithinBarangay,
+        boatMotorizedWithinDistrict: page8Data.boatMotorizedWithinDistrict,
+        boatMotorizedWithinCityProper: page8Data.boatMotorizedWithinCityProper,
+        boatNonMotorizedWithinBarangay:
+            page8Data.boatNonMotorizedWithinBarangay,
+        boatNonMotorizedWithinDistrict:
+            page8Data.boatNonMotorizedWithinDistrict,
+        boatNonMotorizedWithinCityProper:
+            page8Data.boatNonMotorizedWithinCityProper,
+        othersWithinBarangay: page8Data.othersWithinBarangay,
+        othersWithinDistrict: page8Data.othersWithinDistrict,
+        othersWithinCityProper: page8Data.othersWithinCityProper,
+        othersTransportFacilitySpecify:
+            page8Data.othersTransportFacilitySpecify,
+        waterSupplyNumHousehold1: page8Data.waterSupplyNumHousehold1,
+        waterSupplyNumHousehold2: page8Data.waterSupplyNumHousehold2,
+        waterSupplyNumHousehold3: page8Data.waterSupplyNumHousehold3,
+        waterSupplyNumHousehold4: page8Data.waterSupplyNumHousehold4,
+        waterSupplyNumHousehold5: page8Data.waterSupplyNumHousehold5,
+        waterSupplyNumHousehold6: page8Data.waterSupplyNumHousehold6,
+        waterSupplyNumHousehold7: page8Data.waterSupplyNumHousehold7,
+        waterSupplyPercentHousehold1: page8Data.waterSupplyPercentHousehold1,
+        waterSupplyPercentHousehold2: page8Data.waterSupplyPercentHousehold2,
+        waterSupplyPercentHousehold3: page8Data.waterSupplyPercentHousehold3,
+        waterSupplyPercentHousehold4: page8Data.waterSupplyPercentHousehold4,
+        waterSupplyPercentHousehold5: page8Data.waterSupplyPercentHousehold5,
+        waterSupplyPercentHousehold6: page8Data.waterSupplyPercentHousehold6,
+        waterSupplyPercentHousehold7: page8Data.waterSupplyPercentHousehold7,
+        waterSupply7Specify: page8Data.waterSupply7Specify,
+        waterSupplyNumTotal: page8Data.waterSupplyNumTotal,
+        waterSupplyPercentTotal: page8Data.waterSupplyPercentTotal,
+        inventoryExistingPowerSupplyNum1:
+            page8Data.inventoryExistingPowerSupplyNum1,
+        inventoryExistingPowerSupplyPercent1:
+            page8Data.inventoryExistingPowerSupplyPercent1,
+        inventoryExistingPowerSupplyNum2:
+            page8Data.inventoryExistingPowerSupplyNum2,
+        inventoryExistingPowerSupplyPercent2:
+            page8Data.inventoryExistingPowerSupplyPercent2,
+        inventoryExistingPowerSupplySpecify:
+            page8Data.inventoryExistingPowerSupplySpecify,
+        inventoryExistingPowerSupplyNumTotal:
+            page8Data.inventoryExistingPowerSupplyNumTotal,
+        inventoryExistingPowerSupplyPercentTotal:
+            page8Data.inventoryExistingPowerSupplyPercentTotal,
+        inventoryFuelUsedNum1: page8Data.inventoryFuelUsedNum1,
+        inventoryFuelUsedPercent1: page8Data.inventoryFuelUsedPercent1,
+        inventoryFuelUsedNum2: page8Data.inventoryFuelUsedNum2,
+        inventoryFuelUsedPercent2: page8Data.inventoryFuelUsedPercent2,
+        inventoryFuelUsedNum3: page8Data.inventoryFuelUsedNum3,
+        inventoryFuelUsedPercent3: page8Data.inventoryFuelUsedPercent3,
+        inventoryFuelUsedNum4: page8Data.inventoryFuelUsedNum4,
+        inventoryFuelUsedPercent4: page8Data.inventoryFuelUsedPercent4,
+        inventoryFuelUsed4Specify: page8Data.inventoryFuelUsed4Specify,
+        inventoryFuelUsedNumTotal: page8Data.inventoryFuelUsedNumTotal,
+        inventoryFuelUsedPercentTotal: page8Data.inventoryFuelUsedPercentTotal,
+        sourceIncomeCY1: page8Data.sourceIncomeCY1,
+        sourceIncomeCY2: page8Data.sourceIncomeCY2,
+        sourceIncomeAmount1CY1: page8Data.sourceIncomeAmount1CY1,
+        sourceIncomeAmount1CY2: page8Data.sourceIncomeAmount1CY2,
+        sourceIncomeAmount2CY1: page8Data.sourceIncomeAmount2CY1,
+        sourceIncomeAmount2CY2: page8Data.sourceIncomeAmount2CY2,
+        sourceIncomeAmount3CY1: page8Data.sourceIncomeAmount3CY1,
+        sourceIncomeAmount3CY2: page8Data.sourceIncomeAmount3CY2,
+        sourceIncomeAmount4CY1: page8Data.sourceIncomeAmount4CY1,
+        sourceIncomeAmount4CY2: page8Data.sourceIncomeAmount4CY2,
+        sourceIncomeAmount5CY1: page8Data.sourceIncomeAmount5CY1,
+        sourceIncomeAmount5CY2: page8Data.sourceIncomeAmount5CY2,
+        sourceIncomeAmount6CY1: page8Data.sourceIncomeAmount6CY1,
+        sourceIncomeAmount6CY2: page8Data.sourceIncomeAmount6CY2,
+        sourceIncomeAmount7CY1: page8Data.sourceIncomeAmount7CY1,
+        sourceIncomeAmount7CY2: page8Data.sourceIncomeAmount7CY2,
+        sourceIncomeAmount7CY1: page8Data.sourceIncomeAmount7CY1,
+        sourceIncomeAmount7CY2: page8Data.sourceIncomeAmount7CY2,
+        sourceIncomeAmount8CY1: page8Data.sourceIncomeAmount8CY1,
+        sourceIncomeAmount8CY2: page8Data.sourceIncomeAmount8CY2,
+        sourceIncomeAmount9CY1: page8Data.sourceIncomeAmount9CY1,
+        sourceIncomeAmount9CY2: page8Data.sourceIncomeAmount9CY2,
+        sourceIncomeAmount10CY1: page8Data.sourceIncomeAmount10CY1,
+        sourceIncomeAmount10CY2: page8Data.sourceIncomeAmount10CY2,
+        sourceIncomeAmountTotalCY1: page8Data.sourceIncomeAmountTotalCY1,
+        sourceIncomeAmountTotalCY2: page8Data.sourceIncomeAmountTotalCY2,
+    });
+
+    useEffect(() => {
+        const updateSubmissionBarangayProfilePage8 = async () => {
+            const data = {
+                tricycleWithinBarangay: values.tricycleWithinBarangay,
+                tricycleWithinDistrict: values.tricycleWithinDistrict,
+                tricycleWithinCityProper: values.tricycleWithinCityProper,
+                trisikadWithinBarangay: values.trisikadWithinBarangay,
+                trisikadWithinDistrict: values.trisikadWithinDistrict,
+                trisikadWithinCityProper: values.trisikadWithinCityProper,
+                jeepneyWithinBarangay: values.jeepneyWithinBarangay,
+                jeepneyWithinDistrict: values.jeepneyWithinDistrict,
+                jeepneyWithinCityProper: values.jeepneyWithinCityProper,
+                carWithinBarangay: values.carWithinBarangay,
+                carWithinDistrict: values.carWithinDistrict,
+                carWithinCityProper: values.carWithinCityProper,
+                busWithinBarangay: values.busWithinBarangay,
+                busWithinDistrict: values.busWithinDistrict,
+                busWithinCityProper: values.busWithinCityProper,
+                boatMotorizedWithinBarangay: values.boatMotorizedWithinBarangay,
+                boatMotorizedWithinDistrict: values.boatMotorizedWithinDistrict,
+                boatMotorizedWithinCityProper:
+                    values.boatMotorizedWithinCityProper,
+                boatNonMotorizedWithinBarangay:
+                    values.boatNonMotorizedWithinBarangay,
+                boatNonMotorizedWithinDistrict:
+                    values.boatNonMotorizedWithinDistrict,
+                boatNonMotorizedWithinCityProper:
+                    values.boatNonMotorizedWithinCityProper,
+                othersWithinBarangay: values.othersWithinBarangay,
+                othersWithinDistrict: values.othersWithinDistrict,
+                othersWithinCityProper: values.othersWithinCityProper,
+                othersTransportFacilitySpecify:
+                    values.othersTransportFacilitySpecify,
+                waterSupplyNumHousehold1: values.waterSupplyNumHousehold1,
+                waterSupplyNumHousehold2: values.waterSupplyNumHousehold2,
+                waterSupplyNumHousehold3: values.waterSupplyNumHousehold3,
+                waterSupplyNumHousehold4: values.waterSupplyNumHousehold4,
+                waterSupplyNumHousehold5: values.waterSupplyNumHousehold5,
+                waterSupplyNumHousehold6: values.waterSupplyNumHousehold6,
+                waterSupplyNumHousehold7: values.waterSupplyNumHousehold7,
+                waterSupplyPercentHousehold1:
+                    values.waterSupplyPercentHousehold1,
+                waterSupplyPercentHousehold2:
+                    values.waterSupplyPercentHousehold2,
+                waterSupplyPercentHousehold3:
+                    values.waterSupplyPercentHousehold3,
+                waterSupplyPercentHousehold4:
+                    values.waterSupplyPercentHousehold4,
+                waterSupplyPercentHousehold5:
+                    values.waterSupplyPercentHousehold5,
+                waterSupplyPercentHousehold6:
+                    values.waterSupplyPercentHousehold6,
+                waterSupplyPercentHousehold7:
+                    values.waterSupplyPercentHousehold7,
+                waterSupply7Specify: values.waterSupply7Specify,
+                waterSupplyNumTotal: values.waterSupplyNumTotal,
+                waterSupplyPercentTotal: values.waterSupplyPercentTotal,
+                inventoryExistingPowerSupplyNum1:
+                    values.inventoryExistingPowerSupplyNum1,
+                inventoryExistingPowerSupplyPercent1:
+                    values.inventoryExistingPowerSupplyPercent1,
+                inventoryExistingPowerSupplyNum2:
+                    values.inventoryExistingPowerSupplyNum2,
+                inventoryExistingPowerSupplyPercent2:
+                    values.inventoryExistingPowerSupplyPercent2,
+                inventoryExistingPowerSupplySpecify:
+                    values.inventoryExistingPowerSupplySpecify,
+                inventoryExistingPowerSupplyNumTotal:
+                    values.inventoryExistingPowerSupplyNumTotal,
+                inventoryExistingPowerSupplyPercentTotal:
+                    values.inventoryExistingPowerSupplyPercentTotal,
+                inventoryFuelUsedNum1: values.inventoryFuelUsedNum1,
+                inventoryFuelUsedPercent1: values.inventoryFuelUsedPercent1,
+                inventoryFuelUsedNum2: values.inventoryFuelUsedNum2,
+                inventoryFuelUsedPercent2: values.inventoryFuelUsedPercent2,
+                inventoryFuelUsedNum3: values.inventoryFuelUsedNum3,
+                inventoryFuelUsedPercent3: values.inventoryFuelUsedPercent3,
+                inventoryFuelUsedNum4: values.inventoryFuelUsedNum4,
+                inventoryFuelUsedPercent4: values.inventoryFuelUsedPercent4,
+                inventoryFuelUsed4Specify: values.inventoryFuelUsed4Specify,
+                inventoryFuelUsedNumTotal: values.inventoryFuelUsedNumTotal,
+                inventoryFuelUsedPercentTotal:
+                    values.inventoryFuelUsedPercentTotal,
+                sourceIncomeCY1: values.sourceIncomeCY1,
+                sourceIncomeCY2: values.sourceIncomeCY2,
+                sourceIncomeAmount1CY1: values.sourceIncomeAmount1CY1,
+                sourceIncomeAmount1CY2: values.sourceIncomeAmount1CY2,
+                sourceIncomeAmount2CY1: values.sourceIncomeAmount2CY1,
+                sourceIncomeAmount2CY2: values.sourceIncomeAmount2CY2,
+                sourceIncomeAmount3CY1: values.sourceIncomeAmount3CY1,
+                sourceIncomeAmount3CY2: values.sourceIncomeAmount3CY2,
+                sourceIncomeAmount4CY1: values.sourceIncomeAmount4CY1,
+                sourceIncomeAmount4CY2: values.sourceIncomeAmount4CY2,
+                sourceIncomeAmount5CY1: values.sourceIncomeAmount5CY1,
+                sourceIncomeAmount5CY2: values.sourceIncomeAmount5CY2,
+                sourceIncomeAmount6CY1: values.sourceIncomeAmount6CY1,
+                sourceIncomeAmount6CY2: values.sourceIncomeAmount6CY2,
+                sourceIncomeAmount7CY1: values.sourceIncomeAmount7CY1,
+                sourceIncomeAmount7CY2: values.sourceIncomeAmount7CY2,
+                sourceIncomeAmount7CY1: values.sourceIncomeAmount7CY1,
+                sourceIncomeAmount7CY2: values.sourceIncomeAmount7CY2,
+                sourceIncomeAmount8CY1: values.sourceIncomeAmount8CY1,
+                sourceIncomeAmount8CY2: values.sourceIncomeAmount8CY2,
+                sourceIncomeAmount9CY1: values.sourceIncomeAmount9CY1,
+                sourceIncomeAmount9CY2: values.sourceIncomeAmount9CY2,
+                sourceIncomeAmount10CY1: values.sourceIncomeAmount10CY1,
+                sourceIncomeAmount10CY2: values.sourceIncomeAmount10CY2,
+                sourceIncomeAmountTotalCY1: values.sourceIncomeAmountTotalCY1,
+                sourceIncomeAmountTotalCY2: values.sourceIncomeAmountTotalCY2,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage8",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage8();
+    }, [values]);
 
     const waterSupplyNumTotal =
         Number(values?.waterSupplyNumHousehold1) +
@@ -183,9 +404,9 @@ function SubmissionBarangayProfilePage8() {
         Number(values?.sourceIncomeAmount9CY2) +
         Number(values?.sourceIncomeAmount10CY2);
 
-    useEffect(() => {
-        localStorage.setItem("brgyProfilePage8", JSON.stringify(values));
-    }, [values]);
+    // useEffect(() => {
+    //     localStorage.setItem("brgyProfilePage8", JSON.stringify(values));
+    // }, [values]);
 
     const handleChange = (e) => {
         setValues((previousValues) => ({
@@ -496,7 +717,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="waterSupplyNumHousehold1"
                                 value={values?.waterSupplyNumHousehold1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -520,7 +741,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="waterSupplyNumHousehold2"
                                 value={values?.waterSupplyNumHousehold2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -544,7 +765,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="waterSupplyNumHousehold3"
                                 value={values?.waterSupplyNumHousehold3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -568,7 +789,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="waterSupplyNumHousehold4"
                                 value={values?.waterSupplyNumHousehold4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -589,7 +810,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="waterSupplyNumHousehold5"
                                 value={values?.waterSupplyNumHousehold5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -612,7 +833,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="waterSupplyNumHousehold6"
                                 value={values?.waterSupplyNumHousehold6}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -642,7 +863,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="waterSupplyNumHousehold7"
                                 value={values?.waterSupplyNumHousehold7}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -664,7 +885,7 @@ function SubmissionBarangayProfilePage8() {
                                 readOnly
                                 name="waterSupplyNumTotal"
                                 value={waterSupplyNumTotal}
-                                type="text"
+                                type="number"
                                 className="w-full text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -717,7 +938,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="inventoryExistingPowerSupplyNum1"
                                 value={values?.inventoryExistingPowerSupplyNum1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -751,7 +972,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="inventoryExistingPowerSupplyNum2"
                                 value={values?.inventoryExistingPowerSupplyNum2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -775,7 +996,7 @@ function SubmissionBarangayProfilePage8() {
                                 readOnly
                                 name="inventoryExistingPowerSupplyNumTotal"
                                 value={inventoryExistingPowerSupplyNumTotal}
-                                type="text"
+                                type="number"
                                 className="w-full text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -815,7 +1036,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="inventoryFuelUsedNum1"
                                 value={values?.inventoryFuelUsedNum1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -836,7 +1057,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="inventoryFuelUsedNum2"
                                 value={values?.inventoryFuelUsedNum2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -857,7 +1078,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="inventoryFuelUsedNum3"
                                 value={values?.inventoryFuelUsedNum3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -887,7 +1108,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="inventoryFuelUsedNum4"
                                 value={values?.inventoryFuelUsedNum4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -909,7 +1130,7 @@ function SubmissionBarangayProfilePage8() {
                                 readOnly
                                 name="inventoryFuelUsedNumTotal"
                                 value={inventoryFuelUsedNumTotal}
-                                type="text"
+                                type="number"
                                 className="w-full text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -972,7 +1193,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount1CY1"
                                 value={values?.sourceIncomeAmount1CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -981,7 +1202,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount1CY2"
                                 value={values?.sourceIncomeAmount1CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -993,7 +1214,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount2CY1"
                                 value={values?.sourceIncomeAmount2CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1002,7 +1223,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount2CY2"
                                 value={values?.sourceIncomeAmount2CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1014,7 +1235,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount3CY1"
                                 value={values?.sourceIncomeAmount3CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1023,7 +1244,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount3CY2"
                                 value={values?.sourceIncomeAmount3CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1035,7 +1256,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount4CY1"
                                 value={values?.sourceIncomeAmount4CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1044,7 +1265,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount4CY2"
                                 value={values?.sourceIncomeAmount4CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1056,7 +1277,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount5CY1"
                                 value={values?.sourceIncomeAmount5CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1065,7 +1286,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount5CY2"
                                 value={values?.sourceIncomeAmount5CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1077,7 +1298,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount6CY1"
                                 value={values?.sourceIncomeAmount6CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1086,7 +1307,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount6CY2"
                                 value={values?.sourceIncomeAmount6CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1098,7 +1319,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount7CY1"
                                 value={values?.sourceIncomeAmount7CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1107,7 +1328,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount7CY2"
                                 value={values?.sourceIncomeAmount7CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1119,7 +1340,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount8CY1"
                                 value={values?.sourceIncomeAmount8CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1128,19 +1349,19 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount8CY2"
                                 value={values?.sourceIncomeAmount8CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
                     </tr>
                     <tr className="border-t">
-                        <td className="pl-2">Others - Collection</td>
+                        <td className="pl-2">6. Others - Collection</td>
                         <td className="border-x">
                             <input
                                 name="sourceIncomeAmount9CY1"
                                 value={values?.sourceIncomeAmount9CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1149,19 +1370,19 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount9CY2"
                                 value={values?.sourceIncomeAmount9CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
                     </tr>
                     <tr className="border-t">
-                        <td className="pl-2">Others - Rent Income</td>
+                        <td className="pl-2">7. Others - Rent Income</td>
                         <td className="border-x">
                             <input
                                 name="sourceIncomeAmount10CY1"
                                 value={values?.sourceIncomeAmount10CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1170,7 +1391,7 @@ function SubmissionBarangayProfilePage8() {
                             <input
                                 name="sourceIncomeAmount10CY2"
                                 value={values?.sourceIncomeAmount10CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1183,7 +1404,7 @@ function SubmissionBarangayProfilePage8() {
                                 readOnly
                                 name="sourceIncomeAmountTotalCY1"
                                 value={sourceIncomeAmountTotalCY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1193,7 +1414,7 @@ function SubmissionBarangayProfilePage8() {
                                 readOnly
                                 name="sourceIncomeAmountTotalCY2"
                                 value={sourceIncomeAmountTotalCY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right border-black cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />

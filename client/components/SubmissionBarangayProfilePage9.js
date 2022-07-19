@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 const getFormValues = () => {
     if (typeof window !== "undefined") {
@@ -52,8 +53,133 @@ const getFormValues = () => {
     }
 };
 
-function SubmissionBarangayProfilePage9() {
-    const [values, setValues] = useState(getFormValues);
+function SubmissionBarangayProfilePage9({ page9Data }) {
+    // const [values, setValues] = useState(getFormValues);
+
+    const [values, setValues] = useState({
+        actualExpendituresCY1: page9Data.actualExpendituresCY1,
+        actualExpendituresCY2: page9Data.actualExpendituresCY2,
+        actualExpendituresAmount1CY1: page9Data.actualExpendituresAmount1CY1,
+        actualExpendituresAmount1CY2: page9Data.actualExpendituresAmount1CY2,
+        actualExpendituresAmount2CY1: page9Data.actualExpendituresAmount2CY1,
+        actualExpendituresAmount2CY2: page9Data.actualExpendituresAmount2CY2,
+        actualExpendituresAmount3CY1: page9Data.actualExpendituresAmount3CY1,
+        actualExpendituresAmount3CY2: page9Data.actualExpendituresAmount3CY2,
+        actualExpendituresAmountTotalCY1:
+            page9Data.actualExpendituresAmountTotalCY1,
+        actualExpendituresAmountTotalCY2:
+            page9Data.actualExpendituresAmountTotalCY2,
+        governanceOwnedFacilities1: page9Data.governanceOwnedFacilities1,
+        governanceOwnedFacilities2: page9Data.governanceOwnedFacilities2,
+        governanceOwnedFacilities3: page9Data.governanceOwnedFacilities3,
+        governanceOwnedFacilities4: page9Data.governanceOwnedFacilities4,
+        governanceOwnedFacilities5: page9Data.governanceOwnedFacilities5,
+        governanceOwnedFacilities6: page9Data.governanceOwnedFacilities6,
+        governanceOwnedFacilities7: page9Data.governanceOwnedFacilities7,
+        governanceOwnedFacilities8: page9Data.governanceOwnedFacilities8,
+        governanceOwnedFacilities8StateOwnership:
+            page9Data.governanceOwnedFacilities8StateOwnership,
+        governanceOwnedFacilities9: page9Data.governanceOwnedFacilities9,
+        governanceOwnedFacilities9StateOwnership:
+            page9Data.governanceOwnedFacilities9StateOwnership,
+        governanceOwnedFacilities10: page9Data.governanceOwnedFacilities10,
+        governanceOwnedFacilities11: page9Data.governanceOwnedFacilities11,
+        governanceOwnedFacilities12: page9Data.governanceOwnedFacilities12,
+        governanceOwnedFacilities12Specify:
+            page9Data.governanceOwnedFacilities12Specify,
+        barangayGovSupportOrgNum1: page9Data.barangayGovSupportOrgNum1,
+        barangayGovSupportOrgNum2: page9Data.barangayGovSupportOrgNum2,
+        barangayGovSupportOrgNum3: page9Data.barangayGovSupportOrgNum3,
+        barangayGovSupportOrgNum4: page9Data.barangayGovSupportOrgNum4,
+        barangayGovSupportOrgNum5: page9Data.barangayGovSupportOrgNum5,
+        barangayGovSupportOrgNum6: page9Data.barangayGovSupportOrgNum6,
+        barangayGovSupportOrgNum7: page9Data.barangayGovSupportOrgNum7,
+        barangayGovSupportOrgNum7Specify:
+            page9Data.barangayGovSupportOrgNum7Specify,
+        barangayGovSupportOrgNum8: page9Data.barangayGovSupportOrgNum8,
+        barangayGovSupportOrgNum8Specify:
+            page9Data.barangayGovSupportOrgNum8Specify,
+        barangayGovSupportOrgNum9: page9Data.barangayGovSupportOrgNum9,
+        barangayGovSupportOrgNum10: page9Data.barangayGovSupportOrgNum10,
+        barangayGovSupportOrgNum11: page9Data.barangayGovSupportOrgNum11,
+        barangayGovSupportOrgNum12: page9Data.barangayGovSupportOrgNum12,
+        signatureOverPrintedName: page9Data.signatureOverPrintedName,
+        position: page9Data.position,
+        date1: page9Data.date1,
+        barangayCaptain: page9Data.barangayCaptain,
+        date2: page9Data.date2,
+    });
+
+    useEffect(() => {
+        const updateSubmissionBarangayProfilePage9 = async () => {
+            const data = {
+                actualExpendituresCY1: values.actualExpendituresCY1,
+                actualExpendituresCY2: values.actualExpendituresCY2,
+                actualExpendituresAmount1CY1:
+                    values.actualExpendituresAmount1CY1,
+                actualExpendituresAmount1CY2:
+                    values.actualExpendituresAmount1CY2,
+                actualExpendituresAmount2CY1:
+                    values.actualExpendituresAmount2CY1,
+                actualExpendituresAmount2CY2:
+                    values.actualExpendituresAmount2CY2,
+                actualExpendituresAmount3CY1:
+                    values.actualExpendituresAmount3CY1,
+                actualExpendituresAmount3CY2:
+                    values.actualExpendituresAmount3CY2,
+                actualExpendituresAmountTotalCY1:
+                    values.actualExpendituresAmountTotalCY1,
+                actualExpendituresAmountTotalCY2:
+                    values.actualExpendituresAmountTotalCY2,
+                governanceOwnedFacilities1: values.governanceOwnedFacilities1,
+                governanceOwnedFacilities2: values.governanceOwnedFacilities2,
+                governanceOwnedFacilities3: values.governanceOwnedFacilities3,
+                governanceOwnedFacilities4: values.governanceOwnedFacilities4,
+                governanceOwnedFacilities5: values.governanceOwnedFacilities5,
+                governanceOwnedFacilities6: values.governanceOwnedFacilities6,
+                governanceOwnedFacilities7: values.governanceOwnedFacilities7,
+                governanceOwnedFacilities8: values.governanceOwnedFacilities8,
+                governanceOwnedFacilities8StateOwnership:
+                    values.governanceOwnedFacilities8StateOwnership,
+                governanceOwnedFacilities9: values.governanceOwnedFacilities9,
+                governanceOwnedFacilities9StateOwnership:
+                    values.governanceOwnedFacilities9StateOwnership,
+                governanceOwnedFacilities10: values.governanceOwnedFacilities10,
+                governanceOwnedFacilities11: values.governanceOwnedFacilities11,
+                governanceOwnedFacilities12: values.governanceOwnedFacilities12,
+                governanceOwnedFacilities12Specify:
+                    values.governanceOwnedFacilities12Specify,
+                barangayGovSupportOrgNum1: values.barangayGovSupportOrgNum1,
+                barangayGovSupportOrgNum2: values.barangayGovSupportOrgNum2,
+                barangayGovSupportOrgNum3: values.barangayGovSupportOrgNum3,
+                barangayGovSupportOrgNum4: values.barangayGovSupportOrgNum4,
+                barangayGovSupportOrgNum5: values.barangayGovSupportOrgNum5,
+                barangayGovSupportOrgNum6: values.barangayGovSupportOrgNum6,
+                barangayGovSupportOrgNum7: values.barangayGovSupportOrgNum7,
+                barangayGovSupportOrgNum7Specify:
+                    values.barangayGovSupportOrgNum7Specify,
+                barangayGovSupportOrgNum8: values.barangayGovSupportOrgNum8,
+                barangayGovSupportOrgNum8Specify:
+                    values.barangayGovSupportOrgNum8Specify,
+                barangayGovSupportOrgNum9: values.barangayGovSupportOrgNum9,
+                barangayGovSupportOrgNum10: values.barangayGovSupportOrgNum10,
+                barangayGovSupportOrgNum11: values.barangayGovSupportOrgNum11,
+                barangayGovSupportOrgNum12: values.barangayGovSupportOrgNum12,
+                signatureOverPrintedName: values.signatureOverPrintedName,
+                position: values.position,
+                date1: values.date1,
+                barangayCaptain: values.barangayCaptain,
+                date2: values.date2,
+            };
+
+            await Axios.put(
+                "http://localhost:3001/submission/brgyProfilePage9",
+                data
+            );
+        };
+
+        updateSubmissionBarangayProfilePage9();
+    }, [values]);
 
     const actualExpendituresAmountTotalCY1 =
         Number(values?.actualExpendituresAmount1CY1) +
@@ -65,9 +191,9 @@ function SubmissionBarangayProfilePage9() {
         Number(values?.actualExpendituresAmount2CY2) +
         Number(values?.actualExpendituresAmount3CY2);
 
-    useEffect(() => {
-        localStorage.setItem("brgyProfilePage9", JSON.stringify(values));
-    }, [values]);
+    // useEffect(() => {
+    //     localStorage.setItem("brgyProfilePage9", JSON.stringify(values));
+    // }, [values]);
 
     const handleChange = (e) => {
         setValues((previousValues) => ({
@@ -95,7 +221,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresCY1"
                                 value={values?.actualExpendituresCY1}
-                                type="text"
+                                type="number"
                                 className="w-10 ml-1 text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -105,7 +231,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresCY2"
                                 value={values?.actualExpendituresCY2}
-                                type="text"
+                                type="number"
                                 className="w-10 ml-1 text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -119,7 +245,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresAmount1CY1"
                                 value={values?.actualExpendituresAmount1CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -128,7 +254,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresAmount1CY2"
                                 value={values?.actualExpendituresAmount1CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -142,7 +268,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresAmount2CY1"
                                 value={values?.actualExpendituresAmount2CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -151,7 +277,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresAmount2CY2"
                                 value={values?.actualExpendituresAmount2CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -163,7 +289,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresAmount3CY1"
                                 value={values?.actualExpendituresAmount3CY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -172,7 +298,7 @@ function SubmissionBarangayProfilePage9() {
                             <input
                                 name="actualExpendituresAmount3CY2"
                                 value={values?.actualExpendituresAmount3CY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -185,7 +311,7 @@ function SubmissionBarangayProfilePage9() {
                                 readOnly
                                 name="actualExpendituresAmountTotalCY1"
                                 value={actualExpendituresAmountTotalCY1}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -195,7 +321,7 @@ function SubmissionBarangayProfilePage9() {
                                 readOnly
                                 name="actualExpendituresAmountTotalCY2"
                                 value={actualExpendituresAmountTotalCY2}
-                                type="text"
+                                type="number"
                                 className="w-full pr-2 text-right cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -295,6 +421,13 @@ function SubmissionBarangayProfilePage9() {
                         onChange={handleChange}
                     />
                     &#41; Public Cemetery &#40;state ownership&#41;
+                    <input
+                        name="governanceOwnedFacilities8StateOwnership"
+                        value={values?.governanceOwnedFacilities8StateOwnership}
+                        type="text"
+                        className="w-40 ml-2 border-b border-black focus:outline-none"
+                        onChange={handleChange}
+                    />
                 </p>
                 <p>
                     &#40;
@@ -306,6 +439,13 @@ function SubmissionBarangayProfilePage9() {
                         onChange={handleChange}
                     />
                     &#41; Private Ownership &#40;state ownership&#41;
+                    <input
+                        name="governanceOwnedFacilities9StateOwnership"
+                        value={values?.governanceOwnedFacilities9StateOwnership}
+                        type="text"
+                        className="w-40 ml-2 border-b border-black focus:outline-none"
+                        onChange={handleChange}
+                    />
                 </p>
                 <p>
                     &#40;
