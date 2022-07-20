@@ -11,6 +11,7 @@ function BarangayTable({
     fetchUserBarangays,
 }) {
     const [barangayName, setBarangayName] = useState("");
+    const [districtName, setDistrictName] = useState("");
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
     const [dropdownMenuValue, setDropdownMenuValue] = useState("User id");
     const [barangayUsers, setBarangayUsers] = useState([]);
@@ -39,6 +40,7 @@ function BarangayTable({
         if (barangayName != "") {
             const data = {
                 barangayName: barangayName,
+                districtName: districtName,
             };
             await Axios.post("http://localhost:3001/barangay", data).then(
                 (res) => {
@@ -47,6 +49,7 @@ function BarangayTable({
                 }
             );
             setBarangayName("");
+            setDistrictName("");
             mutate("http://localhost:3001/barangay");
             mutate("http://localhost:3001/user/barangay");
         } else {
@@ -73,6 +76,17 @@ function BarangayTable({
                     />
                 </div>
 
+                <div className="mt-6 mb-4">
+                    <p className="mb-1 text-sm text-gray-600">District name</p>
+                    <input
+                        value={districtName}
+                        onChange={(e) => setDistrictName(e.target.value)}
+                        className="w-full px-3 py-2 border"
+                        type="text"
+                        placeholder="District name"
+                    />
+                </div>
+
                 <div className="flex items-center justify-end mb-4">
                     <button
                         type="submit"
@@ -84,7 +98,7 @@ function BarangayTable({
             </form>
             <table className="w-full text-sm text-left table-auto h-fit">
                 <thead className="text-xs text-gray-700 uppercase border h-11 bg-gray-50">
-                    <tr>
+                    <tr className="removeBorderStyle">
                         <th className="px-6">
                             <div
                                 onClick={() => sort("id")}
@@ -107,6 +121,22 @@ function BarangayTable({
                                 className="flex items-center cursor-pointer group w-fit"
                             >
                                 <p className="w-fit">Barangay Name</p>
+                                <Icon
+                                    className={`w-5 h-5 invisible group-hover:visible `}
+                                    icon={`${
+                                        boolean == true
+                                            ? "eva:arrow-ios-downward-fill"
+                                            : "eva:arrow-ios-upward-fill"
+                                    }`}
+                                />
+                            </div>
+                        </th>
+                        <th className="px-6">
+                            <div
+                                onClick={() => sort("districtName")}
+                                className="flex items-center cursor-pointer group w-fit"
+                            >
+                                <p className="w-fit">District Name</p>
                                 <Icon
                                     className={`w-5 h-5 invisible group-hover:visible `}
                                     icon={`${
@@ -142,11 +172,14 @@ function BarangayTable({
                         return (
                             <tr
                                 key={index}
-                                className="border-x-[1px] border-b h-11"
+                                className="removeBorderStyle border-x-[1px] border-b h-11"
                             >
                                 <td className="px-6">{barangay.id}</td>
                                 <td className="px-6">
                                     {barangay.barangayName}
+                                </td>
+                                <td className="px-6">
+                                    {barangay.districtName}
                                 </td>
                                 <td className="px-6">
                                     {barangay.userId != null

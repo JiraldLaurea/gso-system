@@ -4,10 +4,10 @@ const { validateUser } = require("../middleware/user");
 const router = express.Router();
 const { Submission } = require("../models");
 const { Barangay } = require("../models");
+const sequelize = require("sequelize");
 const { SubmissionBarangayProfilePage1 } = require("../models");
 const { SubmissionBarangayProfilePage2 } = require("../models");
 const { SubmissionBarangayProfilePage3 } = require("../models");
-const sequelize = require("sequelize");
 const { SubmissionBarangayProfilePage4 } = require("../models");
 const { SubmissionBarangayProfilePage5 } = require("../models");
 const { SubmissionBarangayProfilePage6 } = require("../models");
@@ -36,10 +36,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-    const submissions = await Submission.findAll({
-        // group: "barangayName",
-        // order: [["createdAt", "ASC"]],
-    });
+    const submissions = await Submission.findAll();
 
     res.json(submissions);
 });
@@ -51,7 +48,7 @@ router.get("/all", async (req, res) => {
 // });
 
 router.post("/submit", async (req, res) => {
-    const { documentName, populationCount, userId } = req.body;
+    const { documentName, yearSubmitted, populationCount, userId } = req.body;
 
     const barangay = await Barangay.findOne({
         where: { userId: userId },
@@ -59,10 +56,12 @@ router.post("/submit", async (req, res) => {
 
     const submission = await Submission.create({
         documentName: documentName,
+        yearSubmitted: yearSubmitted,
         populationCount: populationCount,
         userId: userId,
         barangayId: barangay.id,
         barangayName: barangay.barangayName,
+        districtName: barangay.districtName,
     });
 
     // const barangay = await Barangay.create({barangayName,
@@ -197,38 +196,37 @@ const createSubmissionBarangayProfilePages = async (req, res) => {
     const user = res.locals.user;
     const { city } = req.body;
 
-    // await SubmissionBarangayProfilePage1.create({
-    //     barangayId: user.barangayId,
-    //     city: city,
-    // });
+    await SubmissionBarangayProfilePage1.create({
+        barangayId: user.barangayId,
+    });
 
-    // await SubmissionBarangayProfilePage2.create({
-    //     barangayId: user.barangayId,
-    // });
+    await SubmissionBarangayProfilePage2.create({
+        barangayId: user.barangayId,
+    });
 
-    // await SubmissionBarangayProfilePage3.create({
-    //     barangayId: user.barangayId,
-    // });
+    await SubmissionBarangayProfilePage3.create({
+        barangayId: user.barangayId,
+    });
 
-    // await SubmissionBarangayProfilePage4.create({
-    //     barangayId: user.barangayId,
-    // });
+    await SubmissionBarangayProfilePage4.create({
+        barangayId: user.barangayId,
+    });
 
-    // await SubmissionBarangayProfilePage5.create({
-    //     barangayId: user.barangayId,
-    // });
+    await SubmissionBarangayProfilePage5.create({
+        barangayId: user.barangayId,
+    });
 
-    // await SubmissionBarangayProfilePage6.create({
-    //     barangayId: user.barangayId,
-    // });
+    await SubmissionBarangayProfilePage6.create({
+        barangayId: user.barangayId,
+    });
 
-    // await SubmissionBarangayProfilePage7.create({
-    //     barangayId: user.barangayId,
-    // });
+    await SubmissionBarangayProfilePage7.create({
+        barangayId: user.barangayId,
+    });
 
-    // await SubmissionBarangayProfilePage8.create({
-    //     barangayId: user.barangayId,
-    // });
+    await SubmissionBarangayProfilePage8.create({
+        barangayId: user.barangayId,
+    });
 
     await SubmissionBarangayProfilePage9.create({
         barangayId: user.barangayId,

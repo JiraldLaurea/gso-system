@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    th {
+        @apply border border-black;
+    }
+    td {
+        @apply border border-black;
+    }
+}
+
+@layer components {
+    .removeBorderStyle > th,
+    .removeBorderStyle > td {
+        @apply border-0;
+    }
+}
+
 html,
 body {
     padding: 0;
@@ -9,16 +25,18 @@ body {
     font-family: "Roboto Flex", "system-ui";
 }
 
-input::-webkit-outer-spin-button,
+/* Chrome, Safari, Edge, Opera */
+/* input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
+} */
 
-/* Change default table border color */
-th,
-td {
-    border: 1px solid black !important;
+/* Firefox */
+input[type="number"] {
+    text-align: center;
+    margin: 0;
+    padding-left: 15px;
 }
 
 a {

@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import Axios from "axios";
 
-function SubmissionBarangayProfilePage1({ page1Data }) {
+function SubmissionBarangayProfilePage1({
+    page1Data,
+    totalPopulationCount,
+    setTotalPopulationCount,
+}) {
     const [values, setValues] = useState({
         city: page1Data.city,
         legalBasis: page1Data.legalBasis,
@@ -136,6 +140,10 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
     );
 
     useEffect(() => {
+        setTotalPopulationCount(
+            Number(values.totalPopulationMale) +
+                Number(values.totalPopulationFemale)
+        );
         const updateSubmissionBarangayProfilePage1 = async () => {
             const data = {
                 city: values.city,
@@ -236,15 +244,13 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
         updateSubmissionBarangayProfilePage1();
     }, [values]);
 
+    // setTotalPopulationCount(Number(values.male1) + Number(values.female1));
+
     const handleChange = (e) => {
         setValues((previousValues) => ({
             ...previousValues,
             [e.target.name]: e.target.value,
         }));
-    };
-
-    const handleChangePage1 = (e) => {
-        setCity(e.target.value);
     };
 
     return (
@@ -255,7 +261,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                 <p>BARANGAY {data?.barangayName.toUpperCase()}</p>
             </div>
             <div className="flex items-center justify-between mb-6 font-bold">
-                <p>District: JARO</p>
+                <p>District: {data?.districtName.toUpperCase()}</p>
                 <span className="flex items-center">
                     <p className="mr-1">City:</p>
                     <input
@@ -293,7 +299,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                 name="dateRatification"
                                 onChange={handleChange}
                                 type="text"
-                                className="border-b border-black w-36 focus:outline-none"
+                                className="ml-1 border-b border-black w-36 focus:outline-none"
                             />
                         </p>
                         <div className="flex justify-between">
@@ -475,7 +481,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     value={values.totalPopulation}
                                     name="totalPopulation"
                                     onChange={handleChange}
-                                    type="number"
+                                    type="text"
                                     className="font-normal text-center border-b border-black w-14 focus:outline-none"
                                 />
                                 &#41;
@@ -487,7 +493,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     name="totalPopulationMale"
                                     onChange={handleChange}
                                     type="number"
-                                    className="w-10 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
+                                    className="w-20 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
                                 />
                             </span>
                             <span>
@@ -497,7 +503,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     name="totalPopulationFemale"
                                     onChange={handleChange}
                                     type="number"
-                                    className="w-10 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
+                                    className="w-20 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
                                 />
                             </span>
                             <span>
@@ -517,7 +523,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     name="totalPopulationBoth"
                                     // onChange={handleChange}
                                     type="number"
-                                    className="w-10 text-center cursor-default focus:outline-none"
+                                    className="w-20 text-center cursor-default focus:outline-none"
                                 />
                             </span>
                         </span>
@@ -1182,12 +1188,7 @@ function SubmissionBarangayProfilePage1({ page1Data }) {
                                     <td className="border-t border-x">
                                         <input
                                             readOnly
-                                            value={
-                                                !null
-                                                    ? Number(values.male1) +
-                                                      Number(values.female1)
-                                                    : 0
-                                            }
+                                            value={totalPopulationCount}
                                             type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />

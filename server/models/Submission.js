@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            yearSubmitted: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
             populationCount: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -19,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             barangayName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            districtName: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },

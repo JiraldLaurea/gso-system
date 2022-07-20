@@ -13,7 +13,10 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
-    const [dropdownMenuValue, setDropdownMenuValue] = useState("Barangay");
+    const [dropdownMenuValueBarangay, setDropdownMenuValueBarangay] =
+        useState("Barangay");
+    const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
+        useState("District");
     const [isAdmin, setIsAdmin] = useState(false);
     const [columnName, setColumnName] = useState("username");
     const [boolean, setBoolean] = useState(false);
@@ -25,7 +28,9 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
         if (
             firstName != "" &&
             lastName != "" &&
-            (dropdownMenuValue != "Barangay" || dropdownMenuValue == null) &&
+            (dropdownMenuValueBarangay != "Barangay" ||
+                dropdownMenuValueDistrict != "District" ||
+                dropdownMenuValue == null) &&
             username != "" &&
             email != "" &&
             password != ""
@@ -50,7 +55,8 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                         username: username.trim(),
                         email: email.trim(),
                         password: password,
-                        barangayName: dropdownMenuValue,
+                        barangayName: dropdownMenuValueBarangay,
+                        districtName: dropdownMenuValueDistrict,
                         isAdmin: isAdmin,
                     };
                 }
@@ -62,7 +68,8 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                     }
                 );
 
-                setDropdownMenuValue("Barangay");
+                setDropdownMenuValueBarangay("Barangay");
+                setDropdownMenuValueDistrict("District");
                 setFirstName("");
                 setLastName("");
                 setUsername("");
@@ -97,10 +104,12 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                     onClick={() => {
                         setIsAdmin(!isAdmin);
                         if (!isAdmin) {
-                            setDropdownMenuValue(null);
+                            setDropdownMenuValueBarangay(null);
+                            setDropdownMenuValueDistrict(null);
                         }
                         if (isAdmin) {
-                            setDropdownMenuValue("Barangay");
+                            setDropdownMenuValueBarangay("Barangay");
+                            setDropdownMenuValueDistrict("District");
                         }
                     }}
                     className="flex items-center mt-6 mb-4 cursor-pointer w-fit"
@@ -142,7 +151,9 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
 
                 {!isAdmin && (
                     <div className="my-4">
-                        <p className="mb-1 text-sm text-gray-600">Barangay</p>
+                        <p className="mb-1 text-sm text-gray-600">
+                            Barangay - District
+                        </p>
                         <div className="relative">
                             <ClickAwayListener
                                 onClickAway={() => setIsDropdownMenuOpen(false)}
@@ -159,12 +170,16 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                                     >
                                         <p
                                             className={`${
-                                                dropdownMenuValue ==
+                                                dropdownMenuValueBarangay ==
                                                     "Barangay" &&
+                                                dropdownMenuValueDistrict ==
+                                                    "District" &&
                                                 "text-gray-400"
                                             }`}
                                         >
-                                            {dropdownMenuValue}
+                                            {dropdownMenuValueBarangay}
+                                            &nbsp;-&nbsp;
+                                            {dropdownMenuValueDistrict}
                                         </p>
                                         <svg
                                             className="w-4 h-4 ml-2"
@@ -183,15 +198,18 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                                     </div>
                                     {isDropdownMenuOpen && (
                                         <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
-                                            <ul className="text-gray-700 dark:text-gray-200">
+                                            <ul className="text-gray-700">
                                                 {userBarangays.map(
                                                     (userBarangay, index) => {
                                                         return (
                                                             <li
                                                                 key={index}
                                                                 onClick={() => {
-                                                                    setDropdownMenuValue(
+                                                                    setDropdownMenuValueBarangay(
                                                                         userBarangay.barangayName
+                                                                    );
+                                                                    setDropdownMenuValueDistrict(
+                                                                        userBarangay.districtName
                                                                     );
                                                                     setIsDropdownMenuOpen(
                                                                         false
@@ -203,10 +221,15 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                                                             >
                                                                 <a
                                                                     href="#"
-                                                                    className="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                    className="block px-3 py-2 hover:bg-gray-100"
                                                                 >
                                                                     {
                                                                         userBarangay.barangayName
+                                                                    }
+                                                                    &nbsp; -
+                                                                    &nbsp;
+                                                                    {
+                                                                        userBarangay.districtName
                                                                     }
                                                                 </a>
                                                             </li>
@@ -279,7 +302,7 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
             </form>
             <table className="w-full text-sm text-left table-auto h-fit">
                 <thead className="text-xs text-gray-700 uppercase border h-11 bg-gray-50">
-                    <tr>
+                    <tr className="removeBorderStyle">
                         <th className="px-6">
                             <div
                                 onClick={() => sort("id")}
@@ -297,7 +320,6 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                             </div>{" "}
                         </th>
                         <th className="px-6">
-                            {" "}
                             <div
                                 onClick={() => sort("firstName")}
                                 className="flex items-center cursor-pointer group w-fit"
@@ -389,7 +411,7 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                         return (
                             <tr
                                 key={index}
-                                className="border-x-[1px] border-b h-11"
+                                className="removeBorderStyle border-x-[1px] border-b h-11"
                             >
                                 <td className="px-6">{user.id}</td>
                                 <td className="px-6">{user.firstName}</td>

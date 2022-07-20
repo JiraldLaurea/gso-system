@@ -24,14 +24,14 @@ function databaseManagement({ userData }) {
     const { user, authenticated, loading } = useAuthState();
 
     useEffect(() => {
-        console.log(userData);
+        // console.log(userData);
     }, []);
 
     const {
         data: submissions,
         error: errorSubmissions,
         isValidating: isValidatingSubmissions,
-    } = useSWR("http://localhost:3001/submission");
+    } = useSWR("http://localhost:3001/submission/all");
 
     const {
         data: barangays,
@@ -94,6 +94,8 @@ function databaseManagement({ userData }) {
             .toLowerCase()
             .includes(searchValue.toLowerCase());
     });
+
+    // console.log(filteredSubmissions);
 
     const filteredBarangays = barangays?.filter((barangay) => {
         return barangay.barangayName

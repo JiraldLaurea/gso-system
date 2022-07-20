@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            districtName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
             populationCount: {
                 type: DataTypes.INTEGER,
                 allowNull: true,

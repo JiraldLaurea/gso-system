@@ -506,7 +506,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum1"
                                 value={values?.barangayGovSupportOrgNum1}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -520,7 +520,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum2"
                                 value={values?.barangayGovSupportOrgNum2}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -534,7 +534,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum3"
                                 value={values?.barangayGovSupportOrgNum3}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -546,7 +546,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum4"
                                 value={values?.barangayGovSupportOrgNum4}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -558,7 +558,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum5"
                                 value={values?.barangayGovSupportOrgNum5}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -570,7 +570,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum6"
                                 value={values?.barangayGovSupportOrgNum6}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -582,7 +582,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum7Specify"
                                 value={values?.barangayGovSupportOrgNum7Specify}
-                                type="text"
+                                type="number"
                                 className="w-20 ml-1 focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -591,7 +591,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum7"
                                 value={values?.barangayGovSupportOrgNum7}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -603,7 +603,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum8Specify"
                                 value={values?.barangayGovSupportOrgNum8Specify}
-                                type="text"
+                                type="number"
                                 className="w-20 ml-1 focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -612,7 +612,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum8"
                                 value={values?.barangayGovSupportOrgNum8}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -624,7 +624,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum9"
                                 value={values?.barangayGovSupportOrgNum9}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -636,7 +636,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum10"
                                 value={values?.barangayGovSupportOrgNum10}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -648,7 +648,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum11"
                                 value={values?.barangayGovSupportOrgNum11}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -660,7 +660,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum12"
                                 value={values?.barangayGovSupportOrgNum12}
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />

@@ -29,10 +29,11 @@ router.post("/barangay", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { barangayName } = req.body;
+    const { barangayName, districtName } = req.body;
 
     const barangay = await Barangay.create({
         barangayName: barangayName,
+        districtName: districtName,
     });
 
     // await User.update(

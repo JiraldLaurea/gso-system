@@ -8,6 +8,15 @@ const cookie = require("cookie");
 const jwt = require("jsonwebtoken");
 const { validate } = require("../middleware/auth");
 const { validateUser } = require("../middleware/user");
+const { SubmissionBarangayProfilePage1 } = require("../models");
+const { SubmissionBarangayProfilePage2 } = require("../models");
+const { SubmissionBarangayProfilePage3 } = require("../models");
+const { SubmissionBarangayProfilePage4 } = require("../models");
+const { SubmissionBarangayProfilePage5 } = require("../models");
+const { SubmissionBarangayProfilePage6 } = require("../models");
+const { SubmissionBarangayProfilePage7 } = require("../models");
+const { SubmissionBarangayProfilePage8 } = require("../models");
+const { SubmissionBarangayProfilePage9 } = require("../models");
 // const { default: auth, validateUser, validate } = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
@@ -23,6 +32,7 @@ router.post("/", async (req, res) => {
         email,
         password,
         barangayName,
+        districtName,
         isAdmin,
     } = req.body;
     // const barangay = await Barangay.findOne({ where: { id: barangayId } });
@@ -44,6 +54,7 @@ router.post("/", async (req, res) => {
             password: hashedPassword,
             barangayId: barangay.id,
             barangayName: barangayName,
+            districtName: districtName,
             isAdmin: isAdmin,
         });
 
@@ -51,6 +62,42 @@ router.post("/", async (req, res) => {
             { userId: user.id },
             { where: { id: barangay.id } }
         );
+
+        await SubmissionBarangayProfilePage1.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage2.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage3.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage4.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage5.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage6.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage7.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage8.create({
+            barangayId: barangay.id,
+        });
+
+        await SubmissionBarangayProfilePage9.create({
+            barangayId: barangay.id,
+        });
     } else {
         user = await User.create({
             firstName: firstName,
@@ -87,6 +134,7 @@ router.get("/barangay", async (req, res) => {
         where: {
             userId: null,
         },
+        order: [["barangayName", "ASC"]],
     });
 
     res.json(userBarangays);

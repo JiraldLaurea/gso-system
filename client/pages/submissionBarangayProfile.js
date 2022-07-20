@@ -3,6 +3,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import React, { useRef, useState } from "react";
 import useSWR from "swr";
+import Axios from "axios";
 import SubmissionBarangayProfilePage1 from "../components/SubmissionBarangayProfilePage1";
 import SubmissionBarangayProfilePage2 from "../components/SubmissionBarangayProfilePage2";
 import SubmissionBarangayProfilePage3 from "../components/SubmissionBarangayProfilePage3";
@@ -39,8 +40,11 @@ function submissionBarangayProfile({
         error,
         isValidating,
     } = useSWR("http://localhost:3001/user/me");
+    const date = new Date();
 
     const [isLoading, setIsLoading] = useState(false);
+    const [totalPopulationCount, setTotalPopulationCount] = useState(0);
+    const [yearSubmitted, setYearSubmitted] = useState(date.getFullYear());
 
     // console.log("PAGE1 DATA", page1Data);
 
@@ -124,9 +128,52 @@ function submissionBarangayProfile({
             i += 1;
         }
 
-        pdf.save(`BarangayProfile${meData.barangayName}.pdf`);
+        const pdfAttachment = new File(
+            [pdf.output("blob")],
+            `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`,
+            {
+                type: pdf.output("blob").type,
+                lastModified: pdf.output("blob").lastModified,
+            }
+        );
+
+        const formData = new FormData();
+        formData.append("file", pdfAttachment);
+
+        await Axios.post("http://localhost:3001/upload", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        const data = {
+            documentName: `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`,
+            yearSubmitted: yearSubmitted,
+            populationCount: totalPopulationCount,
+            userId: meData.id,
+        };
+
+        await Axios.post("http://localhost:3001/submission/submit", data).then(
+            () => {
+                alert("Successfully submitted document");
+                // fetchSubmissions();
+                Axios.put("http://localhost:3001/barangay/update", {
+                    populationCount: totalPopulationCount,
+                    userId: meData.id,
+                });
+            }
+        );
+
+        pdf.save(
+            `BarangayProfile${meData.barangayName}${meData.districtName}.pdf`
+        );
+
         setIsLoading(false);
     };
+
+    // const submitDocument = (e) => {
+    //     createPDF(e);
+    // };
 
     // const generatePDF = () => {
     //     const input = document.getElementById("content");
@@ -149,20 +196,24 @@ function submissionBarangayProfile({
     // }, []);
 
     return (
-        <div className="flex justify-between">
+        <div className="flex justify-between ">
             <div className="flex flex-col items-center flex-grow p-3 space-y-4 text-sm bg-gray-200">
                 <form
                     spellCheck="false"
                     onSubmit={createPDF}
                     autoComplete="off"
                     ref={contentRef}
-                    className=""
+                    className="submissionBarangayProfile"
                 >
                     <div
                         ref={page1Ref}
                         className="bg-white w-[8.5in] h-[14in] py-4 px-20"
                     >
-                        <SubmissionBarangayProfilePage1 page1Data={page1Data} />
+                        <SubmissionBarangayProfilePage1
+                            page1Data={page1Data}
+                            totalPopulationCount={totalPopulationCount}
+                            setTotalPopulationCount={setTotalPopulationCount}
+                        />
                     </div>
                     <div
                         ref={page2Ref}
@@ -216,6 +267,19 @@ function submissionBarangayProfile({
             </div>
 
             <div className="h-[calc(100vh-56px)] sticky top-[56px] bg-gray-50 flex flex-col py-4 border-l  w-full max-w-[260px] overflow-y-auto">
+                <div className="px-4">
+                    <p className="mb-2 text-sm text-gray-700">
+                        Year of submission:
+                    </p>
+                    <input
+                        value={yearSubmitted}
+                        placeholder="Year"
+                        onChange={(e) => setYearSubmitted(e.target.value)}
+                        type="number"
+                        className="w-20 px-2 py-1 text-center border restoreNumberArrows focus:outline-none"
+                    />
+                </div>
+                <hr className="my-4" />
                 <p className="px-4 mb-2 font-medium">Barangay profile</p>
                 <div className="text-sm ">
                     <p
@@ -314,12 +378,21 @@ function submissionBarangayProfile({
                     <button
                         disabled={isLoading}
                         onClick={createPDF}
-                        className={`w-full px-3 py-2 text-white bg-blue-500 rounded-sm ${
+                        className={`w-full px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm ${
+                            isLoading && "cursor-not-allowed "
+                        }`}
+                    >
+                        {!isLoading ? "Submit" : "Processing..."}
+                    </button>
+                    {/* <button
+                        disabled={isLoading}
+                        onClick={createPDF}
+                        className={`w-full px-3 py-2 border text-blue-600 rounded-sm ${
                             isLoading && "cursor-not-allowed"
                         }`}
                     >
                         {!isLoading ? "Download" : "Processing..."}
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>

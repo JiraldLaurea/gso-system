@@ -421,7 +421,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalSelfEmployed"
                                 value={values?.totalSelfEmployed}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -433,7 +433,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalDriver"
                                 value={values?.totalDriver}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -447,7 +447,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalEmployee"
                                 value={values?.totalEmployee}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -457,7 +457,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalTrisikadDriver"
                                 value={values?.totalTrisikadDriver}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -471,7 +471,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalTeacher"
                                 value={values?.totalTeacher}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -481,7 +481,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalFishermanFarmer"
                                 value={values?.totalFishermanFarmer}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -493,7 +493,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalOFWSeaman"
                                 value={values?.totalOFWSeaman}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -506,7 +506,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalVendor"
                                 value={values?.totalVendor}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -520,7 +520,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalMedicalProfession"
                                 value={values?.totalMedicalProfession}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -530,7 +530,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalDressmakerTailor"
                                 value={values?.totalDressmakerTailor}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -544,7 +544,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalCarpenterPlumber"
                                 value={values?.totalCarpenterPlumber}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -556,7 +556,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalBarbersHairdresser"
                                 value={values?.totalBarbersHairdresser}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -568,7 +568,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalLaborerOddJobs"
                                 value={values?.totalLaborerOddJobs}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -578,7 +578,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalBusinessman"
                                 value={values?.totalBusinessman}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -590,7 +590,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalJanitorGardener"
                                 value={values?.totalJanitorGardener}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -602,7 +602,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalBeautician"
                                 value={values?.totalBeautician}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -616,7 +616,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalSecretary"
                                 value={values?.totalSecretary}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -628,7 +628,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalElectricianTechnician"
                                 value={values?.totalElectricianTechnician}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -642,7 +642,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalSalesClerk"
                                 value={values?.totalSalesClerk}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -661,7 +661,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalOthers"
                                 value={values?.totalOthers}
                                 type="number"
-                                className="w-10 text-center focus:outline-none"
+                                className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -674,7 +674,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalMale"
                                 value={Number(totalOneToTen)}
                                 type="number"
-                                className="w-10 text-center cursor-default focus:outline-none"
+                                className="w-full text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -685,7 +685,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                 name="totalMale"
                                 value={Number(totalElevenToTwenty)}
                                 type="number"
-                                className="w-10 text-center cursor-default focus:outline-none"
+                                className="w-full text-center cursor-default focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -708,509 +708,516 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                     </tr>
                 </tbody>
             </table>
-            <div className="flex mt-4 mb-1 font-bold">
-                <p className="mr-6">A.2 Employment By Age Group and Sex</p>
-                <p>A.3 Income/Salary</p>
-            </div>
-            <div className="flex mb-2">
-                <table className="w-full max-w-[200px] text-xs text-center border">
-                    <thead className="font-bold ">
-                        <tr>
-                            <td rowSpan={2} className="border-r">
-                                Age Group
-                            </td>
-                            <td colSpan={2} className="border-b ">
-                                Sex
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="border-r">Male</td>
-                            <td>Female</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="border-t">
-                            <td className="border-r">15-19</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale1"
-                                    value={values?.employmentMale1}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale1"
-                                    value={values?.employmentFemale1}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">20-24</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale2"
-                                    value={values?.employmentMale2}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale2"
-                                    value={values?.employmentFemale2}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">25-29</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale3"
-                                    value={values?.employmentMale3}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale3"
-                                    value={values?.employmentFemale3}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">30-34</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale4"
-                                    value={values?.employmentMale4}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale4"
-                                    value={values?.employmentFemale4}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">35-39</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale5"
-                                    value={values?.employmentMale5}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale5"
-                                    value={values?.employmentFemale5}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">40-44</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale6"
-                                    value={values?.employmentMale6}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale6"
-                                    value={values?.employmentFemale6}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">45-49</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale7"
-                                    value={values?.employmentMale7}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale7"
-                                    value={values?.employmentFemale7}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">50-54</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale8"
-                                    value={values?.employmentMale8}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale8"
-                                    value={values?.employmentFemale8}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">55-59</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale9"
-                                    value={values?.employmentMale9}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale9"
-                                    value={values?.employmentFemale9}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">60-64</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale10"
-                                    value={values?.employmentMale10}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale10"
-                                    value={values?.employmentFemale10}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">65 and over</td>
-                            <td className="border-r">
-                                <input
-                                    name="employmentMale11"
-                                    value={values?.employmentMale11}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    name="employmentFemale11"
-                                    value={values?.employmentFemale11}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="font-bold border-r">TOTAL</td>
-                            <td className="border-r">
-                                <input
-                                    readOnly
-                                    name="employmentTotalMale"
-                                    value={employmentTotalMale}
-                                    type="number"
-                                    className="w-10 text-center cursor-default focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    readOnly
-                                    name="employmentTotalFemale"
-                                    value={employmentTotalFemale}
-                                    type="number"
-                                    className="w-10 text-center cursor-default focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table className="ml-20 text-xs border">
-                    <thead className="font-bold text-center border-b">
-                        <tr>
-                            <td>Monthly Income/Salary</td>
-                            <td className="border-x">No. HHS</td>
-                            <td></td>
-                            <td className="border-x">Monthly Income/Salary</td>
-                            <td className="border-r">No. HHS</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody className="text-center">
-                        <tr className="border-t">
-                            <td className="border-r">Less than 2,000</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome1"
-                                    value={values?.monthlyIncome1}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
+            <div className="flex mt-4 mb-1 font-bold"></div>
+            <div className="flex mb-2 ">
+                <div className="w-full max-w-[200px] mr-4">
+                    <p className="font-bold">
+                        A.2 Employment By Age Group and Sex
+                    </p>
+                    <table className="w-full max-w-[200px] text-xs text-center border">
+                        <thead className="font-bold ">
+                            <tr>
+                                <td rowSpan={2} className="border-r">
+                                    Age Group
+                                </td>
+                                <td colSpan={2} className="border-b ">
+                                    Sex
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="border-r">Male</td>
+                                <td>Female</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="border-t">
+                                <td className="border-r">15-19</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale1"
+                                        value={values?.employmentMale1}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale1"
+                                        value={values?.employmentFemale1}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">20-24</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale2"
+                                        value={values?.employmentMale2}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale2"
+                                        value={values?.employmentFemale2}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">25-29</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale3"
+                                        value={values?.employmentMale3}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale3"
+                                        value={values?.employmentFemale3}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">30-34</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale4"
+                                        value={values?.employmentMale4}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale4"
+                                        value={values?.employmentFemale4}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">35-39</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale5"
+                                        value={values?.employmentMale5}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale5"
+                                        value={values?.employmentFemale5}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">40-44</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale6"
+                                        value={values?.employmentMale6}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale6"
+                                        value={values?.employmentFemale6}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">45-49</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale7"
+                                        value={values?.employmentMale7}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale7"
+                                        value={values?.employmentFemale7}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">50-54</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale8"
+                                        value={values?.employmentMale8}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale8"
+                                        value={values?.employmentFemale8}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">55-59</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale9"
+                                        value={values?.employmentMale9}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale9"
+                                        value={values?.employmentFemale9}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">60-64</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale10"
+                                        value={values?.employmentMale10}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale10"
+                                        value={values?.employmentFemale10}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">65 and over</td>
+                                <td className="border-r">
+                                    <input
+                                        name="employmentMale11"
+                                        value={values?.employmentMale11}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        name="employmentFemale11"
+                                        value={values?.employmentFemale11}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="font-bold border-r">TOTAL</td>
+                                <td className="border-r">
+                                    <input
+                                        readOnly
+                                        name="employmentTotalMale"
+                                        value={employmentTotalMale}
+                                        type="number"
+                                        className="w-full text-center cursor-default focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        readOnly
+                                        name="employmentTotalFemale"
+                                        value={employmentTotalFemale}
+                                        type="number"
+                                        className="w-full text-center cursor-default focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <p className="font-bold">A.3 Income/Salary</p>
+                    <table className="text-xs border">
+                        <thead className="font-bold text-center border-b">
+                            <tr>
+                                <td>Monthly Income/Salary</td>
+                                <td className="border-x">No. HHS</td>
+                                <td></td>
+                                <td className="border-x">
+                                    Monthly Income/Salary
+                                </td>
+                                <td className="border-r">No. HHS</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody className="text-center">
+                            <tr className="border-t">
+                                <td className="border-r">Less than 2,000</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome1"
+                                        value={values?.monthlyIncome1}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
 
-                            <td className="border-r">14,000 - 19,999</td>
-                            <td>
-                                <input
-                                    name="monthlyIncome2"
-                                    value={values?.monthlyIncome2}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-l"></td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">2,000 - 3,999</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome3"
-                                    value={values?.monthlyIncome3}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
+                                <td className="border-r">14,000 - 19,999</td>
+                                <td>
+                                    <input
+                                        name="monthlyIncome2"
+                                        value={values?.monthlyIncome2}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-l"></td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">2,000 - 3,999</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome3"
+                                        value={values?.monthlyIncome3}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
 
-                            <td className="border-r">20,000 - 24,999</td>
-                            <td>
-                                <input
-                                    name="monthlyIncome4"
-                                    value={values?.monthlyIncome4}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-l"></td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">4,000 - 5,999</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome5"
-                                    value={values?.monthlyIncome5}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
+                                <td className="border-r">20,000 - 24,999</td>
+                                <td>
+                                    <input
+                                        name="monthlyIncome4"
+                                        value={values?.monthlyIncome4}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-l"></td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">4,000 - 5,999</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome5"
+                                        value={values?.monthlyIncome5}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
 
-                            <td className="border-r">25,000 - 29,999</td>
-                            <td>
-                                <input
-                                    name="monthlyIncome6"
-                                    value={values?.monthlyIncome6}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-l"></td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">6,000 - 7,999</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome7"
-                                    value={values?.monthlyIncome7}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
+                                <td className="border-r">25,000 - 29,999</td>
+                                <td>
+                                    <input
+                                        name="monthlyIncome6"
+                                        value={values?.monthlyIncome6}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-l"></td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">6,000 - 7,999</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome7"
+                                        value={values?.monthlyIncome7}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
 
-                            <td className="border-r">30,000 - 34,999</td>
-                            <td>
-                                <input
-                                    name="monthlyIncome8"
-                                    value={values?.monthlyIncome8}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-l"></td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">8,000 - 9,999</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome9"
-                                    value={values?.monthlyIncome9}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
+                                <td className="border-r">30,000 - 34,999</td>
+                                <td>
+                                    <input
+                                        name="monthlyIncome8"
+                                        value={values?.monthlyIncome8}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-l"></td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">8,000 - 9,999</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome9"
+                                        value={values?.monthlyIncome9}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
 
-                            <td className="border-r">35,000 - 39,999</td>
-                            <td>
-                                <input
-                                    name="monthlyIncome10"
-                                    value={values?.monthlyIncome10}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-l"></td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">10,000 - 11,999</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome11"
-                                    value={values?.monthlyIncome11}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
+                                <td className="border-r">35,000 - 39,999</td>
+                                <td>
+                                    <input
+                                        name="monthlyIncome10"
+                                        value={values?.monthlyIncome10}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-l"></td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">10,000 - 11,999</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome11"
+                                        value={values?.monthlyIncome11}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
 
-                            <td className="border-r">40,000 - 44,999</td>
-                            <td>
-                                <input
-                                    name="monthlyIncome12"
-                                    value={values?.monthlyIncome12}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-l"></td>
-                        </tr>
-                        <tr className="border-t">
-                            <td className="border-r">12,000 - 13,999</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome13"
-                                    value={values?.monthlyIncome13}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
+                                <td className="border-r">40,000 - 44,999</td>
+                                <td>
+                                    <input
+                                        name="monthlyIncome12"
+                                        value={values?.monthlyIncome12}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-l"></td>
+                            </tr>
+                            <tr className="border-t">
+                                <td className="border-r">12,000 - 13,999</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome13"
+                                        value={values?.monthlyIncome13}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
 
-                            <td className="border-r">45,000 - 49,999</td>
-                            <td>
-                                <input
-                                    name="monthlyIncome14"
-                                    value={values?.monthlyIncome14}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-l"></td>
-                        </tr>
-                        <tr className="border-t">
-                            <td
-                                colSpan={3}
-                                className="border-b-0 border-l"
-                            ></td>
-                            <td className="border-x">50,000 &amp; above</td>
-                            <td className="border-r">
-                                <input
-                                    name="monthlyIncome15"
-                                    value={values?.monthlyIncome15}
-                                    type="number"
-                                    className="w-10 text-center focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-r"></td>
-                        </tr>
-                        <tr className="">
-                            <td
-                                colSpan={3}
-                                className="border-0 border-b border-l"
-                            ></td>
-                            <td className="font-bold border-t border-x">
-                                GRAND TOTAL
-                            </td>
-                            <td className="border-t border-r">
-                                <input
-                                    readOnly
-                                    name="monthlyIncomeGrandTotal"
-                                    value={monthlyIncomeGrandTotal}
-                                    type="number"
-                                    className="w-10 text-center cursor-default focus:outline-none"
-                                    onChange={handleChange}
-                                />
-                            </td>
-                            <td className="w-10 border-t border-r"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <td className="border-r">45,000 - 49,999</td>
+                                <td>
+                                    <input
+                                        name="monthlyIncome14"
+                                        value={values?.monthlyIncome14}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-l"></td>
+                            </tr>
+                            <tr className="border-t">
+                                <td
+                                    colSpan={3}
+                                    className="border-b-0 border-l"
+                                ></td>
+                                <td className="border-x">50,000 &amp; above</td>
+                                <td className="border-r">
+                                    <input
+                                        name="monthlyIncome15"
+                                        value={values?.monthlyIncome15}
+                                        type="number"
+                                        className="w-full text-center focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-r"></td>
+                            </tr>
+                            <tr className="">
+                                <td
+                                    colSpan={3}
+                                    className="border-0 border-b border-l"
+                                ></td>
+                                <td className="font-bold border-t border-x">
+                                    GRAND TOTAL
+                                </td>
+                                <td className="border-t border-r">
+                                    <input
+                                        readOnly
+                                        name="monthlyIncomeGrandTotal"
+                                        value={monthlyIncomeGrandTotal}
+                                        type="number"
+                                        className="w-full text-center cursor-default focus:outline-none"
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td className="w-10 border-t border-r"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div className="flex justify-between font-bold">
                 <div className="mr-4">
@@ -1620,7 +1627,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                                 values?.agriFacilityRicemills
                                             }
                                             type="number"
-                                            className="w-10 focus:outline-none"
+                                            className="w-full focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </td>
@@ -1632,7 +1639,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                             name="agriFacilityCono"
                                             value={values?.agriFacilityCono}
                                             type="number"
-                                            className="w-10 focus:outline-none"
+                                            className="w-full focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </td>
@@ -1644,7 +1651,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                             name="agriFacilityKiskisan"
                                             value={values?.agriFacilityKiskisan}
                                             type="number"
-                                            className="w-10 focus:outline-none"
+                                            className="w-full focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </td>
@@ -1658,7 +1665,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                                 values?.agriFacilityWarehouse
                                             }
                                             type="number"
-                                            className="w-10 focus:outline-none"
+                                            className="w-full focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </td>
@@ -1674,7 +1681,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                                 values?.agriFacilityBuyingStations
                                             }
                                             type="number"
-                                            className="w-10 focus:outline-none"
+                                            className="w-full focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </td>
@@ -1686,7 +1693,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                             name="agriFacilityTractors"
                                             value={values?.agriFacilityTractors}
                                             type="number"
-                                            className="w-10 focus:outline-none"
+                                            className="w-full focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </td>
@@ -1709,7 +1716,7 @@ function SubmissionBarangayProfilePage2({ page2Data }) {
                                             name="agriFacilityOthers"
                                             value={values?.agriFacilityOthers}
                                             type="number"
-                                            className="w-10 focus:outline-none"
+                                            className="w-full focus:outline-none"
                                             onChange={handleChange}
                                         />
                                     </td>

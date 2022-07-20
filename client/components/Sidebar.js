@@ -65,7 +65,9 @@ function Sidebar() {
                     </div>
                     {!user?.isAdmin && !loading && (
                         <div
-                            onClick={() => router.push("/submission")}
+                            onClick={() =>
+                                router.push("/submissionBarangayProfile")
+                            }
                             className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
                         >
                             <Icon

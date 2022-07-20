@@ -13,13 +13,15 @@ function SubmissionTable({ filteredSubmissions }) {
         e.preventDefault();
 
         Axios({
-            url: "http://localhost:3001/submission/download",
+            url: "http://localhost:3001/download",
             method: "POST",
             responseType: "blob",
             data: {
                 fileName: docName,
             },
         }).then((res) => {
+            console.log(res);
+
             fileDownload(res.data, docName);
         });
     };
@@ -32,7 +34,7 @@ function SubmissionTable({ filteredSubmissions }) {
     return (
         <table className="w-full text-sm text-left table-auto ">
             <thead className="text-xs text-gray-700 uppercase border h-11 bg-gray-50">
-                <tr className="select-none">
+                <tr className="select-none removeBorderStyle">
                     <th className="px-6 ">
                         <div
                             onClick={() => sort("id")}
@@ -69,6 +71,24 @@ function SubmissionTable({ filteredSubmissions }) {
                     </th>
                     <th className="px-6">
                         <div
+                            onClick={() => sort("districtName")}
+                            className="flex items-center cursor-pointer group w-fit"
+                        >
+                            <p className="cursor-pointer w-fit">
+                                District Name
+                            </p>
+                            <Icon
+                                className={`w-5 h-5 invisible group-hover:visible `}
+                                icon={`${
+                                    boolean == true
+                                        ? "eva:arrow-ios-downward-fill"
+                                        : "eva:arrow-ios-upward-fill"
+                                }`}
+                            />
+                        </div>
+                    </th>
+                    <th className="px-6">
+                        <div
                             onClick={() => sort("documentName")}
                             className="flex items-center cursor-pointer group w-fit"
                         >
@@ -87,11 +107,29 @@ function SubmissionTable({ filteredSubmissions }) {
                     </th>
                     <th className="px-6">
                         <div
+                            onClick={() => sort("yearSubmitted")}
+                            className="flex items-center cursor-pointer group w-fit"
+                        >
+                            <p className="cursor-pointer w-fit">
+                                Year Submitted
+                            </p>
+                            <Icon
+                                className={`w-5 h-5 invisible group-hover:visible `}
+                                icon={`${
+                                    boolean == true
+                                        ? "eva:arrow-ios-downward-fill"
+                                        : "eva:arrow-ios-upward-fill"
+                                }`}
+                            />
+                        </div>
+                    </th>
+                    <th className="px-6">
+                        <div
                             onClick={() => sort("populationCount")}
                             className="flex items-center cursor-pointer group w-fit"
                         >
                             <p className="cursor-pointer w-fit">
-                                Population Count
+                                Total Population Count
                             </p>
                             <Icon
                                 className={`w-5 h-5 invisible group-hover:visible `}
@@ -121,7 +159,7 @@ function SubmissionTable({ filteredSubmissions }) {
                             />
                         </div>
                     </th>
-                    <th className="px-6"></th>
+                    <th className="px-6 text-right">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -140,14 +178,21 @@ function SubmissionTable({ filteredSubmissions }) {
 
                     return (
                         <Fragment key={index}>
-                            {submission.rank == 1 && (
-                                <tr className="border-b  border-x-[1px] h-11">
+                            {/* submission.rank == 1 && */}
+                            {
+                                <tr className="border-b removeBorderStyle  border-x-[1px] h-11">
                                     <td className="px-6">{submission.id}</td>
                                     <td className="px-6">
                                         {submission.barangayName}
                                     </td>
                                     <td className="px-6">
+                                        {submission.districtName}
+                                    </td>
+                                    <td className="px-6">
                                         {submission.documentName}
+                                    </td>
+                                    <td className="px-6">
+                                        {submission.yearSubmitted}
                                     </td>
                                     <td className="px-6">
                                         {submission.populationCount}
@@ -183,7 +228,7 @@ function SubmissionTable({ filteredSubmissions }) {
                                         </span>
                                     </td>
                                 </tr>
-                            )}
+                            }
                         </Fragment>
                     );
                 })}

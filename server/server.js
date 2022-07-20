@@ -54,8 +54,8 @@ app.post("/upload", (req, res) => {
 });
 
 // Download Endpoint
-app.get("/download", (req, res) => {
-    const fileName = req.body.fileName;
+app.post("/download", (req, res) => {
+    const { fileName } = req.body;
     res.download(`../server/public/submissions/${fileName}`);
 });
 
