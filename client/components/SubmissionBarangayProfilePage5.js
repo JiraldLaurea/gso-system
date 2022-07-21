@@ -558,28 +558,28 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                 <table className="w-full text-xs border">
                     <thead className="font-bold">
                         <tr>
-                            <th rowSpan={2} className="border-r">
+                            <th rowSpan={2} className="w-16 border-r">
                                 Name of Health/Clinics/Hospital
                             </th>
-                            <th colSpan={2} className="border-b">
+                            <th colSpan={2} className="border-b ">
                                 Number
                             </th>
-                            <th rowSpan={2} className="border-x">
+                            <th rowSpan={2} className="w-20 border-x">
                                 Type of Medical Health Personnel
                             </th>
-                            <th colSpan={2} className="border-b border-r">
+                            <th colSpan={2} className="w-16 border-b border-r">
                                 Number
                             </th>
-                            <th colSpan={2} className="border-b">
+                            <th colSpan={2} className="">
                                 Services Rendered
                             </th>
                         </tr>
                         <tr>
-                            <th className="border-r">Gov't</th>
-                            <th>Private</th>
-                            <th>Gov't</th>
-                            <th className="border-x">Private</th>
-                            <th className="border-r">Type</th>
+                            <th className="w-12 border-r">Gov't</th>
+                            <th className="w-12">Private</th>
+                            <th className="w-12">Gov't</th>
+                            <th className="w-12 border-x">Private</th>
+                            <th className="border-r ">Type</th>
                             <th>Frequency</th>
                         </tr>
                     </thead>
@@ -642,7 +642,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceType1"
                                     value={values?.medicalServiceType1}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -651,7 +651,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceFrequency1"
                                     value={values?.medicalServiceFrequency1}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -714,7 +714,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceType2"
                                     value={values?.medicalServiceType2}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -723,7 +723,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceFrequency2"
                                     value={values?.medicalServiceFrequency2}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -786,7 +786,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceType3"
                                     value={values?.medicalServiceType3}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -795,7 +795,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceFrequency3"
                                     value={values?.medicalServiceFrequency3}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -858,7 +858,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceType4"
                                     value={values?.medicalServiceType4}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -867,7 +867,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     name="medicalServiceFrequency4"
                                     value={values?.medicalServiceFrequency4}
                                     type="text"
-                                    className="pl-2 w-36 focus:outline-none"
+                                    className="w-full pl-2 focus:outline-none"
                                     onChange={handleChange}
                                 />
                             </td>
@@ -989,7 +989,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     <input
                                         name="disposalTrucks"
                                         value={values?.disposalTrucks}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1001,7 +1001,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     <input
                                         name="disposalOpenPit"
                                         value={values?.disposalOpenPit}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1013,7 +1013,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     <input
                                         name="disposalBurying"
                                         value={values?.disposalBurying}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1025,7 +1025,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     <input
                                         name="disposalBurning"
                                         value={values?.disposalBurning}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1039,7 +1039,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     <input
                                         name="disposalThrowAnywhere"
                                         value={values?.disposalThrowAnywhere}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1060,7 +1060,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                     <input
                                         name="disposalOthers"
                                         value={values?.disposalOthers}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1100,7 +1100,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                         value={
                                             values?.householdOSYThirteenToTwentyOneMale
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1111,7 +1111,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                         value={
                                             values?.householdOSYThirteenToTwentyOneFemale
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1162,7 +1162,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                         value={
                                             values?.householdDisabilitiesMale
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1173,7 +1173,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                         value={
                                             values?.householdDisabilitiesFemale
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1202,12 +1202,12 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
             </div>
 
             <p className="mt-4 font-bold">
-                B.3 Total Number of Household Members with Ages 5-17 years old{" "}
+                B.3 Total Number of Household Members with Ages 5-17 years old
                 <input
                     name="householdTotalFiveToSeventeen"
                     value={values?.householdTotalFiveToSeventeen}
-                    type="text"
-                    className="w-10 font-normal text-center border-b border-black focus:outline-none"
+                    type="number"
+                    className="w-20 ml-2 font-normal text-center border-b border-black focus:outline-none"
                     onChange={handleChange}
                 />
             </p>
@@ -1257,7 +1257,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingAge1
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1293,7 +1293,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingIncomeWeekly1
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1317,7 +1317,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingAge2
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1353,7 +1353,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingIncomeWeekly2
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1378,7 +1378,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingAge3
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1414,7 +1414,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingIncomeWeekly3
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1438,7 +1438,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingAge4
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />
@@ -1474,7 +1474,7 @@ function SubmissionBarangayProfilePage5({ page5Data }) {
                                 value={
                                     values?.householdFiveToSeventeenHelpingIncomeWeekly4
                                 }
-                                type="text"
+                                type="number"
                                 className="w-full text-center focus:outline-none"
                                 onChange={handleChange}
                             />

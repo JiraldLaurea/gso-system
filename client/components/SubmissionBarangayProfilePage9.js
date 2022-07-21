@@ -222,7 +222,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                                 name="actualExpendituresCY1"
                                 value={values?.actualExpendituresCY1}
                                 type="number"
-                                className="w-10 ml-1 text-center border-b border-black focus:outline-none"
+                                className="w-16 ml-1 text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </th>
@@ -232,7 +232,7 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                                 name="actualExpendituresCY2"
                                 value={values?.actualExpendituresCY2}
                                 type="number"
-                                className="w-10 ml-1 text-center border-b border-black focus:outline-none"
+                                className="w-16 ml-1 text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </th>
@@ -582,8 +582,8 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum7Specify"
                                 value={values?.barangayGovSupportOrgNum7Specify}
-                                type="number"
-                                className="w-20 ml-1 focus:outline-none"
+                                type="text"
+                                className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>
@@ -603,8 +603,8 @@ function SubmissionBarangayProfilePage9({ page9Data }) {
                             <input
                                 name="barangayGovSupportOrgNum8Specify"
                                 value={values?.barangayGovSupportOrgNum8Specify}
-                                type="number"
-                                className="w-20 ml-1 focus:outline-none"
+                                type="text"
+                                className="w-full focus:outline-none"
                                 onChange={handleChange}
                             />
                         </td>

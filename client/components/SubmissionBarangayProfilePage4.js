@@ -1391,8 +1391,8 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                             <input
                                 name="infantLeadingCausesMortalityCY"
                                 value={values?.infantLeadingCausesMortalityCY}
-                                type="text"
-                                className="w-10 font-normal text-center border-b border-black focus:outline-none"
+                                type="number"
+                                className="w-16 font-normal text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </p>
@@ -1419,7 +1419,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                     <input
                                         name="infantMortalityNum1"
                                         value={values?.infantMortalityNum1}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1439,7 +1439,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                     <input
                                         name="infantMortalityNum2"
                                         value={values?.infantMortalityNum2}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1459,7 +1459,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                     <input
                                         name="infantMortalityNum3"
                                         value={values?.infantMortalityNum3}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1475,8 +1475,8 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                             <input
                                 name="infantLeadingCausesMorbidityCY"
                                 value={values?.infantLeadingCausesMorbidityCY}
-                                type="text"
-                                className="w-10 font-normal text-center border-b border-black focus:outline-none"
+                                type="number"
+                                className="w-16 font-normal text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </p>
@@ -1495,7 +1495,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                     <input
                                         name="infantMorbidityFeverNum"
                                         value={values?.infantMorbidityFeverNum}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1507,7 +1507,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                     <input
                                         name="infantMorbidityCoughNum"
                                         value={values?.infantMorbidityCoughNum}
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1521,7 +1521,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                         value={
                                             values?.infantMorbidityMalnutritionNum
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1535,7 +1535,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                         value={
                                             values?.infantMorbidityDiarrheaNum
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />
@@ -1551,7 +1551,7 @@ function SubmissionBarangayProfilePage4({ page4Data }) {
                                         value={
                                             values?.infantMorbidityTCPrimaryComplexNum
                                         }
-                                        type="text"
+                                        type="number"
                                         className="w-full text-center focus:outline-none"
                                         onChange={handleChange}
                                     />

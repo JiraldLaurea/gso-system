@@ -1169,8 +1169,8 @@ function SubmissionBarangayProfilePage8({ page8Data }) {
                             <input
                                 name="sourceIncomeCY1"
                                 value={values?.sourceIncomeCY1}
-                                type="text"
-                                className="w-10 ml-1 text-center border-b border-black focus:outline-none"
+                                type="number"
+                                className="w-16 ml-1 text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </th>
@@ -1179,8 +1179,8 @@ function SubmissionBarangayProfilePage8({ page8Data }) {
                             <input
                                 name="sourceIncomeCY2"
                                 value={values?.sourceIncomeCY2}
-                                type="text"
-                                className="w-10 ml-1 text-center border-b border-black focus:outline-none"
+                                type="number"
+                                className="w-16 ml-1 text-center border-b border-black focus:outline-none"
                                 onChange={handleChange}
                             />
                         </th>

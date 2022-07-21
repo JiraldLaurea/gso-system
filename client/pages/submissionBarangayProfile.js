@@ -1,7 +1,7 @@
 import * as htmlToImage from "html-to-image";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import Axios from "axios";
 import SubmissionBarangayProfilePage1 from "../components/SubmissionBarangayProfilePage1";
@@ -45,6 +45,118 @@ function submissionBarangayProfile({
     const [isLoading, setIsLoading] = useState(false);
     const [totalPopulationCount, setTotalPopulationCount] = useState(0);
     const [yearSubmitted, setYearSubmitted] = useState(date.getFullYear());
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const [page1, setPage1] = useState(true);
+    const [page2, setPage2] = useState(false);
+    const [page3, setPage3] = useState(false);
+    const [page4, setPage4] = useState(false);
+    const [page5, setPage5] = useState(false);
+    const [page6, setPage6] = useState(false);
+    const [page7, setPage7] = useState(false);
+    const [page8, setPage8] = useState(false);
+    const [page9, setPage9] = useState(false);
+
+    const handleScroll = () => {
+        const position = window.pageYOffset + 68;
+        setScrollPosition(position);
+        console.log("POSITION", position);
+        console.log("PAGE 1 REF", page1Ref.current.offsetTop);
+        console.log("PAGE 2 REF", page2Ref.current.offsetTop);
+
+        if (
+            position >= page1Ref.current.offsetTop &&
+            page2Ref.current.offsetTop > position
+        ) {
+            setPage1(true);
+        } else {
+            setPage1(false);
+        }
+
+        if (
+            position >= page2Ref.current.offsetTop &&
+            page3Ref.current.offsetTop > position
+        ) {
+            setPage2(true);
+        } else {
+            setPage2(false);
+        }
+
+        if (
+            position >= page3Ref.current.offsetTop &&
+            page4Ref.current.offsetTop > position
+        ) {
+            setPage3(true);
+        } else {
+            setPage3(false);
+        }
+
+        if (
+            position >= page4Ref.current.offsetTop &&
+            page5Ref.current.offsetTop > position
+        ) {
+            setPage4(true);
+        } else {
+            setPage4(false);
+        }
+
+        if (
+            position >= page5Ref.current.offsetTop &&
+            page6Ref.current.offsetTop > position
+        ) {
+            setPage5(true);
+        } else {
+            setPage5(false);
+        }
+
+        if (
+            position >= page6Ref.current.offsetTop &&
+            page7Ref.current.offsetTop > position
+        ) {
+            setPage6(true);
+        } else {
+            setPage6(false);
+        }
+
+        if (
+            position >= page7Ref.current.offsetTop &&
+            page8Ref.current.offsetTop > position
+        ) {
+            setPage7(true);
+        } else {
+            setPage7(false);
+        }
+
+        if (
+            position >= page8Ref.current.offsetTop &&
+            page9Ref.current.offsetTop > position
+        ) {
+            setPage8(true);
+        } else {
+            setPage8(false);
+        }
+
+        if (position >= page9Ref.current.offsetTop) {
+            setPage9(true);
+        } else {
+            setPage9(false);
+        }
+
+        // if (position <= 1200) {
+        //     setPage1(true);
+        // } else {
+        //     setPage1(false);
+        // }
+
+        // console.log("Page 2 ref", page2Ref.current.offsetTop);
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     // console.log("PAGE1 DATA", page1Data);
 
@@ -280,7 +392,9 @@ function submissionBarangayProfile({
                     />
                 </div>
                 <hr className="my-4" />
-                <p className="px-4 mb-2 font-medium">Barangay profile</p>
+                <p className="mb-2 ml-4 text-sm text-gray-700">
+                    Barangay profile
+                </p>
                 <div className="text-sm ">
                     <p
                         onClick={() => {
@@ -288,7 +402,9 @@ function submissionBarangayProfile({
                                 top: page1Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page1 && "bg-gray-300"
+                        }`}
                     >
                         Page 1
                     </p>
@@ -298,7 +414,9 @@ function submissionBarangayProfile({
                                 top: page2Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page2 && "bg-gray-300"
+                        }`}
                     >
                         Page 2
                     </p>
@@ -308,7 +426,9 @@ function submissionBarangayProfile({
                                 top: page3Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page3 && "bg-gray-300"
+                        }`}
                     >
                         Page 3
                     </p>
@@ -318,7 +438,9 @@ function submissionBarangayProfile({
                                 top: page4Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page4 && "bg-gray-300"
+                        }`}
                     >
                         Page 4
                     </p>
@@ -328,7 +450,9 @@ function submissionBarangayProfile({
                                 top: page5Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page5 && "bg-gray-300"
+                        }`}
                     >
                         Page 5
                     </p>
@@ -338,7 +462,9 @@ function submissionBarangayProfile({
                                 top: page6Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page6 && "bg-gray-300"
+                        }`}
                     >
                         Page 6
                     </p>
@@ -348,7 +474,9 @@ function submissionBarangayProfile({
                                 top: page7Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page7 && "bg-gray-300"
+                        }`}
                     >
                         Page 7
                     </p>
@@ -358,7 +486,9 @@ function submissionBarangayProfile({
                                 top: page8Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page8 && "bg-gray-300"
+                        }`}
                     >
                         Page 8
                     </p>
@@ -368,7 +498,9 @@ function submissionBarangayProfile({
                                 top: page9Ref.current.offsetTop - 68,
                             });
                         }}
-                        className="py-2 pl-4 cursor-pointer hover:bg-gray-100"
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page9 && "bg-gray-300"
+                        }`}
                     >
                         Page 9
                     </p>
