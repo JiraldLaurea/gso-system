@@ -2598,96 +2598,102 @@ const submit = async (req, res) => {
             date2: date2,
         });
 
-    await SubmissionBarangayProfilePage1.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
+    const brgyprofilepage1 = await SubmissionBarangayProfilePage1.findOne({
+        where: { barangayId: user.barangayId, typeOfDocument: "Saved" },
     });
-    await SubmissionBarangayProfilePage2.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await SubmissionBarangayProfilePage3.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await SubmissionBarangayProfilePage4.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await SubmissionBarangayProfilePage5.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await SubmissionBarangayProfilePage6.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await SubmissionBarangayProfilePage7.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await SubmissionBarangayProfilePage8.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await SubmissionBarangayProfilePage9.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
-    await TypeOfDocument.findOne({
-        where: {
-            barangayId: user.barangayId,
-            typeOfDocument: "Saved",
-        },
-        order: [["createdAt", "ASC"]],
-    }).then((data) => {
-        data.destroy();
-    });
+
+    if (brgyprofilepage1) {
+        await SubmissionBarangayProfilePage1.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage2.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage3.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage4.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage5.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage6.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage7.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage8.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await SubmissionBarangayProfilePage9.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+        await TypeOfDocument.findOne({
+            where: {
+                barangayId: user.barangayId,
+                typeOfDocument: "Saved",
+            },
+            order: [["createdAt", "ASC"]],
+        }).then((data) => {
+            data.destroy();
+        });
+    }
 
     res.json([
         submissionBarangayProfilePage1,
