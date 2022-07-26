@@ -40,7 +40,7 @@ app.post("/upload", (req, res) => {
 
     const file = req.files.file;
 
-    file.mv(`./public/submissions/${file.name}`, (err) => {
+    file.mv(`../client/public/submissions/${file.name}`, (err) => {
         if (err) {
             console.error(err);
             return res.status(500).send(err);
@@ -56,7 +56,7 @@ app.post("/upload", (req, res) => {
 // Download Endpoint
 app.post("/download", (req, res) => {
     const { fileName } = req.body;
-    res.download(`../server/public/submissions/${fileName}`);
+    res.download(`../client/public/submissions/${fileName}`);
 });
 
 app.use("/user", userRouter);

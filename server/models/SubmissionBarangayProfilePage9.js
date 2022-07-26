@@ -6,6 +6,18 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
+            typeOfDocumentId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            typeOfDocument: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            yearSubmitted: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+            },
             actualExpendituresCY1: {
                 type: DataTypes.INTEGER,
                 allowNull: true,

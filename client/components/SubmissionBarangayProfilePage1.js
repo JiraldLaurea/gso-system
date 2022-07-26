@@ -6,97 +6,9 @@ function SubmissionBarangayProfilePage1({
     page1Data,
     totalPopulationCount,
     setTotalPopulationCount,
+    values,
+    handleChange,
 }) {
-    const [values, setValues] = useState({
-        city: page1Data.city,
-        legalBasis: page1Data.legalBasis,
-        dateRatification: page1Data.dateRatification,
-        sitio1: page1Data.sitio1,
-        sitio2: page1Data.sitio2,
-        sitio3: page1Data.sitio3,
-        sitio4: page1Data.sitio4,
-        north: page1Data.north,
-        south: page1Data.south,
-        east: page1Data.east,
-        west: page1Data.west,
-        distanceFromCityHall: page1Data.distanceFromCityHall,
-        distanceFromPoblacion: page1Data.distanceFromPoblacion,
-        distanceFromCapitol: page1Data.distanceFromCapitol,
-        distanceFromHighway: page1Data.distanceFromHighway,
-        totalLandArea: page1Data.totalLandArea,
-        totalPopulation: page1Data.totalPopulation,
-        totalPopulationMale: page1Data.totalPopulationMale,
-        totalPopulationFemale: page1Data.totalPopulationFemale,
-        totalPopulationBoth: page1Data.totalPopulationBoth,
-        male1: page1Data.male1,
-        male2: page1Data.male2,
-        male3: page1Data.male3,
-        male4: page1Data.male4,
-        male5: page1Data.male5,
-        male6: page1Data.male6,
-        male7: page1Data.male7,
-        male8: page1Data.male8,
-        male9: page1Data.male9,
-        male10: page1Data.male10,
-        male11: page1Data.male11,
-        male12: page1Data.male12,
-        male13: page1Data.male13,
-        male14: page1Data.male14,
-        male15: page1Data.male15,
-        male16: page1Data.male16,
-        male17: page1Data.male17,
-        male18: page1Data.male18,
-        male19: page1Data.male19,
-        male20: page1Data.male20,
-        female1: page1Data.female1,
-        female2: page1Data.female2,
-        female3: page1Data.female3,
-        female4: page1Data.female4,
-        female5: page1Data.female5,
-        female6: page1Data.female6,
-        female7: page1Data.female7,
-        female8: page1Data.female8,
-        female9: page1Data.female9,
-        female10: page1Data.female10,
-        female11: page1Data.female11,
-        female12: page1Data.female12,
-        female13: page1Data.female13,
-        female14: page1Data.female14,
-        female15: page1Data.female15,
-        female16: page1Data.female16,
-        female17: page1Data.female17,
-        female18: page1Data.female18,
-        female19: page1Data.female19,
-        female20: page1Data.female20,
-        both1: page1Data.both1,
-        both2: page1Data.both2,
-        both3: page1Data.both3,
-        both4: page1Data.both4,
-        both5: page1Data.both5,
-        both6: page1Data.both6,
-        both7: page1Data.both7,
-        both8: page1Data.both8,
-        both9: page1Data.both9,
-        both10: page1Data.both10,
-        both11: page1Data.both11,
-        both12: page1Data.both12,
-        both13: page1Data.both13,
-        both14: page1Data.both14,
-        both15: page1Data.both15,
-        both16: page1Data.both16,
-        both17: page1Data.both17,
-        both18: page1Data.both18,
-        both19: page1Data.both19,
-        both20: page1Data.both20,
-        totalMale: page1Data.totalMale,
-        totalFemale: page1Data.totalFemale,
-        totalBoth: page1Data.totalBoth,
-        totalHouseholdsCY: page1Data.totalHouseholdsCY,
-        totalHouseholds: page1Data.totalHouseholds,
-        dialectSpoken: page1Data.dialectSpoken,
-        ethnicGroups: page1Data.ethnicGroups,
-    });
-
     const totalMale =
         Number(values.male1) +
         Number(values.male2) +
@@ -144,114 +56,16 @@ function SubmissionBarangayProfilePage1({
             Number(values.totalPopulationMale) +
                 Number(values.totalPopulationFemale)
         );
-        const updateSubmissionBarangayProfilePage1 = async () => {
-            const data = {
-                city: values.city,
-                legalBasis: values.legalBasis,
-                dateRatification: values.dateRatification,
-                sitio1: values.sitio1,
-                sitio2: values.sitio2,
-                sitio3: values.sitio3,
-                sitio4: values.sitio4,
-                north: values.north,
-                south: values.south,
-                east: values.east,
-                west: values.west,
-                distanceFromCityHall: values.distanceFromCityHall,
-                distanceFromPoblacion: values.distanceFromPoblacion,
-                distanceFromCapitol: values.distanceFromCapitol,
-                distanceFromHighway: values.distanceFromHighway,
-                totalLandArea: values.totalLandArea,
-                totalPopulation: values.totalPopulation,
-                totalPopulationMale: values.totalPopulationMale,
-                totalPopulationFemale: values.totalPopulationFemale,
-                totalPopulationBoth: values.totalPopulationBoth,
-                male1: values.male1,
-                male2: values.male2,
-                male3: values.male3,
-                male4: values.male4,
-                male5: values.male5,
-                male6: values.male6,
-                male7: values.male7,
-                male8: values.male8,
-                male9: values.male9,
-                male10: values.male10,
-                male11: values.male11,
-                male12: values.male12,
-                male13: values.male13,
-                male14: values.male14,
-                male15: values.male15,
-                male16: values.male16,
-                male17: values.male17,
-                male18: values.male18,
-                male19: values.male19,
-                male20: values.male20,
-                female1: values.female1,
-                female2: values.female2,
-                female3: values.female3,
-                female4: values.female4,
-                female5: values.female5,
-                female6: values.female6,
-                female7: values.female7,
-                female8: values.female8,
-                female9: values.female9,
-                female10: values.female10,
-                female11: values.female11,
-                female12: values.female12,
-                female13: values.female13,
-                female14: values.female14,
-                female15: values.female15,
-                female16: values.female16,
-                female17: values.female17,
-                female18: values.female18,
-                female19: values.female19,
-                female20: values.female20,
-                both1: values.both1,
-                both2: values.both2,
-                both3: values.both3,
-                both4: values.both4,
-                both5: values.both5,
-                both6: values.both6,
-                both7: values.both7,
-                both8: values.both8,
-                both9: values.both9,
-                both10: values.both10,
-                both11: values.both11,
-                both12: values.both12,
-                both13: values.both13,
-                both14: values.both14,
-                both15: values.both15,
-                both16: values.both16,
-                both17: values.both17,
-                both18: values.both18,
-                both19: values.both19,
-                both20: values.both20,
-                totalMale: values.totalMale,
-                totalFemale: values.totalFemale,
-                totalBoth: values.totalBoth,
-                totalHouseholdsCY: values.totalHouseholdsCY,
-                totalHouseholds: values.totalHouseholds,
-                dialectSpoken: values.dialectSpoken,
-                ethnicGroups: values.ethnicGroups,
-            };
-
-            await Axios.put(
-                "http://localhost:3001/submission/brgyProfilePage1",
-                data
-            );
-        };
-
-        updateSubmissionBarangayProfilePage1();
     }, [values]);
 
     // setTotalPopulationCount(Number(values.male1) + Number(values.female1));
 
-    const handleChange = (e) => {
-        setValues((previousValues) => ({
-            ...previousValues,
-            [e.target.name]: e.target.value,
-        }));
-    };
+    // const handleChange = (e) => {
+    //     setValues((previousValues) => ({
+    //         ...previousValues,
+    //         [e.target.name]: e.target.value,
+    //     }));
+    // };
 
     return (
         <div>
@@ -571,10 +385,8 @@ function SubmissionBarangayProfilePage1({
                                         <input
                                             readOnly
                                             value={
-                                                !null
-                                                    ? Number(values.male1) +
-                                                      Number(values.female1)
-                                                    : 0
+                                                Number(values.male1) +
+                                                Number(values.female1)
                                             }
                                             type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
@@ -1188,7 +1000,10 @@ function SubmissionBarangayProfilePage1({
                                     <td className="border-t border-x">
                                         <input
                                             readOnly
-                                            value={totalPopulationCount}
+                                            value={
+                                                Number(values.male1) +
+                                                Number(values.female1)
+                                            }
                                             type="number"
                                             className="w-full text-center cursor-default focus:outline-none"
                                         />
@@ -1801,7 +1616,7 @@ function SubmissionBarangayProfilePage1({
                             F. Dialect predominantly spoken
                             <span className="ml-2 font-normal">
                                 <input
-                                    defaultValue={page1Data.dialectSpoken}
+                                    value={values.dialectSpoken}
                                     name="dialectSpoken"
                                     onChange={handleChange}
                                     type="text"
@@ -1813,7 +1628,7 @@ function SubmissionBarangayProfilePage1({
                             G. Ethnic/Tribal Group/s in the Barangay
                             <span className="ml-2 font-normal">
                                 <input
-                                    defaultValue={page1Data.ethnicGroups}
+                                    value={values.ethnicGroups}
                                     name="ethnicGroups"
                                     onChange={handleChange}
                                     type="text"

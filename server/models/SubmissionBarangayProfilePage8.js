@@ -6,10 +6,17 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            typeOfBuildingNum1: {
+            typeOfDocumentId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            typeOfDocument: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            yearSubmitted: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
-                defaultValue: 0,
             },
             tricycleWithinBarangay: {
                 type: DataTypes.STRING,

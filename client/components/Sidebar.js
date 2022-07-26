@@ -26,7 +26,7 @@ function Sidebar() {
     return (
         <>
             {authenticated && !loading && isSidebarOpen && (
-                <div className="flex flex-col sticky top-0 h-screen bg-gray-800 text-white min-w-[240px] pb-3 overflow-auto overflow-x-hidden">
+                <div className="flex flex-col sticky top-0 h-screen bg-gray-800 text-white text-sm min-w-[240px] pb-3 overflow-auto overflow-x-hidden">
                     <div className="flex items-center pl-4 pr-6 mb-4 border-b border-gray-700 select-none min-h-[56px]">
                         <div
                             onClick={() => dispatch("CLOSE_SIDEBAR")}
@@ -65,16 +65,14 @@ function Sidebar() {
                     </div>
                     {!user?.isAdmin && !loading && (
                         <div
-                            onClick={() =>
-                                router.push("/submissionBarangayProfile")
-                            }
+                            onClick={() => router.push("/barangayProfile")}
                             className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
                         >
                             <Icon
                                 className="w-6 h-6 mr-4"
                                 icon="fluent:document-arrow-up-20-filled"
                             />
-                            <p>Submit</p>
+                            <p>Barangay profile</p>
                         </div>
                     )}
 
