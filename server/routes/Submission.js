@@ -774,6 +774,16 @@ const submit = async (req, res) => {
         where: { barangayId: user.barangayId },
     });
 
+    // await Submission.create({
+    //     documentName: documentName,
+    //     yearSubmitted: yearSubmitted,
+    //     populationCount: populationCount,
+    //     userId: user.id,
+    //     barangayId: barangay.id,
+    //     barangayName: barangay.barangayName,
+    //     districtName: barangay.districtName,
+    // });
+
     const {
         city,
         legalBasis,
@@ -2597,6 +2607,11 @@ const submit = async (req, res) => {
             barangayCaptain: barangayCaptain,
             date2: date2,
         });
+
+    await TypeOfDocument.create({
+        barangayId: user.barangayId,
+        typeOfDocument: "Submitted",
+    });
 
     const brgyprofilepage1 = await SubmissionBarangayProfilePage1.findOne({
         where: { barangayId: user.barangayId, typeOfDocument: "Saved" },
