@@ -389,6 +389,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
             submissionBarangayProfilePage7,
             submissionBarangayProfilePage8,
             submissionBarangayProfilePage9,
+            action.action,
         ]);
     }
 };

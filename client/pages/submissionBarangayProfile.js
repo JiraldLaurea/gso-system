@@ -26,6 +26,7 @@ function submissionBarangayProfile({
     page7Data,
     page8Data,
     page9Data,
+    actionData,
     submittedData,
 }) {
     const contentRef = useRef(null);
@@ -3409,15 +3410,18 @@ function submissionBarangayProfile({
                 </div>
                 <hr className="my-4" />
                 <div className="px-4">
-                    <button
-                        disabled={isLoading}
-                        onClick={attemptSave}
-                        className={`w-full px-3 mb-4 py-2 border text-blue-600  rounded-sm ${
-                            isLoading && "cursor-not-allowed "
-                        }`}
-                    >
-                        {isSaved ? "Successfully saved" : "Save"}
-                    </button>
+                    {actionData != "UpdateSubmission" && (
+                        <button
+                            disabled={isLoading}
+                            onClick={attemptSave}
+                            className={`w-full px-3 mb-4 py-2 border text-blue-600  rounded-sm ${
+                                isLoading && "cursor-not-allowed "
+                            }`}
+                        >
+                            {isSaved ? "Successfully saved" : "Save"}
+                        </button>
+                    )}
+
                     <button
                         disabled={isLoading}
                         onClick={createPDF}
@@ -3474,17 +3478,34 @@ export const getServerSideProps = async (context) => {
         };
     }
 
-    return {
-        props: {
-            page1Data: pageData[0],
-            page2Data: pageData[1],
-            page3Data: pageData[2],
-            page4Data: pageData[3],
-            page5Data: pageData[4],
-            page6Data: pageData[5],
-            page7Data: pageData[6],
-            page8Data: pageData[7],
-            page9Data: pageData[8],
-        },
-    };
+    if (pageData[9]) {
+        return {
+            props: {
+                page1Data: pageData[0],
+                page2Data: pageData[1],
+                page3Data: pageData[2],
+                page4Data: pageData[3],
+                page5Data: pageData[4],
+                page6Data: pageData[5],
+                page7Data: pageData[6],
+                page8Data: pageData[7],
+                page9Data: pageData[8],
+                actionData: pageData[9],
+            },
+        };
+    } else {
+        return {
+            props: {
+                page1Data: pageData[0],
+                page2Data: pageData[1],
+                page3Data: pageData[2],
+                page4Data: pageData[3],
+                page5Data: pageData[4],
+                page6Data: pageData[5],
+                page7Data: pageData[6],
+                page8Data: pageData[7],
+                page9Data: pageData[8],
+            },
+        };
+    }
 };
