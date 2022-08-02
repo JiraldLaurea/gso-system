@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
+const https = require("https");
 
 dotenv.config();
 
@@ -55,8 +56,13 @@ app.post("/upload", (req, res) => {
 
 // Download Endpoint
 app.post("/download", (req, res) => {
-    const { fileName } = req.body;
-    res.download(`../client/public/submissions/${fileName}`);
+    const { submissionBarangayProfileUrl } = req.body;
+    // res.download(`../client/public/submissions/${fileName}`);
+    // console.log("SUBMISSION URL", submissionBarangayProfileUrl);
+    https.get(submissionBarangayProfileUrl, function (file) {
+        file.pipe(res);
+    });
+    // res.redirect(`${submissionBarangayProfileUrl}`);
 });
 
 app.use("/user", userRouter);

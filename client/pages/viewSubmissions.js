@@ -3,57 +3,62 @@ import ClickAwayListener from "react-click-away-listener";
 import Axios from "axios";
 import fileDownload from "js-file-download";
 import { Document, Page } from "react-pdf";
+import { getStorage, ref } from "firebase/storage";
+import { storage } from "../firebase";
 
 function viewSubmissions({ yearOfSubmissions }) {
     const [yearSubmitted, setYearSubmitted] = useState(null);
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
     const [dropdownMenuValue, setDropdownMenuValue] = useState("Year");
     const [isViewed, setIsViewed] = useState(false);
-    const [viewDocumentName, setViewDocumentName] = useState();
+    const [loadingDownload, setLoadingDownload] = useState(false);
+    const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
+        useState();
+    const storage = getStorage();
 
-    const download = async (e) => {
-        e.preventDefault();
+    const download = async () => {
+        if (!loadingDownload) {
+            setLoadingDownload(true);
 
-        console.log(dropdownMenuValue);
+            const data = {
+                yearSubmitted: dropdownMenuValue,
+            };
 
-        const data = {
-            yearSubmitted: dropdownMenuValue,
-        };
-
-        await Axios.post(
-            "http://localhost:3001/submission/getSubmittedDocumentName",
-            data
-        ).then((res) => {
-            const documentName = res.data.documentName;
-            Axios({
-                url: "http://localhost:3001/download",
-                method: "POST",
-                responseType: "blob",
-                data: {
-                    fileName: documentName,
-                },
-            }).then((res) => {
-                console.log(res);
-
-                fileDownload(res.data, documentName);
+            await Axios.post(
+                "http://localhost:3001/submission/getSubmissionBarangayProfileUrl",
+                data
+            ).then((res) => {
+                const documentName = res.data.documentName;
+                Axios({
+                    url: "http://localhost:3001/download",
+                    method: "POST",
+                    responseType: "blob",
+                    data: {
+                        submissionBarangayProfileUrl:
+                            res.data.submissionBarangayProfileUrl,
+                    },
+                }).then((res) => {
+                    console.log(res);
+                    fileDownload(res.data, documentName);
+                    setLoadingDownload(false);
+                });
             });
-        });
+        }
     };
 
     const viewSubmission = async (e) => {
-        console.log(dropdownMenuValue);
-
         const data = {
             yearSubmitted: dropdownMenuValue,
         };
 
         await Axios.post(
-            "http://localhost:3001/submission/getSubmittedDocumentName",
+            "http://localhost:3001/submission/getSubmissionBarangayProfileUrl",
             data
         ).then((res) => {
             // documentName = res.data.documentName;
-            setViewDocumentName(res.data.documentName);
-            console.log(viewDocumentName);
+            setSubmissionBarangayProfileUrl(
+                res.data.submissionBarangayProfileUrl
+            );
         });
     };
 
@@ -154,10 +159,14 @@ function viewSubmissions({ yearOfSubmissions }) {
                                 </button>
 
                                 <button
-                                    onClick={(e) => download(e)}
-                                    className="px-4 py-2 ml-4 text-white bg-blue-500 border border-blue-500 select-none"
+                                    onClick={download}
+                                    className={`px-4 py-2 ml-4 text-white bg-blue-500 border border-blue-500 select-none ${
+                                        loadingDownload && "cursor-not-allowed"
+                                    }`}
                                 >
-                                    Download
+                                    {!loadingDownload
+                                        ? "Download"
+                                        : "Processing..."}
                                 </button>
                             </>
                         )}
@@ -165,10 +174,11 @@ function viewSubmissions({ yearOfSubmissions }) {
                 </div>
                 {isViewed && (
                     <>
-                        {viewDocumentName && (
+                        {submissionBarangayProfileUrl && (
                             <iframe
                                 className="w-full h-[800px]"
-                                src={`../submissions/${viewDocumentName}`}
+                                // src={`../submissions/${viewDocumentName}`}
+                                src={`${submissionBarangayProfileUrl}`}
                             ></iframe>
                         )}
                     </>

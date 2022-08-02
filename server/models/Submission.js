@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            submissionBarangayProfileUrl: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
         },
         {
             freezeTableName: true,

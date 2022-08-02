@@ -478,16 +478,16 @@ const createSubmissionBarangayProfilePages = async (req, res) => {
     res.json("SUCCESS");
 };
 
-const getSubmittedDocumentName = async (req, res) => {
+const getSubmissionBarangayProfileUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearSubmitted } = req.body;
 
-    const documentName = await Submission.findOne({
-        attributes: ["documentName"],
+    const submissionBarangayProfileUrl = await Submission.findOne({
+        attributes: ["documentName", "submissionBarangayProfileUrl"],
         where: { barangayId: user.barangayId, yearSubmitted: yearSubmitted },
     });
 
-    res.json(documentName);
+    res.json(submissionBarangayProfileUrl);
 };
 
 const updateAction = async (req, res) => {
@@ -1573,6 +1573,7 @@ const submit = async (req, res) => {
         date2,
         documentName,
         populationCount,
+        submissionBarangayProfileUrl,
     } = req.body;
 
     const barangay = await Barangay.findOne({
@@ -1587,6 +1588,7 @@ const submit = async (req, res) => {
         barangayId: barangay.id,
         barangayName: barangay.barangayName,
         districtName: barangay.districtName,
+        submissionBarangayProfileUrl: submissionBarangayProfileUrl,
     });
 
     const totalMale =
@@ -4765,10 +4767,10 @@ router.get(
     getSavedBarangayProfile
 );
 router.post(
-    "/getSubmittedDocumentName",
+    "/getSubmissionBarangayProfileUrl",
     validateUser,
     validate,
-    getSubmittedDocumentName
+    getSubmissionBarangayProfileUrl
 );
 router.post(
     "/brgyProfilePages",

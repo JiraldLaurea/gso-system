@@ -15,6 +15,8 @@ import SubmissionBarangayProfilePage8 from "../components/SubmissionBarangayProf
 import SubmissionBarangayProfilePage9 from "../components/SubmissionBarangayProfilePage9";
 import { useSWRConfig } from "swr";
 import { Icon } from "@iconify/react";
+import { storage } from "../firebase";
+import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 
 function submissionBarangayProfile({
     page1Data,
@@ -62,6 +64,9 @@ function submissionBarangayProfile({
     const [isSaved, setIsSaved] = useState(false);
     const [isOverwriting, setIsOverwriting] = useState(false);
     const [isOverwritten, setIsOverwritten] = useState(false);
+    const [submissionUpload, setSubmissionUpload] = useState(null);
+    const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
+        useState("");
 
     const [values, setValues] = useState({
         city: page1Data.city,
@@ -2179,14 +2184,28 @@ function submissionBarangayProfile({
             }
         );
 
-        const formData = new FormData();
-        formData.append("file", pdfAttachment);
+        // Upload file to server
+        // const formData = new FormData();
+        // formData.append("file", pdfAttachment);
 
-        await Axios.post("http://localhost:3001/upload", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
+        // await Axios.post("http://localhost:3001/upload", formData, {
+        //     headers: {
+        //         "Content-Type": "multipart/form-data",
+        //     },
+        // });
+
+        const submissionName = `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
+
+        const submissionRef = ref(
+            storage,
+            `submission/barangayProfile/${submissionName}`
+        );
+
+        await uploadBytes(submissionRef, pdfAttachment);
+        const submissionBarangayProfileUrl = await getDownloadURL(
+            submissionRef
+        );
+        // console.log("SUBMISSION URL", submissionBarangayProfileUrl);
 
         const data = {
             yearSubmitted: yearSubmitted,
@@ -3058,6 +3077,7 @@ function submissionBarangayProfile({
             date2: values.date2,
             documentName: `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`,
             populationCount: totalPopulationCount,
+            submissionBarangayProfileUrl: submissionBarangayProfileUrl,
         };
 
         await Axios.post("http://localhost:3001/submission/submit", data).then(
