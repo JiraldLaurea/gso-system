@@ -16,6 +16,8 @@ const { SubmissionBarangayProfilePage8 } = require("../models");
 const { SubmissionBarangayProfilePage9 } = require("../models");
 const { TypeOfDocument } = require("../models");
 const { Action } = require("../models");
+const multer = require("multer");
+const path = require("path");
 
 router.get("/", async (req, res) => {
     const submissions = await Submission.findAll({
@@ -4735,7 +4737,22 @@ const updateSubmissionBarangayProfilePage9 = async (req, res) => {
     res.json("SUCCESS");
 };
 
+// const convertDocToPdf = async (req, file, callback) => {
+//     let ext = path.extname(file.originalname);
+
+//     if (ext !== ".docx" && ext !== ".doc") {
+//         return callback("This extension is not supported");
+//     }
+//     callback(null, true);
+// };
+
+// const convertDocToPdfUpload = multer({
+//     storage: multer.diskStorage({}),
+//     fileFilter: convertDocToPdf,
+// });
+
 router.get("/submissions", validateUser, validate, getSubmissions);
+
 router.get(
     "/brgyProfilePages",
     validateUser,

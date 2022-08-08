@@ -769,9 +769,9 @@ function SubmissionBarangayProfilePage3({ page3Data, values, handleChange }) {
                 <table className="w-full mt-2 text-xs border">
                     <thead>
                         <tr className="text-center">
-                            <th className="w-[202.8px]">Manufacturing</th>
+                            <th className="w-[210.05px]">Manufacturing</th>
                             <th className="border-x">Number</th>
-                            <th className="border-r w-[211.16px]"></th>
+                            <th className="border-r w-[220.59px]"></th>
                             <th>Number</th>
                         </tr>
                     </thead>

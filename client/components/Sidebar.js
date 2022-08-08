@@ -75,6 +75,16 @@ function Sidebar() {
                             <p>Barangay profile</p>
                         </div>
                     )}
+                    <div
+                        onClick={() => router.push("/programs")}
+                        className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                    >
+                        <Icon
+                            className="w-6 h-6 mr-4"
+                            icon="fluent:document-arrow-up-20-filled"
+                        />
+                        <p>Programs</p>
+                    </div>
 
                     <div
                         onClick={() => router.push("/route")}

@@ -8,6 +8,9 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const https = require("https");
 
+const path = require("path");
+const fs = require("fs").promises;
+
 dotenv.config();
 
 // Routers
@@ -15,6 +18,7 @@ const userRouter = require("./routes/User");
 const barangayRouter = require("./routes/Barangay");
 const submissionRouter = require("./routes/Submission");
 const announcementRouter = require("./routes/Announcement");
+const programsRouter = require("./routes/Programs");
 
 const app = express();
 
@@ -32,6 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./models");
+const { Programs } = require("./models/Programs");
 
 // Upload Endpoint
 app.post("/upload", (req, res) => {
@@ -65,10 +70,13 @@ app.post("/download", (req, res) => {
     // res.redirect(`${submissionBarangayProfileUrl}`);
 });
 
+// Convert doc/docx to PDF
+
 app.use("/user", userRouter);
 app.use("/barangay", barangayRouter);
 app.use("/submission", submissionRouter);
 app.use("/announcement", announcementRouter);
+app.use("/programs", programsRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
