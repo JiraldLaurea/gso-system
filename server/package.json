@@ -14,7 +14,6 @@
         "@pdftron/pdfnet-node": "^9.3.0",
         "bcrypt": "^5.0.1",
         "body-parser": "^1.20.0",
-        "cloudmersive-convert-api-client": "^2.7.4",
         "cookie": "^0.5.0",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
