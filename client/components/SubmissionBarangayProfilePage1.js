@@ -47,10 +47,6 @@ function SubmissionBarangayProfilePage1({
         Number(values.female16) +
         Number(values.female17);
 
-    const { data, error, isValidating } = useSWR(
-        "http://localhost:3001/user/me"
-    );
-
     useEffect(() => {
         setTotalPopulationCount(
             Number(values.totalPopulationMale) +
@@ -67,15 +63,19 @@ function SubmissionBarangayProfilePage1({
     //     }));
     // };
 
+    const { data, error, isValidating } = useSWR(
+        "http://localhost:3001/barangay/getSelectedBarangay"
+    );
+
     return (
         <div>
             <div className="font-bold text-center ">
                 <p>BARANGAY PROFILE</p>
                 <p>OF</p>
-                <p>BARANGAY {data?.barangayName.toUpperCase()}</p>
+                <p>BARANGAY {data?.selectedBarangay.toUpperCase()}</p>
             </div>
             <div className="flex items-center justify-between mb-6 font-bold">
-                <p>District: {data?.districtName.toUpperCase()}</p>
+                <p>District: {data?.selectedDistrict.toUpperCase()}</p>
                 <span className="flex items-center">
                     <p className="mr-1">City:</p>
                     <input

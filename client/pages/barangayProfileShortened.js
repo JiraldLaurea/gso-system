@@ -2,9 +2,9 @@ import React from "react";
 import Axios from "axios";
 import { useRouter } from "next/router";
 
-function barangayProfile({ savedData, submittedData }) {
+function barangayProfileShortened({ savedData, submittedData }) {
     const router = useRouter();
-    console.log(savedData);
+
     const handleClick = async (e, action) => {
         e.preventDefault();
 
@@ -14,19 +14,23 @@ function barangayProfile({ savedData, submittedData }) {
             action: action,
         };
 
-        await Axios.put("http://localhost:3001/submission/updateAction", data);
+        await Axios.put(
+            "http://localhost:3001/shortenedSubmission/updateAction",
+            data
+        );
 
-        console.log(action);
+        // console.log(action);
         if (action == "CreateNewDocument") {
             await Axios.post(
-                "http://localhost:3001/submission/brgyProfilePages"
+                "http://localhost:3001/shortenedSubmission/createShortenedBarangayProfile"
             ).then(() => {
-                router.push("/submissionBarangayProfile");
+                console.log("TETASDASDSD");
+                router.push("/submissionBarangayProfileShortened");
             });
         }
 
         if (action == "LoadDocument" || action == "UpdateSubmission") {
-            router.push("/submissionBarangayProfile");
+            router.push("/submissionBarangayProfileShortened");
         }
 
         // if (barangayName != "") {
@@ -105,32 +109,49 @@ function barangayProfile({ savedData, submittedData }) {
     );
 }
 
-export default barangayProfile;
+export default barangayProfileShortened;
 
-// export const getServerSideProps = async (context) => {
-//     const me = await fetch("http://localhost:3001/user/me", {
-//         headers: { Cookie: context.req.headers.cookie },
-//     }).then((res) => res.json());
+export const getServerSideProps = async (context) => {
+    const me = await fetch("http://localhost:3001/user/me", {
+        headers: { Cookie: context.req.headers.cookie },
+    }).then((res) => res.json());
 
-//     if (me.isAdmin == true) {
-//         return {
-//             redirect: {
-//                 permanent: false,
-//                 destination: "/",
-//             },
-//         };
-//     }
+    if (me.isAdmin == true) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/",
+            },
+        };
+    }
 
-//     const documentData = await fetch(
-//         "http://localhost:3001/submission/allBrgyProfilePagesShortened",
-//         {
-//             headers: { Cookie: context.req.headers.cookie },
-//         }
-//     ).then((res) => res.json());
+    const documentData = await fetch(
+        "http://localhost:3001/shortenedSubmission/getAllShortenedBarangayProfile",
+        {
+            headers: { Cookie: context.req.headers.cookie },
+        }
+    ).then((res) => res.json());
 
-//     return {
-//         props: {
-//             savedData: documentData,
-//         },
-//     };
-// };
+    const submittedDocument = await fetch(
+        "http://localhost:3001/submission/checkSubmittedBarangayProfile",
+        {
+            headers: { Cookie: context.req.headers.cookie },
+        }
+    ).then((res) => res.json());
+
+    if (!submittedDocument) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/",
+            },
+        };
+    }
+
+    return {
+        props: {
+            savedData: documentData[0],
+            submittedData: documentData[1],
+        },
+    };
+};

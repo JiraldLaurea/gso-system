@@ -25,7 +25,7 @@ function viewSubmissions({ yearOfSubmissions }) {
             };
 
             await Axios.post(
-                "http://localhost:3001/submission/getSubmissionBarangayProfileUrl",
+                "http://localhost:3001/shortenedSubmission/getShortenedBarangayProfileUrl",
                 data
             ).then((res) => {
                 const documentName = res.data.documentName;
@@ -52,7 +52,7 @@ function viewSubmissions({ yearOfSubmissions }) {
         };
 
         await Axios.post(
-            "http://localhost:3001/submission/getSubmissionBarangayProfileUrl",
+            "http://localhost:3001/shortenedSubmission/getShortenedBarangayProfileUrl",
             data
         ).then((res) => {
             // documentName = res.data.documentName;
@@ -205,7 +205,7 @@ export const getServerSideProps = async (context) => {
     }
 
     const yearOfSubmissions = await fetch(
-        "http://localhost:3001/submission/getSubmittedBarangayProfilePageYear",
+        "http://localhost:3001/shortenedSubmission/getSubmittedBarangayProfilePageYear",
         {
             headers: { Cookie: context.req.headers.cookie },
         }

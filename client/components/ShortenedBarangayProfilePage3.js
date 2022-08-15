@@ -1,8 +1,39 @@
-import React, { useEffect, useState } from "react";
-import Axios from "axios";
+import React, { useEffect } from "react";
+import useSWR from "swr";
 
-function SubmissionBarangayProfilePage9({ values, handleChange }) {
-    // const [values, setValues] = useState(getFormValues);
+function ShortenedBarangayProfilePage3({
+    values,
+    totalPopulationCount,
+    setTotalPopulationCount,
+    handleChange,
+}) {
+    const { data, error, isValidating } = useSWR(
+        "http://localhost:3001/user/me"
+    );
+
+    const sourceIncomeAmountTotalCY1 =
+        Number(values?.sourceIncomeAmount1CY1) +
+        Number(values?.sourceIncomeAmount2CY1) +
+        Number(values?.sourceIncomeAmount3CY1) +
+        Number(values?.sourceIncomeAmount4CY1) +
+        Number(values?.sourceIncomeAmount5CY1) +
+        Number(values?.sourceIncomeAmount6CY1) +
+        Number(values?.sourceIncomeAmount7CY1) +
+        Number(values?.sourceIncomeAmount8CY1) +
+        Number(values?.sourceIncomeAmount9CY1) +
+        Number(values?.sourceIncomeAmount10CY1);
+
+    const sourceIncomeAmountTotalCY2 =
+        Number(values?.sourceIncomeAmount1CY2) +
+        Number(values?.sourceIncomeAmount2CY2) +
+        Number(values?.sourceIncomeAmount3CY2) +
+        Number(values?.sourceIncomeAmount4CY2) +
+        Number(values?.sourceIncomeAmount5CY2) +
+        Number(values?.sourceIncomeAmount6CY2) +
+        Number(values?.sourceIncomeAmount7CY2) +
+        Number(values?.sourceIncomeAmount8CY2) +
+        Number(values?.sourceIncomeAmount9CY2) +
+        Number(values?.sourceIncomeAmount10CY2);
 
     const actualExpendituresAmountTotalCY1 =
         Number(values?.actualExpendituresAmount1CY1) +
@@ -14,12 +45,278 @@ function SubmissionBarangayProfilePage9({ values, handleChange }) {
         Number(values?.actualExpendituresAmount2CY2) +
         Number(values?.actualExpendituresAmount3CY2);
 
-    // useEffect(() => {
-    //     localStorage.setItem("brgyProfilePage9", JSON.stringify(values));
-    // }, [values]);
-
     return (
-        <div className="">
+        <div>
+            <p className="mb-2 font-bold">A. Barangay Income</p>
+
+            <table className="w-full mb-4 text-xs border">
+                <thead className="font-bold text-center ">
+                    <tr>
+                        <th rowSpan={2}>Source of Income</th>
+                        <th colSpan={2} className="w-32 border-b border-l">
+                            Amount
+                        </th>
+                    </tr>
+                    <tr>
+                        <th className="border-x">
+                            CY
+                            <input
+                                name="sourceIncomeCY1"
+                                value={values?.sourceIncomeCY1}
+                                type="number"
+                                className="w-16 ml-1 text-center border-b border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </th>
+                        <th>
+                            CY
+                            <input
+                                name="sourceIncomeCY2"
+                                value={values?.sourceIncomeCY2}
+                                type="number"
+                                className="w-16 ml-1 text-center border-b border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr className="border-t">
+                        <td className="pl-2">1. 10&#37; RPTs</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount1CY1"
+                                value={values?.sourceIncomeAmount1CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount1CY2"
+                                value={values?.sourceIncomeAmount1CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-2">2. Revenue</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount2CY1"
+                                value={values?.sourceIncomeAmount2CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount2CY2"
+                                value={values?.sourceIncomeAmount2CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-2">3. Aid to Barangay</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount3CY1"
+                                value={values?.sourceIncomeAmount3CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount3CY2"
+                                value={values?.sourceIncomeAmount3CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-8">a. Municipal/City</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount4CY1"
+                                value={values?.sourceIncomeAmount4CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount4CY2"
+                                value={values?.sourceIncomeAmount4CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-8">b. Provincial</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount5CY1"
+                                value={values?.sourceIncomeAmount5CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount5CY2"
+                                value={values?.sourceIncomeAmount5CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-8">c. National</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount6CY1"
+                                value={values?.sourceIncomeAmount6CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount6CY2"
+                                value={values?.sourceIncomeAmount6CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-2">4. Interest Income</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount7CY1"
+                                value={values?.sourceIncomeAmount7CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount7CY2"
+                                value={values?.sourceIncomeAmount7CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-2">5. Contribution</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount8CY1"
+                                value={values?.sourceIncomeAmount8CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount8CY2"
+                                value={values?.sourceIncomeAmount8CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-2">6. Others - Collection</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount9CY1"
+                                value={values?.sourceIncomeAmount9CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount9CY2"
+                                value={values?.sourceIncomeAmount9CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="border-t">
+                        <td className="pl-2">7. Others - Rent Income</td>
+                        <td className="border-x">
+                            <input
+                                name="sourceIncomeAmount10CY1"
+                                value={values?.sourceIncomeAmount10CY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                name="sourceIncomeAmount10CY2"
+                                value={values?.sourceIncomeAmount10CY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                    <tr className="font-bold border-t">
+                        <td className="pl-8 text-center">TOTAL</td>
+                        <td className="border-x">
+                            <input
+                                readOnly
+                                name="sourceIncomeAmountTotalCY1"
+                                value={sourceIncomeAmountTotalCY1}
+                                type="number"
+                                className="w-full pr-2 text-right border-black cursor-default focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                readOnly
+                                name="sourceIncomeAmountTotalCY2"
+                                value={sourceIncomeAmountTotalCY2}
+                                type="number"
+                                className="w-full pr-2 text-right border-black cursor-default focus:outline-none"
+                                onChange={handleChange}
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
             <p className="mb-2 font-bold">B. Barangay Actual Expenditures</p>
             <table className="w-full text-xs border">
                 <thead className="font-bold text-center">
@@ -485,9 +782,9 @@ function SubmissionBarangayProfilePage9({ values, handleChange }) {
                 </tbody>
             </table>
 
-            <div className="flex mt-20 font-bold">
+            {/* <div className="flex mt-4 font-bold">
                 <div className="mr-28">
-                    <p className="mb-10">Encoded by:</p>
+                    <p className="mb-10">Prepared by:</p>
                     <div className="flex flex-col items-center">
                         <input
                             name="signatureOverPrintedName"
@@ -536,9 +833,9 @@ function SubmissionBarangayProfilePage9({ values, handleChange }) {
                         <p>Date</p>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
 
-export default SubmissionBarangayProfilePage9;
+export default ShortenedBarangayProfilePage3;

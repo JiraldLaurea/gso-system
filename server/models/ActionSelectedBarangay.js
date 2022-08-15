@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const Action = sequelize.define(
-        "Action",
+    const ActionSelectedBarangay = sequelize.define(
+        "ActionSelectedBarangay",
         {
             userId: {
                 type: DataTypes.INTEGER,
@@ -10,14 +10,18 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            action: {
-                type: DataTypes.STRING,
-                allowNull: true,
+            selectedBarangay: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
+            selectedDistrict: {
+                type: DataTypes.TEXT,
+                allowNull: false,
             },
         },
         {
             freezeTableName: true,
         }
     );
-    return Action;
+    return ActionSelectedBarangay;
 };

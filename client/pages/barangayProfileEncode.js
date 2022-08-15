@@ -17,8 +17,7 @@ import { useSWRConfig } from "swr";
 import { Icon } from "@iconify/react";
 import { storage } from "../firebase";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
-
-function submissionBarangayProfile({
+function barangayProfileEncode({
     page1Data,
     page2Data,
     page3Data,
@@ -46,10 +45,6 @@ function submissionBarangayProfile({
         error,
         isValidating,
     } = useSWR("http://localhost:3001/user/me");
-    const { data: selectedBarangayData } = useSWR(
-        "http://localhost:3001/barangay/getSelectedBarangay"
-    );
-    console.log("SELECTED BARANGAY DATA", selectedBarangayData);
     const date = new Date();
     const { mutate } = useSWRConfig();
     const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +66,9 @@ function submissionBarangayProfile({
     const [submissionUpload, setSubmissionUpload] = useState(null);
     const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
         useState("");
+    const { data: selectedBarangayData } = useSWR(
+        "http://localhost:3001/barangay/getSelectedBarangay"
+    );
 
     const [values, setValues] = useState({
         city: page1Data.city,
@@ -892,6 +890,8 @@ function submissionBarangayProfile({
         sourceIncomeAmount5CY2: page8Data.sourceIncomeAmount5CY2,
         sourceIncomeAmount6CY1: page8Data.sourceIncomeAmount6CY1,
         sourceIncomeAmount6CY2: page8Data.sourceIncomeAmount6CY2,
+        sourceIncomeAmount7CY1: page8Data.sourceIncomeAmount7CY1,
+        sourceIncomeAmount7CY2: page8Data.sourceIncomeAmount7CY2,
         sourceIncomeAmount7CY1: page8Data.sourceIncomeAmount7CY1,
         sourceIncomeAmount7CY2: page8Data.sourceIncomeAmount7CY2,
         sourceIncomeAmount8CY1: page8Data.sourceIncomeAmount8CY1,
@@ -3451,7 +3451,7 @@ function submissionBarangayProfile({
                             isLoading && "cursor-not-allowed "
                         }`}
                     >
-                        {!isLoading ? "Submit" : "Processing..."}
+                        {!isLoading ? "Encode" : "Processing..."}
                     </button>
                     {/* <button
                         disabled={isLoading}
@@ -3468,14 +3468,14 @@ function submissionBarangayProfile({
     );
 }
 
-export default submissionBarangayProfile;
+export default barangayProfileEncode;
 
 export const getServerSideProps = async (context) => {
     const me = await fetch("http://localhost:3001/user/me", {
         headers: { Cookie: context.req.headers.cookie },
     }).then((res) => res.json());
 
-    if (me.isAdmin == true) {
+    if (me.isAdmin == false) {
         return {
             redirect: {
                 permanent: false,

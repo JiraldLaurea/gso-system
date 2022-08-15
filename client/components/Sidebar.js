@@ -5,6 +5,7 @@ import Avatar from "react-avatar";
 import { Icon } from "@iconify/react";
 import { useAuthDispatch, useAuthState } from "../context/auth";
 import Axios from "axios";
+import useSWR from "swr";
 
 function Sidebar() {
     const { user, authenticated, loading, isSidebarOpen } = useAuthState();
@@ -12,6 +13,10 @@ function Sidebar() {
     const dispatch = useAuthDispatch();
     const [isOpen, setIsOpen] = useState(true);
     const [isPending, startTransition] = useTransition();
+
+    const { data, error, isValidating } = useSWR(
+        "http://localhost:3001/submission/checkSubmittedBarangayProfile"
+    );
 
     if (!authenticated && !loading) {
         return null;
@@ -65,6 +70,25 @@ function Sidebar() {
                     </div>
                     {!user?.isAdmin && !loading && (
                         <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/barangayProfileShortened");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Update barangay profile</p>
+                        </div>
+                    )}
+                    {/* {!user?.isAdmin && !loading && (
+                        <div
                             onClick={() => router.push("/barangayProfile")}
                             className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
                         >
@@ -74,17 +98,33 @@ function Sidebar() {
                             />
                             <p>Barangay profile</p>
                         </div>
+                    )} */}
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => router.push("/programs")}
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Programs</p>
+                        </div>
                     )}
-                    <div
-                        onClick={() => router.push("/programs")}
-                        className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
-                    >
-                        <Icon
-                            className="w-6 h-6 mr-4"
-                            icon="fluent:document-arrow-up-20-filled"
-                        />
-                        <p>Programs</p>
-                    </div>
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() =>
+                                router.push("/encodeBarangayProfile")
+                            }
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Encode barangay profile</p>
+                        </div>
+                    )}
 
                     <div
                         onClick={() => router.push("/route")}

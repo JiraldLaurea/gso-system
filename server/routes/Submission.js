@@ -18,6 +18,7 @@ const { TypeOfDocument } = require("../models");
 const { Action } = require("../models");
 const multer = require("multer");
 const path = require("path");
+const { ActionSelectedBarangay } = require("../models");
 
 router.get("/", async (req, res) => {
     const submissions = await Submission.findAll({
@@ -104,84 +105,144 @@ const getSubmissions = async (req, res) => {
 
 const getAllSubmissionBarangayProfilePages = async (req, res) => {
     const user = res.locals.user;
+    const { barangayId } = req.body;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const submissionBarangayProfilePage1Saved =
         await SubmissionBarangayProfilePage1.findOne({
-            where: { barangayId: user.barangayId, typeOfDocument: "Saved" },
+            where: {
+                barangayId: barangayId,
+                typeOfDocument: "Saved",
+            },
             order: [["createdAt", "DESC"]],
         });
 
     const submissionBarangayProfilePage1Submitted =
         await SubmissionBarangayProfilePage1.findOne({
-            where: { barangayId: user.barangayId, typeOfDocument: "Submitted" },
+            where: {
+                barangayId: barangayId,
+                typeOfDocument: "Submitted",
+            },
             order: [["createdAt", "DESC"]],
         });
 
-    return res.json([
-        submissionBarangayProfilePage1Saved,
-        submissionBarangayProfilePage1Submitted,
-    ]);
+    return res.json(submissionBarangayProfilePage1Saved);
+};
+
+const getAllSubmissionBarangayProfilePagesShortened = async (req, res) => {
+    // const user = res.locals.user;
+    // const submissionBarangayProfilePage1Saved =
+    //     await SubmissionBarangayProfilePage1.findOne({
+    //         where: {
+    //             barangayId: barangayId,
+    //             typeOfDocument: "Saved",
+    //         },
+    //         order: [["createdAt", "DESC"]],
+    //     });
+    // const submissionBarangayProfilePage1Submitted =
+    //     await SubmissionBarangayProfilePage1.findOne({
+    //         where: {
+    //             barangayId: barangayId,
+    //             typeOfDocument: "Submitted",
+    //         },
+    //         order: [["createdAt", "DESC"]],
+    //     });
+    // return res.json(submissionBarangayProfilePage1Saved);
 };
 
 const getSubmissionBarangayProfilePages = async (req, res) => {
     const user = res.locals.user;
 
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const action = await Action.findOne({
-        where: { barangayId: user.barangayId },
+        where: { userId: user.id, barangayId: selectedBarangay.barangayId },
     });
 
     if (action.action == "CreateNewDocument") {
         const submissionBarangayProfilePage1 =
             await SubmissionBarangayProfilePage1.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage2 =
             await SubmissionBarangayProfilePage2.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage3 =
             await SubmissionBarangayProfilePage3.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage4 =
             await SubmissionBarangayProfilePage4.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage5 =
             await SubmissionBarangayProfilePage5.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage6 =
             await SubmissionBarangayProfilePage6.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage7 =
             await SubmissionBarangayProfilePage7.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage8 =
             await SubmissionBarangayProfilePage8.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
 
         const submissionBarangayProfilePage9 =
             await SubmissionBarangayProfilePage9.findOne({
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
                 order: [["createdAt", "DESC"]],
             });
         return res.json([
@@ -199,13 +260,13 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
 
     if (action.action == "LoadDocument") {
         const typeOfDocument = await TypeOfDocument.findOne({
-            where: { barangayId: user.barangayId },
+            where: { barangayId: selectedBarangay.barangayId },
         });
 
         const submissionBarangayProfilePage1 =
             await SubmissionBarangayProfilePage1.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -214,7 +275,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage2 =
             await SubmissionBarangayProfilePage2.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -223,7 +284,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage3 =
             await SubmissionBarangayProfilePage3.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -232,7 +293,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage4 =
             await SubmissionBarangayProfilePage4.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -241,7 +302,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage5 =
             await SubmissionBarangayProfilePage5.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -250,7 +311,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage6 =
             await SubmissionBarangayProfilePage6.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -259,7 +320,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage7 =
             await SubmissionBarangayProfilePage7.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -268,7 +329,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage8 =
             await SubmissionBarangayProfilePage8.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -277,7 +338,7 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
         const submissionBarangayProfilePage9 =
             await SubmissionBarangayProfilePage9.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "DESC"]],
@@ -399,77 +460,100 @@ const getSubmissionBarangayProfilePages = async (req, res) => {
 const createSubmissionBarangayProfilePages = async (req, res) => {
     const user = res.locals.user;
 
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const typeOfDocumentData = await TypeOfDocument.findOne({
-        where: { barangayId: user.barangayId, typeOfDocument: "New" },
+        where: {
+            userId: user.id,
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocument: "New",
+        },
     });
 
     const action = await Action.findOne({
-        where: { barangayId: user.barangayId },
+        where: { userId: user.id },
     });
 
     if (!action) {
-        await Action.create({
-            barangayId: user.barangayId,
-            action: "CreateNewDocument",
-        });
+        if (user.isAdmin == false) {
+            await Action.create({
+                userId: user.id,
+                barangayId: user.barangayId,
+                action: "CreateNewDocument",
+            });
+        } else {
+            await Action.create({
+                userId: user.id,
+                barangayId: selectedBarangay.barangayId,
+                action: "CreateNewDocument",
+            });
+        }
     }
 
     if (!typeOfDocumentData) {
+        // const typeOfDocument = await TypeOfDocument.create({
+        //     barangayId: user.barangayId,
+        //     typeOfDocument: "New",
+        // });
+
         const typeOfDocument = await TypeOfDocument.create({
-            barangayId: user.barangayId,
+            userId: user.id,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage1.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage2.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage3.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage4.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage5.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage6.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage7.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage8.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
 
         await SubmissionBarangayProfilePage9.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
@@ -494,11 +578,15 @@ const getSubmissionBarangayProfileUrl = async (req, res) => {
 
 const updateAction = async (req, res) => {
     const user = res.locals.user;
-    const { action } = req.body;
+    const { action, barangayId } = req.body;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     await Action.update(
-        { action: action },
-        { where: { barangayId: user.barangayId } }
+        { action: action, userId: user.id, barangayId: barangayId },
+        { where: { userId: user.id } }
     );
 
     res.json("SUCCESS");
@@ -506,13 +594,21 @@ const updateAction = async (req, res) => {
 
 const getSavedBarangayProfile = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const action = await Action.findOne({
-        where: { barangayId: user.barangayId },
+        where: { userId: user.id, barangayId: selectedBarangay.barangayId },
     });
 
     if (action.action == "CreateNewDocument") {
         const brgyprofilepage1 = await SubmissionBarangayProfilePage1.findOne({
-            where: { barangayId: user.barangayId, typeOfDocument: "Saved" },
+            where: {
+                barangayId: selectedBarangay.barangayId,
+                typeOfDocument: "Saved",
+            },
         });
 
         return res.json(brgyprofilepage1);
@@ -525,19 +621,26 @@ const updateTypeOfDocument = async (req, res) => {
     const user = res.locals.user;
     const { typeOfDocument, action } = req.body;
 
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const brgyprofilepage1 = await SubmissionBarangayProfilePage1.findOne({
-        where: { barangayId: user.barangayId, typeOfDocument: "Saved" },
+        where: {
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocument: "Saved",
+        },
     });
 
     const actionData = await Action.findOne({
-        where: { barangayId: user.barangayId },
+        where: { barangayId: selectedBarangay.barangayId },
     });
 
     if (actionData.action == "CreateNewDocument") {
         if (brgyprofilepage1) {
             await SubmissionBarangayProfilePage1.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -546,7 +649,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage2.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -555,7 +658,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage3.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -564,7 +667,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage4.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -573,7 +676,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage5.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -582,7 +685,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage6.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -591,7 +694,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage7.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -600,7 +703,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage8.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -609,7 +712,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await SubmissionBarangayProfilePage9.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -618,7 +721,7 @@ const updateTypeOfDocument = async (req, res) => {
             });
             await TypeOfDocument.findOne({
                 where: {
-                    barangayId: user.barangayId,
+                    barangayId: selectedBarangay.barangayId,
                     typeOfDocument: "Saved",
                 },
                 order: [["createdAt", "ASC"]],
@@ -630,7 +733,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage1.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -638,7 +744,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage2.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -646,7 +755,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage3.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -654,7 +766,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage4.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -662,7 +777,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage5.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -670,7 +788,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage6.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -678,7 +799,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage7.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -686,7 +810,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage8.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -694,7 +821,10 @@ const updateTypeOfDocument = async (req, res) => {
         await SubmissionBarangayProfilePage9.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -702,7 +832,10 @@ const updateTypeOfDocument = async (req, res) => {
         await TypeOfDocument.update(
             { typeOfDocument: typeOfDocument },
             {
-                where: { barangayId: user.barangayId, typeOfDocument: "New" },
+                where: {
+                    barangayId: selectedBarangay.barangayId,
+                    typeOfDocument: "New",
+                },
             },
             { order: [["createdAt", "DESC"]] }
         );
@@ -711,7 +844,7 @@ const updateTypeOfDocument = async (req, res) => {
     await Action.update(
         { action: action },
         {
-            where: { barangayId: user.barangayId },
+            where: { userId: user.id, barangayId: selectedBarangay.barangayId },
         }
     );
 
@@ -723,14 +856,18 @@ const getSubmittedBarangayProfilePage = async (req, res) => {
     //     where: { barangayId: user.barangayId },
     // });
 
-    const { yearSubmitted } = req.body;
-
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
+    const { yearSubmitted } = req.body;
 
     const brgyProfilePage1 = await SubmissionBarangayProfilePage1.findOne({
         attributes: ["yearSubmitted"],
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
         },
@@ -755,6 +892,22 @@ const getSubmittedBarangayProfilePageYear = async (req, res) => {
     res.json(brgyProfilePage1);
 };
 
+const checkSubmittedBarangayProfile = async (req, res) => {
+    // const typeOfDocumentId = await TypeOfDocument.findOne({
+    //     where: { barangayId: user.barangayId },
+    // });
+
+    const user = res.locals.user;
+
+    const submission = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    res.json(submission);
+};
+
 const submit = async (req, res) => {
     // const { documentName, yearSubmitted, populationCount, userId } = req.body;
 
@@ -773,8 +926,12 @@ const submit = async (req, res) => {
 
     const user = res.locals.user;
 
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const typeOfDocumentId = await TypeOfDocument.findOne({
-        where: { barangayId: user.barangayId },
+        where: { userId: user.id, barangayId: selectedBarangay.barangayId },
     });
 
     // await Submission.create({
@@ -1578,18 +1735,14 @@ const submit = async (req, res) => {
         submissionBarangayProfileUrl,
     } = req.body;
 
-    const barangay = await Barangay.findOne({
-        where: { userId: user.id },
-    });
-
     await Submission.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         populationCount: populationCount,
         userId: user.id,
-        barangayId: barangay.id,
-        barangayName: barangay.barangayName,
-        districtName: barangay.districtName,
+        barangayId: selectedBarangay.barangayId,
+        barangayName: selectedBarangay.selectedBarangay,
+        districtName: selectedBarangay.selectedDistrict,
         submissionBarangayProfileUrl: submissionBarangayProfileUrl,
     });
 
@@ -1637,7 +1790,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage1 =
         await SubmissionBarangayProfilePage1.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -1800,7 +1953,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage2 =
         await SubmissionBarangayProfilePage2.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -1921,7 +2074,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage3 =
         await SubmissionBarangayProfilePage3.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -2033,7 +2186,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage4 =
         await SubmissionBarangayProfilePage4.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -2136,7 +2289,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage5 =
         await SubmissionBarangayProfilePage5.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -2260,7 +2413,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage6 =
         await SubmissionBarangayProfilePage6.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -2374,7 +2527,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage7 =
         await SubmissionBarangayProfilePage7.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -2463,7 +2616,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage8 =
         await SubmissionBarangayProfilePage8.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -2560,7 +2713,7 @@ const submit = async (req, res) => {
 
     const submissionBarangayProfilePage9 =
         await SubmissionBarangayProfilePage9.create({
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocumentId: typeOfDocumentId.id,
             typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
@@ -2614,18 +2767,22 @@ const submit = async (req, res) => {
         });
 
     await TypeOfDocument.create({
-        barangayId: user.barangayId,
+        userId: user.id,
+        barangayId: selectedBarangay.barangayId,
         typeOfDocument: "Submitted",
     });
 
     const brgyprofilepage1 = await SubmissionBarangayProfilePage1.findOne({
-        where: { barangayId: user.barangayId, typeOfDocument: "Saved" },
+        where: {
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocument: "Saved",
+        },
     });
 
     if (brgyprofilepage1) {
         await SubmissionBarangayProfilePage1.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2634,7 +2791,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage2.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2643,7 +2800,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage3.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2652,7 +2809,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage4.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2661,7 +2818,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage5.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2670,7 +2827,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage6.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2679,7 +2836,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage7.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2688,7 +2845,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage8.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2697,7 +2854,7 @@ const submit = async (req, res) => {
         });
         await SubmissionBarangayProfilePage9.findOne({
             where: {
-                barangayId: user.barangayId,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2706,7 +2863,8 @@ const submit = async (req, res) => {
         });
         await TypeOfDocument.findOne({
             where: {
-                barangayId: user.barangayId,
+                userId: user.id,
+                barangayId: selectedBarangay.barangayId,
                 typeOfDocument: "Saved",
             },
             order: [["createdAt", "ASC"]],
@@ -2730,6 +2888,11 @@ const submit = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage1 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const {
         city,
         legalBasis,
@@ -2858,7 +3021,7 @@ const updateSubmissionBarangayProfilePage1 = async (req, res) => {
 
     await SubmissionBarangayProfilePage1.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -2958,7 +3121,7 @@ const updateSubmissionBarangayProfilePage1 = async (req, res) => {
                 },
                 {
                     where: {
-                        barangayId: user.barangayId,
+                        barangayId: selectedBarangay.barangayId,
                         typeOfDocument: "Saved",
                     },
                 }
@@ -2971,6 +3134,10 @@ const updateSubmissionBarangayProfilePage1 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage2 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         dateLastElection,
@@ -3147,7 +3314,7 @@ const updateSubmissionBarangayProfilePage2 = async (req, res) => {
 
     await SubmissionBarangayProfilePage2.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -3274,7 +3441,7 @@ const updateSubmissionBarangayProfilePage2 = async (req, res) => {
                     irrigationSystem3TwiceAYear: irrigationSystem3TwiceAYear,
                     irrigationSystem3OnceAYear: irrigationSystem3OnceAYear,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -3284,6 +3451,10 @@ const updateSubmissionBarangayProfilePage2 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage3 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         fishFarm1Type,
@@ -3394,7 +3565,7 @@ const updateSubmissionBarangayProfilePage3 = async (req, res) => {
 
     await SubmissionBarangayProfilePage3.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -3512,7 +3683,7 @@ const updateSubmissionBarangayProfilePage3 = async (req, res) => {
                     numTalipapa: numTalipapa,
                     numCinema: numCinema,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -3522,6 +3693,10 @@ const updateSubmissionBarangayProfilePage3 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage4 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         numPaperManufacturing,
@@ -3622,7 +3797,7 @@ const updateSubmissionBarangayProfilePage4 = async (req, res) => {
 
     await SubmissionBarangayProfilePage4.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -3740,7 +3915,7 @@ const updateSubmissionBarangayProfilePage4 = async (req, res) => {
                     infantMorbidityTCPrimaryComplexNum:
                         infantMorbidityTCPrimaryComplexNum,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -3750,6 +3925,10 @@ const updateSubmissionBarangayProfilePage4 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage5 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         causeEarlyNeonatalDeathsCY,
@@ -3840,7 +4019,7 @@ const updateSubmissionBarangayProfilePage5 = async (req, res) => {
 
     await SubmissionBarangayProfilePage5.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -3971,7 +4150,7 @@ const updateSubmissionBarangayProfilePage5 = async (req, res) => {
                     householdFiveToSeventeenHelpingProgramsAvailed:
                         householdFiveToSeventeenHelpingProgramsAvailed,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -3981,6 +4160,10 @@ const updateSubmissionBarangayProfilePage5 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage6 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         numGradeCompleted,
@@ -4093,7 +4276,7 @@ const updateSubmissionBarangayProfilePage6 = async (req, res) => {
 
     await SubmissionBarangayProfilePage6.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -4216,7 +4399,7 @@ const updateSubmissionBarangayProfilePage6 = async (req, res) => {
                         educInstructionTertiaryCollege3,
                     educInstructionPostGraduate3: educInstructionPostGraduate3,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -4226,6 +4409,10 @@ const updateSubmissionBarangayProfilePage6 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage7 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         typeOfBuildingNum1,
@@ -4312,7 +4499,7 @@ const updateSubmissionBarangayProfilePage7 = async (req, res) => {
 
     await SubmissionBarangayProfilePage7.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -4403,7 +4590,7 @@ const updateSubmissionBarangayProfilePage7 = async (req, res) => {
                     recreationalPrivate8: recreationalPrivate8,
                     recreational8Specify: recreational8Specify,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -4413,6 +4600,10 @@ const updateSubmissionBarangayProfilePage7 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage8 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         tricycleWithinBarangay,
@@ -4503,7 +4694,7 @@ const updateSubmissionBarangayProfilePage8 = async (req, res) => {
 
     await SubmissionBarangayProfilePage8.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -4609,7 +4800,7 @@ const updateSubmissionBarangayProfilePage8 = async (req, res) => {
                     sourceIncomeAmountTotalCY1: sourceIncomeAmountTotalCY1,
                     sourceIncomeAmountTotalCY2: sourceIncomeAmountTotalCY2,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -4619,6 +4810,10 @@ const updateSubmissionBarangayProfilePage8 = async (req, res) => {
 
 const updateSubmissionBarangayProfilePage9 = async (req, res) => {
     const user = res.locals.user;
+
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
 
     const {
         actualExpendituresCY1,
@@ -4669,7 +4864,7 @@ const updateSubmissionBarangayProfilePage9 = async (req, res) => {
 
     await SubmissionBarangayProfilePage9.findOne({
         where: {
-            barangayId: user.barangayId,
+            barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Saved",
         },
         order: [["createdAt", "DESC"]],
@@ -4729,7 +4924,7 @@ const updateSubmissionBarangayProfilePage9 = async (req, res) => {
                     barangayCaptain: barangayCaptain,
                     date2: date2,
                 },
-                { where: { barangayId: user.barangayId } }
+                { where: { barangayId: selectedBarangay.barangayId } }
             );
         }
     });
@@ -4759,7 +4954,7 @@ router.get(
     validate,
     getSubmissionBarangayProfilePages
 );
-router.get(
+router.post(
     "/allBrgyProfilePages",
     validateUser,
     validate,
@@ -4856,6 +5051,12 @@ router.put(
     validateUser,
     validate,
     updateSubmissionBarangayProfilePage9
+);
+router.get(
+    "/checkSubmittedBarangayProfile",
+    validateUser,
+    validate,
+    checkSubmittedBarangayProfile
 );
 
 module.exports = router;
