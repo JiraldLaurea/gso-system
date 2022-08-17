@@ -9,7 +9,7 @@ function SubmissionTable({ filteredSubmissions }) {
     const [columnName, setColumnName] = useState("createdAt");
     const [boolean, setBoolean] = useState(true);
 
-    const download = (e, docName) => {
+    const download = (e, docName, submissionBarangayProfileUrl) => {
         e.preventDefault();
 
         Axios({
@@ -17,13 +17,27 @@ function SubmissionTable({ filteredSubmissions }) {
             method: "POST",
             responseType: "blob",
             data: {
-                fileName: docName,
+                submissionBarangayProfileUrl: submissionBarangayProfileUrl,
             },
         }).then((res) => {
             console.log(res);
 
             fileDownload(res.data, docName);
         });
+
+        // Axios({
+        //     url: "http://localhost:3001/download",
+        //     method: "POST",
+        //     responseType: "blob",
+        //     data: {
+        //         submissionBarangayProfileUrl:
+        //             res.data.submissionBarangayProfileUrl,
+        //     },
+        // }).then((res) => {
+        //     console.log(res);
+        //     fileDownload(res.data, documentName);
+        //     setLoadingDownload(false);
+        // });
     };
 
     const sort = (columnName) => {
@@ -219,7 +233,8 @@ function SubmissionTable({ filteredSubmissions }) {
                                             onClick={(e) =>
                                                 download(
                                                     e,
-                                                    submission.documentName
+                                                    submission.documentName,
+                                                    submission.submissionBarangayProfileUrl
                                                 )
                                             }
                                             className="cursor-pointer hover:underline"

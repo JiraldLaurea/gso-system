@@ -20,6 +20,14 @@ const submissionRouter = require("./routes/Submission");
 const announcementRouter = require("./routes/Announcement");
 const programsRouter = require("./routes/Programs");
 const shortenedSubmissionRouter = require("./routes/ShortenedSubmission");
+const sketchRouter = require("./routes/Sketch");
+const moaRouter = require("./routes/Moa");
+const junkshopRouter = require("./routes/Junkshop");
+const fundingReqRouter = require("./routes/FundingReq");
+const executiveOrderRouter = require("./routes/ExecutiveOrder");
+const businessPermitRouter = require("./routes/BusinessPermit");
+const barangayOrdinanceRouter = require("./routes/BarangayOrdinance");
+const concernRouter = require("./routes/Concern");
 
 const app = express();
 
@@ -77,8 +85,16 @@ app.use("/user", userRouter);
 app.use("/barangay", barangayRouter);
 app.use("/submission", submissionRouter);
 app.use("/announcement", announcementRouter);
+app.use("/concern", concernRouter);
 app.use("/programs", programsRouter);
 app.use("/shortenedSubmission", shortenedSubmissionRouter);
+app.use("/sketch", sketchRouter);
+app.use("/moa", moaRouter);
+app.use("/junkshop", junkshopRouter);
+app.use("/fundingReq", fundingReqRouter);
+app.use("/executiveOrder", executiveOrderRouter);
+app.use("/businessPermit", businessPermitRouter);
+app.use("/barangayOrdinance", barangayOrdinanceRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {

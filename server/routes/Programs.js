@@ -3,6 +3,8 @@ const { validate } = require("../middleware/auth");
 const { validateUser } = require("../middleware/user");
 const router = express.Router();
 const { Programs } = require("../models");
+const { ShortenedPrograms } = require("../models");
+const { ActionSelectedBarangay } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
 
@@ -15,6 +17,9 @@ const convertToPDF = async (req, res) => {
     // const { documentName } = req.body;
     // console.log(documentName);
     const user = res.locals.user;
+    const fileExtension = path.extname(req.files.file.name);
+
+    // console.log(fileExtension);
 
     // console.log(file);
 
@@ -62,8 +67,15 @@ const getProgramsYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
 
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const programs = await Programs.findOne({
-        where: { yearSubmitted: yearSubmitted, barangayId: user.barangayId },
+        where: {
+            yearSubmitted: yearSubmitted,
+            barangayId: selectedBarangay.barangayId,
+        },
     });
 
     return res.json(programs);
@@ -73,14 +85,49 @@ const createPrograms = async (req, res) => {
     const { yearSubmitted, documentName, programsUrl } = req.body;
     const user = res.locals.user;
 
+    const selectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
     const programs = await Programs.create({
+        documentName: documentName,
+        yearSubmitted: yearSubmitted,
+        userId: user.id,
+        barangayId: selectedBarangay.barangayId,
+        barangayName: selectedBarangay.selectedBarangay,
+        districtName: selectedBarangay.selectedDistrict,
+        programsUrl: programsUrl,
+    });
+
+    return res.json(programs);
+};
+
+const getShortenedProgramsYear = async (req, res) => {
+    const { yearSubmitted } = req.body;
+    const user = res.locals.user;
+
+    const programs = await ShortenedPrograms.findOne({
+        where: {
+            yearSubmitted: yearSubmitted,
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(programs);
+};
+
+const createShortenedPrograms = async (req, res) => {
+    const { yearSubmitted, documentName, shortenedProgramsUrl } = req.body;
+    const user = res.locals.user;
+
+    const programs = await ShortenedPrograms.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
         districtName: user.districtName,
-        programsUrl: programsUrl,
+        shortenedProgramsUrl: shortenedProgramsUrl,
     });
 
     return res.json(programs);
@@ -89,5 +136,17 @@ const createPrograms = async (req, res) => {
 router.post("/getProgramsYear", validateUser, validate, getProgramsYear);
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
 router.post("/createPrograms", validateUser, validate, createPrograms);
+router.post(
+    "/getShortenedProgramsYear",
+    validateUser,
+    validate,
+    getShortenedProgramsYear
+);
+router.post(
+    "/createShortenedPrograms",
+    validateUser,
+    validate,
+    createShortenedPrograms
+);
 
 module.exports = router;

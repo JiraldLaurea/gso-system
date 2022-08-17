@@ -84,9 +84,30 @@ function Sidebar() {
                                 className="w-6 h-6 mr-4"
                                 icon="fluent:document-arrow-up-20-filled"
                             />
-                            <p>Update barangay profile</p>
+                            <p>Barangay profile</p>
                         </div>
                     )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/shortenedSketch");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Sketch</p>
+                        </div>
+                    )}
+
                     {/* {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => router.push("/barangayProfile")}
@@ -99,10 +120,18 @@ function Sidebar() {
                             <p>Barangay profile</p>
                         </div>
                     )} */}
+
                     {!user?.isAdmin && !loading && (
                         <div
-                            onClick={() => router.push("/programs")}
-                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/shortenedPrograms");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
                         >
                             <Icon
                                 className="w-6 h-6 mr-4"
@@ -111,6 +140,129 @@ function Sidebar() {
                             <p>Programs</p>
                         </div>
                     )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push(
+                                        "/shortenedMemorandumOfAgreement"
+                                    );
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>MOA</p>
+                        </div>
+                    )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/shortenedJunkshop");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Junkshop</p>
+                        </div>
+                    )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/shortenedFundingReq");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Funding requirements</p>
+                        </div>
+                    )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/shortenedExecutiveOrder");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Executive order</p>
+                        </div>
+                    )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/shortenedBusinessPermit");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Business permit</p>
+                        </div>
+                    )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (data) {
+                                    router.push("/shortenedBarangayOrdinance");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !data &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Barangay ordinance</p>
+                        </div>
+                    )}
+
                     {user?.isAdmin && !loading && (
                         <div
                             onClick={() =>
@@ -122,7 +274,115 @@ function Sidebar() {
                                 className="w-6 h-6 mr-4"
                                 icon="fluent:document-arrow-up-20-filled"
                             />
-                            <p>Encode barangay profile</p>
+                            <p>Barangay profile</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => router.push("/encodeSketch")}
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Sketch</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => router.push("/encodePrograms")}
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Programs</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => router.push("/encodeFundingReq")}
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Funding requirements</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() =>
+                                router.push("/encodeMemorandumOfAgreement")
+                            }
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>MOA</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => router.push("/encodeJunkshop")}
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Junkshop</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => router.push("/encodeBusinessPermit")}
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Business permit</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => router.push("/encodeExecutiveOrder")}
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Executive order</p>
+                        </div>
+                    )}
+
+                    {user?.isAdmin && !loading && (
+                        <div
+                            onClick={() =>
+                                router.push("/encodeBarangayOrdinance")
+                            }
+                            className="flex items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700"
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Barangay ordinance</p>
                         </div>
                     )}
 
@@ -142,6 +402,13 @@ function Sidebar() {
                     >
                         <Icon className="w-6 h-6 mr-4" icon="mdi:bullhorn" />
                         <p>Announcements</p>
+                    </div>
+                    <div
+                        onClick={() => router.push("/concerns")}
+                        className="flex items-center py-3 pl-6 border-gray-300 hover:cursor-pointer hover:bg-gray-700"
+                    >
+                        <Icon className="w-6 h-6 mr-4" icon="mdi:bullhorn" />
+                        <p>Concerns</p>
                     </div>
                     <div
                         onClick={() => router.push("/concerns")}
