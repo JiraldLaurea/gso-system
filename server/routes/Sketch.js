@@ -5,6 +5,7 @@ const router = express.Router();
 const { Sketch } = require("../models");
 const { ShortenedSketch } = require("../models");
 const { ActionSelectedBarangay } = require("../models");
+const { Submission } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
 
@@ -42,7 +43,8 @@ const getSketchYear = async (req, res) => {
 };
 
 const createSketch = async (req, res) => {
-    const { yearSubmitted, documentName, sketchUrl } = req.body;
+    const { yearSubmitted, collectionSchedule, documentName, sketchUrl } =
+        req.body;
     const user = res.locals.user;
 
     const selectedBarangay = await ActionSelectedBarangay.findOne({
@@ -52,11 +54,24 @@ const createSketch = async (req, res) => {
     const sketch = await Sketch.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        collectionSchedule: collectionSchedule,
         userId: user.id,
         barangayId: selectedBarangay.barangayId,
         barangayName: selectedBarangay.selectedBarangay,
         districtName: selectedBarangay.selectedDistrict,
         sketchUrl: sketchUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            sketch: true,
+            collectionSchedule: collectionSchedule,
+        });
     });
 
     return res.json(sketch);
@@ -77,12 +92,18 @@ const getShortenedSketchYear = async (req, res) => {
 };
 
 const createShortenedSketch = async (req, res) => {
-    const { yearSubmitted, documentName, shortenedSketchUrl } = req.body;
+    const {
+        yearSubmitted,
+        collectionSchedule,
+        documentName,
+        shortenedSketchUrl,
+    } = req.body;
     const user = res.locals.user;
 
     const sketch = await ShortenedSketch.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        collectionSchedule: collectionSchedule,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
@@ -90,8 +111,21 @@ const createShortenedSketch = async (req, res) => {
         shortenedSketchUrl: shortenedSketchUrl,
     });
 
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            collectionSchedule: collectionSchedule,
+        });
+    });
+
     return res.json(sketch);
 };
+
+const updateSubmissionSketch = async (req, res) => {};
 
 router.post("/getSketchYear", validateUser, validate, getSketchYear);
 router.post("/convertToPDF", validateUser, validate, convertToPDF);

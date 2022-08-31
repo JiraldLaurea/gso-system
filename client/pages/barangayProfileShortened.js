@@ -132,14 +132,14 @@ export const getServerSideProps = async (context) => {
         }
     ).then((res) => res.json());
 
-    const submittedDocument = await fetch(
-        "http://localhost:3001/submission/checkSubmittedBarangayProfile",
+    const encodedDocument = await fetch(
+        "http://localhost:3001/submission/getEncodedDocument",
         {
             headers: { Cookie: context.req.headers.cookie },
         }
     ).then((res) => res.json());
 
-    if (!submittedDocument) {
+    if (!encodedDocument) {
         return {
             redirect: {
                 permanent: false,

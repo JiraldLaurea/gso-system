@@ -14,8 +14,40 @@ function Sidebar() {
     const [isOpen, setIsOpen] = useState(true);
     const [isPending, startTransition] = useTransition();
 
-    const { data, error, isValidating } = useSWR(
-        "http://localhost:3001/submission/checkSubmittedBarangayProfile"
+    const { data: encodedBarangayProfile } = useSWR(
+        "http://localhost:3001/submission/getEncodedBarangayProfile"
+    );
+
+    const { data: encodedSketch } = useSWR(
+        "http://localhost:3001/submission/getEncodedSketch"
+    );
+
+    const { data: encodedProgramsDoc } = useSWR(
+        "http://localhost:3001/submission/getEncodedProgramsDoc"
+    );
+
+    const { data: encodedFundingReq } = useSWR(
+        "http://localhost:3001/submission/getEncodedFundingReq"
+    );
+
+    const { data: encodedMoa } = useSWR(
+        "http://localhost:3001/submission/getEncodedMoa"
+    );
+
+    const { data: encodedJunkshop } = useSWR(
+        "http://localhost:3001/submission/getEncodedJunkshop"
+    );
+
+    const { data: encodedBusinessPermit } = useSWR(
+        "http://localhost:3001/submission/getEncodedBusinessPermit"
+    );
+
+    const { data: encodedExecutiveOrder } = useSWR(
+        "http://localhost:3001/submission/getEncodedExecutiveOrder"
+    );
+
+    const { data: encodedBarangayOrdinance } = useSWR(
+        "http://localhost:3001/submission/getEncodedBarangayOrdinance"
     );
 
     if (!authenticated && !loading) {
@@ -71,12 +103,12 @@ function Sidebar() {
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                if (data) {
+                                if (encodedBarangayProfile) {
                                     router.push("/barangayProfileShortened");
                                 }
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
+                                !encodedBarangayProfile &&
                                 "hover:bg-gray-800 text-gray-500 hover:cursor-default"
                             }`}
                         >
@@ -91,12 +123,12 @@ function Sidebar() {
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                if (data) {
+                                if (encodedSketch) {
                                     router.push("/shortenedSketch");
                                 }
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
+                                !encodedSketch &&
                                 "hover:bg-gray-800 text-gray-500 hover:cursor-default"
                             }`}
                         >
@@ -124,12 +156,12 @@ function Sidebar() {
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                if (data) {
+                                if (encodedProgramsDoc) {
                                     router.push("/shortenedPrograms");
                                 }
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
+                                !encodedProgramsDoc &&
                                 "hover:bg-gray-800 text-gray-500 hover:cursor-default"
                             }`}
                         >
@@ -144,54 +176,12 @@ function Sidebar() {
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                if (data) {
-                                    router.push(
-                                        "/shortenedMemorandumOfAgreement"
-                                    );
-                                }
-                            }}
-                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
-                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
-                            }`}
-                        >
-                            <Icon
-                                className="w-6 h-6 mr-4"
-                                icon="fluent:document-arrow-up-20-filled"
-                            />
-                            <p>MOA</p>
-                        </div>
-                    )}
-
-                    {!user?.isAdmin && !loading && (
-                        <div
-                            onClick={() => {
-                                if (data) {
-                                    router.push("/shortenedJunkshop");
-                                }
-                            }}
-                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
-                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
-                            }`}
-                        >
-                            <Icon
-                                className="w-6 h-6 mr-4"
-                                icon="fluent:document-arrow-up-20-filled"
-                            />
-                            <p>Junkshop</p>
-                        </div>
-                    )}
-
-                    {!user?.isAdmin && !loading && (
-                        <div
-                            onClick={() => {
-                                if (data) {
+                                if (encodedFundingReq) {
                                     router.push("/shortenedFundingReq");
                                 }
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
+                                !encodedFundingReq &&
                                 "hover:bg-gray-800 text-gray-500 hover:cursor-default"
                             }`}
                         >
@@ -206,12 +196,14 @@ function Sidebar() {
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                if (data) {
-                                    router.push("/shortenedExecutiveOrder");
+                                if (encodedMoa) {
+                                    router.push(
+                                        "/shortenedMemorandumOfAgreement"
+                                    );
                                 }
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
+                                !encodedMoa &&
                                 "hover:bg-gray-800 text-gray-500 hover:cursor-default"
                             }`}
                         >
@@ -219,19 +211,39 @@ function Sidebar() {
                                 className="w-6 h-6 mr-4"
                                 icon="fluent:document-arrow-up-20-filled"
                             />
-                            <p>Executive order</p>
+                            <p>MOA</p>
                         </div>
                     )}
 
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                if (data) {
+                                if (encodedJunkshop) {
+                                    router.push("/shortenedJunkshop");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !encodedJunkshop &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Junkshop</p>
+                        </div>
+                    )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (encodedBusinessPermit) {
                                     router.push("/shortenedBusinessPermit");
                                 }
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
+                                !encodedBusinessPermit &&
                                 "hover:bg-gray-800 text-gray-500 hover:cursor-default"
                             }`}
                         >
@@ -246,12 +258,32 @@ function Sidebar() {
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                if (data) {
+                                if (encodedExecutiveOrder) {
+                                    router.push("/shortenedExecutiveOrder");
+                                }
+                            }}
+                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
+                                !encodedExecutiveOrder &&
+                                "hover:bg-gray-800 text-gray-500 hover:cursor-default"
+                            }`}
+                        >
+                            <Icon
+                                className="w-6 h-6 mr-4"
+                                icon="fluent:document-arrow-up-20-filled"
+                            />
+                            <p>Executive order</p>
+                        </div>
+                    )}
+
+                    {!user?.isAdmin && !loading && (
+                        <div
+                            onClick={() => {
+                                if (encodedBarangayOrdinance) {
                                     router.push("/shortenedBarangayOrdinance");
                                 }
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 ${
-                                !data &&
+                                !encodedBarangayOrdinance &&
                                 "hover:bg-gray-800 text-gray-500 hover:cursor-default"
                             }`}
                         >
@@ -402,13 +434,6 @@ function Sidebar() {
                     >
                         <Icon className="w-6 h-6 mr-4" icon="mdi:bullhorn" />
                         <p>Announcements</p>
-                    </div>
-                    <div
-                        onClick={() => router.push("/concerns")}
-                        className="flex items-center py-3 pl-6 border-gray-300 hover:cursor-pointer hover:bg-gray-700"
-                    >
-                        <Icon className="w-6 h-6 mr-4" icon="mdi:bullhorn" />
-                        <p>Concerns</p>
                     </div>
                     <div
                         onClick={() => router.push("/concerns")}

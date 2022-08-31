@@ -21,6 +21,7 @@ function shortenedSketch() {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [collectionSchedule, setCollectionSchedule] = useState("");
     const [yearSubmitted, setYearSubmitted] = useState(date.getFullYear());
     const inputFileRef = useRef();
 
@@ -30,7 +31,7 @@ function shortenedSketch() {
     };
 
     const submitDocument = async () => {
-        if (file) {
+        if (file && collectionSchedule != "") {
             const extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
             const formData = new FormData();
@@ -83,6 +84,7 @@ function shortenedSketch() {
 
                             const postData = {
                                 yearSubmitted: yearSubmitted,
+                                collectionSchedule: collectionSchedule,
                                 documentName: documentName,
                                 shortenedSketchUrl: shortenedSketchUrl,
                             };
@@ -114,6 +116,7 @@ function shortenedSketch() {
 
                         const postData = {
                             yearSubmitted: yearSubmitted,
+                            collectionSchedule: collectionSchedule,
                             documentName: documentName,
                             shortenedSketchUrl: shortenedSketchUrl,
                         };
@@ -154,6 +157,16 @@ function shortenedSketch() {
                         onChange={(e) => setYearSubmitted(e.target.value)}
                         type="number"
                         className="w-20 px-2 py-1 mb-4 text-center border restoreNumberArrows focus:outline-none"
+                    />
+                    <p className="mb-2 text-sm text-gray-700">
+                        Collection schedule:
+                    </p>
+                    <input
+                        value={collectionSchedule}
+                        placeholder="Collection schedule"
+                        onChange={(e) => setCollectionSchedule(e.target.value)}
+                        type="text"
+                        className="w-full max-w-sm px-2 py-1 mb-4 border focus:outline-none"
                     />
                     <p className="mb-2 text-sm text-gray-700">Select file:</p>
                     <input

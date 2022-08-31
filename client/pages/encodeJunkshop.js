@@ -23,6 +23,7 @@ function encodeJunkshop() {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [junkshopName, setJunkshopName] = useState("");
     const [yearSubmitted, setYearSubmitted] = useState(date.getFullYear());
     const inputFileRef = useRef();
 
@@ -36,7 +37,11 @@ function encodeJunkshop() {
     };
 
     const submitDocument = async () => {
-        if (file && dropdownMenuValueBarangay != "Barangay") {
+        if (
+            file &&
+            dropdownMenuValueBarangay != "Barangay" &&
+            junkshopName != ""
+        ) {
             const selectedBarangayData = {
                 barangayId: barangayId,
                 selectedBarangay: dropdownMenuValueBarangay,
@@ -106,6 +111,7 @@ function encodeJunkshop() {
 
                             const postData = {
                                 yearSubmitted: yearSubmitted,
+                                junkshopName: junkshopName,
                                 documentName: documentName,
                                 junkshopUrl: junkshopUrl,
                             };
@@ -134,6 +140,7 @@ function encodeJunkshop() {
 
                         const postData = {
                             yearSubmitted: yearSubmitted,
+                            junkshopName: junkshopName,
                             documentName: documentName,
                             junkshopUrl: junkshopUrl,
                         };
@@ -266,6 +273,16 @@ function encodeJunkshop() {
                         onChange={(e) => setYearSubmitted(e.target.value)}
                         type="number"
                         className="w-20 px-2 py-1 mb-4 text-center border restoreNumberArrows focus:outline-none"
+                    />
+                    <p className="mb-2 text-sm text-gray-700">
+                        Name of junkshop:
+                    </p>
+                    <input
+                        value={junkshopName}
+                        placeholder="Name of junkshop"
+                        onChange={(e) => setJunkshopName(e.target.value)}
+                        type="text"
+                        className="w-full max-w-sm px-2 py-1 mb-4 border focus:outline-none"
                     />
                     <p className="mb-2 text-sm text-gray-700">Select file:</p>
                     <input

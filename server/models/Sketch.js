@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
+            collectionSchedule: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
             userId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,

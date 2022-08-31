@@ -4,6 +4,7 @@ const { validateUser } = require("../middleware/user");
 const router = express.Router();
 const { BusinessPermit } = require("../models");
 const { ShortenedBusinessPermit } = require("../models");
+const { Submission } = require("../models");
 const { ActionSelectedBarangay } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
@@ -42,7 +43,8 @@ const getBusinessPermitYear = async (req, res) => {
 };
 
 const createBusinessPermit = async (req, res) => {
-    const { yearSubmitted, documentName, businessPermitUrl } = req.body;
+    const { yearSubmitted, dateIssued, documentName, businessPermitUrl } =
+        req.body;
     const user = res.locals.user;
 
     const selectedBarangay = await ActionSelectedBarangay.findOne({
@@ -52,11 +54,24 @@ const createBusinessPermit = async (req, res) => {
     const businessPermit = await BusinessPermit.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        dateIssued: dateIssued,
         userId: user.id,
         barangayId: selectedBarangay.barangayId,
         barangayName: selectedBarangay.selectedBarangay,
         districtName: selectedBarangay.selectedDistrict,
         businessPermitUrl: businessPermitUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            businessPermit: true,
+            businessPermitDate: dateIssued,
+        });
     });
 
     return res.json(businessPermit);

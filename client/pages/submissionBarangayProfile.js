@@ -3082,6 +3082,8 @@ function submissionBarangayProfile({
             submissionBarangayProfileUrl: submissionBarangayProfileUrl,
         };
 
+        const totalWaste = totalPopulationCount * 0.68;
+
         await Axios.post("http://localhost:3001/submission/submit", data).then(
             () => {
                 alert("Successfully submitted document");

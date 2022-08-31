@@ -4,6 +4,7 @@ const { validateUser } = require("../middleware/user");
 const router = express.Router();
 const { FundingReq } = require("../models");
 const { ShortenedFundingReq } = require("../models");
+const { Submission } = require("../models");
 const { ActionSelectedBarangay } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
@@ -57,6 +58,17 @@ const createFundingReq = async (req, res) => {
         barangayName: selectedBarangay.selectedBarangay,
         districtName: selectedBarangay.selectedDistrict,
         fundingReqUrl: fundingReqUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            fundingReq: true,
+        });
     });
 
     return res.json(fundingReq);

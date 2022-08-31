@@ -5,6 +5,7 @@ const router = express.Router();
 const { ExecutiveOrder } = require("../models");
 const { ShortenedExecutiveOrder } = require("../models");
 const { ActionSelectedBarangay } = require("../models");
+const { Submission } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
 
@@ -42,7 +43,8 @@ const getExecutiveOrderYear = async (req, res) => {
 };
 
 const createExecutiveOrder = async (req, res) => {
-    const { yearSubmitted, documentName, executiveOrderUrl } = req.body;
+    const { yearSubmitted, dateIssued, documentName, executiveOrderUrl } =
+        req.body;
     const user = res.locals.user;
 
     const selectedBarangay = await ActionSelectedBarangay.findOne({
@@ -52,11 +54,24 @@ const createExecutiveOrder = async (req, res) => {
     const executiveOrder = await ExecutiveOrder.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        dateIssued: dateIssued,
         userId: user.id,
         barangayId: selectedBarangay.barangayId,
         barangayName: selectedBarangay.selectedBarangay,
         districtName: selectedBarangay.selectedDistrict,
         executiveOrderUrl: executiveOrderUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            executiveOrder: true,
+            executiveOrderDate: dateIssued,
+        });
     });
 
     return res.json(executiveOrder);

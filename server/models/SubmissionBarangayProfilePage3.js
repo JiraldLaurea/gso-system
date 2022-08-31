@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             typeOfDocumentId: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
             },
             typeOfDocument: {
                 type: DataTypes.STRING,

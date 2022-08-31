@@ -28,6 +28,8 @@ function announcements() {
 
     const imagesRef = ref(storage, "img/announcement/");
 
+    console.log(announcements)
+
     // const uploadImage = () => {
     //     if (imageUpload == null) {
     //         alert("No image selected");

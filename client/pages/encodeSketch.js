@@ -23,6 +23,7 @@ function encodeSketch() {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [collectionSchedule, setCollectionSchedule] = useState("");
     const [yearSubmitted, setYearSubmitted] = useState(date.getFullYear());
     const inputFileRef = useRef();
 
@@ -36,7 +37,11 @@ function encodeSketch() {
     };
 
     const submitDocument = async () => {
-        if (file && dropdownMenuValueBarangay != "Barangay") {
+        if (
+            file &&
+            dropdownMenuValueBarangay != "Barangay" &&
+            collectionSchedule != ""
+        ) {
             const selectedBarangayData = {
                 barangayId: barangayId,
                 selectedBarangay: dropdownMenuValueBarangay,
@@ -106,6 +111,7 @@ function encodeSketch() {
 
                             const postData = {
                                 yearSubmitted: yearSubmitted,
+                                collectionSchedule: collectionSchedule,
                                 documentName: documentName,
                                 sketchUrl: sketchUrl,
                             };
@@ -134,6 +140,7 @@ function encodeSketch() {
 
                         const postData = {
                             yearSubmitted: yearSubmitted,
+                            collectionSchedule: collectionSchedule,
                             documentName: documentName,
                             sketchUrl: sketchUrl,
                         };
@@ -145,6 +152,7 @@ function encodeSketch() {
 
                         alert("Document successfully submitted.");
 
+                        setCollectionSchedule("");
                         setFile(null);
                         inputFileRef.current.value = null;
                         setLoading(false);
@@ -266,6 +274,16 @@ function encodeSketch() {
                         onChange={(e) => setYearSubmitted(e.target.value)}
                         type="number"
                         className="w-20 px-2 py-1 mb-4 text-center border restoreNumberArrows focus:outline-none"
+                    />
+                    <p className="mb-2 text-sm text-gray-700">
+                        Collection schedule:
+                    </p>
+                    <input
+                        value={collectionSchedule}
+                        placeholder="Collection schedule"
+                        onChange={(e) => setCollectionSchedule(e.target.value)}
+                        type="text"
+                        className="w-full max-w-sm px-2 py-1 mb-4 border focus:outline-none"
                     />
                     <p className="mb-2 text-sm text-gray-700">Select file:</p>
                     <input

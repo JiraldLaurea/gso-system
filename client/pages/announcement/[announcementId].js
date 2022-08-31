@@ -101,7 +101,7 @@ function Announcement() {
                 <p className="text-sm text-gray-600">
                     Posted on: {dateMarkupAnnouncement}
                 </p>
-                <p className="my-4">{announcement?.announcementText}</p>
+                <p className="my-4 text-xl">{announcement?.announcementText}</p>
                 {announcement?.announcementImageUrl && (
                     <div className="w-full max-w-xl bg-black border ">
                         <Image

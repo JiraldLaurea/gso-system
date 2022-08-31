@@ -27,9 +27,7 @@ function Concern() {
         data: comments,
         error: errorComments,
         isValidating: isValidatingComments,
-    } = useSWR(
-        `http://localhost:3001/concern/getcomments/${concernId}`
-    );
+    } = useSWR(`http://localhost:3001/concern/getcomments/${concernId}`);
 
     const comment = async (e) => {
         e.preventDefault();
@@ -92,16 +90,14 @@ function Concern() {
                         className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
                     />
                     <h2 className="text-xl font-medium ">
-                        {concern?.barangayName
-                            ? concern?.barangayName
-                            : "GSO"}
+                        {concern?.barangayName ? concern?.barangayName : "GSO"}
                     </h2>
                 </div>
 
                 <p className="text-sm text-gray-600">
                     Posted on: {dateMarkupConcern}
                 </p>
-                <p className="my-4">{concern?.concernText}</p>
+                <p className="my-4 text-xl">{concern?.concernText}</p>
                 {concern?.concernImageUrl && (
                     <div className="w-full max-w-xl bg-black border ">
                         <Image

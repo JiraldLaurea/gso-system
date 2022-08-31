@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const { Barangay } = require("../models");
+const { Submission } = require("../models");
 const bcrypt = require("bcrypt");
 const cookie = require("cookie");
 // const { sign } = require("jsonwebtoken");
@@ -43,7 +44,7 @@ router.post("/", async (req, res) => {
 
     if (!isAdmin) {
         const barangay = await Barangay.findOne({
-            where: { barangayName: barangayName },
+            where: { barangayName: barangayName, districtName: districtName },
         });
 
         user = await User.create({
@@ -62,6 +63,13 @@ router.post("/", async (req, res) => {
             { userId: user.id },
             { where: { id: barangay.id } }
         );
+
+        await Submission.create({
+            barangayId: barangay.id,
+            barangayName: barangayName,
+            districtName: districtName,
+            userId: user.id,
+        });
 
         await SubmissionBarangayProfilePage1.create({
             barangayId: barangay.id,

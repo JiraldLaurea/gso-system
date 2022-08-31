@@ -14,11 +14,14 @@ const { SubmissionBarangayProfilePage6 } = require("../models");
 const { SubmissionBarangayProfilePage7 } = require("../models");
 const { SubmissionBarangayProfilePage8 } = require("../models");
 const { SubmissionBarangayProfilePage9 } = require("../models");
+const { Sequelize } = require("../models");
 const { TypeOfDocument } = require("../models");
 const { Action } = require("../models");
 const multer = require("multer");
 const path = require("path");
 const { ActionSelectedBarangay } = require("../models");
+
+const Op = Sequelize.Op;
 
 router.get("/", async (req, res) => {
     const submissions = await Submission.findAll({
@@ -892,22 +895,6 @@ const getSubmittedBarangayProfilePageYear = async (req, res) => {
     res.json(brgyProfilePage1);
 };
 
-const checkSubmittedBarangayProfile = async (req, res) => {
-    // const typeOfDocumentId = await TypeOfDocument.findOne({
-    //     where: { barangayId: user.barangayId },
-    // });
-
-    const user = res.locals.user;
-
-    const submission = await Submission.findOne({
-        where: {
-            barangayId: user.barangayId,
-        },
-    });
-
-    res.json(submission);
-};
-
 const submit = async (req, res) => {
     // const { documentName, yearSubmitted, populationCount, userId } = req.body;
 
@@ -1735,16 +1722,36 @@ const submit = async (req, res) => {
         submissionBarangayProfileUrl,
     } = req.body;
 
-    await Submission.create({
-        documentName: documentName,
-        yearSubmitted: yearSubmitted,
-        populationCount: populationCount,
-        userId: user.id,
-        barangayId: selectedBarangay.barangayId,
-        barangayName: selectedBarangay.selectedBarangay,
-        districtName: selectedBarangay.selectedDistrict,
-        submissionBarangayProfileUrl: submissionBarangayProfileUrl,
+    const totalWaste = (populationCount * 0.68).toFixed();
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            documentName: documentName,
+            yearSubmitted: yearSubmitted,
+            barangayProfile: true,
+            totalWaste: totalWaste,
+            populationCount: populationCount,
+            submissionBarangayProfileUrl: submissionBarangayProfileUrl,
+        });
     });
+
+    // await Submission.create({
+    //     documentName: documentName,
+    //     yearSubmitted: yearSubmitted,
+    //     barangayId: selectedBarangay.barangayId,
+    //     barangayName: selectedBarangay.selectedBarangay,
+    //     districtName: selectedBarangay.selectedDistrict,
+    //     barangayProfile: true,
+    //     totalWaste: totalWaste,
+    //     populationCount: populationCount,
+    //     userId: user.id,
+    //     submissionBarangayProfileUrl: submissionBarangayProfileUrl,
+    // });
 
     const totalMale =
         Number(male1) +
@@ -4932,6 +4939,137 @@ const updateSubmissionBarangayProfilePage9 = async (req, res) => {
     res.json("SUCCESS");
 };
 
+const getEncodedDocument = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedDocument = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    res.json(encodedDocument);
+};
+
+const getEncodedBarangayProfile = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedBarangayProfile = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            barangayProfile: true,
+        },
+    });
+
+    res.json(encodedBarangayProfile);
+};
+
+const getEncodedSketch = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedSketch = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            sketch: true,
+        },
+    });
+
+    res.json(encodedSketch);
+};
+
+const getEncodedProgramsDoc = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedProgramsDoc = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            programsDoc: true,
+        },
+    });
+
+    res.json(encodedProgramsDoc);
+};
+
+const getEncodedFundingReq = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedFundingReq = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            fundingReq: true,
+        },
+    });
+
+    res.json(encodedFundingReq);
+};
+
+const getEncodedMoa = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedMoa = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            moa: {
+                [Op.ne]: null,
+            },
+        },
+    });
+
+    res.json(encodedMoa);
+};
+
+const getEncodedJunkshop = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedJunkshop = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            junkshopInBarangay: true,
+        },
+    });
+
+    res.json(encodedJunkshop);
+};
+
+const getEncodedBusinessPermit = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedBusinessPermit = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            businessPermit: true,
+        },
+    });
+
+    res.json(encodedBusinessPermit);
+};
+
+const getEncodedExecutiveOrder = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedExecutiveOrder = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            executiveOrder: true,
+        },
+    });
+
+    res.json(encodedExecutiveOrder);
+};
+
+const getEncodedBarangayOrdinance = async (req, res) => {
+    const user = res.locals.user;
+
+    const encodedBarangayOrdinance = await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            barangayOrdinance: true,
+        },
+    });
+
+    res.json(encodedBarangayOrdinance);
+};
+
 // const convertDocToPdf = async (req, file, callback) => {
 //     let ext = path.extname(file.originalname);
 
@@ -5052,11 +5190,45 @@ router.put(
     validate,
     updateSubmissionBarangayProfilePage9
 );
+router.get("/getEncodedDocument", validateUser, validate, getEncodedDocument);
 router.get(
-    "/checkSubmittedBarangayProfile",
+    "/getEncodedBarangayProfile",
     validateUser,
     validate,
-    checkSubmittedBarangayProfile
+    getEncodedBarangayProfile
+);
+router.get("/getEncodedSketch", validateUser, validate, getEncodedSketch);
+router.get(
+    "/getEncodedProgramsDoc",
+    validateUser,
+    validate,
+    getEncodedProgramsDoc
+);
+router.get(
+    "/getEncodedFundingReq",
+    validateUser,
+    validate,
+    getEncodedFundingReq
+);
+router.get("/getEncodedMoa", validateUser, validate, getEncodedMoa);
+router.get("/getEncodedJunkshop", validateUser, validate, getEncodedJunkshop);
+router.get(
+    "/getEncodedBusinessPermit",
+    validateUser,
+    validate,
+    getEncodedBusinessPermit
+);
+router.get(
+    "/getEncodedExecutiveOrder",
+    validateUser,
+    validate,
+    getEncodedExecutiveOrder
+);
+router.get(
+    "/getEncodedBarangayOrdinance",
+    validateUser,
+    validate,
+    getEncodedBarangayOrdinance
 );
 
 module.exports = router;

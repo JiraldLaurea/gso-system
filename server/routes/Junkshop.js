@@ -4,6 +4,7 @@ const { validateUser } = require("../middleware/user");
 const router = express.Router();
 const { Junkshop } = require("../models");
 const { ShortenedJunkshop } = require("../models");
+const { Submission } = require("../models");
 const { ActionSelectedBarangay } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
@@ -42,7 +43,7 @@ const getJunkshopYear = async (req, res) => {
 };
 
 const createJunkshop = async (req, res) => {
-    const { yearSubmitted, documentName, junkshopUrl } = req.body;
+    const { yearSubmitted, junkshopName, documentName, junkshopUrl } = req.body;
     const user = res.locals.user;
 
     const selectedBarangay = await ActionSelectedBarangay.findOne({
@@ -52,11 +53,24 @@ const createJunkshop = async (req, res) => {
     const junkshop = await Junkshop.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        junkshopName: junkshopName,
         userId: user.id,
         barangayId: selectedBarangay.barangayId,
         barangayName: selectedBarangay.selectedBarangay,
         districtName: selectedBarangay.selectedDistrict,
         junkshopUrl: junkshopUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            junkshopInBarangay: true,
+            junkshopName: junkshopName,
+        });
     });
 
     return res.json(junkshop);

@@ -21,6 +21,7 @@ function encodeBusinessPermit() {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [dateIssued, setDateIssued] = useState("");
     const [yearSubmitted, setYearSubmitted] = useState(date.getFullYear());
     const inputFileRef = useRef();
 
@@ -34,7 +35,11 @@ function encodeBusinessPermit() {
     };
 
     const submitDocument = async () => {
-        if (file && dropdownMenuValueBarangay != "Barangay") {
+        if (
+            file &&
+            dropdownMenuValueBarangay != "Barangay" &&
+            dateIssued != ""
+        ) {
             const selectedBarangayData = {
                 barangayId: barangayId,
                 selectedBarangay: dropdownMenuValueBarangay,
@@ -104,6 +109,7 @@ function encodeBusinessPermit() {
 
                             const postData = {
                                 yearSubmitted: yearSubmitted,
+                                dateIssued: dateIssued,
                                 documentName: documentName,
                                 businessPermitUrl: businessPermitUrl,
                             };
@@ -132,6 +138,7 @@ function encodeBusinessPermit() {
 
                         const postData = {
                             yearSubmitted: yearSubmitted,
+                            dateIssued: dateIssued,
                             documentName: documentName,
                             businessPermitUrl: businessPermitUrl,
                         };
@@ -264,6 +271,14 @@ function encodeBusinessPermit() {
                         onChange={(e) => setYearSubmitted(e.target.value)}
                         type="number"
                         className="w-20 px-2 py-1 mb-4 text-center border restoreNumberArrows focus:outline-none"
+                    />
+                    <p className="mb-2 text-sm text-gray-700">Date issued:</p>
+                    <input
+                        value={dateIssued}
+                        placeholder="Date issued"
+                        onChange={(e) => setDateIssued(e.target.value)}
+                        type="text"
+                        className="w-full max-w-sm px-2 py-1 mb-4 border focus:outline-none"
                     />
                     <p className="mb-2 text-sm text-gray-700">Select file:</p>
                     <input

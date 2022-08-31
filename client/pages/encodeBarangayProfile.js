@@ -187,9 +187,13 @@ function encodeBarangayProfile({ savedData }) {
                     </div>
                     <div className="flex items-center mt-8">
                         <button
-                            onClick={() =>
-                                postSelectedBarangay("CreateNewDocument")
-                            }
+                            onClick={() => {
+                                if (dropdownMenuValueBarangay != "Barangay") {
+                                    postSelectedBarangay("CreateNewDocument");
+                                } else {
+                                    alert("Please choose a barangay");
+                                }
+                            }}
                             className="w-32 py-2 mb-4 mr-4 text-white bg-blue-500 border border-blue-500 rounded-sm "
                         >
                             Create new

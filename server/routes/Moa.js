@@ -4,6 +4,7 @@ const { validateUser } = require("../middleware/user");
 const router = express.Router();
 const { MemorandumOfAgreement } = require("../models");
 const { ShortenedMemorandumOfAgreement } = require("../models");
+const { Submission } = require("../models");
 const { ActionSelectedBarangay } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
@@ -42,7 +43,12 @@ const getMoaYear = async (req, res) => {
 };
 
 const createMoa = async (req, res) => {
-    const { yearSubmitted, documentName, memorandumOfAgreementUrl } = req.body;
+    const {
+        yearSubmitted,
+        dateOfCreation,
+        documentName,
+        memorandumOfAgreementUrl,
+    } = req.body;
     const user = res.locals.user;
 
     const selectedBarangay = await ActionSelectedBarangay.findOne({
@@ -52,11 +58,23 @@ const createMoa = async (req, res) => {
     const moa = await MemorandumOfAgreement.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        dateOfCreation: dateOfCreation,
         userId: user.id,
         barangayId: selectedBarangay.barangayId,
         barangayName: selectedBarangay.selectedBarangay,
         districtName: selectedBarangay.selectedDistrict,
         memorandumOfAgreementUrl: memorandumOfAgreementUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            moa: dateOfCreation,
+        });
     });
 
     return res.json(moa);

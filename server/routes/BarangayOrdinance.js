@@ -4,6 +4,7 @@ const { validateUser } = require("../middleware/user");
 const router = express.Router();
 const { BarangayOrdinance } = require("../models");
 const { ShortenedBarangayOrdinance } = require("../models");
+const { Submission } = require("../models");
 const { ActionSelectedBarangay } = require("../models");
 const path = require("path");
 const fs = require("fs").promises;
@@ -57,6 +58,17 @@ const createBarangayOrdinance = async (req, res) => {
         barangayName: selectedBarangay.selectedBarangay,
         districtName: selectedBarangay.selectedDistrict,
         barangayOrdinanceUrl: barangayOrdinanceUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: selectedBarangay.barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            barangayOrdinance: true,
+        });
     });
 
     return res.json(barangayOrdinance);
