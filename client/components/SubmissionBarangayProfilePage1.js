@@ -48,11 +48,12 @@ function SubmissionBarangayProfilePage1({
         Number(values.female17);
 
     useEffect(() => {
-        setTotalPopulationCount(
-            Number(values.totalPopulationMale) +
-                Number(values.totalPopulationFemale)
-        );
+        setTotalPopulationCount(totalMale + totalFemale);
     }, [values]);
+
+    // useEffect(() => {
+    //     console.log("TOTAL POPULATION COUNT ", totalPopulationCount);
+    // }, [totalPopulationCount]);
 
     // setTotalPopulationCount(Number(values.male1) + Number(values.female1));
 
@@ -63,7 +64,7 @@ function SubmissionBarangayProfilePage1({
     //     }));
     // };
 
-    const { data, error, isValidating } = useSWR(
+    const { data } = useSWR(
         "http://localhost:3001/barangay/getSelectedBarangay"
     );
 
@@ -303,35 +304,34 @@ function SubmissionBarangayProfilePage1({
                             <span className="ml-2">
                                 Male
                                 <input
-                                    value={values.totalPopulationMale}
+                                    tabIndex="-1"
+                                    readOnly
+                                    value={totalMale}
                                     name="totalPopulationMale"
-                                    onChange={handleChange}
                                     type="number"
-                                    className="w-20 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
+                                    className="w-20 text-center cursor-default focus:outline-none"
                                 />
                             </span>
                             <span>
                                 Female
                                 <input
-                                    value={values.totalPopulationFemale}
+                                    tabIndex="-1"
+                                    readOnly
+                                    value={totalFemale}
                                     name="totalPopulationFemale"
-                                    onChange={handleChange}
                                     type="number"
-                                    className="w-20 ml-1 mr-2 font-normal text-center border-b border-black focus:outline-none"
+                                    className="w-20 text-center cursor-default focus:outline-none"
                                 />
                             </span>
                             <span>
                                 Both Sexes
                                 <input
+                                    tabIndex="-1"
                                     readOnly
                                     value={
                                         !null
-                                            ? Number(
-                                                  values.totalPopulationMale
-                                              ) +
-                                              Number(
-                                                  values.totalPopulationFemale
-                                              )
+                                            ? Number(totalFemale) +
+                                              Number(totalMale)
                                             : 0
                                     }
                                     name="totalPopulationBoth"
@@ -383,6 +383,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 Number(values.male1) +
@@ -419,6 +420,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -451,6 +453,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -485,6 +488,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -517,6 +521,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -551,6 +556,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -583,6 +589,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -617,6 +624,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -649,6 +657,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -683,6 +692,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -715,6 +725,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -749,6 +760,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -781,6 +793,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -815,6 +828,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -847,6 +861,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -881,6 +896,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -913,6 +929,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -935,6 +952,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={!null ? totalMale : 0}
                                             type="number"
@@ -943,6 +961,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t ">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={!null ? totalFemale : 0}
                                             type="number"
@@ -951,6 +970,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -999,6 +1019,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 Number(values.male1) +
@@ -1031,6 +1052,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1065,6 +1087,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1099,6 +1122,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1133,6 +1157,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1167,6 +1192,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1201,6 +1227,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1235,6 +1262,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1269,6 +1297,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1303,6 +1332,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1337,6 +1367,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1371,6 +1402,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1405,6 +1437,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1439,6 +1472,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1473,6 +1507,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1507,6 +1542,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1541,6 +1577,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null
@@ -1559,6 +1596,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-x">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={!null ? totalMale : 0}
                                             name="totalMale"
@@ -1568,6 +1606,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t ">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={!null ? totalFemale : 0}
                                             name="totalFemale"
@@ -1577,6 +1616,7 @@ function SubmissionBarangayProfilePage1({
                                     </td>
                                     <td className="border-t border-l">
                                         <input
+                                            tabIndex="-1"
                                             readOnly
                                             value={
                                                 !null

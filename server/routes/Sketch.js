@@ -24,6 +24,98 @@ const convertToPDF = async (req, res) => {
     });
 };
 
+const getAllSketch = async (req, res) => {
+    const sketches = await Sketch.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(sketches);
+};
+
+const getSketch = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const sketch = await Sketch.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(sketch);
+};
+
+const getUserSketch = async (req, res) => {
+    const user = res.locals.user;
+
+    const sketch = await Sketch.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(sketch);
+};
+
+const getAllUpdatedSketch = async (req, res) => {
+    const sketches = await ShortenedSketch.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(sketches);
+};
+
+const getUpdatedSketch = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const sketch = await ShortenedSketch.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(sketch);
+};
+
+const getAllUpdatedSketchYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedSketch.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserSketchYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedSketch.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserSketchUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const sketch = await ShortenedSketch.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(sketch);
+};
+
 const getSketchYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -126,7 +218,29 @@ const createShortenedSketch = async (req, res) => {
 };
 
 const updateSubmissionSketch = async (req, res) => {};
-
+router.get("/getAllSketch", validateUser, validate, getAllSketch);
+router.post("/getSketch", validateUser, validate, getSketch);
+router.get("/getUserSketch", validateUser, validate, getUserSketch);
+router.get("/getAllUpdatedSketch", validateUser, validate, getAllUpdatedSketch);
+router.post("/getUpdatedSketch", validateUser, validate, getUpdatedSketch);
+router.post(
+    "/getAllUpdatedSketchYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedSketchYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserSketchYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserSketchYearSubmitted
+);
+router.post(
+    "/getUpdatedUserSketchUrl",
+    validateUser,
+    validate,
+    getUpdatedUserSketchUrl
+);
 router.post("/getSketchYear", validateUser, validate, getSketchYear);
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
 router.post("/createSketch", validateUser, validate, createSketch);

@@ -28,6 +28,8 @@ const executiveOrderRouter = require("./routes/ExecutiveOrder");
 const businessPermitRouter = require("./routes/BusinessPermit");
 const barangayOrdinanceRouter = require("./routes/BarangayOrdinance");
 const concernRouter = require("./routes/Concern");
+const recyclableWastesRouter = require("./routes/RecyclableWastes");
+const projectRouter = require("./routes/Project");
 
 const app = express();
 
@@ -79,8 +81,6 @@ app.post("/download", (req, res) => {
     // res.redirect(`${submissionBarangayProfileUrl}`);
 });
 
-// Convert doc/docx to PDF
-
 app.use("/user", userRouter);
 app.use("/barangay", barangayRouter);
 app.use("/submission", submissionRouter);
@@ -95,6 +95,8 @@ app.use("/fundingReq", fundingReqRouter);
 app.use("/executiveOrder", executiveOrderRouter);
 app.use("/businessPermit", businessPermitRouter);
 app.use("/barangayOrdinance", barangayOrdinanceRouter);
+app.use("/recyclableWastes", recyclableWastesRouter);
+app.use("/project", projectRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {

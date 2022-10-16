@@ -60,14 +60,8 @@ function MyApp({ Component, pageProps, userData }) {
         <SWRConfig value={{ fetcher }}>
             <AuthProvider>
                 <div className="flex">
-                    {/* {router.pathname != "/" &&
-                    router.pathname != "/login" &&
-                    authState.username != "" && <Sidebar />} */}
                     {!authRoute && <Sidebar />}
                     <div className="flex flex-col flex-grow">
-                        {/* {router.pathname != "/" &&
-                        router.pathname != "/login" &&
-                        authState.username != "" && <Navbar />} */}
                         {!authRoute && <Navbar />}
                         <Component {...pageProps} />
                     </div>

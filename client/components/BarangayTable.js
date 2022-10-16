@@ -58,11 +58,11 @@ function BarangayTable({
     };
 
     return (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
             <form
                 spellCheck="false"
                 onSubmit={addBarangay}
-                className="w-full max-w-xs mr-6"
+                className="w-full md:max-w-xs mr-6"
             >
                 <p className="text-lg font-medium">Add barangay</p>
                 <div className="mt-6 mb-4">
@@ -76,7 +76,7 @@ function BarangayTable({
                     />
                 </div>
 
-                <div className="mt-6 mb-4">
+                <div className="mt-6 mb-8">
                     <p className="mb-1 text-sm text-gray-600">District name</p>
                     <input
                         value={districtName}
@@ -96,101 +96,109 @@ function BarangayTable({
                     </button>
                 </div>
             </form>
-            <table className="w-full text-sm text-left table-auto h-fit">
-                <thead className="text-xs text-gray-700 uppercase border h-11 bg-gray-50">
-                    <tr className="removeBorderStyle">
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("id")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">ID</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("barangayName")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">Barangay Name</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("districtName")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">District Name</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("userId")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">User ID</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {arraySort(filteredBarangays, columnName, {
-                        reverse: boolean,
-                    }).map((barangay, index) => {
-                        return (
-                            <tr
-                                key={index}
-                                className="removeBorderStyle border-x-[1px] border-b h-11"
-                            >
-                                <td className="px-6">{barangay.id}</td>
-                                <td className="px-6">
-                                    {barangay.barangayName}
-                                </td>
-                                <td className="px-6">
-                                    {barangay.districtName}
-                                </td>
-                                <td className="px-6">
-                                    {barangay.userId != null
-                                        ? [barangay.userId]
-                                        : "-"}
-                                </td>
+            <div
+                className={`overflow-auto border h-fit max-h-[500px] flex-grow ${
+                    filteredBarangays && "border-x border-t border-b-0"
+                }`}
+            >
+                <div className="w-0 md:w-full">
+                    <table className="md:w-full text-sm text-left">
+                        <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
+                            <tr className="select-none removeBorderStyle">
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("id")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">No.</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("barangayName")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">Barangay Name</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("districtName")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">District Name</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("userId")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">User ID</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
                             </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            {arraySort(filteredBarangays, columnName, {
+                                reverse: boolean,
+                            }).map((barangay, index) => {
+                                return (
+                                    <tr
+                                        key={index}
+                                        className="removeBorderStyle border-b h-11"
+                                    >
+                                        <td className="px-6">{index + 1}</td>
+                                        <td className="px-6">
+                                            {barangay.barangayName}
+                                        </td>
+                                        <td className="px-6">
+                                            {barangay.districtName}
+                                        </td>
+                                        <td className="px-6">
+                                            {barangay.userId != null
+                                                ? [barangay.userId]
+                                                : "-"}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 }

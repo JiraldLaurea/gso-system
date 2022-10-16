@@ -64,6 +64,98 @@ const convertToPDF = async (req, res) => {
     // await fs.writeFile(outputPath, pdfBuf);
 };
 
+const getAllPrograms = async (req, res) => {
+    const programs = await Programs.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(programs);
+};
+
+const getProgram = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const program = await Programs.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(program);
+};
+
+const getUserProgram = async (req, res) => {
+    const user = res.locals.user;
+
+    const program = await Programs.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(program);
+};
+
+const getAllUpdatedPrograms = async (req, res) => {
+    const programs = await ShortenedPrograms.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(programs);
+};
+
+const getUpdatedPrograms = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const programs = await ShortenedPrograms.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(programs);
+};
+
+const getAllUpdatedProgramsYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedPrograms.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserProgramsYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedPrograms.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserProgramsUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const program = await ShortenedPrograms.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(program);
+};
+
 const getProgramsYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -147,6 +239,34 @@ const createShortenedPrograms = async (req, res) => {
 
 router.post("/getProgramsYear", validateUser, validate, getProgramsYear);
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
+router.get("/getAllPrograms", validateUser, validate, getAllPrograms);
+router.post("/getProgram", validateUser, validate, getProgram);
+router.get("/getUserProgram", validateUser, validate, getUserProgram);
+router.get(
+    "/getAllUpdatedPrograms",
+    validateUser,
+    validate,
+    getAllUpdatedPrograms
+);
+router.post("/getUpdatedPrograms", validateUser, validate, getUpdatedPrograms);
+router.post(
+    "/getAllUpdatedProgramsYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedProgramsYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserProgramsYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserProgramsYearSubmitted
+);
+router.post(
+    "/getUpdatedUserProgramsUrl",
+    validateUser,
+    validate,
+    getUpdatedUserProgramsUrl
+);
 router.post("/createPrograms", validateUser, validate, createPrograms);
 router.post(
     "/getShortenedProgramsYear",

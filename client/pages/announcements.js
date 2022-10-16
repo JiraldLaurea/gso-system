@@ -1,12 +1,12 @@
-import Axios from "axios";
-import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
-import useSWR, { mutate } from "swr";
-import { storage } from "../firebase";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid";
-import { async } from "@firebase/util";
 import { Icon } from "@iconify/react";
+import Axios from "axios";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import useSWR, { mutate } from "swr";
+import { v4 } from "uuid";
+import { storage } from "../firebase";
 
 function announcements() {
     const [text, setText] = useState("");
@@ -20,50 +20,9 @@ function announcements() {
     const inputFileRef = useRef(null);
     const [value, setValue] = useState("");
 
-    const {
-        data: announcements,
-        error: errorAnnouncements,
-        isValidating: isValidatingAnnouncements,
-    } = useSWR("http://localhost:3001/announcement");
-
-    const imagesRef = ref(storage, "img/announcement/");
-
-    console.log(announcements)
-
-    // const uploadImage = () => {
-    //     if (imageUpload == null) {
-    //         alert("No image selected");
-    //     } else {
-    //         const imageRef = ref(
-    //             storage,
-    //             `img/announcement/${imageUpload.name + v4()}`
-    //         );
-
-    //         // console.log("TEST", imageRef);
-
-    //         uploadBytes(imageRef, imageUpload).then((res) => {
-    //             alert("Image Uploaded");
-    //             getDownloadURL(imageRef).then((url) => {
-    //                 console.log(url);
-    //             });
-    //         });
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     listAll(imagesRef).then((res) => {
-    //         res.items.forEach((item) => {
-    //             getDownloadURL(item).then((url) => {
-    //                 console.log(url);
-    //             });
-    //         });
-    //     });
-    // }, []);
-
-    const handleChange = (e) => {
-        setValue(e.target.value);
-        localStorage.setItem("inputValue", e.target.value);
-    };
+    const { data: announcements } = useSWR(
+        "http://localhost:3001/announcement"
+    );
 
     useEffect(() => {
         setValue(localStorage.getItem("inputValue"));
@@ -80,12 +39,8 @@ function announcements() {
                     `img/announcement/${imageUpload.name + v4()}`
                 );
 
-                // console.log("TEST", imageRef);
-
                 await uploadBytes(imageRef, imageUpload).then(() => {
                     getDownloadURL(imageRef).then(async (url) => {
-                        // setImageUrl(url);
-                        // console.log(url);
                         const data = {
                             text: text,
                             imageUrl: url,
@@ -125,19 +80,14 @@ function announcements() {
         }
     };
 
+    useEffect(() => {
+        inputFileRef.current?.form.reset();
+        setImageUpload(null);
+        setImageThumbnail(null);
+    }, [isMenuOpen]);
+
     return (
         <div className="flex flex-col w-full">
-            {/* <iframe
-                src="https://docs.google.com/forms/d/e/1FAIpQLSfkGnUZncasc3Pmz4m71AR9vmJjZyRR2yBFoifaZZ8i5InsEA/viewform?embedded=true"
-                width="640"
-                height="549"
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0"
-            >
-                Loading…
-            </iframe> */}
-
             {isMenuOpen && (
                 <>
                     <div
@@ -146,9 +96,9 @@ function announcements() {
                     />
                     <form
                         onSubmit={createAnnouncement}
-                        className="fixed inset-x-0 z-30 w-full max-w-xl p-6 mx-auto bg-white top-32"
+                        className="fixed inset-x-0 z-30 w-full max-w-xl p-4 md:p-6 mx-auto overflow-y-auto bg-white top-0 md:top-24 h-screen md:max-h-[600px]"
                     >
-                        <div className="flex items-start justify-between">
+                        <div className="flex items-center justify-between">
                             <p className="text-xl font-medium">
                                 Post announcement
                             </p>
@@ -163,7 +113,7 @@ function announcements() {
                             <textarea
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
-                                className="w-full px-3 py-2 border min-h-[140px] max-h-[200px]"
+                                className="w-full px-3 py-2 border md:min-h-[140px] max-h-[200px]"
                                 type="text"
                                 placeholder="Text"
                             />
@@ -228,42 +178,9 @@ function announcements() {
                     </form>
                 </>
             )}
-            <div className="p-8">
-                <h2 className="mb-8 text-xl font-medium">Announcements</h2>
+            <div className="p-4 md:p-8">
+                <h2 className="mb-8 text-xl font-semibold">Announcements</h2>
                 <div className="">
-                    {/* <form onSubmit={createAnnouncement} className="max-w-xl"> */}
-                    {/* <div className="mt-6 mb-4">
-                            <p className="mb-1 text-sm text-gray-600">Text</p>
-                            <textarea
-                                value={text}
-                                onChange={(e) => setText(e.target.value)}
-                                className="w-full px-3 py-2 border min-h-[100px]"
-                                type="text"
-                                placeholder="Text"
-                            />
-                        </div>
-
-                        <div className="mb-8">
-                            <p className="mb-1 text-sm text-gray-600">Image</p>
-                            <input
-                                type="file"
-                                className="w-full border"
-                                onChange={(e) => {
-                                    setImageUpload(e.target.files[0]);
-                                    setImageThumbnail({
-                                        file: URL.createObjectURL(
-                                            e.target.files[0]
-                                        ),
-                                    });
-                                }}
-                            />
-                            {imageThumbnail && (
-                                <img
-                                    src={imageThumbnail?.file}
-                                    className="object-contain w-20 h-20 my-4 bg-black border"
-                                />
-                            )}
-                        </div> */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className={`px-6 py-1 text-white bg-blue-500 active:ring `}
@@ -271,36 +188,10 @@ function announcements() {
                         Post announcement
                     </button>
 
-                    {/* <button
-                            type="submit"
-                            className={`px-6 py-1 text-white bg-blue-500 active:ring ${
-                                isLoading && "cursor-not-allowed active:ring-0"
-                            }`}
-                            disabled={isLoading}
-                        >
-                            {!isLoading ? "Post announcement" : "Processing..."}
-                        </button> */}
-                    {/* </form> */}
-
                     <hr className="my-6" />
-                    {/* <div className="flex items-center justify-between p-2 mb-4 border">
-                        <p>Barangay</p>
-                        <p>Text</p>
-                        <p>Date</p>
-                    </div> */}
 
                     <div className="flex flex-col">
                         {announcements?.map((announcement, index) => {
-                            let timestamp = announcement.createdAt;
-                            let date = new Date(timestamp);
-                            let minutes = 0;
-
-                            if (date.getMinutes() < 10) {
-                                minutes = "0" + date.getMinutes();
-                            } else {
-                                minutes = date.getMinutes();
-                            }
-
                             return (
                                 <div
                                     key={index}
@@ -322,25 +213,9 @@ function announcements() {
                                         </p>
                                     </div>
                                     <p className="ml-8 text-gray-600 whitespace-nowrap">
-                                        {date.toLocaleString("default", {
-                                            month: "short",
-                                        })}
-                                        &nbsp;
-                                        {date.getDate()}, {date.getFullYear()}
-                                        &nbsp; - &nbsp;
-                                        {date.getHours() <= 12
-                                            ? [
-                                                  date.getHours() == 0
-                                                      ? "12"
-                                                      : date.getHours(),
-                                              ] +
-                                              ":" +
-                                              minutes +
-                                              "AM"
-                                            : [date.getHours() - 12] +
-                                              ":" +
-                                              minutes +
-                                              "PM"}
+                                        {moment(announcement.createdAt).format(
+                                            "MMM D, YYYY - h:mmA"
+                                        )}
                                     </p>
                                 </div>
                             );

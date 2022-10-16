@@ -52,7 +52,7 @@ function barangayProfile({ savedData, submittedData }) {
     return (
         <div className="flex flex-col w-full max-w-5xl">
             <div className="p-8">
-                <p className="mb-8 text-xl font-medium">Barangay profile</p>
+                <p className="mb-8 text-xl font-semibold">Barangay profile</p>
                 <div className="flex space-x-4">
                     <div
                         onClick={(e) => handleClick(e, "CreateNewDocument")}

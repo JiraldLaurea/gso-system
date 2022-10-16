@@ -96,7 +96,7 @@ function submission() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-8">
-                <p className="mb-8 text-xl font-medium">
+                <p className="mb-8 text-xl font-semibold">
                     Solid waste management plan
                 </p>
                 <div>

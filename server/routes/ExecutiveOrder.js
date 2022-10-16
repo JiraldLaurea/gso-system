@@ -24,6 +24,98 @@ const convertToPDF = async (req, res) => {
     });
 };
 
+const getAllExecutiveOrder = async (req, res) => {
+    const executiveOrder = await ExecutiveOrder.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(executiveOrder);
+};
+
+const getExecutiveOrder = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const executiveOrder = await ExecutiveOrder.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(executiveOrder);
+};
+
+const getUserExecutiveOrder = async (req, res) => {
+    const user = res.locals.user;
+
+    const executiveOrder = await ExecutiveOrder.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(executiveOrder);
+};
+
+const getAllUpdatedExecutiveOrder = async (req, res) => {
+    const executiveOrder = await ShortenedExecutiveOrder.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(executiveOrder);
+};
+
+const getUpdatedExecutiveOrder = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const executiveOrder = await ShortenedExecutiveOrder.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(executiveOrder);
+};
+
+const getAllUpdatedExecutiveOrderYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedExecutiveOrder.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserExecutiveOrderYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedExecutiveOrder.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserExecutiveOrderUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const executiveOrder = await ShortenedExecutiveOrder.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(executiveOrder);
+};
+
 const getExecutiveOrderYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -92,13 +184,18 @@ const getShortenedExecutiveOrderYear = async (req, res) => {
 };
 
 const createShortenedExecutiveOrder = async (req, res) => {
-    const { yearSubmitted, documentName, shortenedExecutiveOrderUrl } =
-        req.body;
+    const {
+        yearSubmitted,
+        dateIssued,
+        documentName,
+        shortenedExecutiveOrderUrl,
+    } = req.body;
     const user = res.locals.user;
 
     const executiveOrder = await ShortenedExecutiveOrder.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        dateIssued: dateIssued,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
@@ -116,6 +213,49 @@ router.post(
     getExecutiveOrderYear
 );
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
+router.get(
+    "/getAllExecutiveOrder",
+    validateUser,
+    validate,
+    getAllExecutiveOrder
+);
+router.post("/getExecutiveOrder", validateUser, validate, getExecutiveOrder);
+router.get(
+    "/getUserExecutiveOrder",
+    validateUser,
+    validate,
+    getUserExecutiveOrder
+);
+router.get(
+    "/getAllUpdatedExecutiveOrder",
+    validateUser,
+    validate,
+    getAllUpdatedExecutiveOrder
+);
+router.post(
+    "/getUpdatedExecutiveOrder",
+    validateUser,
+    validate,
+    getUpdatedExecutiveOrder
+);
+router.post(
+    "/getAllUpdatedExecutiveOrderYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedExecutiveOrderYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserExecutiveOrderYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserExecutiveOrderYearSubmitted
+);
+router.post(
+    "/getUpdatedUserExecutiveOrderUrl",
+    validateUser,
+    validate,
+    getUpdatedUserExecutiveOrderUrl
+);
 router.post(
     "/createExecutiveOrder",
     validateUser,

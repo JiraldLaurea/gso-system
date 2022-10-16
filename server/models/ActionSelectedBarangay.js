@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.TEXT,
                 allowNull: false,
             },
+            yearSubmitted: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+            },
         },
         {
             freezeTableName: true,

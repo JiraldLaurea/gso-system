@@ -65,15 +65,29 @@ function ShortenedBarangayProfilePage1({
         "http://localhost:3001/user/me"
     );
 
+    const { data: selectedBarangay } = useSWR(
+        "http://localhost:3001/barangay/getSelectedBarangay"
+    );
+
     return (
         <div>
             <div className="font-bold text-center ">
                 <p>BARANGAY PROFILE</p>
                 <p>OF</p>
-                <p>BARANGAY {data?.barangayName?.toUpperCase()}</p>
+                <p>
+                    BARANGAY{" "}
+                    {data?.isAdmin
+                        ? selectedBarangay?.selectedBarangay?.toUpperCase()
+                        : data?.barangayName?.toUpperCase()}
+                </p>
             </div>
             <div className="flex items-center justify-between mb-6 font-bold">
-                <p>District: {data?.districtName?.toUpperCase()}</p>
+                <p>
+                    District:{" "}
+                    {data?.isAdmin
+                        ? selectedBarangay?.selectedDistrict?.toUpperCase()
+                        : data?.districtName?.toUpperCase()}
+                </p>
                 {/* <span className="flex items-center">
                     <p className="mr-1">City:</p>
                     <input

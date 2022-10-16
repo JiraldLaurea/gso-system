@@ -1,11 +1,5 @@
 import Axios from "axios";
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useLayoutEffect,
-    useReducer,
-} from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
 const DispatchContext = createContext(null);
@@ -61,8 +55,6 @@ export const AuthProvider = ({ children, userData }) => {
                 const res = await Axios.get("http://localhost:3001/user/me");
                 dispatch("LOGIN", res.data);
             } catch (err) {
-                // console.log(err);
-                // router.push("/login");
             } finally {
                 dispatch("STOP_LOADING");
             }

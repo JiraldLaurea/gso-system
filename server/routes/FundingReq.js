@@ -24,6 +24,98 @@ const convertToPDF = async (req, res) => {
     });
 };
 
+const getAllFundingReq = async (req, res) => {
+    const fundingReq = await FundingReq.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(fundingReq);
+};
+
+const getFundingReq = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const fundingReq = await FundingReq.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(fundingReq);
+};
+
+const getUserFundingReq = async (req, res) => {
+    const user = res.locals.user;
+
+    const fundingReq = await FundingReq.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(fundingReq);
+};
+
+const getAllUpdatedFundingReq = async (req, res) => {
+    const fundingReq = await ShortenedFundingReq.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(fundingReq);
+};
+
+const getUpdatedFundingReq = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const fundingReq = await ShortenedFundingReq.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(fundingReq);
+};
+
+const getAllUpdatedFundingReqYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedFundingReq.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserFundingReqYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedFundingReq.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserFundingReqUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const fundingReq = await ShortenedFundingReq.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(fundingReq);
+};
+
 const getFundingReqYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -107,6 +199,39 @@ const createShortenedFundingReq = async (req, res) => {
 
 router.post("/getFundingReqYear", validateUser, validate, getFundingReqYear);
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
+router.get("/getAllFundingReq", validateUser, validate, getAllFundingReq);
+router.post("/getFundingReq", validateUser, validate, getFundingReq);
+router.get("/getUserFundingReq", validateUser, validate, getUserFundingReq);
+router.get(
+    "/getAllUpdatedFundingReq",
+    validateUser,
+    validate,
+    getAllUpdatedFundingReq
+);
+router.post(
+    "/getUpdatedFundingReq",
+    validateUser,
+    validate,
+    getUpdatedFundingReq
+);
+router.post(
+    "/getAllUpdatedFundingReqYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedFundingReqYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserFundingReqYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserFundingReqYearSubmitted
+);
+router.post(
+    "/getUpdatedUserFundingReqUrl",
+    validateUser,
+    validate,
+    getUpdatedUserFundingReqUrl
+);
 router.post("/createFundingReq", validateUser, validate, createFundingReq);
 router.post(
     "/getShortenedFundingReqYear",

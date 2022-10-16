@@ -92,14 +92,13 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
     };
 
     return (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
             <form
                 spellCheck="false"
                 onSubmit={addUser}
-                className="w-full max-w-xs mr-6"
+                className="w-full md:max-w-xs mr-6"
             >
                 <p className="text-lg font-medium">Add user</p>
-
                 <div
                     onClick={() => {
                         setIsAdmin(!isAdmin);
@@ -300,130 +299,146 @@ function UserTable({ filteredUsers, fetchUsers, userBarangays }) {
                     </button>
                 </div>
             </form>
-            <table className="w-full text-sm text-left table-auto h-fit">
-                <thead className="text-xs text-gray-700 uppercase border h-11 bg-gray-50">
-                    <tr className="removeBorderStyle">
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("id")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">ID</p>{" "}
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>{" "}
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("firstName")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">First Name</p>{" "}
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("lastName")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">Last Name</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("username")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">Username</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("email")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">Email</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                        <th className="px-6">
-                            <div
-                                onClick={() => sort("barangayName")}
-                                className="flex items-center cursor-pointer group w-fit"
-                            >
-                                <p className="w-fit">Barangay Name</p>
-                                <Icon
-                                    className={`w-5 h-5 invisible group-hover:visible `}
-                                    icon={`${
-                                        boolean == true
-                                            ? "eva:arrow-ios-downward-fill"
-                                            : "eva:arrow-ios-upward-fill"
-                                    }`}
-                                />
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {arraySort(filteredUsers, columnName, {
-                        reverse: boolean,
-                    }).map((user, index) => {
-                        if (user.barangayName == null) {
-                            user.barangayName = "-";
-                        }
-                        return (
-                            <tr
-                                key={index}
-                                className="removeBorderStyle border-x-[1px] border-b h-11"
-                            >
-                                <td className="px-6">{user.id}</td>
-                                <td className="px-6">{user.firstName}</td>
-                                <td className="px-6">{user.lastName}</td>
-                                <td className="px-6">{user.username}</td>
-                                <td className="px-6">{user.email}</td>
-                                <td className="px-6">{user.barangayName}</td>
+            <div
+                className={`overflow-auto border h-fit max-h-[500px] flex-grow ${
+                    filteredUsers && "border-x border-t border-b-0"
+                }`}
+            >
+                <div className="w-0 md:w-full">
+                    <table className="md:w-full text-sm text-left">
+                        <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
+                            <tr className="removeBorderStyle">
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("id")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">No.</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("firstName")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">First Name</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("lastName")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">Last Name</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("username")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">Username</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("email")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">Email</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th className="px-6">
+                                    <div
+                                        onClick={() => sort("barangayName")}
+                                        className="flex items-center cursor-pointer group w-fit"
+                                    >
+                                        <p className="w-fit">Barangay Name</p>
+                                        <Icon
+                                            className={`w-5 h-5 invisible group-hover:visible `}
+                                            icon={`${
+                                                boolean == true
+                                                    ? "eva:arrow-ios-downward-fill"
+                                                    : "eva:arrow-ios-upward-fill"
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
                             </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            {arraySort(filteredUsers, columnName, {
+                                reverse: boolean,
+                            }).map((user, index) => {
+                                if (user.barangayName == null) {
+                                    user.barangayName = "-";
+                                }
+                                return (
+                                    <tr
+                                        key={index}
+                                        className="removeBorderStyle border-b h-11"
+                                    >
+                                        <td className="px-6">{index + 1}</td>
+                                        <td className="px-6">
+                                            {user.firstName}
+                                        </td>
+                                        <td className="px-6">
+                                            {user.lastName}
+                                        </td>
+                                        <td className="px-6">
+                                            {user.username}
+                                        </td>
+                                        <td className="px-6">{user.email}</td>
+                                        <td className="px-6">
+                                            {user.barangayName}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 }

@@ -24,6 +24,98 @@ const convertToPDF = async (req, res) => {
     });
 };
 
+const getAllJunkshop = async (req, res) => {
+    const junkshop = await Junkshop.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(junkshop);
+};
+
+const getJunkshop = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const junkshop = await Junkshop.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(junkshop);
+};
+
+const getUserJunkshop = async (req, res) => {
+    const user = res.locals.user;
+
+    const junkshop = await Junkshop.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(junkshop);
+};
+
+const getAllUpdatedJunkshop = async (req, res) => {
+    const junkshop = await ShortenedJunkshop.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(junkshop);
+};
+
+const getUpdatedJunkshop = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const junkshop = await ShortenedJunkshop.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(junkshop);
+};
+
+const getAllUpdatedJunkshopYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedJunkshop.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserJunkshopYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedJunkshop.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserJunkshopUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const junkshop = await ShortenedJunkshop.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(junkshop);
+};
+
 const getJunkshopYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -91,12 +183,14 @@ const getShortenedJunkshopYear = async (req, res) => {
 };
 
 const createShortenedJunkshop = async (req, res) => {
-    const { yearSubmitted, documentName, shortenedJunkshopUrl } = req.body;
+    const { yearSubmitted, junkshopName, documentName, shortenedJunkshopUrl } =
+        req.body;
     const user = res.locals.user;
 
     const junkshop = await ShortenedJunkshop.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        junkshopName: junkshopName,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
@@ -109,6 +203,34 @@ const createShortenedJunkshop = async (req, res) => {
 
 router.post("/getJunkshopYear", validateUser, validate, getJunkshopYear);
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
+router.get("/getAllJunkshop", validateUser, validate, getAllJunkshop);
+router.post("/getJunkshop", validateUser, validate, getJunkshop);
+router.get("/getUserJunkshop", validateUser, validate, getUserJunkshop);
+router.get(
+    "/getAllUpdatedJunkshop",
+    validateUser,
+    validate,
+    getAllUpdatedJunkshop
+);
+router.post("/getUpdatedJunkshop", validateUser, validate, getUpdatedJunkshop);
+router.post(
+    "/getAllUpdatedJunkshopYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedJunkshopYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserJunkshopYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserJunkshopYearSubmitted
+);
+router.post(
+    "/getUpdatedUserJunkshopUrl",
+    validateUser,
+    validate,
+    getUpdatedUserJunkshopUrl
+);
 router.post("/createJunkshop", validateUser, validate, createJunkshop);
 router.post(
     "/getShortenedJunkshopYear",

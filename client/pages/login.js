@@ -22,28 +22,14 @@ function login() {
             if (res.data.error) {
                 alert(res.data.error);
             } else {
-                // let barangayId = res.data.barangayId;
-                // if (res.data.barangayId == null) {
-                //     barangayId = 0;
-                // }
-                // console.log(res);
-                // localStorage.setItem("accessToken", res.data.token);
-                // setAuthState({
-                //     username: res.data.username,
-                //     id: res.data.id,
-                //     barangayId: barangayId,
-                //     barangayName: res.data.barangayName,
-                //     status: true,
-                // });
                 dispatch("LOGIN", res.data);
-                // console.log(res.data);
                 router.push("/");
             }
         });
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center justify-center min-h-screen p-4 md:p-0">
             <form onSubmit={login} className="w-full max-w-sm">
                 <p className="mb-6 text-4xl">Login</p>
                 <p>Username</p>

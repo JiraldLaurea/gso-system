@@ -24,6 +24,98 @@ const convertToPDF = async (req, res) => {
     });
 };
 
+const getAllBarangayOrdinance = async (req, res) => {
+    const barangayOrdinance = await BarangayOrdinance.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(barangayOrdinance);
+};
+
+const getBarangayOrdinance = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const barangayOrdinance = await BarangayOrdinance.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(barangayOrdinance);
+};
+
+const getUserBarangayOrdinance = async (req, res) => {
+    const user = res.locals.user;
+
+    const barangayOrdinance = await BarangayOrdinance.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(barangayOrdinance);
+};
+
+const getAllUpdatedBarangayOrdinance = async (req, res) => {
+    const barangayOrdinance = await ShortenedBarangayOrdinance.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(barangayOrdinance);
+};
+
+const getUpdatedBarangayOrdinance = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const barangayOrdinance = await ShortenedBarangayOrdinance.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(barangayOrdinance);
+};
+
+const getAllUpdatedBarangayOrdinanceYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedBarangayOrdinance.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserBarangayOrdinanceYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedBarangayOrdinance.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserBarangayOrdinanceUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const barangayOrdinance = await ShortenedBarangayOrdinance.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(barangayOrdinance);
+};
+
 const getBarangayOrdinanceYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -113,6 +205,54 @@ router.post(
     getBarangayOrdinanceYear
 );
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
+router.get(
+    "/getAllBarangayOrdinance",
+    validateUser,
+    validate,
+    getAllBarangayOrdinance
+);
+router.post(
+    "/getBarangayOrdinance",
+    validateUser,
+    validate,
+    getBarangayOrdinance
+);
+router.get(
+    "/getUserBarangayOrdinance",
+    validateUser,
+    validate,
+    getUserBarangayOrdinance
+);
+router.get(
+    "/getAllUpdatedBarangayOrdinance",
+    validateUser,
+    validate,
+    getAllUpdatedBarangayOrdinance
+);
+router.post(
+    "/getUpdatedBarangayOrdinance",
+    validateUser,
+    validate,
+    getUpdatedBarangayOrdinance
+);
+router.post(
+    "/getAllUpdatedBarangayOrdinanceYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedBarangayOrdinanceYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserBarangayOrdinanceYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserBarangayOrdinanceYearSubmitted
+);
+router.post(
+    "/getUpdatedUserBarangayOrdinanceUrl",
+    validateUser,
+    validate,
+    getUpdatedUserBarangayOrdinanceUrl
+);
 router.post(
     "/createBarangayOrdinance",
     validateUser,

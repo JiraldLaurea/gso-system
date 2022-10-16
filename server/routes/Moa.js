@@ -24,6 +24,98 @@ const convertToPDF = async (req, res) => {
     });
 };
 
+const getAllMoa = async (req, res) => {
+    const moa = await MemorandumOfAgreement.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(moa);
+};
+
+const getMoa = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const moa = await MemorandumOfAgreement.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(moa);
+};
+
+const getUserMoa = async (req, res) => {
+    const user = res.locals.user;
+
+    const moa = await MemorandumOfAgreement.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(moa);
+};
+
+const getAllUpdatedMoa = async (req, res) => {
+    const moa = await ShortenedMemorandumOfAgreement.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(moa);
+};
+
+const getUpdatedMoa = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const moa = await ShortenedMemorandumOfAgreement.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(moa);
+};
+
+const getAllUpdatedMoaYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedMemorandumOfAgreement.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserMoaYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedMemorandumOfAgreement.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserMoaUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const moa = await ShortenedMemorandumOfAgreement.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(moa);
+};
+
 const getMoaYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -95,13 +187,18 @@ const getShortenedMoaYear = async (req, res) => {
 };
 
 const createShortenedMoa = async (req, res) => {
-    const { yearSubmitted, documentName, shortenedMemorandumOfAgreementUrl } =
-        req.body;
+    const {
+        yearSubmitted,
+        dateOfCreation,
+        documentName,
+        shortenedMemorandumOfAgreementUrl,
+    } = req.body;
     const user = res.locals.user;
 
     const moa = await ShortenedMemorandumOfAgreement.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        dateOfCreation: dateOfCreation,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
@@ -114,6 +211,29 @@ const createShortenedMoa = async (req, res) => {
 
 router.post("/getMoaYear", validateUser, validate, getMoaYear);
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
+router.get("/getAllMoa", validateUser, validate, getAllMoa);
+router.post("/getMoa", validateUser, validate, getMoa);
+router.get("/getUserMoa", validateUser, validate, getUserMoa);
+router.get("/getAllUpdatedMoa", validateUser, validate, getAllUpdatedMoa);
+router.post("/getUpdatedMoa", validateUser, validate, getUpdatedMoa);
+router.post(
+    "/getAllUpdatedMoaYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedMoaYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserMoaYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserMoaYearSubmitted
+);
+router.post(
+    "/getUpdatedUserMoaUrl",
+    validateUser,
+    validate,
+    getUpdatedUserMoaUrl
+);
 router.post("/createMoa", validateUser, validate, createMoa);
 router.post(
     "/getShortenedMoaYear",

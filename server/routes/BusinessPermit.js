@@ -24,6 +24,98 @@ const convertToPDF = async (req, res) => {
     });
 };
 
+const getAllBusinessPermit = async (req, res) => {
+    const businessPermit = await BusinessPermit.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(businessPermit);
+};
+
+const getBusinessPermit = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const businessPermit = await BusinessPermit.findOne({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(businessPermit);
+};
+
+const getUserBusinessPermit = async (req, res) => {
+    const user = res.locals.user;
+
+    const businessPermit = await BusinessPermit.findOne({
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    return res.json(businessPermit);
+};
+
+const getAllUpdatedBusinessPermit = async (req, res) => {
+    const businessPermit = await ShortenedBusinessPermit.findAll({
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(businessPermit);
+};
+
+const getUpdatedBusinessPermit = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const businessPermit = await ShortenedBusinessPermit.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(businessPermit);
+};
+
+const getAllUpdatedBusinessPermitYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const yearSubmittted = await ShortenedBusinessPermit.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getAllUpdatedUserBusinessPermitYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+
+    const yearSubmittted = await ShortenedBusinessPermit.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: user.barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    return res.json(yearSubmittted);
+};
+
+const getUpdatedUserBusinessPermitUrl = async (req, res) => {
+    const user = res.locals.user;
+    const { yearOfSubmission } = req.body;
+
+    const businessPermit = await ShortenedBusinessPermit.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearOfSubmission,
+        },
+    });
+
+    return res.json(businessPermit);
+};
+
 const getBusinessPermitYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
@@ -92,13 +184,18 @@ const getShortenedBusinessPermitYear = async (req, res) => {
 };
 
 const createShortenedBusinessPermit = async (req, res) => {
-    const { yearSubmitted, documentName, shortenedBusinessPermitUrl } =
-        req.body;
+    const {
+        yearSubmitted,
+        dateIssued,
+        documentName,
+        shortenedBusinessPermitUrl,
+    } = req.body;
     const user = res.locals.user;
 
     const businessPermit = await ShortenedBusinessPermit.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
+        dateIssued: dateIssued,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
@@ -116,6 +213,49 @@ router.post(
     getBusinessPermitYear
 );
 router.post("/convertToPDF", validateUser, validate, convertToPDF);
+router.get(
+    "/getAllBusinessPermit",
+    validateUser,
+    validate,
+    getAllBusinessPermit
+);
+router.post("/getBusinessPermit", validateUser, validate, getBusinessPermit);
+router.get(
+    "/getUserBusinessPermit",
+    validateUser,
+    validate,
+    getUserBusinessPermit
+);
+router.get(
+    "/getAllUpdatedBusinessPermit",
+    validateUser,
+    validate,
+    getAllUpdatedBusinessPermit
+);
+router.post(
+    "/getUpdatedBusinessPermit",
+    validateUser,
+    validate,
+    getUpdatedBusinessPermit
+);
+router.post(
+    "/getAllUpdatedBusinessPermitYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedBusinessPermitYearSubmitted
+);
+router.get(
+    "/getAllUpdatedUserBusinessPermitYearSubmitted",
+    validateUser,
+    validate,
+    getAllUpdatedUserBusinessPermitYearSubmitted
+);
+router.post(
+    "/getUpdatedUserBusinessPermitUrl",
+    validateUser,
+    validate,
+    getUpdatedUserBusinessPermitUrl
+);
 router.post(
     "/createBusinessPermit",
     validateUser,

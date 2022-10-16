@@ -8,11 +8,6 @@ const { ActionSelectedBarangay } = require("../models");
 
 const Op = Sequelize.Op;
 
-router.get("/", async (req, res) => {
-    const barangays = await Barangay.findAll();
-    res.json(barangays);
-});
-
 router.get("/user", async (req, res) => {
     const barangayUsers = await User.findAll({
         where: {
@@ -48,6 +43,33 @@ router.post("/", async (req, res) => {
 
     res.json(barangay);
 });
+
+const getAllBarangay = async (req, res) => {
+    const barangays = await Barangay.findAll({
+        order: [["barangayName", "ASC"]],
+    });
+    res.json(barangays);
+};
+
+const getBarangayWastes = async (req, res) => {
+    const barangays = await Barangay.findAll({
+        limit: 6,
+        order: [["populationCount", "DESC"]],
+    });
+    res.json(barangays);
+};
+
+const updateBarangayTotalPopulationEncoded = async (req, res) => {
+    const { barangayId, populationCount } = req.body;
+
+    // console.log(populationCount);
+
+    await Barangay.update(
+        { populationCount: populationCount },
+        { where: { id: barangayId } }
+    );
+    res.json("SUCCESS");
+};
 
 const updateBarangayTotalPopulation = async (req, res) => {
     const { populationCount } = req.body;
@@ -112,6 +134,40 @@ const postSelectedBarangay = async (req, res) => {
     return res.json("SUCCESS");
 };
 
+const postSelectedBarangayWithYearSubmitted = async (req, res) => {
+    const user = res.locals.user;
+    const { barangayId, selectedBarangay, selectedDistrict, yearSubmitted } =
+        req.body;
+
+    const actionSelectedBarangay = await ActionSelectedBarangay.findOne({
+        where: { userId: user.id },
+    });
+
+    if (!actionSelectedBarangay) {
+        await ActionSelectedBarangay.create({
+            userId: user.id,
+            barangayId: barangayId,
+            selectedBarangay: selectedBarangay,
+            selectedDistrict: selectedDistrict,
+            yearSubmitted: yearSubmitted,
+        });
+    } else {
+        await ActionSelectedBarangay.update(
+            {
+                barangayId: barangayId,
+                selectedBarangay: selectedBarangay,
+                selectedDistrict: selectedDistrict,
+                yearSubmitted: yearSubmitted,
+            },
+            { where: { userId: user.id } }
+        );
+    }
+
+    return res.json("SUCCESS");
+};
+
+router.get("/getAllBarangay", validateUser, validate, getAllBarangay);
+router.get("/getBarangayWastes", validateUser, validate, getBarangayWastes);
 router.get(
     "/getAllBarangayEncode",
     validateUser,
@@ -119,12 +175,24 @@ router.get(
     getAllBarangayEncode
 );
 router.put("/update", validateUser, validate, updateBarangayTotalPopulation);
+router.put(
+    "/updateBarangayTotalPopulationEncoded",
+    validateUser,
+    validate,
+    updateBarangayTotalPopulationEncoded
+);
 router.get("/getSelectedBarangay", validateUser, validate, getSelectedBarangay);
 router.post(
     "/postSelectedBarangay",
     validateUser,
     validate,
     postSelectedBarangay
+);
+router.post(
+    "/postSelectedBarangayWithYearSubmitted",
+    validateUser,
+    validate,
+    postSelectedBarangayWithYearSubmitted
 );
 
 module.exports = router;

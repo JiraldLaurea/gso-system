@@ -7,14 +7,14 @@ import Axios from "axios";
 import Avatar from "react-avatar";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import moment from "moment";
 
 dayjs.extend(relativeTime);
 
 function Concern() {
     const router = useRouter();
     const concernId = router.query.concernId;
-    const [concernImage, setconcernImage] = useState();
-    const [commentText, setCommentText] = useState();
+    const [commentText, setCommentText] = useState("");
     const { mutate } = useSWRConfig();
 
     const {
@@ -23,11 +23,9 @@ function Concern() {
         isValidating: isValidatingConcern,
     } = useSWR(`http://localhost:3001/concern/${concernId}`);
 
-    const {
-        data: comments,
-        error: errorComments,
-        isValidating: isValidatingComments,
-    } = useSWR(`http://localhost:3001/concern/getcomments/${concernId}`);
+    const { data: comments } = useSWR(
+        `http://localhost:3001/concern/getcomments/${concernId}`
+    );
 
     const comment = async (e) => {
         e.preventDefault();
@@ -48,54 +46,23 @@ function Concern() {
         }
     };
 
-    let timestampConcern = concern?.createdAt;
-    let dateConcern = new Date(timestampConcern);
-
-    let minutes = 0;
-
-    if (dateConcern.getMinutes() < 10) {
-        minutes = "0" + dateConcern.getMinutes();
-    } else {
-        minutes = dateConcern.getMinutes();
-    }
-
-    let dateMarkupConcern = (
-        <>
-            {dateConcern.toLocaleString("default", {
-                month: "short",
-            })}
-            &nbsp;
-            {dateConcern.getDate()}, {dateConcern.getFullYear()}
-            &nbsp; - &nbsp;
-            {dateConcern.getHours() <= 12
-                ? [
-                      dateConcern.getHours() == 0
-                          ? "12"
-                          : dateConcern.getHours(),
-                  ] +
-                  ":" +
-                  minutes +
-                  "AM"
-                : [dateConcern.getHours() - 12] + ":" + minutes + "PM"}
-        </>
-    );
-
     return (
         <div className="flex flex-col w-full">
-            <div className="p-8">
+            <div className="p-4 md:p-8">
                 <div className="flex items-center mb-4">
                     <Icon
                         onClick={() => router.back()}
                         icon="bx:arrow-back"
                         className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
                     />
-                    <h2 className="text-xl font-medium ">
+                    <h2 className="text-xl font-semibold">
                         {concern?.barangayName ? concern?.barangayName : "GSO"}
                     </h2>
                 </div>
 
                 <p className="text-sm text-gray-600">
-                    Posted on: {dateMarkupConcern}
+                    Posted on:{" "}
+                    {moment(concern?.createdAt).format("MMM D, YYYY - h:mmA")}
                 </p>
                 <p className="my-4 text-xl">{concern?.concernText}</p>
                 {concern?.concernImageUrl && (
