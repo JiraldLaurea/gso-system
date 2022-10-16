@@ -23,7 +23,7 @@ function Navbar({ userData }) {
                         {!isSidebarOpen && (
                             <div
                                 onClick={() => dispatch("OPEN_SIDEBAR")}
-                                className="p-2 mr-[9px] hidden md:block rounded-full cursor-pointer text-red-500 active:bg-gray-200"
+                                className="p-2 mr-[9px] hidden md:block rounded-full cursor-pointer active:bg-gray-200"
                             >
                                 <Icon
                                     icon="mdi-light:menu"
