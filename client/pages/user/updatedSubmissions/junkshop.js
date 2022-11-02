@@ -5,6 +5,7 @@ import useSWR from "swr";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import fileDownload from "js-file-download";
 
 function junkshop() {
     const router = useRouter();
@@ -14,12 +15,15 @@ function junkshop() {
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [junkshopUrl, setJunkshopUrl] = useState(null);
     const [junkshopName, setJunkshopName] = useState(null);
     const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
     const [barangayYears, setBarangayYears] = useState([]);
+    const [documentExtension, setDocumentExtension] = useState("");
+    const documentImageExtensions = ["png", "jpg", "jpeg"];
+    const [loadingDownload, setLoadingDownload] = useState(false);
 
     const { data } = useSWR(
         "http://localhost:3001/junkshop/getAllUpdatedUserJunkshopYearSubmitted"
@@ -34,9 +38,38 @@ function junkshop() {
             "http://localhost:3001/junkshop/getUpdatedUserJunkshopUrl",
             data
         ).then((res) => {
+            setDocumentExtension(res.data.documentName.split(".").pop());
             setJunkshopName(res.data.junkshopName);
-            setImageUrl(res.data.shortenedJunkshopUrl);
+            setJunkshopUrl(res.data.junkshopUrl);
         });
+    };
+
+    const download = async () => {
+        if (!loadingDownload) {
+            setLoadingDownload(true);
+
+            const dataYearOfSubmission = {
+                yearOfSubmission: yearOfSubmission,
+            };
+
+            await Axios.post(
+                "http://localhost:3001/junkshop/getUpdatedUserJunkshopUrl",
+                dataYearOfSubmission
+            ).then((res) => {
+                const documentName = res.data.documentName;
+                Axios({
+                    url: "http://localhost:3001/download",
+                    method: "POST",
+                    responseType: "blob",
+                    data: {
+                        submissionUrl: res.data.junkshopUrl,
+                    },
+                }).then((res) => {
+                    fileDownload(res.data, documentName);
+                    setLoadingDownload(false);
+                });
+            });
+        }
     };
 
     return (
@@ -146,29 +179,55 @@ function junkshop() {
                                 >
                                     View
                                 </button>
+                                <button
+                                    onClick={download}
+                                    className={`px-4 py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
+                                        loadingDownload && "cursor-not-allowed"
+                                    }`}
+                                >
+                                    {!loadingDownload
+                                        ? "Download"
+                                        : "Processing..."}
+                                </button>
                             </>
                         )}
                     </div>
                 </div>
                 <hr className="my-6" />
                 <div>
-                    {imageUrl && (
+                    {junkshopUrl && (
                         <>
                             <p className="mb-4">
                                 Name of junkshop:
                                 <span className="ml-1">{junkshopName}</span>
                             </p>
                             <p className="mb-2">Junkshop: </p>
-                            <div className="w-full max-w-lg bg-black border ">
-                                <Image
-                                    src={imageUrl}
-                                    alt="programs image"
-                                    width="100%"
-                                    height="100%"
-                                    layout="responsive"
-                                    objectFit="contain"
-                                />
-                            </div>
+                            {documentImageExtensions.includes(
+                                documentExtension
+                            ) && (
+                                <div className="w-full max-w-lg bg-black border ">
+                                    <Image
+                                        src={junkshopUrl}
+                                        alt="route image"
+                                        width="100%"
+                                        height="100%"
+                                        layout="responsive"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                            )}
+                            {documentExtension == "pdf" && (
+                                <iframe
+                                    className="w-full h-[800px]"
+                                    src={`${junkshopUrl}`}
+                                ></iframe>
+                            )}
+                            {documentExtension == "docx" && (
+                                <iframe
+                                    className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${junkshopUrl}`}
+                                ></iframe>
+                            )}
                         </>
                     )}
                 </div>

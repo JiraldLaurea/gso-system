@@ -12,6 +12,7 @@ import useSWR, { mutate } from "swr";
 import { storage } from "../../firebase";
 import { useRouter } from "next/router";
 import RecyclableWastesInput from "../../components/RecyclableWastesInput";
+import moment from "moment";
 
 function recyclableWastes() {
     const router = useRouter();
@@ -38,9 +39,12 @@ function recyclableWastes() {
     const [scrap, setScrap] = useState(0);
     const [kaldero, setKaldero] = useState(0);
     const [others, setOthers] = useState(0);
+    const [dateSubmitted, setDateSubmitted] = useState(
+        moment().format("yyyy-MM")
+    );
 
     const { data: barangaysEncode } = useSWR(
-        "http://localhost:3001/barangay/getAllBarangayEncode"
+        "http://localhost:3001/barangay/getAllBarangayRecyclableWastes"
     );
 
     // Recursive Binary Search
@@ -69,7 +73,7 @@ function recyclableWastes() {
         setLoading(true);
         if (dropdownMenuValueBarangay != "Barangay") {
             const data = {
-                yearSubmitted: yearSubmitted,
+                dateSubmitted: dateSubmitted,
                 barangayId: barangayId,
                 barangayName: dropdownMenuValueBarangay,
                 districtName: dropdownMenuValueDistrict,
@@ -88,8 +92,9 @@ function recyclableWastes() {
 
             await Axios.post(
                 "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastes",
-                { yearSubmitted: yearSubmitted }
+                { dateSubmitted: dateSubmitted }
             ).then(async (res) => {
+                console.log("RESPONSE", res);
                 const barangayIdArray = res.data.map((data) => {
                     return data.barangayId;
                 });
@@ -114,7 +119,7 @@ function recyclableWastes() {
                 } else {
                     console.log("Element is present at index " + result);
                     alert(
-                        "You have already submitted a document from your chosen year."
+                        "You have already submitted a document from your chosen month and year."
                     );
                     setLoading(false);
                 }
@@ -134,9 +139,7 @@ function recyclableWastes() {
                         icon="bx:arrow-back"
                         className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
                     />
-                    <h2 className="text-xl font-medium ">
-                        Encode recyclable wastes
-                    </h2>
+                    <h2 className="text-xl font-medium ">Recyclable wastes</h2>
                 </div>
 
                 <p className="mb-1 text-sm text-gray-600">
@@ -230,7 +233,17 @@ function recyclableWastes() {
                             )}
                         </div>
                     </ClickAwayListener>
-                    <p className="mt-4 mb-2 text-sm text-gray-700">
+                    <p className="mt-4 mb-1 text-sm text-gray-600">
+                        Date of submission:
+                    </p>
+                    <input
+                        type="month"
+                        id="fromDatePicker"
+                        value={dateSubmitted}
+                        onChange={(e) => setDateSubmitted(e.target.value)}
+                        className="px-2 py-1 mb-4 border"
+                    />
+                    {/* <p className="mt-4 mb-2 text-sm text-gray-700 ">
                         Year of submission:
                     </p>
                     <input
@@ -239,7 +252,7 @@ function recyclableWastes() {
                         onChange={(e) => setYearSubmitted(e.target.value)}
                         type="number"
                         className="w-20 px-2 py-1 mb-4 text-center border restoreNumberArrows focus:outline-none"
-                    />
+                    /> */}
                 </div>
 
                 <div className="grid max-w-4xl grid-cols-2 md:grid-cols-3 lg:grid-cols-5">

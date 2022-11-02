@@ -582,86 +582,140 @@ const createSubmissionBarangayProfilePages = async (req, res) => {
             typeOfDocument: "New",
         });
 
-        await SubmissionBarangayProfilePage1.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage1.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage2.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage2.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage3.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage3.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage4.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage4.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage5.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage5.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage6.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage6.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage7.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage7.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage8.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage8.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
 
-        await SubmissionBarangayProfilePage9.update(
-            { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-            {
-                where: {
-                    barangayId: selectedBarangay.barangayId,
-                },
-            }
-        );
+        await SubmissionBarangayProfilePage9.create({
+            barangayId: selectedBarangay.barangayId,
+            typeOfDocumentId: typeOfDocument.id,
+            typeOfDocument: "New",
+        });
+
+        // await SubmissionBarangayProfilePage1.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage2.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage3.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage4.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage5.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage6.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage7.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage8.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
+
+        // await SubmissionBarangayProfilePage9.update(
+        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
+        //     {
+        //         where: {
+        //             barangayId: selectedBarangay.barangayId,
+        //         },
+        //     }
+        // );
     }
 
     return res.json("SUCCESS");
@@ -2965,7 +3019,10 @@ const updateSubmission = async (req, res) => {
     });
 
     const typeOfDocumentId = await TypeOfDocument.findOne({
-        where: { userId: selectedBarangay.userId, barangayId: selectedBarangay.barangayId },
+        where: {
+            userId: selectedBarangay.userId,
+            barangayId: selectedBarangay.barangayId,
+        },
     });
 
     const {

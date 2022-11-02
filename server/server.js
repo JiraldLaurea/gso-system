@@ -72,10 +72,10 @@ app.post("/upload", (req, res) => {
 
 // Download Endpoint
 app.post("/download", (req, res) => {
-    const { submissionBarangayProfileUrl } = req.body;
+    const { submissionUrl } = req.body;
     // res.download(`../client/public/submissions/${fileName}`);
     // console.log("SUBMISSION URL", submissionBarangayProfileUrl);
-    https.get(submissionBarangayProfileUrl, function (file) {
+    https.get(submissionUrl, function (file) {
         file.pipe(res);
     });
     // res.redirect(`${submissionBarangayProfileUrl}`);

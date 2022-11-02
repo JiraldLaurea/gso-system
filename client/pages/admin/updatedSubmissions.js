@@ -7,10 +7,8 @@ function updatedSubmissions() {
     return (
         <div className="">
             <div className="p-4 md:p-8">
-                <h2 className="mb-8 text-xl font-semibold">
-                    Updated submissions
-                </h2>
-                <div className="flex flex-col md:grid md:grid-cols-4 gap-4">
+                <h2 className="mb-8 text-xl font-semibold">View SWM plan</h2>
+                <div className="flex flex-col gap-4 md:grid md:grid-cols-4">
                     <RequirementsButton
                         path="/admin/updatedSubmissions/barangayProfile"
                         requirementName="Barangay profile"

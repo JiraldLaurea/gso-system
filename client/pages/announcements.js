@@ -121,6 +121,7 @@ function announcements() {
                         <div className="mb-6">
                             <p className="mb-1 text-sm text-gray-600">Image</p>
                             <input
+                                accept="image/*"
                                 type="file"
                                 className="w-full border"
                                 ref={inputFileRef}
@@ -183,8 +184,12 @@ function announcements() {
                 <div className="">
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className={`px-6 py-1 text-white bg-blue-500 active:ring `}
+                        className={`px-6 py-2 flex items-center justify-center text-white bg-blue-500 active:ring `}
                     >
+                        <Icon
+                            icon="ic:baseline-post-add"
+                            className="w-6 h-6 mr-2"
+                        />
                         Post announcement
                     </button>
 

@@ -48,88 +48,39 @@ function barangayOrdinance() {
                 if (!res.data) {
                     setLoading(true);
 
+                    const documentName = `BarangayOrdinance${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
+
+                    let fileRef = null;
+
                     if (extension == "doc" || extension == "docx") {
-                        const documentName = `ShortenedBarangayOrdinance${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
-
-                        await Axios.post(
-                            "http://localhost:3001/barangayOrdinance/convertToPDF",
-                            formData,
-                            {
-                                headers: {
-                                    "Content-Type": "multipart/form-data",
-                                },
-                            }
-                        ).then(async (res) => {
-                            const base64File = Buffer.from(
-                                res.data.pdfBuf.data
-                            ).toString("base64");
-
-                            const covertToPDFRef = ref(
-                                storage,
-                                `shortenedSubmission/shortenedBarangayOrdinance/${documentName}`
-                            );
-
-                            await uploadString(
-                                covertToPDFRef,
-                                base64File,
-                                "base64",
-                                {
-                                    contentType: "application/pdf",
-                                }
-                            );
-
-                            const shortenedBarangayOrdinanceUrl =
-                                await getDownloadURL(covertToPDFRef);
-
-                            const postData = {
-                                yearSubmitted: yearSubmitted,
-                                documentName: documentName,
-                                shortenedBarangayOrdinanceUrl:
-                                    shortenedBarangayOrdinanceUrl,
-                            };
-
-                            await Axios.post(
-                                "http://localhost:3001/barangayOrdinance/createShortenedBarangayOrdinance",
-                                postData
-                            );
-
-                            alert("Document successfully submitted.");
-
-                            setFile(null);
-                            inputFileRef.current.value = null;
-                            setLoading(false);
-                        });
+                        fileRef = ref(storage, `${documentName}`);
                     } else {
-                        const documentName = `ShortenedBarangayOrdinance${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
-
-                        const fileRef = ref(
+                        fileRef = ref(
                             storage,
-                            `shortenedSubmission/shortenedBarangayOrdinance/${documentName}`
+                            `submission/barangayOrdinance/${documentName}`
                         );
-
-                        await uploadBytes(fileRef, file);
-
-                        const shortenedBarangayOrdinanceUrl =
-                            await getDownloadURL(fileRef);
-
-                        const postData = {
-                            yearSubmitted: yearSubmitted,
-                            documentName: documentName,
-                            shortenedBarangayOrdinanceUrl:
-                                shortenedBarangayOrdinanceUrl,
-                        };
-
-                        await Axios.post(
-                            "http://localhost:3001/barangayOrdinance/createShortenedBarangayOrdinance",
-                            postData
-                        );
-
-                        alert("Document successfully submitted.");
-
-                        setFile(null);
-                        inputFileRef.current.value = null;
-                        setLoading(false);
                     }
+
+                    await uploadBytes(fileRef, file);
+
+                    const barangayOrdinanceUrl = await getDownloadURL(fileRef);
+
+                    const postData = {
+                        yearSubmitted: yearSubmitted,
+                        documentName: documentName,
+                        barangayOrdinanceUrl: barangayOrdinanceUrl,
+                    };
+
+                    await Axios.post(
+                        "http://localhost:3001/barangayOrdinance/createShortenedBarangayOrdinance",
+                        postData
+                    );
+
+                    alert("Document successfully submitted.");
+
+                    setFile(null);
+                    inputFileRef.current.value = null;
+                    setLoading(false);
                 } else {
                     alert(
                         "You have already submitted a document from your chosen year."

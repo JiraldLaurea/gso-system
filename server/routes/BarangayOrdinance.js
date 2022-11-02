@@ -57,7 +57,7 @@ const getUserBarangayOrdinance = async (req, res) => {
 };
 
 const getAllUpdatedBarangayOrdinance = async (req, res) => {
-    const barangayOrdinance = await ShortenedBarangayOrdinance.findAll({
+    const barangayOrdinance = await BarangayOrdinance.findAll({
         group: ["barangayName", "districtName"],
         order: [["barangayName", "ASC"]],
     });
@@ -67,7 +67,7 @@ const getAllUpdatedBarangayOrdinance = async (req, res) => {
 const getUpdatedBarangayOrdinance = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const barangayOrdinance = await ShortenedBarangayOrdinance.findOne({
+    const barangayOrdinance = await BarangayOrdinance.findOne({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -81,7 +81,7 @@ const getUpdatedBarangayOrdinance = async (req, res) => {
 const getAllUpdatedBarangayOrdinanceYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await ShortenedBarangayOrdinance.findAll({
+    const yearSubmittted = await BarangayOrdinance.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
@@ -93,20 +93,20 @@ const getAllUpdatedBarangayOrdinanceYearSubmitted = async (req, res) => {
 const getAllUpdatedUserBarangayOrdinanceYearSubmitted = async (req, res) => {
     const user = res.locals.user;
 
-    const yearSubmittted = await ShortenedBarangayOrdinance.findAll({
+    const barangayOrdinance = await BarangayOrdinance.findAll({
         attributes: ["yearSubmitted"],
-        where: { barangayId: user.barangayId },
         order: [["yearSubmitted", "ASC"]],
+        where: { barangayId: user.barangayId },
     });
 
-    return res.json(yearSubmittted);
+    return res.json(barangayOrdinance);
 };
 
 const getUpdatedUserBarangayOrdinanceUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const barangayOrdinance = await ShortenedBarangayOrdinance.findOne({
+    const barangayOrdinance = await BarangayOrdinance.findOne({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -170,7 +170,7 @@ const getShortenedBarangayOrdinanceYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
 
-    const barangayOrdinance = await ShortenedBarangayOrdinance.findOne({
+    const barangayOrdinance = await BarangayOrdinance.findOne({
         where: {
             yearSubmitted: yearSubmitted,
             barangayId: user.barangayId,
@@ -181,18 +181,17 @@ const getShortenedBarangayOrdinanceYear = async (req, res) => {
 };
 
 const createShortenedBarangayOrdinance = async (req, res) => {
-    const { yearSubmitted, documentName, shortenedBarangayOrdinanceUrl } =
-        req.body;
+    const { yearSubmitted, documentName, barangayOrdinanceUrl } = req.body;
     const user = res.locals.user;
 
-    const barangayOrdinance = await ShortenedBarangayOrdinance.create({
+    const barangayOrdinance = await BarangayOrdinance.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
         districtName: user.districtName,
-        shortenedBarangayOrdinanceUrl: shortenedBarangayOrdinanceUrl,
+        barangayOrdinanceUrl: barangayOrdinanceUrl,
     });
 
     return res.json(barangayOrdinance);

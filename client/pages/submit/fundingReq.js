@@ -48,88 +48,94 @@ function fundingReq() {
                 if (!res.data) {
                     setLoading(true);
 
+                    // if (extension == "doc" || extension == "docx") {
+                    //     const documentName = `ShortenedFundingReq${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
+
+                    //     await Axios.post(
+                    //         "http://localhost:3001/fundingReq/convertToPDF",
+                    //         formData,
+                    //         {
+                    //             headers: {
+                    //                 "Content-Type": "multipart/form-data",
+                    //             },
+                    //         }
+                    //     ).then(async (res) => {
+                    //         const base64File = Buffer.from(
+                    //             res.data.pdfBuf.data
+                    //         ).toString("base64");
+
+                    //         const covertToPDFRef = ref(
+                    //             storage,
+                    //             `shortenedSubmission/shortenedFundingReq/${documentName}`
+                    //         );
+
+                    //         await uploadString(
+                    //             covertToPDFRef,
+                    //             base64File,
+                    //             "base64",
+                    //             {
+                    //                 contentType: "application/pdf",
+                    //             }
+                    //         );
+
+                    //         const shortenedFundingReqUrl = await getDownloadURL(
+                    //             covertToPDFRef
+                    //         );
+
+                    //         const postData = {
+                    //             yearSubmitted: yearSubmitted,
+                    //             documentName: documentName,
+                    //             shortenedFundingReqUrl: shortenedFundingReqUrl,
+                    //         };
+
+                    //         await Axios.post(
+                    //             "http://localhost:3001/fundingReq/createShortenedFundingReq",
+                    //             postData
+                    //         );
+
+                    //         alert("Document successfully submitted.");
+
+                    //         setFile(null);
+                    //         inputFileRef.current.value = null;
+                    //         setLoading(false);
+                    //     });
+                    // }
+                    // else {
+
+                    const documentName = `FundingReq${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
+
+                    let fileRef = null;
+
                     if (extension == "doc" || extension == "docx") {
-                        const documentName = `ShortenedFundingReq${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
-
-                        await Axios.post(
-                            "http://localhost:3001/fundingReq/convertToPDF",
-                            formData,
-                            {
-                                headers: {
-                                    "Content-Type": "multipart/form-data",
-                                },
-                            }
-                        ).then(async (res) => {
-                            const base64File = Buffer.from(
-                                res.data.pdfBuf.data
-                            ).toString("base64");
-
-                            const covertToPDFRef = ref(
-                                storage,
-                                `shortenedSubmission/shortenedFundingReq/${documentName}`
-                            );
-
-                            await uploadString(
-                                covertToPDFRef,
-                                base64File,
-                                "base64",
-                                {
-                                    contentType: "application/pdf",
-                                }
-                            );
-
-                            const shortenedFundingReqUrl = await getDownloadURL(
-                                covertToPDFRef
-                            );
-
-                            const postData = {
-                                yearSubmitted: yearSubmitted,
-                                documentName: documentName,
-                                shortenedFundingReqUrl: shortenedFundingReqUrl,
-                            };
-
-                            await Axios.post(
-                                "http://localhost:3001/fundingReq/createShortenedFundingReq",
-                                postData
-                            );
-
-                            alert("Document successfully submitted.");
-
-                            setFile(null);
-                            inputFileRef.current.value = null;
-                            setLoading(false);
-                        });
+                        fileRef = ref(storage, `${documentName}`);
                     } else {
-                        const documentName = `ShortenedFundingReq${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
-
-                        const fileRef = ref(
+                        fileRef = ref(
                             storage,
-                            `shortenedSubmission/shortenedFundingReq/${documentName}`
+                            `shortenedSubmission/fundingReq/${documentName}`
                         );
-
-                        await uploadBytes(fileRef, file);
-
-                        const shortenedFundingReqUrl = await getDownloadURL(
-                            fileRef
-                        );
-
-                        const postData = {
-                            yearSubmitted: yearSubmitted,
-                            documentName: documentName,
-                            shortenedFundingReqUrl: shortenedFundingReqUrl,
-                        };
-
-                        await Axios.post(
-                            "http://localhost:3001/fundingReq/createShortenedFundingReq",
-                            postData
-                        );
-
-                        alert("Document successfully submitted.");
-
-                        setFile(null);
-                        inputFileRef.current.value = null;
-                        setLoading(false);
                     }
+
+                    await uploadBytes(fileRef, file);
+
+                    const fundingReqUrl = await getDownloadURL(fileRef);
+
+                    const postData = {
+                        yearSubmitted: yearSubmitted,
+                        documentName: documentName,
+                        fundingReqUrl: fundingReqUrl,
+                    };
+
+                    await Axios.post(
+                        "http://localhost:3001/fundingReq/createShortenedFundingReq",
+                        postData
+                    );
+
+                    alert("Document successfully submitted.");
+
+                    setFile(null);
+                    inputFileRef.current.value = null;
+                    setLoading(false);
+                    // }
                 } else {
                     alert(
                         "You have already submitted a document from your chosen year."

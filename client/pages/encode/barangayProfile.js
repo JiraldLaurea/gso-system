@@ -15,11 +15,11 @@ function barangayProfile({ savedData }) {
     const [barangayId, setBarangayId] = useState(null);
     const [isSaved, setIsSaved] = useState(false);
 
-    const {
-        data: barangaysEncode,
-        error: errorUserBarangays,
-        isValidating: isValidatingUserBarangays,
-    } = useSWR("http://localhost:3001/barangay/getAllBarangayEncode");
+    const { data: barangaysEncode } = useSWR(
+        "http://localhost:3001/barangay/getAllBarangayEncode"
+    );
+
+    console.log("ALL BARANGAYS ENCODE", barangaysEncode);
 
     const handleClick = async () => {
         const data = { barangayId: barangayId };
@@ -92,15 +92,11 @@ function barangayProfile({ savedData }) {
                         icon="bx:arrow-back"
                         className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
                     />
-                    <h2 className="text-xl font-semibold ">
-                        Encode barangay profile
-                    </h2>
+                    <h2 className="text-xl font-semibold ">Barangay profile</h2>
                 </div>
 
                 <div className="my-4">
-                    <p className="mb-1 text-sm text-gray-600">
-                        Select barangay and district
-                    </p>
+                    <p className="mb-1 text-sm text-gray-600">Barangay</p>
                     <div className="relative">
                         <ClickAwayListener
                             onClickAway={() => setIsDropdownMenuOpen(false)}
@@ -201,8 +197,12 @@ function barangayProfile({ savedData }) {
                                     alert("Please choose a barangay");
                                 }
                             }}
-                            className="w-32 py-2 mb-4 mr-4 text-white bg-blue-500 border border-blue-500 rounded-sm "
+                            className="flex items-center justify-center py-2 mb-4 mr-4 text-white bg-blue-500 border border-blue-500 rounded-sm w-36"
                         >
+                            <Icon
+                                icon="material-symbols:create-new-folder"
+                                className="w-6 h-6 mr-2"
+                            />
                             Create new
                         </button>
                         <button
@@ -211,11 +211,16 @@ function barangayProfile({ savedData }) {
                                     postSelectedBarangay("LoadDocument");
                                 }
                             }}
-                            className={`w-32 py-2 mb-4 border border-gray-300 rounded-sm ${
-                                !isSaved &&
-                                "hover:cursor-not-allowed bg-gray-300 hover:border-gray-300 text-gray-500"
+                            className={`w-36 flex items-center justify-center py-2 mb-4 border rounded-sm ${
+                                !isSaved
+                                    ? "hover:cursor-not-allowed bg-gray-300 text-gray-500"
+                                    : "border-gray-300 text-blue-600"
                             }`}
                         >
+                            <Icon
+                                icon="ic:sharp-upload-file"
+                                className="w-6 h-6 mr-2"
+                            />
                             Load
                         </button>
                     </div>

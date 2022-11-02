@@ -45,9 +45,12 @@ function updatedSubmissions() {
                 <h2 className="mb-8 text-xl font-semibold">
                     Updated submissions
                 </h2>
-                <div className="flex flex-col md:grid md:grid-cols-4 gap-4">
+                <div className="flex flex-col gap-4 md:grid md:grid-cols-4">
                     <RequirementsButton
-                        requirement={updatedBarangayProfile?.length != 0}
+                        requirement={
+                            updatedBarangayProfile &&
+                            updatedBarangayProfile[0].yearSubmitted != null
+                        }
                         path="/user/updatedSubmissions/barangayProfile"
                         requirementName="Barangay profile"
                     />

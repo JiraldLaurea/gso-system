@@ -57,7 +57,7 @@ const getUserBusinessPermit = async (req, res) => {
 };
 
 const getAllUpdatedBusinessPermit = async (req, res) => {
-    const businessPermit = await ShortenedBusinessPermit.findAll({
+    const businessPermit = await BusinessPermit.findAll({
         group: ["barangayName", "districtName"],
         order: [["barangayName", "ASC"]],
     });
@@ -67,7 +67,7 @@ const getAllUpdatedBusinessPermit = async (req, res) => {
 const getUpdatedBusinessPermit = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const businessPermit = await ShortenedBusinessPermit.findOne({
+    const businessPermit = await BusinessPermit.findOne({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -81,7 +81,7 @@ const getUpdatedBusinessPermit = async (req, res) => {
 const getAllUpdatedBusinessPermitYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await ShortenedBusinessPermit.findAll({
+    const yearSubmittted = await BusinessPermit.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
@@ -93,20 +93,20 @@ const getAllUpdatedBusinessPermitYearSubmitted = async (req, res) => {
 const getAllUpdatedUserBusinessPermitYearSubmitted = async (req, res) => {
     const user = res.locals.user;
 
-    const yearSubmittted = await ShortenedBusinessPermit.findAll({
+    const businessPermit = await BusinessPermit.findAll({
         attributes: ["yearSubmitted"],
-        where: { barangayId: user.barangayId },
         order: [["yearSubmitted", "ASC"]],
+        where: { barangayId: user.barangayId },
     });
 
-    return res.json(yearSubmittted);
+    return res.json(businessPermit);
 };
 
 const getUpdatedUserBusinessPermitUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const businessPermit = await ShortenedBusinessPermit.findOne({
+    const businessPermit = await BusinessPermit.findOne({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -173,7 +173,7 @@ const getShortenedBusinessPermitYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
 
-    const businessPermit = await ShortenedBusinessPermit.findOne({
+    const businessPermit = await BusinessPermit.findOne({
         where: {
             yearSubmitted: yearSubmitted,
             barangayId: user.barangayId,
@@ -184,15 +184,11 @@ const getShortenedBusinessPermitYear = async (req, res) => {
 };
 
 const createShortenedBusinessPermit = async (req, res) => {
-    const {
-        yearSubmitted,
-        dateIssued,
-        documentName,
-        shortenedBusinessPermitUrl,
-    } = req.body;
+    const { yearSubmitted, dateIssued, documentName, businessPermitUrl } =
+        req.body;
     const user = res.locals.user;
 
-    const businessPermit = await ShortenedBusinessPermit.create({
+    const businessPermit = await BusinessPermit.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         dateIssued: dateIssued,
@@ -200,7 +196,7 @@ const createShortenedBusinessPermit = async (req, res) => {
         barangayId: user.barangayId,
         barangayName: user.barangayName,
         districtName: user.districtName,
-        shortenedBusinessPermitUrl: shortenedBusinessPermitUrl,
+        businessPermitUrl: businessPermitUrl,
     });
 
     return res.json(businessPermit);

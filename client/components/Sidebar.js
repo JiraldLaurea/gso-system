@@ -146,7 +146,7 @@ function Sidebar() {
                             <p>Loading...</p>
                         </div>
                     )}
-
+                    {/* 
                     {user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
@@ -160,7 +160,7 @@ function Sidebar() {
                             />
                             <p>Encoded submissions</p>
                         </div>
-                    )}
+                    )} */}
 
                     {user?.isAdmin && !loading && (
                         <div
@@ -171,13 +171,13 @@ function Sidebar() {
                         >
                             <Icon
                                 className="w-6 h-6 mr-4"
-                                icon="fluent:document-16-filled"
+                                icon="ic:baseline-remove-red-eye"
                             />
-                            <p>Updated submissions</p>
+                            <p>View SWM plan</p>
                         </div>
                     )}
 
-                    {!user?.isAdmin && !loading && (
+                    {/* {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
                                 router.push("/user/encodedSubmissions");
@@ -190,7 +190,7 @@ function Sidebar() {
                             />
                             <p>Encoded submissions</p>
                         </div>
-                    )}
+                    )} */}
 
                     {!user?.isAdmin && !loading && (
                         <div
@@ -201,9 +201,9 @@ function Sidebar() {
                         >
                             <Icon
                                 className="w-6 h-6 mr-4"
-                                icon="fluent:document-arrow-up-20-filled"
+                                icon="ic:baseline-remove-red-eye"
                             />
-                            <p>Updated submissions</p>
+                            <p>View SWM plan</p>
                         </div>
                     )}
 

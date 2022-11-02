@@ -97,7 +97,7 @@ const getUserProgram = async (req, res) => {
 };
 
 const getAllUpdatedPrograms = async (req, res) => {
-    const programs = await ShortenedPrograms.findAll({
+    const programs = await Programs.findAll({
         group: ["barangayName", "districtName"],
         order: [["barangayName", "ASC"]],
     });
@@ -107,7 +107,7 @@ const getAllUpdatedPrograms = async (req, res) => {
 const getUpdatedPrograms = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const programs = await ShortenedPrograms.findOne({
+    const programs = await Programs.findOne({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -121,7 +121,7 @@ const getUpdatedPrograms = async (req, res) => {
 const getAllUpdatedProgramsYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await ShortenedPrograms.findAll({
+    const yearSubmittted = await Programs.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
@@ -133,20 +133,20 @@ const getAllUpdatedProgramsYearSubmitted = async (req, res) => {
 const getAllUpdatedUserProgramsYearSubmitted = async (req, res) => {
     const user = res.locals.user;
 
-    const yearSubmittted = await ShortenedPrograms.findAll({
+    const programs = await Programs.findAll({
         attributes: ["yearSubmitted"],
-        where: { barangayId: user.barangayId },
         order: [["yearSubmitted", "ASC"]],
+        where: { barangayId: user.barangayId },
     });
 
-    return res.json(yearSubmittted);
+    return res.json(programs);
 };
 
 const getUpdatedUserProgramsUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const program = await ShortenedPrograms.findOne({
+    const program = await Programs.findOne({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -210,7 +210,7 @@ const getShortenedProgramsYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
 
-    const programs = await ShortenedPrograms.findOne({
+    const programs = await Programs.findOne({
         where: {
             yearSubmitted: yearSubmitted,
             barangayId: user.barangayId,
@@ -221,17 +221,17 @@ const getShortenedProgramsYear = async (req, res) => {
 };
 
 const createShortenedPrograms = async (req, res) => {
-    const { yearSubmitted, documentName, shortenedProgramsUrl } = req.body;
+    const { yearSubmitted, documentName, programsUrl } = req.body;
     const user = res.locals.user;
 
-    const programs = await ShortenedPrograms.create({
+    const programs = await Programs.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         userId: user.id,
         barangayId: user.barangayId,
         barangayName: user.barangayName,
         districtName: user.districtName,
-        shortenedProgramsUrl: shortenedProgramsUrl,
+        programsUrl: programsUrl,
     });
 
     return res.json(programs);

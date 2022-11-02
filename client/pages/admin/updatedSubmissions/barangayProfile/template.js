@@ -1317,10 +1317,14 @@ function template({ pageData, actionData }) {
                     <button
                         disabled={isLoading}
                         onClick={createPDF}
-                        className={`w-full px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm ${
+                        className={`w-full flex items-center justify-center px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm ${
                             isLoading && "cursor-not-allowed "
                         }`}
                     >
+                        <Icon
+                            icon="ic:baseline-save"
+                            className="w-6 h-6 mr-2"
+                        />
                         {!isLoading ? "Update changes" : "Processing..."}
                     </button>
                 </div>

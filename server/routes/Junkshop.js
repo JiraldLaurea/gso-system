@@ -57,7 +57,7 @@ const getUserJunkshop = async (req, res) => {
 };
 
 const getAllUpdatedJunkshop = async (req, res) => {
-    const junkshop = await ShortenedJunkshop.findAll({
+    const junkshop = await Junkshop.findAll({
         group: ["barangayName", "districtName"],
         order: [["barangayName", "ASC"]],
     });
@@ -67,7 +67,7 @@ const getAllUpdatedJunkshop = async (req, res) => {
 const getUpdatedJunkshop = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const junkshop = await ShortenedJunkshop.findOne({
+    const junkshop = await Junkshop.findOne({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -81,7 +81,7 @@ const getUpdatedJunkshop = async (req, res) => {
 const getAllUpdatedJunkshopYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await ShortenedJunkshop.findAll({
+    const yearSubmittted = await Junkshop.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
@@ -93,20 +93,20 @@ const getAllUpdatedJunkshopYearSubmitted = async (req, res) => {
 const getAllUpdatedUserJunkshopYearSubmitted = async (req, res) => {
     const user = res.locals.user;
 
-    const yearSubmittted = await ShortenedJunkshop.findAll({
+    const junkshop = await Junkshop.findAll({
         attributes: ["yearSubmitted"],
-        where: { barangayId: user.barangayId },
         order: [["yearSubmitted", "ASC"]],
+        where: { barangayId: user.barangayId },
     });
 
-    return res.json(yearSubmittted);
+    return res.json(junkshop);
 };
 
 const getUpdatedUserJunkshopUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const junkshop = await ShortenedJunkshop.findOne({
+    const junkshop = await Junkshop.findOne({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -172,7 +172,7 @@ const getShortenedJunkshopYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
 
-    const junkshop = await ShortenedJunkshop.findOne({
+    const junkshop = await Junkshop.findOne({
         where: {
             yearSubmitted: yearSubmitted,
             barangayId: user.barangayId,
@@ -183,11 +183,10 @@ const getShortenedJunkshopYear = async (req, res) => {
 };
 
 const createShortenedJunkshop = async (req, res) => {
-    const { yearSubmitted, junkshopName, documentName, shortenedJunkshopUrl } =
-        req.body;
+    const { yearSubmitted, junkshopName, documentName, junkshopUrl } = req.body;
     const user = res.locals.user;
 
-    const junkshop = await ShortenedJunkshop.create({
+    const junkshop = await Junkshop.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         junkshopName: junkshopName,
@@ -195,7 +194,7 @@ const createShortenedJunkshop = async (req, res) => {
         barangayId: user.barangayId,
         barangayName: user.barangayName,
         districtName: user.districtName,
-        shortenedJunkshopUrl: shortenedJunkshopUrl,
+        junkshopUrl: junkshopUrl,
     });
 
     return res.json(junkshop);

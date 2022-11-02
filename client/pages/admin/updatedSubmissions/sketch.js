@@ -5,6 +5,8 @@ import useSWR from "swr";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import DocViewer from "react-doc-viewer";
+import fileDownload from "js-file-download";
 
 function sketch() {
     const router = useRouter();
@@ -15,12 +17,15 @@ function sketch() {
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [sketchUrl, setSketchUrl] = useState(null);
     const [sketch, setSketch] = useState([]);
     const [collectionSchedule, setCollectionSchedule] = useState(null);
     const [barangayYears, setBarangayYears] = useState([]);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
+    const [documentExtension, setDocumentExtension] = useState("");
+    const documentImageExtensions = ["png", "jpg", "jpeg"];
+    const [loadingDownload, setLoadingDownload] = useState(false);
 
     const { data: barangaysEncode } = useSWR(
         "http://localhost:3001/sketch/getAllUpdatedSketch"
@@ -55,9 +60,39 @@ function sketch() {
             "http://localhost:3001/sketch/getUpdatedSketch",
             data
         ).then((res) => {
-            setImageUrl(res.data.shortenedSketchUrl);
+            setDocumentExtension(res.data.documentName.split(".").pop());
+            setSketchUrl(res.data.sketchUrl);
             setCollectionSchedule(res.data.collectionSchedule);
         });
+    };
+
+    const download = async () => {
+        if (!loadingDownload) {
+            setLoadingDownload(true);
+
+            const dataYearOfSubmission = {
+                barangayId: barangayId,
+                yearSubmitted: yearOfSubmission,
+            };
+
+            await Axios.post(
+                "http://localhost:3001/sketch/getUpdatedSketch",
+                dataYearOfSubmission
+            ).then((res) => {
+                const documentName = res.data.documentName;
+                Axios({
+                    url: "http://localhost:3001/download",
+                    method: "POST",
+                    responseType: "blob",
+                    data: {
+                        submissionUrl: res.data.sketchUrl,
+                    },
+                }).then((res) => {
+                    fileDownload(res.data, documentName);
+                    setLoadingDownload(false);
+                });
+            });
+        }
     };
 
     return (
@@ -77,7 +112,7 @@ function sketch() {
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
                             <p className="mb-1 text-sm text-gray-600">
-                                Select barangay and district
+                                Barangay and district
                             </p>
                             <div className="relative">
                                 <ClickAwayListener
@@ -173,9 +208,9 @@ function sketch() {
                                 </ClickAwayListener>
                             </div>
                         </div>
-                        <div className="md:ml-4 my-4 md:my-0">
+                        <div className="my-4 md:ml-4 md:my-0">
                             <p className="mb-1 text-sm text-gray-600">
-                                Select year of submission
+                                Year of submission
                             </p>
                             <div className="relative">
                                 <ClickAwayListener
@@ -268,13 +303,24 @@ function sketch() {
                                     >
                                         View
                                     </button>
+                                    <button
+                                        onClick={download}
+                                        className={`px-4 py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
+                                            loadingDownload &&
+                                            "cursor-not-allowed"
+                                        }`}
+                                    >
+                                        {!loadingDownload
+                                            ? "Download"
+                                            : "Processing..."}
+                                    </button>
                                 </>
                             )}
                     </div>
                 </div>
                 <hr className="my-6" />
                 <div>
-                    {imageUrl && (
+                    {sketchUrl && (
                         <>
                             <p className="mb-4">
                                 Collection schedule:
@@ -284,16 +330,33 @@ function sketch() {
                             </p>
 
                             <p className="mb-2">Sketch:</p>
-                            <div className="w-full max-w-lg bg-black border ">
-                                <Image
-                                    src={imageUrl}
-                                    alt="route image"
-                                    width="100%"
-                                    height="100%"
-                                    layout="responsive"
-                                    objectFit="contain"
-                                />
-                            </div>
+                            {documentImageExtensions.includes(
+                                documentExtension
+                            ) && (
+                                <div className="w-full max-w-lg bg-black border ">
+                                    <Image
+                                        src={sketchUrl}
+                                        alt="route image"
+                                        width="100%"
+                                        height="100%"
+                                        layout="responsive"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                            )}
+                            {documentExtension == "pdf" && (
+                                <iframe
+                                    className="w-full h-[800px]"
+                                    // src={`../submissions/${viewDocumentName}`}
+                                    src={`${sketchUrl}`}
+                                ></iframe>
+                            )}
+                            {documentExtension == "docx" && (
+                                <iframe
+                                    className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${sketchUrl}`}
+                                ></iframe>
+                            )}
                         </>
                     )}
                 </div>

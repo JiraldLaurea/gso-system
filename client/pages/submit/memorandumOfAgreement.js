@@ -44,90 +44,43 @@ function memorandumOfAgreement() {
                 if (!res.data) {
                     setLoading(true);
 
+                    const documentName = `Moa${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
+
+                    let fileRef = null;
+
                     if (extension == "doc" || extension == "docx") {
-                        const documentName = `ShortenedMoa${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
-
-                        await Axios.post(
-                            "http://localhost:3001/moa/convertToPDF",
-                            formData,
-                            {
-                                headers: {
-                                    "Content-Type": "multipart/form-data",
-                                },
-                            }
-                        ).then(async (res) => {
-                            const base64File = Buffer.from(
-                                res.data.pdfBuf.data
-                            ).toString("base64");
-
-                            const covertToPDFRef = ref(
-                                storage,
-                                `shortenedSubmission/shortenedMemorandumOfAgreement/${documentName}`
-                            );
-
-                            await uploadString(
-                                covertToPDFRef,
-                                base64File,
-                                "base64",
-                                {
-                                    contentType: "application/pdf",
-                                }
-                            );
-
-                            const shortenedMemorandumOfAgreementUrl =
-                                await getDownloadURL(covertToPDFRef);
-
-                            const postData = {
-                                yearSubmitted: yearSubmitted,
-                                dateOfCreation: dateOfCreation,
-                                documentName: documentName,
-                                shortenedMemorandumOfAgreementUrl:
-                                    shortenedMemorandumOfAgreementUrl,
-                            };
-
-                            await Axios.post(
-                                "http://localhost:3001/moa/createShortenedMoa",
-                                postData
-                            );
-
-                            alert("Document successfully submitted.");
-
-                            setFile(null);
-                            inputFileRef.current.value = null;
-                            setLoading(false);
-                        });
+                        fileRef = ref(storage, `${documentName}`);
                     } else {
-                        const documentName = `ShortenedMoa${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
-
-                        const fileRef = ref(
+                        fileRef = ref(
                             storage,
-                            `shortenedSubmission/shortenedMemorandumOfAgreement/${documentName}`
+                            `submission/memorandumOfAgreement/${documentName}`
                         );
-
-                        await uploadBytes(fileRef, file);
-
-                        const shortenedMemorandumOfAgreementUrl =
-                            await getDownloadURL(fileRef);
-
-                        const postData = {
-                            yearSubmitted: yearSubmitted,
-                            dateOfCreation: dateOfCreation,
-                            documentName: documentName,
-                            shortenedMemorandumOfAgreementUrl:
-                                shortenedMemorandumOfAgreementUrl,
-                        };
-
-                        await Axios.post(
-                            "http://localhost:3001/moa/createShortenedMoa",
-                            postData
-                        );
-
-                        alert("Document successfully submitted.");
-
-                        setFile(null);
-                        inputFileRef.current.value = null;
-                        setLoading(false);
                     }
+
+                    await uploadBytes(fileRef, file);
+
+                    const memorandumOfAgreementUrl = await getDownloadURL(
+                        fileRef
+                    );
+
+                    const postData = {
+                        yearSubmitted: yearSubmitted,
+                        dateOfCreation: dateOfCreation,
+                        documentName: documentName,
+                        memorandumOfAgreementUrl: memorandumOfAgreementUrl,
+                    };
+
+                    await Axios.post(
+                        "http://localhost:3001/moa/createShortenedMoa",
+                        postData
+                    );
+
+                    alert("Document successfully submitted.");
+
+                    setFile(null);
+                    inputFileRef.current.value = null;
+                    setLoading(false);
+                    // }
                 } else {
                     alert(
                         "You have already submitted a document from your chosen year."

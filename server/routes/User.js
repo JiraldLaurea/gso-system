@@ -71,41 +71,41 @@ router.post("/", async (req, res) => {
             userId: user.id,
         });
 
-        await SubmissionBarangayProfilePage1.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage1.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage2.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage2.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage3.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage3.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage4.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage4.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage5.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage5.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage6.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage6.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage7.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage7.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage8.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage8.create({
+        //     barangayId: barangay.id,
+        // });
 
-        await SubmissionBarangayProfilePage9.create({
-            barangayId: barangay.id,
-        });
+        // await SubmissionBarangayProfilePage9.create({
+        //     barangayId: barangay.id,
+        // });
     } else {
         user = await User.create({
             firstName: firstName,

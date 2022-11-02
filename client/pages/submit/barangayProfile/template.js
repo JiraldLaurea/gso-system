@@ -766,7 +766,7 @@ function template({ pageData, actionData }) {
 
         if (isSubmitted) {
             return alert(
-                "You have already submitted a document from your chosen year."
+                "Submission failed: A document has already been submitted from your chosen year."
             );
         }
 
@@ -1170,8 +1170,7 @@ function template({ pageData, actionData }) {
             date1: values.date1,
             barangayCaptain: values.barangayCaptain,
             date2: values.date2,
-
-            documentName: `BarangayProfileShortened${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`,
+            documentName: `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`,
             populationCount: totalPopulationCount,
             shortenedBarangayProfileUrl: shortenedBarangayProfileUrl,
         };

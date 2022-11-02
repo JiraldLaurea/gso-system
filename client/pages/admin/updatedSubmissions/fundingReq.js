@@ -5,6 +5,7 @@ import useSWR from "swr";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import fileDownload from "js-file-download";
 
 function fundingReq() {
     const router = useRouter();
@@ -14,12 +15,15 @@ function fundingReq() {
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [fundingReqUrl, setFundingReqUrl] = useState(null);
     const [sketch, setSketch] = useState([]);
     const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
     const [barangayYears, setBarangayYears] = useState([]);
+    const [documentExtension, setDocumentExtension] = useState("");
+    const documentImageExtensions = ["png", "jpg", "jpeg"];
+    const [loadingDownload, setLoadingDownload] = useState(false);
 
     const { data: barangaysEncode } = useSWR(
         "http://localhost:3001/fundingReq/getAllUpdatedFundingReq"
@@ -54,8 +58,38 @@ function fundingReq() {
             "http://localhost:3001/fundingReq/getUpdatedFundingReq",
             data
         ).then((res) => {
-            setImageUrl(res.data.shortenedFundingReqUrl);
+            setDocumentExtension(res.data.documentName.split(".").pop());
+            setFundingReqUrl(res.data.fundingReqUrl);
         });
+    };
+
+    const download = async () => {
+        if (!loadingDownload) {
+            setLoadingDownload(true);
+
+            const data = {
+                barangayId: barangayId,
+                yearSubmitted: yearOfSubmission,
+            };
+
+            await Axios.post(
+                "http://localhost:3001/fundingReq/getUpdatedFundingReq",
+                data
+            ).then((res) => {
+                const documentName = res.data.documentName;
+                Axios({
+                    url: "http://localhost:3001/download",
+                    method: "POST",
+                    responseType: "blob",
+                    data: {
+                        submissionUrl: res.data.fundingReqUrl,
+                    },
+                }).then((res) => {
+                    fileDownload(res.data, documentName);
+                    setLoadingDownload(false);
+                });
+            });
+        }
     };
 
     return (
@@ -77,7 +111,7 @@ function fundingReq() {
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
                             <p className="mb-1 text-sm text-gray-600">
-                                Select barangay and district
+                                Barangay and district
                             </p>
                             <div className="relative">
                                 <ClickAwayListener
@@ -173,9 +207,9 @@ function fundingReq() {
                                 </ClickAwayListener>
                             </div>
                         </div>
-                        <div className="md:ml-4 my-4 md:my-0">
+                        <div className="my-4 md:ml-4 md:my-0">
                             <p className="mb-1 text-sm text-gray-600">
-                                Select year of submission
+                                Year of submission
                             </p>
                             <div className="relative">
                                 <ClickAwayListener
@@ -268,25 +302,52 @@ function fundingReq() {
                                     >
                                         View
                                     </button>
+                                    <button
+                                        onClick={download}
+                                        className={`px-4 py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
+                                            loadingDownload &&
+                                            "cursor-not-allowed"
+                                        }`}
+                                    >
+                                        {!loadingDownload
+                                            ? "Download"
+                                            : "Processing..."}
+                                    </button>
                                 </>
                             )}
                     </div>
                 </div>
                 <hr className="my-6" />
                 <div>
-                    {imageUrl && (
+                    {fundingReqUrl && (
                         <>
                             <p className="mb-2">Funding requirement: </p>
-                            <div className="w-full max-w-lg bg-black border ">
-                                <Image
-                                    src={imageUrl}
-                                    alt="programs image"
-                                    width="100%"
-                                    height="100%"
-                                    layout="responsive"
-                                    objectFit="contain"
-                                />
-                            </div>
+                            {documentImageExtensions.includes(
+                                documentExtension
+                            ) && (
+                                <div className="w-full max-w-lg bg-black border ">
+                                    <Image
+                                        src={fundingReqUrl}
+                                        alt="route image"
+                                        width="100%"
+                                        height="100%"
+                                        layout="responsive"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                            )}
+                            {documentExtension == "pdf" && (
+                                <iframe
+                                    className="w-full h-[800px]"
+                                    src={`${fundingReqUrl}`}
+                                ></iframe>
+                            )}
+                            {documentExtension == "docx" && (
+                                <iframe
+                                    className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${fundingReqUrl}`}
+                                ></iframe>
+                            )}
                         </>
                     )}
                 </div>

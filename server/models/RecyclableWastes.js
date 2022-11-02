@@ -2,8 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     const RecyclableWastes = sequelize.define(
         "RecyclableWastes",
         {
-            yearSubmitted: {
-                type: DataTypes.INTEGER,
+            dateSubmitted: {
+                type: DataTypes.DATEONLY,
                 allowNull: false,
             },
             barangayId: {

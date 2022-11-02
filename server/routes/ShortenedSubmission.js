@@ -11,6 +11,8 @@ const { TypeOfDocument } = require("../models");
 const { ShortenedSubmission } = require("../models");
 const { Submission } = require("../models");
 
+const Op = Sequelize.Op;
+
 // const getShortenedBarangayProfile = async (req, res) => {
 //     const shortenedBarangayProfile = await ShortenedBarangayProfile.findAll();
 //     return res.json(shortenedBarangayProfile);
@@ -491,7 +493,18 @@ const submitShortenedBarangayProfile = async (req, res) => {
     //     action: "CreateNewDocument",
     // });
 
-    await ShortenedSubmission.create({
+    // await ShortenedSubmission.create({
+    //     documentName: documentName,
+    //     yearSubmitted: yearSubmitted,
+    //     populationCount: populationCount,
+    //     userId: user.id,
+    //     barangayId: barangay.id,
+    //     barangayName: barangay.barangayName,
+    //     districtName: barangay.districtName,
+    //     submissionBarangayProfileUrl: shortenedBarangayProfileUrl,
+    // });
+
+    await Submission.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         populationCount: populationCount,
@@ -1180,22 +1193,6 @@ const updateSubmittedShortenedBarangayProfile = async (req, res) => {
         date2,
     } = req.body;
 
-    const barangay = await Barangay.findOne({
-        where: { userId: selectedBarangay.barangayId },
-    });
-
-    await ShortenedSubmission.findOne({
-        where: {
-            barangayId: selectedBarangay.barangayId,
-            yearSubmitted: selectedBarangay.yearSubmitted,
-        },
-    }).then((data) => {
-        data.update({
-            populationCount: populationCount,
-            submissionBarangayProfileUrl: shortenedBarangayProfileUrl,
-        });
-    });
-
     const totalMale =
         Number(male1) +
         Number(male2) +
@@ -1551,6 +1548,18 @@ const updateSubmittedShortenedBarangayProfile = async (req, res) => {
             date2: date2,
         });
     });
+
+    // await ShortenedSubmission.findOne({
+    //     where: {
+    //         barangayId: selectedBarangay.barangayId,
+    //         yearSubmitted: selectedBarangay.yearSubmitted,
+    //     },
+    // }).then((data) => {
+    //     data.update({
+    //         populationCount: populationCount,
+    //         submissionBarangayProfileUrl: shortenedBarangayProfileUrl,
+    //     });
+    // });
 
     res.json("SUCESS");
 };
@@ -2325,11 +2334,10 @@ const checkSubmittedBarangayProfile = async (req, res) => {
 
     const { yearSubmitted } = req.body;
 
-    const brgyProfileShortened = await ShortenedBarangayProfile.findOne({
+    const brgyProfileShortened = await Submission.findOne({
         attributes: ["yearSubmitted"],
         where: {
             barangayId: user.barangayId,
-            typeOfDocument: "Submitted",
             yearSubmitted: yearSubmitted,
         },
     });
@@ -2366,7 +2374,12 @@ const getShortenedBarangayProfileUrl = async (req, res) => {
 };
 
 const getAllUpdatedBarangayProfile = async (req, res) => {
-    const updatedBarangayProfile = await ShortenedSubmission.findAll({
+    const updatedBarangayProfile = await Submission.findAll({
+        where: {
+            documentName: {
+                [Op.ne]: null,
+            },
+        },
         group: ["barangayName", "districtName"],
         order: [["barangayName", "ASC"]],
     });
@@ -2374,10 +2387,25 @@ const getAllUpdatedBarangayProfile = async (req, res) => {
     return res.json(updatedBarangayProfile);
 };
 
+const getAllEncodedAndUpdatedBarangayProfile = async (req, res) => {
+    const barangayProfile = await ShortenedSubmission.findAll({
+        include: [
+            {
+                model: Submission,
+                required: true,
+            },
+        ],
+        group: ["barangayName", "districtName"],
+        order: [["barangayName", "ASC"]],
+    });
+
+    return res.json(barangayProfile);
+};
+
 const getAllUpdatedBarangayProfileYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await ShortenedSubmission.findAll({
+    const yearSubmittted = await Submission.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
@@ -2389,13 +2417,17 @@ const getAllUpdatedBarangayProfileYearSubmitted = async (req, res) => {
 const getAllUpdatedUserBarangayProfileYearSubmitted = async (req, res) => {
     const user = res.locals.user;
 
-    const yearSubmittted = await ShortenedSubmission.findAll({
+    const submission = await Submission.findAll({
         attributes: ["yearSubmitted"],
-        where: { barangayId: user.barangayId },
         order: [["yearSubmitted", "ASC"]],
+        where: {
+            barangayId: user.barangayId,
+        },
     });
 
-    return res.json(yearSubmittted);
+    console.log(submission);
+
+    return res.json(submission);
 };
 
 const getEncodedBarangayProfleUrl = async (req, res) => {
@@ -2416,7 +2448,7 @@ const getUpdatedBarangayProfileUrl = async (req, res) => {
         where: { userId: user.id },
     });
 
-    const updatedBarangayProfileUrl = await ShortenedSubmission.findOne({
+    const updatedBarangayProfileUrl = await Submission.findOne({
         where: {
             barangayId: selectedBarangay.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -2430,7 +2462,7 @@ const getUpdatedUserBarangayProfileUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const updatedBarangayProfileUrl = await ShortenedSubmission.findOne({
+    const updatedBarangayProfileUrl = await Submission.findOne({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -2512,6 +2544,12 @@ router.get(
     validateUser,
     validate,
     getAllUpdatedBarangayProfile
+);
+router.get(
+    "/getAllEncodedAndUpdatedBarangayProfile",
+    validateUser,
+    validate,
+    getAllEncodedAndUpdatedBarangayProfile
 );
 router.post(
     "/getAllUpdatedBarangayProfileYearSubmitted",

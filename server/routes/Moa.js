@@ -57,7 +57,7 @@ const getUserMoa = async (req, res) => {
 };
 
 const getAllUpdatedMoa = async (req, res) => {
-    const moa = await ShortenedMemorandumOfAgreement.findAll({
+    const moa = await MemorandumOfAgreement.findAll({
         group: ["barangayName", "districtName"],
         order: [["barangayName", "ASC"]],
     });
@@ -67,7 +67,7 @@ const getAllUpdatedMoa = async (req, res) => {
 const getUpdatedMoa = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const moa = await ShortenedMemorandumOfAgreement.findOne({
+    const moa = await MemorandumOfAgreement.findOne({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -81,7 +81,7 @@ const getUpdatedMoa = async (req, res) => {
 const getAllUpdatedMoaYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await ShortenedMemorandumOfAgreement.findAll({
+    const yearSubmittted = await MemorandumOfAgreement.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
@@ -93,20 +93,20 @@ const getAllUpdatedMoaYearSubmitted = async (req, res) => {
 const getAllUpdatedUserMoaYearSubmitted = async (req, res) => {
     const user = res.locals.user;
 
-    const yearSubmittted = await ShortenedMemorandumOfAgreement.findAll({
+    const moa = await MemorandumOfAgreement.findAll({
         attributes: ["yearSubmitted"],
-        where: { barangayId: user.barangayId },
         order: [["yearSubmitted", "ASC"]],
+        where: { barangayId: user.barangayId },
     });
 
-    return res.json(yearSubmittted);
+    return res.json(moa);
 };
 
 const getUpdatedUserMoaUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const moa = await ShortenedMemorandumOfAgreement.findOne({
+    const moa = await MemorandumOfAgreement.findOne({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -176,7 +176,7 @@ const getShortenedMoaYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
 
-    const moa = await ShortenedMemorandumOfAgreement.findOne({
+    const moa = await MemorandumOfAgreement.findOne({
         where: {
             yearSubmitted: yearSubmitted,
             barangayId: user.barangayId,
@@ -191,11 +191,11 @@ const createShortenedMoa = async (req, res) => {
         yearSubmitted,
         dateOfCreation,
         documentName,
-        shortenedMemorandumOfAgreementUrl,
+        memorandumOfAgreementUrl,
     } = req.body;
     const user = res.locals.user;
 
-    const moa = await ShortenedMemorandumOfAgreement.create({
+    const moa = await MemorandumOfAgreement.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         dateOfCreation: dateOfCreation,
@@ -203,7 +203,7 @@ const createShortenedMoa = async (req, res) => {
         barangayId: user.barangayId,
         barangayName: user.barangayName,
         districtName: user.districtName,
-        shortenedMemorandumOfAgreementUrl: shortenedMemorandumOfAgreementUrl,
+        memorandumOfAgreementUrl: memorandumOfAgreementUrl,
     });
 
     return res.json(moa);

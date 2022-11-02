@@ -1,10 +1,11 @@
+import { Icon } from "@iconify/react";
 import Axios from "axios";
-import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import useSWR from "swr";
-import Image from "next/image";
-import { Icon } from "@iconify/react";
-import { useRouter } from "next/router";
+import fileDownload from "js-file-download";
 
 function sketch() {
     const router = useRouter();
@@ -15,12 +16,15 @@ function sketch() {
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [sketchUrl, setSketchUrl] = useState(null);
     const [sketch, setSketch] = useState([]);
     const [collectionSchedule, setCollectionSchedule] = useState(null);
     const [barangayYears, setBarangayYears] = useState([]);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
+    const [documentExtension, setDocumentExtension] = useState("");
+    const documentImageExtensions = ["png", "jpg", "jpeg"];
+    const [loadingDownload, setLoadingDownload] = useState(false);
 
     const { data } = useSWR(
         "http://localhost:3001/sketch/getAllUpdatedUserSketchYearSubmitted"
@@ -35,9 +39,38 @@ function sketch() {
             "http://localhost:3001/sketch/getUpdatedUserSketchUrl",
             data
         ).then((res) => {
-            setImageUrl(res.data.shortenedSketchUrl);
+            setDocumentExtension(res.data.documentName.split(".").pop());
+            setSketchUrl(res.data.sketchUrl);
             setCollectionSchedule(res.data.collectionSchedule);
         });
+    };
+
+    const download = async () => {
+        if (!loadingDownload) {
+            setLoadingDownload(true);
+
+            const dataYearOfSubmission = {
+                yearOfSubmission: yearOfSubmission,
+            };
+
+            await Axios.post(
+                "http://localhost:3001/sketch/getUpdatedUserSketchUrl",
+                dataYearOfSubmission
+            ).then((res) => {
+                const documentName = res.data.documentName;
+                Axios({
+                    url: "http://localhost:3001/download",
+                    method: "POST",
+                    responseType: "blob",
+                    data: {
+                        submissionUrl: res.data.sketchUrl,
+                    },
+                }).then((res) => {
+                    fileDownload(res.data, documentName);
+                    setLoadingDownload(false);
+                });
+            });
+        }
     };
 
     return (
@@ -147,13 +180,23 @@ function sketch() {
                                 >
                                     View
                                 </button>
+                                <button
+                                    onClick={download}
+                                    className={`px-4 py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
+                                        loadingDownload && "cursor-not-allowed"
+                                    }`}
+                                >
+                                    {!loadingDownload
+                                        ? "Download"
+                                        : "Processing..."}
+                                </button>
                             </>
                         )}
                     </div>
                 </div>
                 <hr className="my-6" />
                 <div>
-                    {imageUrl && (
+                    {sketchUrl && (
                         <>
                             <p className="mb-4">
                                 Collection schedule:
@@ -163,16 +206,33 @@ function sketch() {
                             </p>
 
                             <p className="mb-2">Sketch:</p>
-                            <div className="w-full max-w-lg bg-black border ">
-                                <Image
-                                    src={imageUrl}
-                                    alt="route image"
-                                    width="100%"
-                                    height="100%"
-                                    layout="responsive"
-                                    objectFit="contain"
-                                />
-                            </div>
+                            {documentImageExtensions.includes(
+                                documentExtension
+                            ) && (
+                                <div className="w-full max-w-lg bg-black border ">
+                                    <Image
+                                        src={sketchUrl}
+                                        alt="route image"
+                                        width="100%"
+                                        height="100%"
+                                        layout="responsive"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                            )}
+                            {documentExtension == "pdf" && (
+                                <iframe
+                                    className="w-full h-[800px]"
+                                    // src={`../submissions/${viewDocumentName}`}
+                                    src={`${sketchUrl}`}
+                                ></iframe>
+                            )}
+                            {documentExtension == "docx" && (
+                                <iframe
+                                    className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${sketchUrl}`}
+                                ></iframe>
+                            )}
                         </>
                     )}
                 </div>

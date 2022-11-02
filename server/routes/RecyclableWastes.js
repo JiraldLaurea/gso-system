@@ -11,7 +11,7 @@ const Op = Sequelize.Op;
 
 const getRecyclableWastes = async (req, res) => {
     const recyclableWastes = await RecyclableWastes.findAll({
-        order: [["barangayName", "ASC"]],
+        order: [["dateSubmitted", "ASC"]],
     });
 
     res.json(recyclableWastes);
@@ -54,12 +54,14 @@ const getRecyclableWastesYear = async (req, res) => {
 };
 
 const getSubmittedRecyclableWastes = async (req, res) => {
-    const { yearSubmitted } = req.body;
+    const { dateSubmitted } = req.body;
+
+    // console.log("DATE SUBMITTED", dateSubmitted + "-01");
 
     const recyclableWaste = await RecyclableWastes.findAll({
         attributes: ["barangayId"],
         where: {
-            yearSubmitted: yearSubmitted,
+            dateSubmitted: dateSubmitted,
         },
         order: [["barangayId", "ASC"]],
     });
@@ -70,7 +72,7 @@ const createRecyclableWastes = async (req, res) => {
     const user = res.locals.user;
 
     const {
-        yearSubmitted,
+        dateSubmitted,
         barangayId,
         barangayName,
         districtName,
@@ -102,7 +104,7 @@ const createRecyclableWastes = async (req, res) => {
 
     if (user.isAdmin) {
         await RecyclableWastes.create({
-            yearSubmitted: yearSubmitted,
+            dateSubmitted: dateSubmitted,
             barangayId: barangayId,
             barangayName: barangayName,
             districtName: districtName,
@@ -121,7 +123,7 @@ const createRecyclableWastes = async (req, res) => {
         });
     } else {
         await RecyclableWastes.create({
-            yearSubmitted: yearSubmitted,
+            dateSubmitted: dateSubmitted,
             barangayId: user.barangayId,
             barangayName: user.barangayName,
             districtName: user.districtName,

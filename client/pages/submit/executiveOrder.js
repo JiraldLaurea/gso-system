@@ -48,91 +48,40 @@ function executiveOrder() {
                 if (!res.data) {
                     setLoading(true);
 
+                    const documentName = `ExecutiveOrder${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
+
+                    let fileRef = null;
+
                     if (extension == "doc" || extension == "docx") {
-                        const documentName = `ShortenedExecutiveOrder${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
-
-                        await Axios.post(
-                            "http://localhost:3001/executiveOrder/convertToPDF",
-                            formData,
-                            {
-                                headers: {
-                                    "Content-Type": "multipart/form-data",
-                                },
-                            }
-                        ).then(async (res) => {
-                            const base64File = Buffer.from(
-                                res.data.pdfBuf.data
-                            ).toString("base64");
-
-                            const covertToPDFRef = ref(
-                                storage,
-                                `shortenedSubmission/shortenedExecutiveOrder/${documentName}`
-                            );
-
-                            await uploadString(
-                                covertToPDFRef,
-                                base64File,
-                                "base64",
-                                {
-                                    contentType: "application/pdf",
-                                }
-                            );
-
-                            const shortenedExecutiveOrderUrl =
-                                await getDownloadURL(covertToPDFRef);
-
-                            const postData = {
-                                yearSubmitted: yearSubmitted,
-                                dateIssued: dateIssued,
-                                documentName: documentName,
-                                shortenedExecutiveOrderUrl:
-                                    shortenedExecutiveOrderUrl,
-                            };
-
-                            await Axios.post(
-                                "http://localhost:3001/executiveOrder/createShortenedExecutiveOrder",
-                                postData
-                            );
-
-                            alert("Document successfully submitted.");
-
-                            setFile(null);
-                            inputFileRef.current.value = null;
-                            setLoading(false);
-                        });
+                        fileRef = ref(storage, `${documentName}`);
                     } else {
-                        const documentName = `ShortenedExecutiveOrder${meData.barangayName}${meData.districtName}${yearSubmitted}.${extension}`;
-
                         const fileRef = ref(
                             storage,
-                            `shortenedSubmission/shortenedExecutiveOrder/${documentName}`
+                            `submission/executiveOrder/${documentName}`
                         );
-
-                        await uploadBytes(fileRef, file);
-
-                        const shortenedExecutiveOrderUrl = await getDownloadURL(
-                            fileRef
-                        );
-
-                        const postData = {
-                            yearSubmitted: yearSubmitted,
-                            dateIssued: dateIssued,
-                            documentName: documentName,
-                            shortenedExecutiveOrderUrl:
-                                shortenedExecutiveOrderUrl,
-                        };
-
-                        await Axios.post(
-                            "http://localhost:3001/executiveOrder/createShortenedExecutiveOrder",
-                            postData
-                        );
-
-                        alert("Document successfully submitted.");
-
-                        setFile(null);
-                        inputFileRef.current.value = null;
-                        setLoading(false);
                     }
+
+                    await uploadBytes(fileRef, file);
+
+                    const executiveOrderUrl = await getDownloadURL(fileRef);
+
+                    const postData = {
+                        yearSubmitted: yearSubmitted,
+                        dateIssued: dateIssued,
+                        documentName: documentName,
+                        executiveOrderUrl: executiveOrderUrl,
+                    };
+
+                    await Axios.post(
+                        "http://localhost:3001/executiveOrder/createShortenedExecutiveOrder",
+                        postData
+                    );
+
+                    alert("Document successfully submitted.");
+
+                    setFile(null);
+                    inputFileRef.current.value = null;
+                    setLoading(false);
                 } else {
                     alert(
                         "You have already submitted a document from your chosen year."

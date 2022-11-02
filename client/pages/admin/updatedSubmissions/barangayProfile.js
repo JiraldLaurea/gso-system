@@ -28,11 +28,7 @@ function barangayProfile() {
     const [barangayId, setBarangayId] = useState(null);
     const storage = getStorage();
 
-    const {
-        data: barangays,
-        error: errorUserBarangays,
-        isValidating: isValidatingUserBarangays,
-    } = useSWR(
+    const { data: barangays } = useSWR(
         "http://localhost:3001/shortenedSubmission/getAllUpdatedBarangayProfile"
     );
 
@@ -96,16 +92,16 @@ function barangayProfile() {
     };
 
     const editSelectedBarangay = async () => {
-        const actionData = {
-            action: "EditSubmission",
-            barangayId: barangayId,
-        };
-
         const data = {
             barangayId: barangayId,
             selectedBarangay: dropdownMenuValueBarangay,
             selectedDistrict: dropdownMenuValueDistrict,
             yearSubmitted: yearOfSubmission,
+        };
+
+        const actionData = {
+            action: "EditSubmission",
+            barangayId: barangayId,
         };
 
         await Axios.post(
@@ -118,7 +114,11 @@ function barangayProfile() {
             actionData
         );
 
-        router.push("/admin/updatedSubmissions/barangayProfile/template");
+        if (yearOfSubmission == barangayYears[0]?.yearSubmitted) {
+            router.push("/admin/encodedSubmissions/barangayProfile/template");
+        } else {
+            router.push("/admin/updatedSubmissions/barangayProfile/template");
+        }
     };
 
     const viewSubmission = async (e) => {
@@ -167,7 +167,7 @@ function barangayProfile() {
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
                             <p className="mb-1 text-sm text-gray-600">
-                                Select barangay and district
+                                Barangay and district
                             </p>
                             <div className="relative">
                                 <ClickAwayListener
@@ -263,9 +263,9 @@ function barangayProfile() {
                                 </ClickAwayListener>
                             </div>
                         </div>
-                        <div className="md:ml-4 my-4 md:my-0">
+                        <div className="my-4 md:ml-4 md:my-0">
                             <p className="mb-1 text-sm text-gray-600">
-                                Select year of submission
+                                Year of submission
                             </p>
                             <div className="relative">
                                 <ClickAwayListener
@@ -362,7 +362,7 @@ function barangayProfile() {
 
                                     <button
                                         onClick={editSelectedBarangay}
-                                        className="px-4 my-4 md:my-0 py-2 md:ml-4 text-blue-600 border select-none"
+                                        className="px-4 py-2 my-4 text-blue-600 border select-none md:my-0 md:ml-4"
                                     >
                                         Edit
                                     </button>

@@ -88,6 +88,19 @@ const getAllBarangayEncode = async (req, res) => {
             userId: {
                 [Op.ne]: null,
             },
+            populationCount: null,
+        },
+        order: [["barangayName", "ASC"]],
+    });
+    return res.json(barangays);
+};
+
+const getAllBarangayRecyclableWastes = async (req, res) => {
+    const barangays = await Barangay.findAll({
+        where: {
+            userId: {
+                [Op.ne]: null,
+            },
         },
         order: [["barangayName", "ASC"]],
     });
@@ -173,6 +186,12 @@ router.get(
     validateUser,
     validate,
     getAllBarangayEncode
+);
+router.get(
+    "/getAllBarangayRecyclableWastes",
+    validateUser,
+    validate,
+    getAllBarangayRecyclableWastes
 );
 router.put("/update", validateUser, validate, updateBarangayTotalPopulation);
 router.put(

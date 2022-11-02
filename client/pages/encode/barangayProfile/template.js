@@ -17,6 +17,7 @@ import { useSWRConfig } from "swr";
 import { Icon } from "@iconify/react";
 import { storage } from "../../../firebase";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import Attachments from "../../../components/Attachments";
 
 function template({
     page1Data,
@@ -62,11 +63,22 @@ function template({
     const [page8, setPage8] = useState(false);
     const [page9, setPage9] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
+    const [isEncoded, setIsEncoded] = useState(false);
     const [isOverwriting, setIsOverwriting] = useState(false);
     const [isOverwritten, setIsOverwritten] = useState(false);
     const [submissionUpload, setSubmissionUpload] = useState(null);
     const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
         useState("");
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    if (typeof window !== "undefined") {
+        if (isMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+    }
+
     const { data: selectedBarangayData } = useSWR(
         "http://localhost:3001/barangay/getSelectedBarangay"
     );
@@ -2101,19 +2113,21 @@ function template({
     //     checkYearOfSubmission();
     // }, [yearSubmitted]);
 
-    const createPDF = async (e) => {
-        e.preventDefault();
+    const submitEncodedDocuments = () => {
+        setIsEncoded(true);
+    };
 
-        const isSubmitted = await Axios.post(
-            "http://localhost:3001/submission/getSubmittedBarangayProfilePage",
-            { yearSubmitted: yearSubmitted }
-        ).then((res) => res.data);
+    const createPDF = async () => {
+        // const isSubmitted = await Axios.post(
+        //     "http://localhost:3001/submission/getSubmittedBarangayProfilePage",
+        //     { yearSubmitted: yearSubmitted }
+        // ).then((res) => res.data);
 
-        if (isSubmitted) {
-            return alert(
-                "You have already submitted a document from your chosen year."
-            );
-        }
+        // if (isSubmitted) {
+        //     return alert(
+        //         "You have already submitted a document from your chosen year."
+        //     );
+        // }
 
         setIsLoading(true);
         let scImg = null;
@@ -3071,9 +3085,9 @@ function template({
             submissionBarangayProfileUrl: submissionBarangayProfileUrl,
         };
 
+        // ATTACHMENTS
         await Axios.post("http://localhost:3001/submission/submit", data).then(
             async () => {
-                alert("Successfully submitted document");
                 await Axios.put(
                     "http://localhost:3001/barangay/updateBarangayTotalPopulationEncoded",
                     {
@@ -3084,38 +3098,8 @@ function template({
             }
         );
 
-        // pdf.save(
-        //     `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`
-        // );
-
         mutate("http://localhost:3001/submission/updateTypeOfDocument");
-
-        setIsLoading(false);
     };
-
-    // const submitDocument = (e) => {
-    //     createPDF(e);
-    // };
-
-    // const generatePDF = () => {
-    //     const input = document.getElementById("content");
-    //     html2canvas(input, {
-    //         logging: true,
-    //         letterRendering: 1,
-    //         useCORS: true,
-    //     }).then((canvas) => {
-    //         const imgWidth = canvas.width;
-    //         const imgHeight = canvas.height;
-    //         const imgData = canvas.toDataURL("img/png");
-    //         const pdf = new jsPDF("p", "pt", "letter");
-    //         pdf.addImage(imgData, "PNG", 0, 0, imgHeight, imgHeight);
-    //         pdf.save("BarangayProfile.pdf");
-    //     });
-    // };
-
-    // useEffect(() => {
-    //     setValues(localStorage.getItem("form"));
-    // }, []);
 
     const attemptSave = async () => {
         const savedDocument = await Axios.get(
@@ -3157,294 +3141,331 @@ function template({
     };
 
     return (
-        <div className="flex justify-between ">
-            {/* {!isSaved && (
+        <>
+            <div className="flex justify-between ">
+                {/* {!isSaved && (
                 <div className="fixed inset-x-0 top-0 z-30 w-full mx-auto text-center bg-red-500">
                     <p>Successfully saved</p>
                 </div>
             )} */}
-            {isOverwriting && (
-                <>
-                    <div
-                        onClick={() => setIsOverwriting(false)}
-                        className="fixed top-0 left-0 z-20 flex items-center w-screen h-screen bg-gray-700/30"
-                    />
-                    <div className="fixed z-30 flex flex-col items-center p-4 -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm top-1/2 left-1/2">
-                        <Icon
-                            className="mb-2 text-blue-500 w-14 h-14"
-                            icon="ic:baseline-info"
+                {isOverwriting && (
+                    <>
+                        <div
+                            onClick={() => setIsOverwriting(false)}
+                            className="fixed top-0 left-0 z-20 flex items-center w-screen h-screen bg-gray-700/30"
                         />
-                        <p className="text-lg font-medium">
-                            Are you sure you want to save?
-                        </p>
-                        <p className="text-sm text-gray-700">
-                            Saving will overwrite the previously saved document
-                        </p>
-                        <div className="flex items-center justify-end w-full mt-8">
-                            <button
-                                onClick={() => setIsOverwriting(false)}
-                                className="px-4 py-1 mr-4 text-blue-600 border"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => {
-                                    save("Saved", "LoadDocument");
-                                    setIsOverwriting(false);
-                                }}
-                                className="px-4 py-1 text-white bg-blue-500 border border-blue-500"
-                            >
-                                Save
-                            </button>
+                        <div className="fixed z-30 flex flex-col items-center p-4 -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm top-1/2 left-1/2">
+                            <Icon
+                                className="mb-2 text-blue-500 w-14 h-14"
+                                icon="ic:baseline-info"
+                            />
+                            <p className="text-lg font-medium">
+                                Are you sure you want to save?
+                            </p>
+                            <p className="text-sm text-gray-700">
+                                Saving will overwrite the previously saved
+                                document
+                            </p>
+                            <div className="flex items-center justify-end w-full mt-8">
+                                <button
+                                    onClick={() => setIsOverwriting(false)}
+                                    className="px-4 py-1 mr-4 text-blue-600 border"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        save("Saved", "LoadDocument");
+                                        setIsOverwriting(false);
+                                    }}
+                                    className="px-4 py-1 text-white bg-blue-500 border border-blue-500"
+                                >
+                                    Save
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </>
-            )}
-            <div className="flex flex-col items-center flex-grow p-3 space-y-4 text-sm bg-gray-200">
-                <form
-                    spellCheck="false"
-                    onSubmit={createPDF}
-                    autoComplete="off"
-                    ref={contentRef}
-                    className="submissionBarangayProfile"
-                >
-                    <div
-                        ref={page1Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20"
+                    </>
+                )}
+                <div className="flex flex-col items-center flex-grow p-3 space-y-4 text-sm bg-gray-200">
+                    <form
+                        spellCheck="false"
+                        autoComplete="off"
+                        ref={contentRef}
+                        className="submissionBarangayProfile"
                     >
-                        <SubmissionBarangayProfilePage1
-                            values={values}
-                            totalPopulationCount={totalPopulationCount}
-                            setTotalPopulationCount={setTotalPopulationCount}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page2Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage2
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page3Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage3
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page4Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage4
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page5Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage5
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page6Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage6
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page7Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage7
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page8Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage8
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                    <div
-                        ref={page9Ref}
-                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                    >
-                        <SubmissionBarangayProfilePage9
-                            values={values}
-                            handleChange={handleChange}
-                        />
-                    </div>
-                </form>
-            </div>
+                        <div
+                            ref={page1Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20"
+                        >
+                            <SubmissionBarangayProfilePage1
+                                values={values}
+                                totalPopulationCount={totalPopulationCount}
+                                setTotalPopulationCount={
+                                    setTotalPopulationCount
+                                }
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page2Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage2
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page3Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage3
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page4Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage4
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page5Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage5
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page6Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage6
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page7Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage7
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page8Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage8
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                        <div
+                            ref={page9Ref}
+                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                        >
+                            <SubmissionBarangayProfilePage9
+                                values={values}
+                                handleChange={handleChange}
+                            />
+                        </div>
+                    </form>
+                </div>
 
-            <div className="h-[calc(100vh-56px)] sticky top-[56px] bg-gray-50 flex flex-col py-4 border-l  w-full max-w-[260px] overflow-y-auto">
-                <div className="px-4">
-                    <p className="mb-2 text-sm text-gray-700">
-                        Year of submission:
+                <div className="h-[calc(100vh-56px)] sticky top-[56px] bg-gray-50 flex flex-col py-4 border-l  w-full max-w-[260px] overflow-y-auto">
+                    <div className="px-4">
+                        <p className="mb-2 text-sm text-gray-700">
+                            Year of submission:
+                        </p>
+                        <input
+                            value={yearSubmitted}
+                            placeholder="Year"
+                            onChange={(e) => setYearSubmitted(e.target.value)}
+                            type="number"
+                            className="w-20 px-2 py-1 text-center border restoreNumberArrows focus:outline-none"
+                        />
+                    </div>
+                    <hr className="my-4" />
+                    <p className="mb-2 ml-4 text-sm text-gray-700">
+                        Barangay profile
                     </p>
-                    <input
-                        value={yearSubmitted}
-                        placeholder="Year"
-                        onChange={(e) => setYearSubmitted(e.target.value)}
-                        type="number"
-                        className="w-20 px-2 py-1 text-center border restoreNumberArrows focus:outline-none"
-                    />
-                </div>
-                <hr className="my-4" />
-                <p className="mb-2 ml-4 text-sm text-gray-700">
-                    Barangay profile
-                </p>
-                <div className="text-sm ">
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page1Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page1 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 1
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page2Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page2 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 2
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page3Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page3 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 3
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page4Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page4 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 4
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page5Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page5 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 5
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page6Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page6 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 6
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page7Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page7 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 7
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page8Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page8 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 8
-                    </p>
-                    <p
-                        onClick={() => {
-                            window.scrollTo({
-                                top: page9Ref.current.offsetTop - 68,
-                            });
-                        }}
-                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                            page9 && "bg-gray-300"
-                        }`}
-                    >
-                        Page 9
-                    </p>
-                </div>
-                <hr className="my-4" />
-                <div className="px-4">
-                    {actionData != "UpdateSubmission" && (
+                    <div className="text-sm ">
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page1Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page1 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 1
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page2Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page2 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 2
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page3Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page3 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 3
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page4Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page4 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 4
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page5Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page5 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 5
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page6Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page6 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 6
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page7Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page7 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 7
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page8Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page8 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 8
+                        </p>
+                        <p
+                            onClick={() => {
+                                window.scrollTo({
+                                    top: page9Ref.current.offsetTop - 68,
+                                });
+                            }}
+                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                                page9 && "bg-gray-300"
+                            }`}
+                        >
+                            Page 9
+                        </p>
+                    </div>
+                    <hr className="my-4" />
+                    <div className="px-4">
                         <button
                             disabled={isLoading}
-                            onClick={attemptSave}
-                            className={`w-full px-3 mb-4 py-2 border text-blue-600  rounded-sm ${
+                            onClick={() => setIsMenuOpen(true)}
+                            className={`w-full flex items-center justify-center px-3 py-2  text-blue-500 border border-gray-300 rounded-sm`}
+                        >
+                            <Icon
+                                icon="ic:outline-attachment"
+                                className="w-6 h-6 mr-2"
+                            />
+                            Attachments
+                        </button>
+                    </div>
+                    <hr className="my-4" />
+                    <div className="px-4">
+                        {actionData != "UpdateSubmission" && (
+                            <button
+                                disabled={isLoading}
+                                onClick={attemptSave}
+                                className={`w-full flex items-center justify-center px-3 py-2 mb-4 text-white bg-green-500 rounded-sm  ${
+                                    isLoading && "cursor-not-allowed "
+                                }`}
+                            >
+                                <Icon
+                                    icon="ic:baseline-save"
+                                    className="w-6 h-6 mr-2"
+                                />
+                                {isSaved ? "Successfully saved" : "Save"}
+                            </button>
+                        )}
+
+                        <button
+                            disabled={isLoading}
+                            onClick={submitEncodedDocuments}
+                            className={`w-full flex items-center justify-center px-3 py-2 text-white bg-blue-500 rounded-sm ${
                                 isLoading && "cursor-not-allowed "
                             }`}
                         >
-                            {isSaved ? "Successfully saved" : "Save"}
+                            {!isLoading ? (
+                                <>
+                                    <Icon
+                                        icon="fluent:document-arrow-up-20-filled"
+                                        className="w-6 h-6 mr-2"
+                                    />
+                                    Encode
+                                </>
+                            ) : (
+                                <>
+                                    <Icon
+                                        icon="eos-icons:loading"
+                                        className="w-6 h-6 mr-2"
+                                    />
+                                    Processing...
+                                </>
+                            )}
                         </button>
-                    )}
-
-                    <button
-                        disabled={isLoading}
-                        onClick={createPDF}
-                        className={`w-full px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm ${
-                            isLoading && "cursor-not-allowed "
-                        }`}
-                    >
-                        {!isLoading ? "Encode" : "Processing..."}
-                    </button>
-                    {/* <button
+                        {/* <button
                         disabled={isLoading}
                         onClick={createPDF}
                         className={`w-full px-3 py-2 border text-blue-600 rounded-sm ${
@@ -3453,9 +3474,56 @@ function template({
                     >
                         {!isLoading ? "Download" : "Processing..."}
                     </button> */}
+                    </div>
                 </div>
             </div>
-        </div>
+            {/* {isMenuOpen && (
+                <>
+                    <Attachments
+                        inputFileRefSketch={inputFileRefSketch}
+                        inputFileRefPrograms={inputFileRefPrograms}
+                        inputFileRefFundingReq={inputFileRefFundingReq}
+                        inputFileRefMoa={inputFileRefMoa}
+                        inputFileRefJunkshop={inputFileRefJunkshop}
+                        inputFileRefBusinessPermit={inputFileRefBusinessPermit}
+                        inputFileRefExecutiveOrder={inputFileRefExecutiveOrder}
+                        inputFileRefBarangayOrdinance={
+                            inputFileRefBarangayOrdinance
+                        }
+                        collectionSchedule={collectionSchedule}
+                        setCollectionSchedule={setCollectionSchedule}
+                        file={file}
+                        setFile={setFile}
+                        fileName={fileName}
+                        setFileName={setFileName}
+                        dateOfCreation={dateOfCreation}
+                        setDateOfCreation={setDateOfCreation}
+                        junkshopName={junkshopName}
+                        setJunkshopName={setJunkshopName}
+                        dateIssuedBusinessPermit={dateIssuedBusinessPermit}
+                        setDateIssuedBusinessPermit={
+                            setDateIssuedBusinessPermit
+                        }
+                        dateIssuedExecutiveOrder={dateIssuedExecutiveOrder}
+                        setDateIssuedExecutiveOrder={
+                            setDateIssuedExecutiveOrder
+                        }
+                        onChange={onChange}
+                        setIsMenuOpen={setIsMenuOpen}
+                    />
+                </>
+            )} */}
+            <Attachments
+                isMenuOpen={isMenuOpen}
+                setIsMenuOpen={setIsMenuOpen}
+                isEncoded={isEncoded}
+                setIsEncoded={setIsEncoded}
+                selectedBarangayData={selectedBarangayData}
+                yearSubmitted={yearSubmitted}
+                setIsLoading={setIsLoading}
+                createPDF={createPDF}
+            />
+        </>
     );
 }
 

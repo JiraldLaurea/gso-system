@@ -57,7 +57,7 @@ const getUserExecutiveOrder = async (req, res) => {
 };
 
 const getAllUpdatedExecutiveOrder = async (req, res) => {
-    const executiveOrder = await ShortenedExecutiveOrder.findAll({
+    const executiveOrder = await ExecutiveOrder.findAll({
         group: ["barangayName", "districtName"],
         order: [["barangayName", "ASC"]],
     });
@@ -67,7 +67,7 @@ const getAllUpdatedExecutiveOrder = async (req, res) => {
 const getUpdatedExecutiveOrder = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const executiveOrder = await ShortenedExecutiveOrder.findOne({
+    const executiveOrder = await ExecutiveOrder.findOne({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -81,7 +81,7 @@ const getUpdatedExecutiveOrder = async (req, res) => {
 const getAllUpdatedExecutiveOrderYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await ShortenedExecutiveOrder.findAll({
+    const yearSubmittted = await ExecutiveOrder.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
@@ -93,20 +93,20 @@ const getAllUpdatedExecutiveOrderYearSubmitted = async (req, res) => {
 const getAllUpdatedUserExecutiveOrderYearSubmitted = async (req, res) => {
     const user = res.locals.user;
 
-    const yearSubmittted = await ShortenedExecutiveOrder.findAll({
+    const executiveOrder = await ExecutiveOrder.findAll({
         attributes: ["yearSubmitted"],
-        where: { barangayId: user.barangayId },
         order: [["yearSubmitted", "ASC"]],
+        where: { barangayId: user.barangayId },
     });
 
-    return res.json(yearSubmittted);
+    return res.json(executiveOrder);
 };
 
 const getUpdatedUserExecutiveOrderUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const executiveOrder = await ShortenedExecutiveOrder.findOne({
+    const executiveOrder = await ExecutiveOrder.findOne({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
@@ -173,7 +173,7 @@ const getShortenedExecutiveOrderYear = async (req, res) => {
     const { yearSubmitted } = req.body;
     const user = res.locals.user;
 
-    const executiveOrder = await ShortenedExecutiveOrder.findOne({
+    const executiveOrder = await ExecutiveOrder.findOne({
         where: {
             yearSubmitted: yearSubmitted,
             barangayId: user.barangayId,
@@ -184,15 +184,11 @@ const getShortenedExecutiveOrderYear = async (req, res) => {
 };
 
 const createShortenedExecutiveOrder = async (req, res) => {
-    const {
-        yearSubmitted,
-        dateIssued,
-        documentName,
-        shortenedExecutiveOrderUrl,
-    } = req.body;
+    const { yearSubmitted, dateIssued, documentName, executiveOrderUrl } =
+        req.body;
     const user = res.locals.user;
 
-    const executiveOrder = await ShortenedExecutiveOrder.create({
+    const executiveOrder = await ExecutiveOrder.create({
         documentName: documentName,
         yearSubmitted: yearSubmitted,
         dateIssued: dateIssued,
@@ -200,7 +196,7 @@ const createShortenedExecutiveOrder = async (req, res) => {
         barangayId: user.barangayId,
         barangayName: user.barangayName,
         districtName: user.districtName,
-        shortenedExecutiveOrderUrl: shortenedExecutiveOrderUrl,
+        executiveOrderUrl: executiveOrderUrl,
     });
 
     return res.json(executiveOrder);

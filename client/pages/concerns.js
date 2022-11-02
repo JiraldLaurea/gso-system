@@ -124,6 +124,7 @@ function concerns() {
                         <div className="mb-6">
                             <p className="mb-1 text-sm text-gray-600">Image</p>
                             <input
+                                accept="image/*"
                                 type="file"
                                 className="w-full border"
                                 ref={inputFileRef}
@@ -186,64 +187,17 @@ function concerns() {
                     Concerns and issues
                 </h2>
                 <div className="">
-                    {/* <form onSubmit={createAnnouncement} className="max-w-xl"> */}
-                    {/* <div className="mt-6 mb-4">
-                            <p className="mb-1 text-sm text-gray-600">Text</p>
-                            <textarea
-                                value={text}
-                                onChange={(e) => setText(e.target.value)}
-                                className="w-full px-3 py-2 border min-h-[100px]"
-                                type="text"
-                                placeholder="Text"
-                            />
-                        </div>
-
-                        <div className="mb-8">
-                            <p className="mb-1 text-sm text-gray-600">Image</p>
-                            <input
-                                type="file"
-                                className="w-full border"
-                                onChange={(e) => {
-                                    setImageUpload(e.target.files[0]);
-                                    setImageThumbnail({
-                                        file: URL.createObjectURL(
-                                            e.target.files[0]
-                                        ),
-                                    });
-                                }}
-                            />
-                            {imageThumbnail && (
-                                <img
-                                    src={imageThumbnail?.file}
-                                    className="object-contain w-20 h-20 my-4 bg-black border"
-                                />
-                            )}
-                        </div> */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className={`px-6 py-1 text-white bg-blue-500 active:ring `}
+                        className={`px-6 py-2 flex items-center justify-center text-white bg-blue-500 active:ring `}
                     >
+                        <Icon
+                            icon="ic:baseline-post-add"
+                            className="w-6 h-6 mr-2"
+                        />
                         Post concern
                     </button>
-
-                    {/* <button
-                            type="submit"
-                            className={`px-6 py-1 text-white bg-blue-500 active:ring ${
-                                isLoading && "cursor-not-allowed active:ring-0"
-                            }`}
-                            disabled={isLoading}
-                        >
-                            {!isLoading ? "Post announcement" : "Processing..."}
-                        </button> */}
-                    {/* </form> */}
-
                     <hr className="my-6" />
-                    {/* <div className="flex items-center justify-between p-2 mb-4 border">
-                        <p>Barangay</p>
-                        <p>Text</p>
-                        <p>Date</p>
-                    </div> */}
-
                     <div className="flex flex-col">
                         {concerns?.map((concern, index) => {
                             let timestamp = concern.createdAt;

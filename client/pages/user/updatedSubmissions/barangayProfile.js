@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
-import ClickAwayListener from "react-click-away-listener";
+import { Icon } from "@iconify/react";
 import Axios from "axios";
 import fileDownload from "js-file-download";
-import { Document, Page } from "react-pdf";
-import { getStorage, ref } from "firebase/storage";
-import { storage } from "../../../firebase";
-import useSWR from "swr";
-import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import ClickAwayListener from "react-click-away-listener";
+import useSWR from "swr";
 
 function barangayProfile() {
     const router = useRouter();
@@ -41,8 +38,7 @@ function barangayProfile() {
                     method: "POST",
                     responseType: "blob",
                     data: {
-                        submissionBarangayProfileUrl:
-                            res.data.submissionBarangayProfileUrl,
+                        submissionUrl: res.data.submissionBarangayProfileUrl,
                     },
                 }).then((res) => {
                     fileDownload(res.data, documentName);
