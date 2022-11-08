@@ -1,58 +1,73 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import RequirementsButton from "../../components/RequirementsButton";
+import { useAuthDispatch } from "../../context/auth";
 
-function updatedSubmissions() {
-    const router = useRouter();
+function adminView() {
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "View SWM plan");
+        dispatch("HAS_BUTTON_FALSE");
+    }, []);
+
     return (
         <div className="">
             <div className="p-4 md:p-8">
-                <h2 className="mb-8 text-xl font-semibold">View SWM plan</h2>
-                <div className="flex flex-col gap-4 md:grid md:grid-cols-4">
+                <div className="flex flex-col gap-2 md:grid md:grid-cols-4">
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/barangayProfile"
+                        path="/admin/viewAdmin/barangayProfile"
                         requirementName="Barangay profile"
                         isAdmin
+                        iconStyle="mingcute:profile-line"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/sketch"
+                        path="/admin/viewAdmin/sketch"
                         requirementName="Sketch"
                         isAdmin
+                        iconStyle="eos-icons:route"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/programs"
+                        path="/admin/viewAdmin/programs"
                         requirementName="Programs"
                         isAdmin
+                        iconStyle="carbon:event"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/fundingReq"
+                        path="/admin/viewAdmin/fundingReq"
                         requirementName="Funding requirements"
                         isAdmin
+                        iconStyle="ic:baseline-attach-money"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/memorandumOfAgreement"
+                        path="/admin/viewAdmin/memorandumOfAgreement"
                         requirementName="Memorandum of agreement"
                         isAdmin
+                        iconStyle="icon-park-solid:agreement"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/junkshop"
+                        path="/admin/viewAdmin/junkshop"
                         requirementName="Junkshop"
                         isAdmin
+                        iconStyle="dashicons:trash"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/businessPermit"
+                        path="/admin/viewAdmin/businessPermit"
                         requirementName="Business permit"
                         isAdmin
+                        iconStyle="fluent:document-text-16-regular"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/executiveOrder"
+                        path="/admin/viewAdmin/executiveOrder"
                         requirementName="Executive order"
                         isAdmin
+                        iconStyle="fluent:building-bank-16-filled"
                     />
                     <RequirementsButton
-                        path="/admin/updatedSubmissions/barangayOrdinance"
+                        path="/admin/viewAdmin/barangayOrdinance"
                         requirementName="Barangay ordinance"
                         isAdmin
+                        iconStyle="vaadin:scale"
                     />
                 </div>
             </div>
@@ -60,4 +75,4 @@ function updatedSubmissions() {
     );
 }
 
-export default updatedSubmissions;
+export default adminView;

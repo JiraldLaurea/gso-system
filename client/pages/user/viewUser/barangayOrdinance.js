@@ -6,8 +6,9 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 import fileDownload from "js-file-download";
+import { useAuthDispatch } from "../../../context/auth";
 
-function programs() {
+function barangayOrdinance() {
     const router = useRouter();
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
     const [dropdownMenuValueBarangay, setDropdownMenuValueBarangay] =
@@ -15,19 +16,23 @@ function programs() {
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
-    const [programsUrl, setProgramsUrl] = useState(null);
-    const [sketch, setSketch] = useState([]);
-    const [collectionSchedule, setCollectionSchedule] = useState(null);
+    const [barangayOrdinanceUrl, setBarangayOrdinanceUrl] = useState(null);
     const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
-    const [barangayYears, setBarangayYears] = useState([]);
     const [documentExtension, setDocumentExtension] = useState("");
     const documentImageExtensions = ["png", "jpg", "jpeg"];
     const [loadingDownload, setLoadingDownload] = useState(false);
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Barangay ordinance");
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/user/viewUser");
+    }, []);
 
     const { data } = useSWR(
-        "http://localhost:3001/programs/getAllUpdatedUserProgramsYearSubmitted"
+        "http://localhost:3001/barangayOrdinance/getAllUpdatedUserBarangayOrdinanceYearSubmitted"
     );
 
     const view = async (e) => {
@@ -36,11 +41,11 @@ function programs() {
         };
 
         await Axios.post(
-            "http://localhost:3001/programs/getUpdatedUserProgramsUrl",
+            "http://localhost:3001/barangayOrdinance/getUpdatedUserBarangayOrdinanceUrl",
             data
         ).then((res) => {
             setDocumentExtension(res.data.documentName.split(".").pop());
-            setProgramsUrl(res.data.programsUrl);
+            setBarangayOrdinanceUrl(res.data.barangayOrdinanceUrl);
         });
     };
 
@@ -53,7 +58,7 @@ function programs() {
             };
 
             await Axios.post(
-                "http://localhost:3001/programs/getUpdatedUserProgramsUrl",
+                "http://localhost:3001/barangayOrdinance/getUpdatedUserBarangayOrdinanceUrl",
                 dataYearOfSubmission
             ).then((res) => {
                 const documentName = res.data.documentName;
@@ -62,7 +67,7 @@ function programs() {
                     method: "POST",
                     responseType: "blob",
                     data: {
-                        submissionUrl: res.data.programsUrl,
+                        submissionUrl: res.data.barangayOrdinanceUrl,
                     },
                 }).then((res) => {
                     fileDownload(res.data, documentName);
@@ -75,14 +80,6 @@ function programs() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-8">
-                    <Icon
-                        onClick={() => router.push("/user/updatedSubmissions/")}
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-semibold">View programs</h2>
-                </div>
                 <div>
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
@@ -130,7 +127,7 @@ function programs() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen2 && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
                                                     {data.map(
                                                         (
@@ -195,15 +192,15 @@ function programs() {
                 </div>
                 <hr className="my-6" />
                 <div>
-                    {programsUrl && (
+                    {barangayOrdinanceUrl && (
                         <>
-                            <p className="mb-2">Program: </p>
+                            <p className="mb-2">Barangay ordinance: </p>
                             {documentImageExtensions.includes(
                                 documentExtension
                             ) && (
                                 <div className="w-full max-w-lg bg-black border ">
                                     <Image
-                                        src={programsUrl}
+                                        src={barangayOrdinanceUrl}
                                         alt="route image"
                                         width="100%"
                                         height="100%"
@@ -215,13 +212,13 @@ function programs() {
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${programsUrl}`}
+                                    src={`${barangayOrdinanceUrl}`}
                                 ></iframe>
                             )}
                             {documentExtension == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${programsUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${barangayOrdinanceUrl}`}
                                 ></iframe>
                             )}
                         </>
@@ -232,4 +229,4 @@ function programs() {
     );
 }
 
-export default programs;
+export default barangayOrdinance;

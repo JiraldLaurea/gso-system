@@ -1,9 +1,11 @@
+import { Icon } from "@iconify/react";
 import Axios from "axios";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import BackButton from "../../components/BackButton";
 import RecyclableWastesInput from "../../components/RecyclableWastesInput";
+import { useAuthDispatch } from "../../context/auth";
+import moment from "moment";
 
 function recyclableWastes() {
     const router = useRouter();
@@ -27,8 +29,17 @@ function recyclableWastes() {
     const [scrap, setScrap] = useState(0);
     const [kaldero, setKaldero] = useState(0);
     const [others, setOthers] = useState(0);
-
     const { data: me } = useSWR("http://localhost:3001/user/me");
+    const dispatch = useAuthDispatch();
+    const [dateSubmitted, setDateSubmitted] = useState(
+        moment().format("yyyy-MM")
+    );
+
+    useEffect(() => {
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_TITLE", "Recyclable wastes");
+        dispatch("CHANGE_PATH", "/submit");
+    }, []);
 
     // Recursive Binary Search
     // It returns location of x in given array arr[l..r] is present,otherwise -1
@@ -54,7 +65,7 @@ function recyclableWastes() {
         setLoading(true);
 
         const data = {
-            yearSubmitted: yearSubmitted,
+            dateSubmitted: dateSubmitted,
             barangayId: barangayId,
             barangayName: dropdownMenuValueBarangay,
             districtName: dropdownMenuValueDistrict,
@@ -73,7 +84,7 @@ function recyclableWastes() {
 
         await Axios.post(
             "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastes",
-            { yearSubmitted: yearSubmitted }
+            { dateSubmitted: dateSubmitted }
         ).then(async (res) => {
             const barangayIdArray = res.data.map((data) => {
                 return data.barangayId;
@@ -115,25 +126,25 @@ function recyclableWastes() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <BackButton path="/submit" title="Recyclable wastes" />
                 <div className="mb-4">
-                    <p className="mt-4 mb-2 text-sm text-gray-700">
-                        Year of submission:
+                    <p className="mb-1 text-sm text-gray-600">
+                        Date of submission:
                     </p>
                     <input
-                        value={yearSubmitted}
-                        placeholder="Year"
-                        onChange={(e) => setYearSubmitted(e.target.value)}
-                        type="number"
-                        className="w-20 px-2 py-1 text-center border restoreNumberArrows focus:outline-none"
+                        type="month"
+                        id="fromDatePicker"
+                        value={dateSubmitted}
+                        onChange={(e) => setDateSubmitted(e.target.value)}
+                        className="px-2 py-1 mb-4 border"
                     />
                 </div>
 
-                <div className="grid max-w-4xl grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                <div className="flex">
                     <RecyclableWastesInput
                         category="Saway:"
                         state={saway}
                         setState={(e) => setSaway(e.target.value)}
+                        firstChild
                     />
                     <RecyclableWastesInput
                         category="Lata:"
@@ -193,11 +204,27 @@ function recyclableWastes() {
                             submit();
                         }
                     }}
-                    className={`px-3 py-2 mt-8 mb-4 text-white bg-blue-500 rounded-sm w-28 ${
+                    className={`w-36 flex hover:bg-blue-600 transition-colors items-center justify-center px-3 py-2 mt-8 mb-4 text-white bg-blue-500 rounded-sm ${
                         loading && "cursor-not-allowed"
                     } `}
                 >
-                    {!loading ? "Encode" : "Processing..."}
+                    {!loading ? (
+                        <>
+                            <Icon
+                                icon="fluent:document-arrow-up-20-filled"
+                                className="w-6 h-6 mr-2"
+                            />
+                            Encode
+                        </>
+                    ) : (
+                        <>
+                            <Icon
+                                icon="eos-icons:loading"
+                                className="w-6 h-6 mr-2"
+                            />
+                            Processing...
+                        </>
+                    )}
                 </button>
             </div>
         </div>

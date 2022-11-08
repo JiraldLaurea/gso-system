@@ -23,7 +23,7 @@ function SidebarMobile({ setIsSidebarMobileOpen }) {
     return (
         <>
             {authenticated && !loading && (
-                <div className="md:hidden flex-col fixed z-20 w-full top-0 h-full bg-gray-800 text-white text-sm pb-3 overflow-auto overflow-x-hidden">
+                <div className="fixed top-0 z-20 flex-col w-full h-full pb-3 overflow-auto overflow-x-hidden text-sm text-white bg-gray-800 md:hidden">
                     <div className="flex items-center justify-between px-4 mb-4 border-b border-gray-700 select-none min-h-[56px]">
                         <div
                             onClick={() => router.push("/")}
@@ -125,7 +125,7 @@ function SidebarMobile({ setIsSidebarMobileOpen }) {
                         />
                         <p>Statistics</p>
                     </div>
-                    <div
+                    {/* <div
                         onClick={() => {
                             setIsSidebarMobileOpen();
                             router.push("/project");
@@ -137,7 +137,7 @@ function SidebarMobile({ setIsSidebarMobileOpen }) {
                             icon="ant-design:project-filled"
                         />
                         <p>Project manager</p>
-                    </div>
+                    </div> */}
 
                     {!loading ? (
                         <>
@@ -168,31 +168,15 @@ function SidebarMobile({ setIsSidebarMobileOpen }) {
                         <div
                             onClick={() => {
                                 setIsSidebarMobileOpen();
-                                router.push("/admin/encodedSubmissions");
+                                router.push("/admin/viewAdmin");
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
                         >
                             <Icon
                                 className="w-6 h-6 mr-4"
-                                icon="fluent:document-16-filled"
+                                icon="ic:baseline-remove-red-eye"
                             />
-                            <p>Encoded submissions</p>
-                        </div>
-                    )}
-
-                    {user?.isAdmin && !loading && (
-                        <div
-                            onClick={() => {
-                                setIsSidebarMobileOpen();
-                                router.push("/admin/updatedSubmissions");
-                            }}
-                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
-                        >
-                            <Icon
-                                className="w-6 h-6 mr-4"
-                                icon="fluent:document-16-filled"
-                            />
-                            <p>Updated submissions</p>
+                            <p>View SWM plan</p>
                         </div>
                     )}
 
@@ -200,31 +184,15 @@ function SidebarMobile({ setIsSidebarMobileOpen }) {
                         <div
                             onClick={() => {
                                 setIsSidebarMobileOpen();
-                                router.push("/user/encodedSubmissions");
+                                router.push("/user/viewUser");
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
                         >
                             <Icon
                                 className="w-6 h-6 mr-4"
-                                icon="fluent:document-arrow-up-20-filled"
+                                icon="ic:baseline-remove-red-eye"
                             />
-                            <p>Encoded submissions</p>
-                        </div>
-                    )}
-
-                    {!user?.isAdmin && !loading && (
-                        <div
-                            onClick={() => {
-                                setIsSidebarMobileOpen();
-                                router.push("/user/updatedSubmissions");
-                            }}
-                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
-                        >
-                            <Icon
-                                className="w-6 h-6 mr-4"
-                                icon="fluent:document-arrow-up-20-filled"
-                            />
-                            <p>Updated submissions</p>
+                            <p>View SWM plan</p>
                         </div>
                     )}
 

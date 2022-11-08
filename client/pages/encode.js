@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ClickAwayListener from "react-click-away-listener";
+import { useAuthDispatch } from "../context/auth";
 
 function encode() {
     const router = useRouter();
@@ -8,11 +9,16 @@ function encode() {
     const [dropdownMenuValue, setDropdownMenuValue] = useState("Select");
     const [barangayId, setBarangayId] = useState(null);
     const [isSaved, setIsSaved] = useState(false);
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Encode");
+        dispatch("HAS_BUTTON_FALSE");
+    }, []);
 
     return (
         <div className="">
             <div className="p-4 md:p-8">
-                <h2 className="mb-8 text-xl font-semibold">Encode</h2>
                 {/* <div className="flex flex-col gap-4 md:grid md:grid-cols-4">
                     <div
                         onClick={() => router.push("/encode/barangayProfile")}
@@ -77,7 +83,7 @@ function encode() {
                         <p>Recyclable wastes</p>
                     </div>
                 </div> */}
-                <div className="my-4">
+                <div>
                     <p className="mb-1 text-sm text-gray-600">Select</p>
                     <div className="relative">
                         <ClickAwayListener
@@ -120,7 +126,7 @@ function encode() {
                                     </svg>
                                 </div>
                                 {isDropdownMenuOpen && (
-                                    <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                    <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                         <ul className="text-gray-700 bg-white">
                                             <li
                                                 onClick={() => {

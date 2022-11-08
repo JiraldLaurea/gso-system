@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import useSWR from "swr";
+import { useAuthDispatch } from "../../context/auth";
 
 function barangayProfile({ savedData }) {
     const router = useRouter();
@@ -14,6 +15,13 @@ function barangayProfile({ savedData }) {
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
     const [isSaved, setIsSaved] = useState(false);
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_TITLE", "Barangay profile");
+        dispatch("CHANGE_PATH", "/encode");
+    }, []);
 
     const { data: barangaysEncode } = useSWR(
         "http://localhost:3001/barangay/getAllBarangayEncode"
@@ -86,16 +94,7 @@ function barangayProfile({ savedData }) {
     return (
         <div className="flex flex-col w-full max-w-5xl">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-8">
-                    <Icon
-                        onClick={() => router.push("/encode")}
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-semibold ">Barangay profile</h2>
-                </div>
-
-                <div className="my-4">
+                <div>
                     <p className="mb-1 text-sm text-gray-600">Barangay</p>
                     <div className="relative">
                         <ClickAwayListener
@@ -140,7 +139,7 @@ function barangayProfile({ savedData }) {
                                     </svg>
                                 </div>
                                 {isDropdownMenuOpen && (
-                                    <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                    <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                         <ul className="text-gray-700 bg-white">
                                             {barangaysEncode.map(
                                                 (barangayEncode, index) => {
@@ -197,10 +196,10 @@ function barangayProfile({ savedData }) {
                                     alert("Please choose a barangay");
                                 }
                             }}
-                            className="flex items-center justify-center py-2 mb-4 mr-4 text-white bg-blue-500 border border-blue-500 rounded-sm w-36"
+                            className="flex items-center justify-center py-2 mb-4 mr-4 text-white transition-colors bg-blue-500 border border-blue-500 rounded-sm w-36 hover:bg-blue-600"
                         >
                             <Icon
-                                icon="material-symbols:create-new-folder"
+                                icon="ic:baseline-add-circle"
                                 className="w-6 h-6 mr-2"
                             />
                             Create new
@@ -214,7 +213,7 @@ function barangayProfile({ savedData }) {
                             className={`w-36 flex items-center justify-center py-2 mb-4 border rounded-sm ${
                                 !isSaved
                                     ? "hover:cursor-not-allowed bg-gray-300 text-gray-500"
-                                    : "border-gray-300 text-blue-600"
+                                    : "border-gray-300 text-blue-600 hover:border-blue-500"
                             }`}
                         >
                             <Icon

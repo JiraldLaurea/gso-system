@@ -1,7 +1,14 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { Icon } from "@iconify/react";
 
-function requirementsButton({ requirement, path, requirementName, isAdmin }) {
+function requirementsButton({
+    requirement,
+    path,
+    requirementName,
+    isAdmin,
+    iconStyle,
+}) {
     const router = useRouter();
 
     return (
@@ -11,13 +18,14 @@ function requirementsButton({ requirement, path, requirementName, isAdmin }) {
                     router.push(path);
                 }
             }}
-            className={`flex select-none items-center justify-center w-full p-4 text-center border rounded-sm cursor-pointer  ${
+            className={`flex items-center select-none w-full px-4 py-4 text-center border border-gray-300 rounded-sm cursor-pointer ${
                 !requirement && !isAdmin
                     ? "bg-gray-300 border-gray-300 text-gray-500 hover:cursor-not-allowed"
                     : "hover:border-blue-500"
             }`}
         >
-            <p>{requirementName}</p>
+            <Icon icon={iconStyle} className="w-6 h-6 mr-2 text-gray-600" />
+            <p className="text-sm font-medium">{requirementName}</p>
         </div>
     );
 }

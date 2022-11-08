@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
+            isShortened: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+            },
             yearSubmitted: {
                 type: DataTypes.INTEGER,
                 allowNull: true,

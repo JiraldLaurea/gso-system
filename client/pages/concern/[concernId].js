@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR, { mutate, useSWRConfig } from "swr";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import Avatar from "react-avatar";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import moment from "moment";
+import { useAuthDispatch } from "../../context/auth";
 
 dayjs.extend(relativeTime);
 
@@ -16,12 +17,22 @@ function Concern() {
     const concernId = router.query.concernId;
     const [commentText, setCommentText] = useState("");
     const { mutate } = useSWRConfig();
+    const dispatch = useAuthDispatch();
 
     const {
         data: concern,
         error: errorConcern,
         isValidating: isValidatingConcern,
     } = useSWR(`http://localhost:3001/concern/${concernId}`);
+
+    useEffect(() => {
+        dispatch(
+            "CHANGE_TITLE",
+            `Concern - ${concern?.barangayName ? concern.barangayName : "GSO"}`
+        );
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/concerns");
+    }, [concern?.barangayName]);
 
     const { data: comments } = useSWR(
         `http://localhost:3001/concern/getcomments/${concernId}`
@@ -49,22 +60,13 @@ function Concern() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-4">
-                    <Icon
-                        onClick={() => router.back()}
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-semibold">
-                        {concern?.barangayName ? concern?.barangayName : "GSO"}
-                    </h2>
-                </div>
-
                 <p className="text-sm text-gray-600">
-                    Posted on:{" "}
+                    Posted on:
                     {moment(concern?.createdAt).format("MMM D, YYYY - h:mmA")}
                 </p>
-                <p className="my-4 text-xl">{concern?.concernText}</p>
+                <p className="my-4 text-xl font-medium">
+                    {concern?.concernText}
+                </p>
                 {concern?.concernImageUrl && (
                     <div className="w-full max-w-xl bg-black border ">
                         <Image

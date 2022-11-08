@@ -6,8 +6,9 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 import fileDownload from "js-file-download";
+import { useAuthDispatch } from "../../../context/auth";
 
-function barangayOrdinance() {
+function executiveOrder() {
     const router = useRouter();
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
     const [dropdownMenuValueBarangay, setDropdownMenuValueBarangay] =
@@ -15,16 +16,25 @@ function barangayOrdinance() {
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
-    const [barangayOrdinanceUrl, setBarangayOrdinanceUrl] = useState(null);
+    const [executiveOrderUrl, setExecutiveOrderUrl] = useState(null);
+    const [dateIssued, setDateIssued] = useState(null);
     const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
+    const [barangayYears, setBarangayYears] = useState([]);
     const [documentExtension, setDocumentExtension] = useState("");
     const documentImageExtensions = ["png", "jpg", "jpeg"];
     const [loadingDownload, setLoadingDownload] = useState(false);
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Executive order");
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/user/viewUser");
+    }, []);
 
     const { data } = useSWR(
-        "http://localhost:3001/barangayOrdinance/getAllUpdatedUserBarangayOrdinanceYearSubmitted"
+        "http://localhost:3001/executiveOrder/getAllUpdatedUserExecutiveOrderYearSubmitted"
     );
 
     const view = async (e) => {
@@ -33,11 +43,12 @@ function barangayOrdinance() {
         };
 
         await Axios.post(
-            "http://localhost:3001/barangayOrdinance/getUpdatedUserBarangayOrdinanceUrl",
+            "http://localhost:3001/executiveOrder/getUpdatedUserExecutiveOrderUrl",
             data
         ).then((res) => {
             setDocumentExtension(res.data.documentName.split(".").pop());
-            setBarangayOrdinanceUrl(res.data.barangayOrdinanceUrl);
+            setDateIssued(res.data.dateIssued);
+            setExecutiveOrderUrl(res.data.executiveOrderUrl);
         });
     };
 
@@ -50,7 +61,7 @@ function barangayOrdinance() {
             };
 
             await Axios.post(
-                "http://localhost:3001/barangayOrdinance/getUpdatedUserBarangayOrdinanceUrl",
+                "http://localhost:3001/executiveOrder/getUpdatedUserExecutiveOrderUrl",
                 dataYearOfSubmission
             ).then((res) => {
                 const documentName = res.data.documentName;
@@ -59,7 +70,7 @@ function barangayOrdinance() {
                     method: "POST",
                     responseType: "blob",
                     data: {
-                        submissionUrl: res.data.barangayOrdinanceUrl,
+                        submissionUrl: res.data.executiveOrderUrl,
                     },
                 }).then((res) => {
                     fileDownload(res.data, documentName);
@@ -72,16 +83,6 @@ function barangayOrdinance() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-8">
-                    <Icon
-                        onClick={() => router.push("/user/updatedSubmissions/")}
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-semibold">
-                        View barangay ordinance
-                    </h2>
-                </div>
                 <div>
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
@@ -129,7 +130,7 @@ function barangayOrdinance() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen2 && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
                                                     {data.map(
                                                         (
@@ -194,15 +195,19 @@ function barangayOrdinance() {
                 </div>
                 <hr className="my-6" />
                 <div>
-                    {barangayOrdinanceUrl && (
+                    {executiveOrderUrl && (
                         <>
-                            <p className="mb-2">Barangay ordinance: </p>
+                            <p className="mb-4">
+                                Date issued:
+                                <span className="ml-1">{dateIssued}</span>
+                            </p>
+                            <p className="mb-2">Executive order: </p>
                             {documentImageExtensions.includes(
                                 documentExtension
                             ) && (
                                 <div className="w-full max-w-lg bg-black border ">
                                     <Image
-                                        src={barangayOrdinanceUrl}
+                                        src={executiveOrderUrl}
                                         alt="route image"
                                         width="100%"
                                         height="100%"
@@ -214,13 +219,13 @@ function barangayOrdinance() {
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${barangayOrdinanceUrl}`}
+                                    src={`${executiveOrderUrl}`}
                                 ></iframe>
                             )}
                             {documentExtension == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${barangayOrdinanceUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${executiveOrderUrl}`}
                                 ></iframe>
                             )}
                         </>
@@ -231,4 +236,4 @@ function barangayOrdinance() {
     );
 }
 
-export default barangayOrdinance;
+export default executiveOrder;

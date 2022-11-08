@@ -5,9 +5,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import useSWR, { useSWRConfig } from "swr";
+import { useAuthDispatch } from "../../context/auth";
 
 dayjs.extend(relativeTime);
 
@@ -17,12 +18,24 @@ function Announcement() {
     const [announcementImage, setAnnouncementImage] = useState();
     const [commentText, setCommentText] = useState("");
     const { mutate } = useSWRConfig();
+    const dispatch = useAuthDispatch();
 
     const {
         data: announcement,
         error: errorAnnouncement,
         isValidating: isValidatingAnnouncement,
     } = useSWR(`http://localhost:3001/announcement/${announcementId}`);
+
+    useEffect(() => {
+        dispatch(
+            "CHANGE_TITLE",
+            `Announcement - ${
+                announcement?.barangayName ? announcement.barangayName : "GSO"
+            }`
+        );
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/announcements");
+    }, [announcement?.barangayName]);
 
     const {
         data: comments,
@@ -54,20 +67,6 @@ function Announcement() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-4">
-                    <Icon
-                        onClick={() => router.back()}
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    {announcement && (
-                        <h2 className="text-xl font-semibold">
-                            {announcement?.barangayName
-                                ? announcement?.barangayName
-                                : "GSO"}
-                        </h2>
-                    )}
-                </div>
                 {announcement ? (
                     <>
                         <p className="text-sm text-gray-600">
@@ -127,7 +126,7 @@ function Announcement() {
                                                 className="mr-2 rounded-full "
                                             />
                                             <div className="flex flex-col items-end">
-                                                <div className="px-3 mb-1 py-2 border min-w-[180px] max-w-md">
+                                                <div className="px-3 mb-1 py-2 border min-w-[180px] max-w-md break-words">
                                                     <div className="flex items-center justify-between mb-2">
                                                         <p className="text-sm font-medium">
                                                             {comment.username}

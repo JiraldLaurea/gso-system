@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 import fileDownload from "js-file-download";
+import { useAuthDispatch } from "../../../context/auth";
 
 function executiveOrder() {
     const router = useRouter();
@@ -24,6 +25,13 @@ function executiveOrder() {
     const [documentExtension, setDocumentExtension] = useState("");
     const documentImageExtensions = ["png", "jpg", "jpeg"];
     const [loadingDownload, setLoadingDownload] = useState(false);
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Executive Order");
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/admin/viewAdmin");
+    }, []);
 
     const { data: barangaysEncode } = useSWR(
         "http://localhost:3001/executiveOrder/getAllUpdatedExecutiveOrder"
@@ -96,19 +104,7 @@ function executiveOrder() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-8">
-                    <Icon
-                        onClick={() =>
-                            router.push("/admin/updatedSubmissions/")
-                        }
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-medium ">
-                        View executive order
-                    </h2>
-                </div>
-                <div className="my-4">
+                <div>
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
                             <p className="mb-1 text-sm text-gray-600">
@@ -159,7 +155,7 @@ function executiveOrder() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
                                                     {barangaysEncode.map(
                                                         (barangay, index) => {
@@ -253,7 +249,7 @@ function executiveOrder() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen2 && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
                                                     {barangayYears.map(
                                                         (

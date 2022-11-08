@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Axios from "axios";
 import { useRouter } from "next/router";
 import BackButton from "../../components/BackButton";
+import { Icon } from "@iconify/react";
+import { useAuthDispatch } from "../../context/auth";
 
 function barangayProfile({ savedData, submittedData }) {
     const router = useRouter();
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_TITLE", "Barangay profile");
+        dispatch("CHANGE_PATH", "/submit");
+    }, []);
 
     const handleClick = async (e, action) => {
         e.preventDefault();
@@ -37,39 +46,52 @@ function barangayProfile({ savedData, submittedData }) {
     return (
         <div className="flex flex-col w-full max-w-5xl">
             <div className="p-4 md:p-8">
-                <BackButton path="/submit" title="Barangay profile" />
-                <div className="flex flex-col md:space-x-4 space-y-4 md:space-y-0 md:flex-row">
-                    <div
+                <div className="flex flex-col space-y-4 md:space-x-4 md:space-y-0 md:flex-row">
+                    <button
                         onClick={(e) => handleClick(e, "CreateNewDocument")}
-                        className="flex flex-col items-center w-full md:w-48 py-4 border rounded-sm cursor-pointer select-none hover:border-blue-400"
+                        className="flex items-center justify-center text-white transition-colors bg-blue-500 border border-blue-500 rounded-sm hover:bg-blue-600 w-36"
                     >
-                        <p className="">Create new document</p>
-                    </div>
-                    <div
+                        <Icon
+                            icon="ic:baseline-add-circle"
+                            className="w-6 h-6 mr-2"
+                        />
+                        Create new
+                    </button>
+                    <button
                         onClick={(e) => {
                             if (savedData) {
                                 handleClick(e, "LoadDocument");
                             }
                         }}
-                        className={`flex select-none flex-col items-center w-full md:w-48 py-4 border rounded-sm cursor-pointer border-gray-300 hover:border-blue-400 ${
-                            !savedData &&
-                            "hover:cursor-not-allowed bg-gray-300 hover:border-gray-300 text-gray-500"
+                        className={`flex items-center justify-center w-36 py-2 border rounded-sm border-gray-300  ${
+                            !savedData
+                                ? "hover:cursor-not-allowed bg-gray-300 text-gray-500"
+                                : "border-gray-300 text-blue-600 hover:border-blue-400"
                         }`}
                     >
-                        <p className="">Load document</p>
-                    </div>
+                        <Icon
+                            icon="ic:sharp-upload-file"
+                            className="w-6 h-6 mr-2"
+                        />
+                        Load
+                    </button>
                     <div
                         onClick={(e) => {
                             if (submittedData) {
                                 handleClick(e, "UpdateSubmission");
                             }
                         }}
-                        className={`flex select-none flex-col items-center w-full md:w-48 py-4 border rounded-sm cursor-pointer border-gray-300 hover:border-blue-400 ${
-                            !submittedData &&
-                            "hover:cursor-not-allowed bg-gray-300 hover:border-gray-300 text-gray-500"
+                        className={`flex items-center justify-center w-36 border rounded-sm cursor-pointer border-gray-300 ${
+                            !submittedData
+                                ? "hover:cursor-not-allowed bg-gray-300 text-gray-500"
+                                : "border-gray-300 text-blue-600 hover:border-blue-400"
                         }`}
                     >
-                        <p className="">Update submission</p>
+                        <Icon
+                            icon="ic:baseline-update"
+                            className="w-6 h-6 mr-2"
+                        />
+                        Update
                     </div>
                 </div>
             </div>

@@ -1037,6 +1037,25 @@ const getSubmittedBarangayProfilePage = async (req, res) => {
     res.json(isSubmitted);
 };
 
+const getSubmittedBarangayProfilePageUser = async (req, res) => {
+    const user = res.locals.user;
+
+    const { yearSubmitted } = req.body;
+
+    const brgyProfilePage1 = await SubmissionBarangayProfilePage1.findOne({
+        attributes: ["yearSubmitted"],
+        where: {
+            barangayId: user.barangayId,
+            typeOfDocument: "Submitted",
+            yearSubmitted: yearSubmitted,
+        },
+    });
+
+    const isSubmitted = brgyProfilePage1?.yearSubmitted == yearSubmitted;
+
+    res.json(isSubmitted);
+};
+
 const getSubmittedBarangayProfilePageYear = async (req, res) => {
     const user = res.locals.user;
 
@@ -7139,6 +7158,12 @@ router.post(
     validateUser,
     validate,
     getSubmittedBarangayProfilePage
+);
+router.post(
+    "/getSubmittedBarangayProfilePageUser",
+    validateUser,
+    validate,
+    getSubmittedBarangayProfilePageUser
 );
 router.get(
     "/getSubmittedBarangayProfilePageYear",

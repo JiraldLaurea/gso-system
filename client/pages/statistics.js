@@ -4,6 +4,7 @@ import useSWR from "swr";
 import numeral from "numeral";
 import ClickAwayListener from "react-click-away-listener";
 import moment from "moment";
+import { useAuthDispatch } from "../context/auth";
 
 function statistics() {
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
@@ -14,22 +15,43 @@ function statistics() {
     const [dropDownMenuValue, setDropDownMenuValue] = useState(null);
     const [fromDatePicker, setFromDatePicker] = useState("");
     const [toDatePicker, setToDatePicker] = useState("");
+    const [recyclableWastes, setRecyclableWastes] = useState([]);
+    const dispatch = useAuthDispatch();
 
     const { data: barangays } = useSWR(
         "http://localhost:3001/barangay/getAllBarangay"
     );
 
-    const {
-        data: recyclableWastes,
-        error,
-        isValidating,
-    } = useSWR("http://localhost:3001/recyclableWastes/getRecyclableWastes");
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Statistics");
+        dispatch("HAS_BUTTON_FALSE");
+    }, []);
+
+    // const { data: recyclableWastes } = useSWR(
+    //     "http://localhost:3001/recyclableWastes/getRecyclableWastes"
+    // );
+
+    const displayRecyclableWastes = async () => {
+        const data = {
+            barangayId: dropDownMenuValue,
+        };
+        await Axios.post(
+            "http://localhost:3001/recyclableWastes/getRecyclableWastes",
+            data
+        ).then((res) => {
+            setRecyclableWastes(res.data);
+        });
+    };
+
+    useEffect(() => {
+        if (dropDownMenuValue != null) {
+            displayRecyclableWastes();
+        }
+    }, [dropDownMenuValue]);
 
     return (
-        <div className="flex flex-col w-full">
+        <div className="">
             <div className="p-8">
-                <p className="mb-8 text-xl font-semibold">Statistics</p>
-
                 <p className="mb-1 text-sm text-gray-600">Barangay</p>
                 <div className="relative">
                     <ClickAwayListener
@@ -72,24 +94,24 @@ function statistics() {
                                 </svg>
                             </div>
                             {isDropdownMenuOpen && (
-                                <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                     <ul className="text-gray-700 bg-white">
-                                        {barangays.map((barangays, index) => {
+                                        {barangays.map((barangay, index) => {
                                             return (
                                                 <li
-                                                    key={index}
+                                                    key={barangay.id}
                                                     onClick={() => {
                                                         setDropdownMenuValueBarangay(
-                                                            barangays.barangayName
+                                                            barangay.barangayName
                                                         );
                                                         setDropdownMenuValueDistrict(
-                                                            barangays.districtName
+                                                            barangay.districtName
                                                         );
                                                         setIsDropdownMenuOpen(
                                                             false
                                                         );
                                                         setDropDownMenuValue(
-                                                            barangays.id
+                                                            barangay.id
                                                         );
                                                         setFromDatePicker("");
                                                         setToDatePicker("");
@@ -99,9 +121,9 @@ function statistics() {
                                                         href="#"
                                                         className="block px-3 py-2 hover:bg-gray-100"
                                                     >
-                                                        {barangays.barangayName}
+                                                        {barangay.barangayName}
                                                         &nbsp; - &nbsp;
-                                                        {barangays.districtName}
+                                                        {barangay.districtName}
                                                     </a>
                                                 </li>
                                             );
@@ -119,77 +141,63 @@ function statistics() {
 
                 {dropdownMenuValueBarangay != "Barangay" ? (
                     <div className="overflow-auto border max-h-[500px]">
-                        <div className="">
-                            <table className="w-full text-sm text-left">
-                                <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
-                                    <tr className="removeBorderStyle">
-                                        <th className="px-6">
-                                            <p className="w-28">
-                                                Barangay name
-                                            </p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className="w-28">
-                                                District name
-                                            </p>
-                                        </th>
-                                        <th className="px-6 ">
-                                            <p className="text-right">
-                                                Population count
-                                            </p>
-                                        </th>
-                                        <th className="px-6 ">
-                                            <p className="text-right">
-                                                Waste generated
-                                            </p>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {barangays?.map((barangayWaste, index) => {
-                                        const wasteGenerated =
-                                            (
-                                                barangayWaste.populationCount *
-                                                0.68
-                                            ).toFixed(2) + "kg";
+                        <table className="w-full text-sm text-left">
+                            <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
+                                <tr className="removeBorderStyle">
+                                    <th className="px-6">
+                                        <p>Barangay name</p>
+                                    </th>
+                                    <th className="px-6">
+                                        <p>District name</p>
+                                    </th>
+                                    <th className="px-6 ">
+                                        <p className="text-right">
+                                            Population count
+                                        </p>
+                                    </th>
+                                    <th className="px-6 ">
+                                        <p className="text-right">
+                                            Waste generated
+                                        </p>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {barangays?.map((barangayWaste, index) => {
+                                    const wasteGenerated =
+                                        (
+                                            barangayWaste.populationCount * 0.68
+                                        ).toFixed(2) + "kg";
 
-                                        if (
-                                            barangayWaste.id ==
-                                            dropDownMenuValue
-                                        ) {
-                                            return (
-                                                <tr
-                                                    key={index}
-                                                    className="removeBorderStyle h-11"
-                                                >
-                                                    <td className="px-6">
-                                                        {
-                                                            barangayWaste.barangayName
-                                                        }
-                                                    </td>
-                                                    <td className="px-6">
-                                                        {
-                                                            barangayWaste.districtName
-                                                        }
-                                                    </td>
-                                                    <td className="px-6 text-right">
-                                                        {numeral(
-                                                            barangayWaste.populationCount
-                                                        ).format("0,0")}
-                                                    </td>
-                                                    <td className="px-6 text-right">
-                                                        {numeral(
-                                                            wasteGenerated
-                                                        ).format("0,0.00")}{" "}
-                                                        kg
-                                                    </td>
-                                                </tr>
-                                            );
-                                        }
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
+                                    if (barangayWaste.id == dropDownMenuValue) {
+                                        return (
+                                            <tr
+                                                key={barangayWaste.id}
+                                                className="removeBorderStyle h-11"
+                                            >
+                                                <td className="px-6">
+                                                    {barangayWaste.barangayName}
+                                                </td>
+                                                <td className="px-6">
+                                                    {barangayWaste.districtName}
+                                                </td>
+                                                <td className="px-6 text-right">
+                                                    {numeral(
+                                                        barangayWaste.populationCount
+                                                    ).format("0,0")}
+                                                </td>
+                                                <td className="px-6 text-right">
+                                                    {numeral(
+                                                        wasteGenerated
+                                                    ).format("0,0.00")}{" "}
+                                                    kg
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 ) : (
                     <p className="text-gray-500">No barangay selected.</p>
@@ -209,7 +217,8 @@ function statistics() {
                         Recyclable Wastes Report
                     </p>
                 </div>
-                {dropdownMenuValueBarangay != "Barangay" ? (
+                {dropdownMenuValueBarangay != "Barangay" &&
+                recyclableWastes.length != 0 ? (
                     <>
                         <div className="flex items-end mb-4 space-x-4">
                             <div>
@@ -257,12 +266,12 @@ function statistics() {
 
                         <div className="overflow-auto border max-h-[500px]">
                             <div className="w-0">
-                                <table className="text-sm text-left">
+                                <table className="w-screen text-sm text-left">
                                     <thead className="sticky top-0 w-full text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
                                         <tr className="removeBorderStyle">
-                                            <th className="px-6 text-center">
+                                            <th className="px-6">
                                                 <div>
-                                                    <p className="w-fit">
+                                                    <p className="w-32">
                                                         Date submitted
                                                     </p>
                                                 </div>
@@ -361,7 +370,9 @@ function statistics() {
                                                     ) {
                                                         return (
                                                             <tr
-                                                                key={index}
+                                                                key={
+                                                                    recyclableWaste.id
+                                                                }
                                                                 className="border-b removeBorderStyle h-11"
                                                             >
                                                                 {/* <td className="px-6">
@@ -374,7 +385,7 @@ function statistics() {
                                                                         recyclableWaste.districtName
                                                                     }
                                                                 </td> */}
-                                                                <td className="px-6 text-center">
+                                                                <td className="px-6">
                                                                     {moment(
                                                                         recyclableWaste.dateSubmitted
                                                                     ).format(
@@ -489,7 +500,17 @@ function statistics() {
                         </div>
                     </>
                 ) : (
-                    <p className="text-gray-500">No barangay selected.</p>
+                    <>
+                        {recyclableWastes?.length == 0 ? (
+                            <p className="text-gray-500">
+                                No recyclable waste submitted.
+                            </p>
+                        ) : (
+                            <p className="text-gray-500">
+                                No barangay selected.
+                            </p>
+                        )}
+                    </>
                 )}
             </div>
         </div>

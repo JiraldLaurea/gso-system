@@ -62,7 +62,7 @@ function BarangayTable({
             <form
                 spellCheck="false"
                 onSubmit={addBarangay}
-                className="w-full md:max-w-xs mr-6"
+                className="w-full mr-6 md:max-w-xs"
             >
                 <p className="text-lg font-medium">Add barangay</p>
                 <div className="mt-6 mb-4">
@@ -90,9 +90,13 @@ function BarangayTable({
                 <div className="flex items-center justify-end mb-4">
                     <button
                         type="submit"
-                        className="px-6 py-1 text-white bg-blue-500 active:ring"
+                        className="flex items-center justify-center px-4 py-2 text-white transition-colors bg-blue-500 border border-blue-500 rounded-sm hover:bg-blue-600"
                     >
-                        Add barangay
+                        <Icon
+                            icon="ic:baseline-add-circle"
+                            className="w-6 h-6 mr-2"
+                        />
+                        Add
                     </button>
                 </div>
             </form>
@@ -102,7 +106,7 @@ function BarangayTable({
                 }`}
             >
                 <div className="w-0 md:w-full">
-                    <table className="md:w-full text-sm text-left">
+                    <table className="text-sm text-left md:w-full">
                         <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
                             <tr className="select-none removeBorderStyle">
                                 <th className="px-6">
@@ -178,7 +182,7 @@ function BarangayTable({
                                 return (
                                     <tr
                                         key={index}
-                                        className="removeBorderStyle border-b h-11"
+                                        className="border-b removeBorderStyle h-11"
                                     >
                                         <td className="px-6">{index + 1}</td>
                                         <td className="px-6">

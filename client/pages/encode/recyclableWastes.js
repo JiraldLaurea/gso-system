@@ -6,13 +6,14 @@ import {
     uploadBytes,
     uploadString,
 } from "firebase/storage";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import useSWR, { mutate } from "swr";
 import { storage } from "../../firebase";
 import { useRouter } from "next/router";
 import RecyclableWastesInput from "../../components/RecyclableWastesInput";
 import moment from "moment";
+import { useAuthDispatch } from "../../context/auth";
 
 function recyclableWastes() {
     const router = useRouter();
@@ -42,6 +43,13 @@ function recyclableWastes() {
     const [dateSubmitted, setDateSubmitted] = useState(
         moment().format("yyyy-MM")
     );
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_TITLE", "Recyclable wastes");
+        dispatch("CHANGE_PATH", "/encode");
+    }, []);
 
     const { data: barangaysEncode } = useSWR(
         "http://localhost:3001/barangay/getAllBarangayRecyclableWastes"
@@ -133,19 +141,8 @@ function recyclableWastes() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-8">
-                    <Icon
-                        onClick={() => router.push("/encode")}
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-medium ">Recyclable wastes</h2>
-                </div>
-
-                <p className="mb-1 text-sm text-gray-600">
-                    Select barangay and district
-                </p>
-                <div className="relative">
+                <p className="mb-1 text-sm text-gray-600">Barangay</p>
+                <div className="relative mb-4">
                     <ClickAwayListener
                         onClickAway={() => setIsDropdownMenuOpen(false)}
                         className="relative"
@@ -186,7 +183,7 @@ function recyclableWastes() {
                                 </svg>
                             </div>
                             {isDropdownMenuOpen && (
-                                <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                     <ul className="text-gray-700 bg-white">
                                         {barangaysEncode.map(
                                             (barangayEncode, index) => {
@@ -233,7 +230,10 @@ function recyclableWastes() {
                             )}
                         </div>
                     </ClickAwayListener>
-                    <p className="mt-4 mb-1 text-sm text-gray-600">
+                </div>
+
+                <div className="mb-8">
+                    <p className="mb-1 text-sm text-gray-600">
                         Date of submission:
                     </p>
                     <input
@@ -241,73 +241,64 @@ function recyclableWastes() {
                         id="fromDatePicker"
                         value={dateSubmitted}
                         onChange={(e) => setDateSubmitted(e.target.value)}
-                        className="px-2 py-1 mb-4 border"
+                        className="px-2 py-1 border"
                     />
-                    {/* <p className="mt-4 mb-2 text-sm text-gray-700 ">
-                        Year of submission:
-                    </p>
-                    <input
-                        value={yearSubmitted}
-                        placeholder="Year"
-                        onChange={(e) => setYearSubmitted(e.target.value)}
-                        type="number"
-                        className="w-20 px-2 py-1 mb-4 text-center border restoreNumberArrows focus:outline-none"
-                    /> */}
                 </div>
 
-                <div className="grid max-w-4xl grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                <div className="flex">
                     <RecyclableWastesInput
-                        category="Saway:"
+                        category="Saway"
                         state={saway}
                         setState={(e) => setSaway(e.target.value)}
+                        firstChild
                     />
                     <RecyclableWastesInput
-                        category="Lata:"
+                        category="Lata"
                         state={lata}
                         setState={(e) => setLata(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Plastic:"
+                        category="Plastic"
                         state={plastic}
                         setState={(e) => setPlastic(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Mineral:"
+                        category="Mineral"
                         state={mineral}
                         setState={(e) => setMineral(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Botelya:"
+                        category="Botelya"
                         state={botelya}
                         setState={(e) => setBotelya(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Carton:"
+                        category="Carton"
                         state={carton}
                         setState={(e) => setCarton(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Aluminum:"
+                        category="Aluminum"
                         state={aluminum}
                         setState={(e) => setAluminum(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Sin:"
+                        category="Sin"
                         state={sin}
                         setState={(e) => setSin(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Scrap:"
+                        category="Scrap"
                         state={scrap}
                         setState={(e) => setScrap(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Kaldero:"
+                        category="Kaldero"
                         state={kaldero}
                         setState={(e) => setKaldero(e.target.value)}
                     />
                     <RecyclableWastesInput
-                        category="Others:"
+                        category="Others"
                         state={others}
                         setState={(e) => setOthers(e.target.value)}
                     />
@@ -319,11 +310,27 @@ function recyclableWastes() {
                             submit();
                         }
                     }}
-                    className={`px-3 py-2 mt-8 mb-4 text-white bg-blue-500 rounded-sm w-28 ${
+                    className={`px-3 hover:bg-blue-600 flex items-center justify-center w-36 transition-colors py-2 mt-8 mb-4 text-white bg-blue-500 rounded-sm ${
                         loading && "cursor-not-allowed"
                     } `}
                 >
-                    {!loading ? "Encode" : "Processing..."}
+                    {!loading ? (
+                        <>
+                            <Icon
+                                icon="fluent:document-arrow-up-20-filled"
+                                className="w-6 h-6 mr-2"
+                            />
+                            Encode
+                        </>
+                    ) : (
+                        <>
+                            <Icon
+                                icon="eos-icons:loading"
+                                className="w-6 h-6 mr-2"
+                            />
+                            Processing...
+                        </>
+                    )}
                 </button>
             </div>
         </div>

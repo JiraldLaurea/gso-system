@@ -5,28 +5,38 @@ import useSWR from "swr";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import DocViewer from "react-doc-viewer";
 import fileDownload from "js-file-download";
+import { useAuthDispatch } from "../../../context/auth";
 
-function junkshop() {
+function sketch() {
     const router = useRouter();
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
+    const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
     const [dropdownMenuValueBarangay, setDropdownMenuValueBarangay] =
         useState("Barangay");
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
     const [barangayId, setBarangayId] = useState(null);
-    const [junkshopUrl, setJunkshopUrl] = useState(null);
-    const [junkshopName, setJunkshopName] = useState(null);
-    const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
+    const [sketchUrl, setSketchUrl] = useState(null);
+    const [sketch, setSketch] = useState([]);
+    const [collectionSchedule, setCollectionSchedule] = useState(null);
+    const [barangayYears, setBarangayYears] = useState([]);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
-    const [barangayYears, setBarangayYears] = useState([]);
     const [documentExtension, setDocumentExtension] = useState("");
     const documentImageExtensions = ["png", "jpg", "jpeg"];
     const [loadingDownload, setLoadingDownload] = useState(false);
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Sketch");
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/admin/viewAdmin");
+    }, []);
 
     const { data: barangaysEncode } = useSWR(
-        "http://localhost:3001/junkshop/getAllUpdatedJunkshop"
+        "http://localhost:3001/sketch/getAllUpdatedSketch"
     );
 
     const displayYearSubmitted = async () => {
@@ -35,7 +45,7 @@ function junkshop() {
         };
 
         await Axios.post(
-            "http://localhost:3001/junkshop/getAllUpdatedJunkshopYearSubmitted",
+            "http://localhost:3001/sketch/getAllUpdatedSketchYearSubmitted",
             data
         ).then((res) => {
             setBarangayYears(res.data);
@@ -55,12 +65,12 @@ function junkshop() {
         };
 
         await Axios.post(
-            "http://localhost:3001/junkshop/getUpdatedJunkshop",
+            "http://localhost:3001/sketch/getUpdatedSketch",
             data
         ).then((res) => {
             setDocumentExtension(res.data.documentName.split(".").pop());
-            setJunkshopName(res.data.junkshopName);
-            setJunkshopUrl(res.data.junkshopUrl);
+            setSketchUrl(res.data.sketchUrl);
+            setCollectionSchedule(res.data.collectionSchedule);
         });
     };
 
@@ -68,14 +78,14 @@ function junkshop() {
         if (!loadingDownload) {
             setLoadingDownload(true);
 
-            const data = {
+            const dataYearOfSubmission = {
                 barangayId: barangayId,
                 yearSubmitted: yearOfSubmission,
             };
 
             await Axios.post(
-                "http://localhost:3001/junkshop/getUpdatedJunkshop",
-                data
+                "http://localhost:3001/sketch/getUpdatedSketch",
+                dataYearOfSubmission
             ).then((res) => {
                 const documentName = res.data.documentName;
                 Axios({
@@ -83,7 +93,7 @@ function junkshop() {
                     method: "POST",
                     responseType: "blob",
                     data: {
-                        submissionUrl: res.data.junkshopUrl,
+                        submissionUrl: res.data.sketchUrl,
                     },
                 }).then((res) => {
                     fileDownload(res.data, documentName);
@@ -96,17 +106,7 @@ function junkshop() {
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-8">
-                    <Icon
-                        onClick={() =>
-                            router.push("/admin/updatedSubmissions/")
-                        }
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-medium ">View junkshop</h2>
-                </div>
-                <div className="my-4">
+                <div>
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
                             <p className="mb-1 text-sm text-gray-600">
@@ -157,7 +157,7 @@ function junkshop() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
                                                     {barangaysEncode.map(
                                                         (barangay, index) => {
@@ -251,7 +251,7 @@ function junkshop() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen2 && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
                                                     {barangayYears.map(
                                                         (
@@ -318,19 +318,22 @@ function junkshop() {
                 </div>
                 <hr className="my-6" />
                 <div>
-                    {junkshopUrl && (
+                    {sketchUrl && (
                         <>
                             <p className="mb-4">
-                                Name of junkshop:
-                                <span className="ml-1">{junkshopName}</span>
+                                Collection schedule:
+                                <span className="ml-1">
+                                    {collectionSchedule}
+                                </span>
                             </p>
-                            <p className="mb-2">Junkshop: </p>
+
+                            <p className="mb-2">Sketch:</p>
                             {documentImageExtensions.includes(
                                 documentExtension
                             ) && (
                                 <div className="w-full max-w-lg bg-black border ">
                                     <Image
-                                        src={junkshopUrl}
+                                        src={sketchUrl}
                                         alt="route image"
                                         width="100%"
                                         height="100%"
@@ -342,13 +345,14 @@ function junkshop() {
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${junkshopUrl}`}
+                                    // src={`../submissions/${viewDocumentName}`}
+                                    src={`${sketchUrl}`}
                                 ></iframe>
                             )}
                             {documentExtension == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${junkshopUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${sketchUrl}`}
                                 ></iframe>
                             )}
                         </>
@@ -359,4 +363,4 @@ function junkshop() {
     );
 }
 
-export default junkshop;
+export default sketch;

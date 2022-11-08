@@ -43,7 +43,7 @@ function Sidebar() {
                                     className="w-3 h-3 text-gray-800"
                                 />
                             </div>
-                            <p className="text-base font-medium">GSO System</p>
+                            <p className="text-base font-medium">GSO</p>
                         </div>
                     </div>
 
@@ -112,7 +112,7 @@ function Sidebar() {
                         />
                         <p>Statistics</p>
                     </div>
-                    <div
+                    {/* <div
                         onClick={() => router.push("/project")}
                         className="flex items-center py-3 pl-6 border-gray-300 select-none hover:cursor-pointer hover:bg-gray-700"
                     >
@@ -121,7 +121,7 @@ function Sidebar() {
                             icon="ant-design:project-filled"
                         />
                         <p>Project manager</p>
-                    </div>
+                    </div> */}
 
                     {!loading ? (
                         <>
@@ -165,7 +165,7 @@ function Sidebar() {
                     {user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                router.push("/admin/updatedSubmissions");
+                                router.push("/admin/viewAdmin");
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
                         >
@@ -195,7 +195,7 @@ function Sidebar() {
                     {!user?.isAdmin && !loading && (
                         <div
                             onClick={() => {
-                                router.push("/user/updatedSubmissions");
+                                router.push("/user/viewUser");
                             }}
                             className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
                         >

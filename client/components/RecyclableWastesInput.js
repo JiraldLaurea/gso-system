@@ -1,17 +1,25 @@
 import React from "react";
 
-function RecyclableWastesInput({ category, state, setState }) {
+function RecyclableWastesInput({ category, state, setState, firstChild }) {
     return (
         <div>
-            <p className="mb-2 text-sm text-gray-700">{category}</p>
-            <div className="flex items-center mb-3">
+            <p
+                className={`text-sm text-center py-1 bg-gray-50 text-gray-700 border border-b-0 border-l-0 ${
+                    firstChild && "border-l-[1px]"
+                }`}
+            >
+                {category}
+            </p>
+            <div className="flex mb-3 removeInputNumberArrows">
                 <input
                     value={state}
                     onChange={setState}
                     type="number"
-                    className="px-2 py-1 text-right border w-28 restoreNumberArrows focus:outline-none"
+                    className={`appearance-none px-2 py-1 w-24 border border-l-0 focus:outline-none ${
+                        firstChild && "border-l-[1px]"
+                    }`}
                 />
-                <p className="ml-2 text-gray-400">kg</p>
+                {/* <p className="ml-2 text-gray-400">kg</p> */}
             </div>
         </div>
     );

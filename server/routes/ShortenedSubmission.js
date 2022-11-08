@@ -506,6 +506,7 @@ const submitShortenedBarangayProfile = async (req, res) => {
 
     await Submission.create({
         documentName: documentName,
+        isShortened: true,
         yearSubmitted: yearSubmitted,
         populationCount: populationCount,
         userId: user.id,
@@ -2347,18 +2348,38 @@ const checkSubmittedBarangayProfile = async (req, res) => {
     res.json(isSubmitted);
 };
 
+// const getSubmittedBarangayProfilePageYear = async (req, res) => {
+//     const user = res.locals.user;
+
+//     const shortenedBarangayProfile = await ShortenedBarangayProfile.findAll({
+//         attributes: ["yearSubmitted"],
+//         where: {
+//             barangayId: user.barangayId,
+//             typeOfDocument: "Submitted",
+//         },
+//     });
+
+//     res.json(shortenedBarangayProfile);
+// };
+
 const getSubmittedBarangayProfilePageYear = async (req, res) => {
     const user = res.locals.user;
 
-    const shortenedBarangayProfile = await ShortenedBarangayProfile.findAll({
+    const { yearSubmitted } = req.body;
+
+    const shortenedBarangayProfile = await ShortenedBarangayProfile.findOne({
         attributes: ["yearSubmitted"],
         where: {
             barangayId: user.barangayId,
             typeOfDocument: "Submitted",
+            yearSubmitted: yearSubmitted,
         },
     });
 
-    res.json(shortenedBarangayProfile);
+    const isSubmitted =
+        shortenedBarangayProfile?.yearSubmitted == yearSubmitted;
+
+    res.json(isSubmitted);
 };
 
 const getShortenedBarangayProfileUrl = async (req, res) => {
@@ -2412,6 +2433,16 @@ const getAllUpdatedBarangayProfileYearSubmitted = async (req, res) => {
     });
 
     return res.json(yearSubmittted);
+};
+
+const getSubmissionWithYearSubmitted = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const submission = await Submission.findOne({
+        where: { barangayId: barangayId, yearSubmitted: yearSubmitted },
+    });
+
+    return res.json(submission);
 };
 
 const getAllUpdatedUserBarangayProfileYearSubmitted = async (req, res) => {
@@ -2527,7 +2558,7 @@ router.post(
     validate,
     checkSubmittedBarangayProfile
 );
-router.get(
+router.post(
     "/getSubmittedBarangayProfilePageYear",
     validateUser,
     validate,
@@ -2556,6 +2587,12 @@ router.post(
     validateUser,
     validate,
     getAllUpdatedBarangayProfileYearSubmitted
+);
+router.post(
+    "/getSubmissionWithYearSubmitted",
+    validateUser,
+    validate,
+    getSubmissionWithYearSubmitted
 );
 router.get(
     "/getAllUpdatedUserBarangayProfileYearSubmitted",

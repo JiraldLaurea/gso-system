@@ -1,35 +1,41 @@
+import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
-import Axios from "axios";
-import fileDownload from "js-file-download";
-import { Document, Page } from "react-pdf";
-import { getStorage, ref } from "firebase/storage";
-import { storage } from "../../../firebase";
 import useSWR from "swr";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import fileDownload from "js-file-download";
+import { useAuthDispatch } from "../../../context/auth";
 
-function barangayProfile() {
+function programs() {
     const router = useRouter();
-    const [barangayYears, setBarangayYears] = useState([]);
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
-    const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
-    const [dropdownMenuValue, setDropdownMenuValue] = useState("Year");
-    const [isViewed, setIsViewed] = useState(false);
-    const [loadingDownload, setLoadingDownload] = useState(false);
-    const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
-        useState();
     const [dropdownMenuValueBarangay, setDropdownMenuValueBarangay] =
         useState("Barangay");
     const [dropdownMenuValueDistrict, setDropdownMenuValueDistrict] =
         useState("District");
+    const [barangayId, setBarangayId] = useState(null);
+    const [programsUrl, setProgramsUrl] = useState(null);
+    const [sketch, setSketch] = useState([]);
+    const [collectionSchedule, setCollectionSchedule] = useState(null);
+    const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
     const [yearOfSubmission, setYearOfSubmission] =
         useState("Year of submission");
-    const [barangayId, setBarangayId] = useState(null);
-    const storage = getStorage();
+    const [barangayYears, setBarangayYears] = useState([]);
+    const [documentExtension, setDocumentExtension] = useState("");
+    const documentImageExtensions = ["png", "jpg", "jpeg"];
+    const [loadingDownload, setLoadingDownload] = useState(false);
+    const dispatch = useAuthDispatch();
 
-    const { data: barangays } = useSWR(
-        "http://localhost:3001/shortenedSubmission/getAllUpdatedBarangayProfile"
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Programs");
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/admin/viewAdmin");
+    }, []);
+
+    const { data: barangaysEncode } = useSWR(
+        "http://localhost:3001/programs/getAllUpdatedPrograms"
     );
 
     const displayYearSubmitted = async () => {
@@ -38,7 +44,7 @@ function barangayProfile() {
         };
 
         await Axios.post(
-            "http://localhost:3001/shortenedSubmission/getAllUpdatedBarangayProfileYearSubmitted",
+            "http://localhost:3001/programs/getAllUpdatedProgramsYearSubmitted",
             data
         ).then((res) => {
             setBarangayYears(res.data);
@@ -51,28 +57,34 @@ function barangayProfile() {
         }
     }, [barangayId]);
 
+    const view = async (e) => {
+        const data = {
+            barangayId: barangayId,
+            yearSubmitted: yearOfSubmission,
+        };
+
+        await Axios.post(
+            "http://localhost:3001/programs/getUpdatedPrograms",
+            data
+        ).then((res) => {
+            setDocumentExtension(res.data.documentName.split(".").pop());
+            setProgramsUrl(res.data.programsUrl);
+            console.log(res.data.programsUrl);
+        });
+    };
+
     const download = async () => {
         if (!loadingDownload) {
             setLoadingDownload(true);
 
             const data = {
                 barangayId: barangayId,
-                selectedBarangay: dropdownMenuValueBarangay,
-                selectedDistrict: dropdownMenuValueDistrict,
-            };
-
-            const dataYearOfSubmission = {
-                yearOfSubmission: yearOfSubmission,
+                yearSubmitted: yearOfSubmission,
             };
 
             await Axios.post(
-                "http://localhost:3001/barangay/postSelectedBarangay",
+                "http://localhost:3001/programs/getUpdatedPrograms",
                 data
-            );
-
-            await Axios.post(
-                "http://localhost:3001/shortenedSubmission/getUpdatedBarangayProfileUrl",
-                dataYearOfSubmission
             ).then((res) => {
                 const documentName = res.data.documentName;
                 Axios({
@@ -80,8 +92,7 @@ function barangayProfile() {
                     method: "POST",
                     responseType: "blob",
                     data: {
-                        submissionBarangayProfileUrl:
-                            res.data.submissionBarangayProfileUrl,
+                        submissionUrl: res.data.programsUrl,
                     },
                 }).then((res) => {
                     fileDownload(res.data, documentName);
@@ -91,79 +102,10 @@ function barangayProfile() {
         }
     };
 
-    const editSelectedBarangay = async () => {
-        const data = {
-            barangayId: barangayId,
-            selectedBarangay: dropdownMenuValueBarangay,
-            selectedDistrict: dropdownMenuValueDistrict,
-            yearSubmitted: yearOfSubmission,
-        };
-
-        const actionData = {
-            action: "EditSubmission",
-            barangayId: barangayId,
-        };
-
-        await Axios.post(
-            "http://localhost:3001/barangay/postSelectedBarangayWithYearSubmitted",
-            data
-        );
-
-        await Axios.put(
-            "http://localhost:3001/submission/updateAction",
-            actionData
-        );
-
-        if (yearOfSubmission == barangayYears[0]?.yearSubmitted) {
-            router.push("/admin/encodedSubmissions/barangayProfile/template");
-        } else {
-            router.push("/admin/updatedSubmissions/barangayProfile/template");
-        }
-    };
-
-    const viewSubmission = async (e) => {
-        const data = {
-            barangayId: barangayId,
-            selectedBarangay: dropdownMenuValueBarangay,
-            selectedDistrict: dropdownMenuValueDistrict,
-        };
-
-        const dataYearOfSubmission = {
-            yearOfSubmission: yearOfSubmission,
-        };
-
-        await Axios.post(
-            "http://localhost:3001/barangay/postSelectedBarangay",
-            data
-        );
-
-        await Axios.post(
-            "http://localhost:3001/shortenedSubmission/getUpdatedBarangayProfileUrl",
-            dataYearOfSubmission
-        ).then((res) => {
-            // documentName = res.data.documentName;
-            setSubmissionBarangayProfileUrl(
-                res.data.submissionBarangayProfileUrl
-            );
-        });
-    };
-
     return (
-        <div className="flex flex-col w-full ">
+        <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="flex items-center mb-8">
-                    <Icon
-                        onClick={() =>
-                            router.push("/admin/updatedSubmissions/")
-                        }
-                        icon="bx:arrow-back"
-                        className="p-1 mr-2 border rounded-full cursor-pointer w-9 h-9"
-                    />
-                    <h2 className="text-xl font-medium ">
-                        View barangay profile
-                    </h2>
-                </div>
-                <div className="my-4">
+                <div>
                     <div className="flex flex-col md:flex-row md:items-end">
                         <div>
                             <p className="mb-1 text-sm text-gray-600">
@@ -214,9 +156,9 @@ function barangayProfile() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
-                                                    {barangays.map(
+                                                    {barangaysEncode.map(
                                                         (barangay, index) => {
                                                             return (
                                                                 <li
@@ -308,7 +250,7 @@ function barangayProfile() {
                                             </svg>
                                         </div>
                                         {isDropdownMenuOpen2 && (
-                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700">
+                                            <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                                 <ul className="text-gray-700 bg-white">
                                                     {barangayYears.map(
                                                         (
@@ -352,21 +294,12 @@ function barangayProfile() {
                                 <>
                                     <button
                                         onClick={() => {
-                                            setIsViewed(true);
-                                            viewSubmission();
+                                            view();
                                         }}
                                         className="px-4 py-2 md:ml-4 h-[42px] text-blue-600 border select-none"
                                     >
-                                        View submission
+                                        View
                                     </button>
-
-                                    <button
-                                        onClick={editSelectedBarangay}
-                                        className="px-4 py-2 my-4 text-blue-600 border select-none md:my-0 md:ml-4"
-                                    >
-                                        Edit
-                                    </button>
-
                                     <button
                                         onClick={download}
                                         className={`px-4 py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
@@ -382,20 +315,43 @@ function barangayProfile() {
                             )}
                     </div>
                 </div>
-                {isViewed && (
-                    <>
-                        {submissionBarangayProfileUrl && (
-                            <iframe
-                                className="w-full h-[800px]"
-                                // src={`../submissions/${viewDocumentName}`}
-                                src={`${submissionBarangayProfileUrl}`}
-                            ></iframe>
-                        )}
-                    </>
-                )}
+                <hr className="my-6" />
+                <div>
+                    {programsUrl && (
+                        <>
+                            <p className="mb-2">Program: </p>
+                            {documentImageExtensions.includes(
+                                documentExtension
+                            ) && (
+                                <div className="w-full max-w-lg bg-black border ">
+                                    <Image
+                                        src={programsUrl}
+                                        alt="route image"
+                                        width="100%"
+                                        height="100%"
+                                        layout="responsive"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                            )}
+                            {documentExtension == "pdf" && (
+                                <iframe
+                                    className="w-full h-[800px]"
+                                    src={`${programsUrl}`}
+                                ></iframe>
+                            )}
+                            {documentExtension == "docx" && (
+                                <iframe
+                                    className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${programsUrl}`}
+                                ></iframe>
+                            )}
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );
 }
 
-export default barangayProfile;
+export default programs;

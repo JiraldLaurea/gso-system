@@ -47,6 +47,18 @@ router.post("/", async (req, res) => {
 const getAllBarangay = async (req, res) => {
     const barangays = await Barangay.findAll({
         order: [["barangayName", "ASC"]],
+        where: {
+            populationCount: {
+                [Op.ne]: null,
+            },
+        },
+    });
+    res.json(barangays);
+};
+
+const getAllBarangays = async (req, res) => {
+    const barangays = await Barangay.findAll({
+        order: [["barangayName", "ASC"]],
     });
     res.json(barangays);
 };
@@ -180,6 +192,7 @@ const postSelectedBarangayWithYearSubmitted = async (req, res) => {
 };
 
 router.get("/getAllBarangay", validateUser, validate, getAllBarangay);
+router.get("/getAllBarangays", validateUser, validate, getAllBarangays);
 router.get("/getBarangayWastes", validateUser, validate, getBarangayWastes);
 router.get(
     "/getAllBarangayEncode",

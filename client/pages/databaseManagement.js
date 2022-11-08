@@ -8,6 +8,7 @@ import UserTable from "../components/UserTable";
 import { useAuthState } from "../context/auth";
 import { AuthContext } from "../helpers/AuthContext";
 import useSWR from "swr";
+import { useAuthDispatch } from "../context/auth";
 
 // const fetcher = async (...args) =>
 //     await Axios.get(...args).then((res) => res.data);
@@ -18,13 +19,19 @@ function databaseManagement({ userData }) {
     const [selectedDatabase, setSelectedDatabase] = useState("Submissions");
     const { authState, setAuthState } = useContext(AuthContext);
     const { user, authenticated, loading } = useAuthState();
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Database management");
+        dispatch("HAS_BUTTON_FALSE");
+    }, []);
 
     const { data: submissions, isValidating: isValidatingSubmissions } = useSWR(
         "http://localhost:3001/submission/all"
     );
 
     const { data: barangays } = useSWR(
-        "http://localhost:3001/barangay/getAllBarangay"
+        "http://localhost:3001/barangay/getAllBarangays"
     );
 
     const { data: users } = useSWR("http://localhost:3001/user");
@@ -71,9 +78,6 @@ function databaseManagement({ userData }) {
         <div className="">
             {user?.isAdmin && !loading && (
                 <div className="p-4 md:p-8">
-                    <p className="mb-8 text-xl font-semibold">
-                        Database management
-                    </p>
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center space-x-6 text-sm font-medium">
                             <button
@@ -82,8 +86,8 @@ function databaseManagement({ userData }) {
                                 }
                                 className={`${
                                     selectedDatabase == "Submissions"
-                                        ? "border-b-2 border-blue-500 py-2 text-blue-600"
-                                        : "text-gray-600 border-b-2 border-white py-2"
+                                        ? "border-b-2 border-blue-500 pb-2 text-blue-600"
+                                        : "text-gray-600 border-b-2 border-white pb-2"
                                 }`}
                             >
                                 Submissions
@@ -92,8 +96,8 @@ function databaseManagement({ userData }) {
                                 onClick={() => setSelectedDatabase("Barangay")}
                                 className={`${
                                     selectedDatabase == "Barangay"
-                                        ? "border-b-2 border-blue-500 py-2 text-blue-600"
-                                        : "text-gray-600 border-b-2 border-white py-2"
+                                        ? "border-b-2 border-blue-500 pb-2 text-blue-600"
+                                        : "text-gray-600 border-b-2 border-white pb-2"
                                 }`}
                             >
                                 Barangay
@@ -102,14 +106,14 @@ function databaseManagement({ userData }) {
                                 onClick={() => setSelectedDatabase("User")}
                                 className={`${
                                     selectedDatabase == "User"
-                                        ? "border-b-2 border-blue-500 py-2 text-blue-600"
-                                        : "text-gray-600 border-b-2 border-white py-2"
+                                        ? "border-b-2 border-blue-500 pb-2 text-blue-600"
+                                        : "text-gray-600 border-b-2 border-white pb-2"
                                 }`}
                             >
                                 User
                             </button>
                         </div>
-                        <div className="items-center space-x-2 hidden md:flex">
+                        <div className="items-center hidden space-x-2 md:flex">
                             {selectedDatabase == "Submissions" && (
                                 <input
                                     value={inputValue}

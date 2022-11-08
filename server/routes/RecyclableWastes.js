@@ -10,8 +10,13 @@ const { RecyclableWastes } = require("../models");
 const Op = Sequelize.Op;
 
 const getRecyclableWastes = async (req, res) => {
+    const { barangayId } = req.body;
+
     const recyclableWastes = await RecyclableWastes.findAll({
         order: [["dateSubmitted", "ASC"]],
+        where: {
+            barangayId: barangayId,
+        },
     });
 
     res.json(recyclableWastes);
@@ -145,7 +150,7 @@ const createRecyclableWastes = async (req, res) => {
     res.json("SUCCESS");
 };
 
-router.get("/getRecyclableWastes", getRecyclableWastes);
+router.post("/getRecyclableWastes", getRecyclableWastes);
 router.get(
     "/getEncodedRecyclableWastes",
     validateUser,

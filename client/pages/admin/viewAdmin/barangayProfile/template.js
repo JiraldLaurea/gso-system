@@ -9,6 +9,7 @@ import ShortenedBarangayProfilePage1 from "../../../../components/ShortenedBaran
 import ShortenedBarangayProfilePage2 from "../../../../components/ShortenedBarangayProfilePage2";
 import ShortenedBarangayProfilePage3 from "../../../../components/ShortenedBarangayProfilePage3";
 import { storage } from "../../../../firebase";
+import { useAuthDispatch } from "../../../../context/auth";
 
 function template({ pageData, actionData }) {
     const contentRef = useRef(null);
@@ -42,12 +43,22 @@ function template({ pageData, actionData }) {
     const [submissionUpload, setSubmissionUpload] = useState(null);
     const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
         useState("");
+    const dispatch = useAuthDispatch();
 
     const { data: meData } = useSWR("http://localhost:3001/user/me");
 
     const { data: selectedBarangay } = useSWR(
         "http://localhost:3001/barangay/getSelectedBarangay"
     );
+
+    useEffect(() => {
+        dispatch(
+            "CHANGE_TITLE",
+            `Barangay profile - ${selectedBarangay?.selectedBarangay}`
+        );
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/admin/viewAdmin/barangayProfile");
+    }, [selectedBarangay?.selectedBarangay]);
 
     const [values, setValues] = useState({
         totalLandArea: pageData.totalLandArea,
@@ -1317,15 +1328,27 @@ function template({ pageData, actionData }) {
                     <button
                         disabled={isLoading}
                         onClick={createPDF}
-                        className={`w-full flex items-center justify-center px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm ${
-                            isLoading && "cursor-not-allowed "
+                        className={`w-full flex items-center justify-center px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-600 transition-colors cursor-pointer ${
+                            isLoading && "cursor-not-allowed hover:bg-blue-500"
                         }`}
                     >
-                        <Icon
-                            icon="ic:baseline-save"
-                            className="w-6 h-6 mr-2"
-                        />
-                        {!isLoading ? "Update changes" : "Processing..."}
+                        {!isLoading ? (
+                            <>
+                                <Icon
+                                    icon="ic:baseline-save"
+                                    className="w-6 h-6 mr-2"
+                                />
+                                Update changes
+                            </>
+                        ) : (
+                            <>
+                                <Icon
+                                    icon="eos-icons:loading"
+                                    className="w-6 h-6 mr-2"
+                                />
+                                Processing...
+                            </>
+                        )}
                     </button>
                 </div>
             </div>

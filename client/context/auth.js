@@ -31,6 +31,14 @@ const reducer = (state, { type, payload }) => {
             return { ...state, isSidebarOpen: true };
         case "CLOSE_SIDEBAR":
             return { ...state, isSidebarOpen: false };
+        case "CHANGE_TITLE":
+            return { ...state, navbarTitle: payload };
+        case "HAS_BUTTON_TRUE":
+            return { ...state, hasButton: true };
+        case "HAS_BUTTON_FALSE":
+            return { ...state, hasButton: false };
+        case "CHANGE_PATH":
+            return { ...state, routePath: payload };
         default:
             throw new Error(`Unknown action type: ${type}`);
     }
@@ -43,6 +51,9 @@ export const AuthProvider = ({ children, userData }) => {
         authenticated: false,
         loading: true,
         isSidebarOpen: true,
+        navbarTitle: null,
+        hasButton: false,
+        routePath: null,
     });
 
     const dispatch = (type, payload) => {

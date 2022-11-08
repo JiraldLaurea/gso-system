@@ -1,15 +1,28 @@
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import { useAuthDispatch, useAuthState } from "../context/auth";
+import BackButton from "./BackButton";
 import SidebarMobile from "./SidebarMobile";
 
 function Navbar({ userData }) {
-    const { user, authenticated, loading, isSidebarOpen } = useAuthState();
+    const {
+        user,
+        authenticated,
+        loading,
+        isSidebarOpen,
+        navbarTitle,
+        hasButton,
+        routePath,
+    } = useAuthState();
     const router = useRouter();
-    const dispatch = useAuthDispatch();
     const [isSidebarMobileOpen, setIsSidebarMobileOpen] = useState(false);
+    const dispatch = useAuthDispatch();
+
+    // useEffect(() => {
+    //     dispatch("CHANGE_TITLE", "YEY LOL");
+    // }, []);
 
     return (
         <>
@@ -17,18 +30,50 @@ function Navbar({ userData }) {
                 <>
                     <div
                         className={`sticky top-0 hidden md:flex items-center pl-4 pr-6 border-b z-10 h-14 bg-gray-50 select-none ${
-                            isSidebarOpen ? "justify-end" : "justify-between"
+                            isSidebarOpen
+                                ? "justify-between"
+                                : "justify-between"
                         }`}
                     >
                         {!isSidebarOpen && (
-                            <div
-                                onClick={() => dispatch("OPEN_SIDEBAR")}
-                                className="p-2 mr-[9px] hidden md:block rounded-full cursor-pointer active:bg-gray-200"
-                            >
-                                <Icon
-                                    icon="mdi-light:menu"
-                                    className="w-6 h-6"
-                                />
+                            <div className="flex items-center">
+                                <div
+                                    onClick={() => dispatch("OPEN_SIDEBAR")}
+                                    className="hidden p-2 rounded-full cursor-pointer md:block active:bg-gray-200"
+                                >
+                                    <Icon
+                                        icon="mdi-light:menu"
+                                        className="w-6 h-6"
+                                    />
+                                </div>
+                                {hasButton && (
+                                    <div
+                                        onClick={() => router.push(routePath)}
+                                        className="p-2 mx-2 text-gray-600 rounded-full cursor-pointer hover:bg-gray-200"
+                                    >
+                                        <Icon
+                                            icon="bx:arrow-back"
+                                            className="w-6 h-6"
+                                        />
+                                    </div>
+                                )}
+                                <h1 className="font-semibold">{navbarTitle}</h1>
+                            </div>
+                        )}
+                        {isSidebarOpen && (
+                            <div className="flex items-center">
+                                {hasButton && (
+                                    <div
+                                        onClick={() => router.push(routePath)}
+                                        className="p-2 mr-2 text-gray-600 rounded-full cursor-pointer hover:bg-gray-200"
+                                    >
+                                        <Icon
+                                            icon="bx:arrow-back"
+                                            className="w-6 h-6"
+                                        />
+                                    </div>
+                                )}
+                                <h1 className="font-semibold">{navbarTitle}</h1>
                             </div>
                         )}
 

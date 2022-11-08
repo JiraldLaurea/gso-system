@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { v4 } from "uuid";
 import { storage } from "../firebase";
+import { useAuthDispatch } from "../context/auth";
 
 function announcements() {
     const [text, setText] = useState("");
@@ -19,6 +20,12 @@ function announcements() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const inputFileRef = useRef(null);
     const [value, setValue] = useState("");
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "Announcements");
+        dispatch("HAS_BUTTON_FALSE");
+    }, []);
 
     const { data: announcements } = useSWR(
         "http://localhost:3001/announcement"
@@ -169,8 +176,8 @@ function announcements() {
                         </div>
                         <button
                             type="submit"
-                            className={`px-6 py-1 w-full text-white bg-blue-500 active:ring ${
-                                isLoading && "cursor-not-allowed active:ring-0"
+                            className={`px-6 py-1 w-full text-white bg-blue-500 transition-colors hover:bg-blue-600 ${
+                                isLoading && "cursor-not-allowed"
                             }`}
                             disabled={isLoading}
                         >
@@ -180,11 +187,10 @@ function announcements() {
                 </>
             )}
             <div className="p-4 md:p-8">
-                <h2 className="mb-8 text-xl font-semibold">Announcements</h2>
                 <div className="">
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className={`px-6 py-2 flex items-center justify-center text-white bg-blue-500 active:ring `}
+                        className={`px-6 py-2 flex items-center rounded-sm hover:bg-blue-600 transition-colors justify-center text-white bg-blue-500`}
                     >
                         <Icon
                             icon="ic:baseline-post-add"
@@ -205,7 +211,7 @@ function announcements() {
                                             `/announcement/${announcement.id}`
                                         )
                                     }
-                                    className="flex items-center justify-between px-4 py-3 mb-2 border cursor-pointer hover:shadow-md"
+                                    className="flex items-center justify-between px-4 py-3 mb-2 border cursor-pointer hover:border-blue-500"
                                 >
                                     <div>
                                         <p className="mr-8 font-medium">

@@ -10,6 +10,11 @@ export default function Home({ userData }) {
     const router = useRouter();
     const dispatch = useAuthDispatch();
 
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "");
+        dispatch("HAS_BUTTON_FALSE");
+    }, []);
+
     const logout = async () => {
         await Axios.get("http://localhost:3001/user/logout").then(() => {
             dispatch("LOGOUT");

@@ -65,6 +65,7 @@ router.post("/", async (req, res) => {
         );
 
         await Submission.create({
+            isShortened: false,
             barangayId: barangay.id,
             barangayName: barangayName,
             districtName: districtName,

@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import RequirementsButton from "../../components/RequirementsButton";
+import { useAuthDispatch } from "../../context/auth";
 
-function updatedSubmissions() {
+function viewUser() {
+    const dispatch = useAuthDispatch();
+
+    useEffect(() => {
+        dispatch("CHANGE_TITLE", "View SWM plan");
+        dispatch("HAS_BUTTON_FALSE");
+    }, []);
+
     const { data: updatedBarangayProfile } = useSWR(
         "http://localhost:3001/shortenedSubmission/getAllUpdatedUserBarangayProfileYearSubmitted"
     );
@@ -42,57 +50,63 @@ function updatedSubmissions() {
     return (
         <div className="">
             <div className="p-4 md:p-8">
-                <h2 className="mb-8 text-xl font-semibold">
-                    Updated submissions
-                </h2>
-                <div className="flex flex-col gap-4 md:grid md:grid-cols-4">
+                <div className="flex flex-col gap-2 md:grid md:grid-cols-4">
                     <RequirementsButton
                         requirement={
                             updatedBarangayProfile &&
                             updatedBarangayProfile[0].yearSubmitted != null
                         }
-                        path="/user/updatedSubmissions/barangayProfile"
+                        path="/user/viewUser/barangayProfile"
                         requirementName="Barangay profile"
+                        iconStyle="mingcute:profile-line"
                     />
                     <RequirementsButton
                         requirement={updatedSketch?.length != 0}
-                        path="/user/updatedSubmissions/sketch"
+                        path="/user/viewUser/sketch"
                         requirementName="Sketch"
+                        iconStyle="eos-icons:route"
                     />
                     <RequirementsButton
                         requirement={updatedProgram?.length != 0}
-                        path="/user/updatedSubmissions/programs"
+                        path="/user/viewUser/programs"
                         requirementName="Programs"
+                        iconStyle="carbon:event"
                     />
                     <RequirementsButton
                         requirement={updatedFundingReq?.length != 0}
-                        path="/user/updatedSubmissions/fundingReq"
+                        path="/user/viewUser/fundingReq"
                         requirementName="Funding requirements"
+                        iconStyle="ic:baseline-attach-money"
                     />
                     <RequirementsButton
                         requirement={updatedMoa?.length != 0}
-                        path="/user/updatedSubmissions/memorandumOfAgreement"
+                        path="/user/viewUser/memorandumOfAgreement"
                         requirementName="Memorandum of agreement"
+                        iconStyle="icon-park-solid:agreement"
                     />
                     <RequirementsButton
                         requirement={updatedJunkshop?.length != 0}
-                        path="/user/updatedSubmissions/junkshop"
+                        path="/user/viewUser/junkshop"
                         requirementName="Junkshop"
+                        iconStyle="dashicons:trash"
                     />
                     <RequirementsButton
                         requirement={updatedBusinessPermit?.length != 0}
-                        path="/user/updatedSubmissions/businessPermit"
+                        path="/user/viewUser/businessPermit"
                         requirementName="Business permit"
+                        iconStyle="fluent:document-text-16-regular"
                     />
                     <RequirementsButton
                         requirement={updatedExecutiveOrder?.length != 0}
-                        path="/user/updatedSubmissions/executiveOrder"
+                        path="/user/viewUser/executiveOrder"
                         requirementName="Executive order"
+                        iconStyle="fluent:building-bank-16-filled"
                     />
                     <RequirementsButton
                         requirement={updatedBarangayOrdinance?.length != 0}
-                        path="/user/updatedSubmissions/barangayOrdinance"
+                        path="/user/viewUser/barangayOrdinance"
                         requirementName="Barangay ordinance"
+                        iconStyle="vaadin:scale"
                     />
                 </div>
             </div>
@@ -100,4 +114,4 @@ function updatedSubmissions() {
     );
 }
 
-export default updatedSubmissions;
+export default viewUser;
