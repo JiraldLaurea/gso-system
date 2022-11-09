@@ -234,6 +234,18 @@ const createShortenedPrograms = async (req, res) => {
         programsUrl: programsUrl,
     });
 
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            programsDoc: true,
+        });
+    });
+
     return res.json(programs);
 };
 

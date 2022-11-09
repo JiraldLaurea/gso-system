@@ -194,6 +194,18 @@ const createShortenedFundingReq = async (req, res) => {
         fundingReqUrl: fundingReqUrl,
     });
 
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            fundingReq: true,
+        });
+    });
+
     return res.json(fundingReq);
 };
 

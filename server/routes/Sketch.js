@@ -202,11 +202,13 @@ const createShortenedSketch = async (req, res) => {
     await Submission.findOne({
         where: {
             barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
         },
         order: [["createdAt", "DESC"]],
     }).then((data) => {
         data.update({
             collectionSchedule: collectionSchedule,
+            sketch: true,
         });
     });
 

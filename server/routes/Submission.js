@@ -635,87 +635,6 @@ const createSubmissionBarangayProfilePages = async (req, res) => {
             typeOfDocumentId: typeOfDocument.id,
             typeOfDocument: "New",
         });
-
-        // await SubmissionBarangayProfilePage1.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage2.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage3.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage4.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage5.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage6.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage7.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage8.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
-
-        // await SubmissionBarangayProfilePage9.update(
-        //     { typeOfDocumentId: typeOfDocument.id, typeOfDocument: "New" },
-        //     {
-        //         where: {
-        //             barangayId: selectedBarangay.barangayId,
-        //         },
-        //     }
-        // );
     }
 
     return res.json("SUCCESS");
@@ -1021,20 +940,15 @@ const getSubmittedBarangayProfilePage = async (req, res) => {
         where: { userId: user.id },
     });
 
-    const { yearSubmitted } = req.body;
-
-    const brgyProfilePage1 = await SubmissionBarangayProfilePage1.findOne({
+    const brgyProfilePage1 = await SubmissionBarangayProfilePage1.findAll({
         attributes: ["yearSubmitted"],
         where: {
             barangayId: selectedBarangay.barangayId,
             typeOfDocument: "Submitted",
-            yearSubmitted: yearSubmitted,
         },
     });
 
-    const isSubmitted = brgyProfilePage1?.yearSubmitted == yearSubmitted;
-
-    res.json(isSubmitted);
+    res.json(brgyProfilePage1);
 };
 
 const getSubmittedBarangayProfilePageUser = async (req, res) => {
@@ -7153,7 +7067,7 @@ router.post(
     validate,
     getAllSubmissionBarangayProfilePages
 );
-router.post(
+router.get(
     "/getSubmittedBarangayProfilePage",
     validateUser,
     validate,

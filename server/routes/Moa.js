@@ -165,7 +165,7 @@ const createMoa = async (req, res) => {
         order: [["createdAt", "DESC"]],
     }).then((data) => {
         data.update({
-            moa: dateOfCreation,
+            moa: true,
         });
     });
 
@@ -204,6 +204,18 @@ const createShortenedMoa = async (req, res) => {
         barangayName: user.barangayName,
         districtName: user.districtName,
         memorandumOfAgreementUrl: memorandumOfAgreementUrl,
+    });
+
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            moa: true,
+        });
     });
 
     return res.json(moa);

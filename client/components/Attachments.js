@@ -17,6 +17,8 @@ function Attachments({
     isSubmitted,
     setIsEncoded,
     setIsSubmitted,
+    isSubmittedAttachments,
+    setIsSubmittedAttachments,
     selectedBarangayData,
     yearSubmitted,
     setIsLoading,
@@ -67,20 +69,20 @@ function Attachments({
     };
 
     const SubmitAttachments = async () => {
-        const isSubmitted = await Axios.post(
-            "http://localhost:3001/submission/getSubmittedBarangayProfilePage",
-            { yearSubmitted: yearSubmitted }
+        const isSubmitted = await Axios.get(
+            "http://localhost:3001/submission/getSubmittedBarangayProfilePage"
         ).then((res) => res.data);
 
-        if (isSubmitted) {
+        console.log(isSubmitted);
+        if (isSubmitted.length > 0) {
             setIsEncoded(false);
             return alert(
-                "You have already submitted a document from your chosen year."
+                "You have already encoded a document from this barangay."
             );
         }
 
         if (
-            !isSubmitted &&
+            isSubmitted.length == 0 &&
             collectionSchedule != "" &&
             dateOfCreation != "" &&
             junkshopName != "" &&
@@ -162,38 +164,104 @@ function Attachments({
 
             const documentNameBarangayOrdinance = `BarangayOrdinance${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionBarangayOrdinance}`;
 
-            const fileRefSketch = ref(
-                storage,
-                `submission/sketch/${documentNameSketch}`
-            );
-            const fileRefPrograms = ref(
-                storage,
-                `submission/programs/${documentNamePrograms}`
-            );
-            const fileRefFundingReq = ref(
-                storage,
-                `submission/fundingReq/${documentNameFundingReq}`
-            );
-            const fileRefMoa = ref(
-                storage,
-                `submission/memorandumOfAgreement/${documentNameMoa}`
-            );
-            const fileRefJunkshop = ref(
-                storage,
-                `submission/junkshop/${documentNameJunkshop}`
-            );
-            const fileRefBusinessPermit = ref(
-                storage,
-                `submission/businessPermit/${documentNameBusinessPermit}`
-            );
-            const fileRefExecutiveOrder = ref(
-                storage,
-                `submission/executiveOrder/${documentNameExecutiveOrder}`
-            );
-            const fileRefBarangayOrdinance = ref(
-                storage,
-                `submission/barangayOrdinance/${documentNameBarangayOrdinance}`
-            );
+            let fileRefSketch = null;
+            let fileRefPrograms = null;
+            let fileRefFundingReq = null;
+            let fileRefMoa = null;
+            let fileRefJunkshop = null;
+            let fileRefBusinessPermit = null;
+            let fileRefExecutiveOrder = null;
+            let fileRefBarangayOrdinance = null;
+
+            if (extensionSketch == "doc" || extensionSketch == "docx") {
+                fileRefSketch = ref(storage, `${documentNameSketch}`);
+            } else {
+                fileRefSketch = ref(
+                    storage,
+                    `submission/sketch/${documentNameSketch}`
+                );
+            }
+
+            if (extensionPrograms == "doc" || extensionPrograms == "docx") {
+                fileRefPrograms = ref(storage, `${documentNamePrograms}`);
+            } else {
+                fileRefPrograms = ref(
+                    storage,
+                    `submission/programs/${documentNamePrograms}`
+                );
+            }
+
+            if (extensionFundingReq == "doc" || extensionFundingReq == "docx") {
+                fileRefFundingReq = ref(storage, `${documentNameFundingReq}`);
+            } else {
+                fileRefFundingReq = ref(
+                    storage,
+                    `submission/fundingReq/${documentNameFundingReq}`
+                );
+            }
+
+            if (extensionMoa == "doc" || extensionMoa == "docx") {
+                fileRefMoa = ref(storage, `${documentNameMoa}`);
+            } else {
+                fileRefMoa = ref(
+                    storage,
+                    `submission/memorandumOfAgreement/${documentNameMoa}`
+                );
+            }
+
+            if (extensionJunkshop == "doc" || extensionJunkshop == "docx") {
+                fileRefJunkshop = ref(storage, `${documentNameJunkshop}`);
+            } else {
+                fileRefJunkshop = ref(
+                    storage,
+                    `submission/junkshop/${documentNameJunkshop}`
+                );
+            }
+
+            if (
+                extensionBusinessPermit == "doc" ||
+                extensionBusinessPermit == "docx"
+            ) {
+                fileRefBusinessPermit = ref(
+                    storage,
+                    `${documentNameBusinessPermit}`
+                );
+            } else {
+                fileRefBusinessPermit = ref(
+                    storage,
+                    `submission/businessPermit/${documentNameBusinessPermit}`
+                );
+            }
+
+            if (
+                extensionExecutiveOrder == "doc" ||
+                extensionExecutiveOrder == "docx"
+            ) {
+                fileRefExecutiveOrder = ref(
+                    storage,
+                    `${documentNameExecutiveOrder}`
+                );
+            } else {
+                fileRefExecutiveOrder = ref(
+                    storage,
+                    `submission/executiveOrder/${documentNameExecutiveOrder}`
+                );
+            }
+
+            if (
+                extensionBarangayOrdinance == "doc" ||
+                extensionBarangayOrdinance == "docx"
+            ) {
+                fileRefBarangayOrdinance = ref(
+                    storage,
+                    `${documentNameBarangayOrdinance}`
+                );
+            } else {
+                fileRefBarangayOrdinance = ref(
+                    storage,
+                    `submission/barangayOrdinance/${documentNameBarangayOrdinance}`
+                );
+            }
 
             await uploadBytes(fileRefSketch, fileSketch);
             await uploadBytes(fileRefPrograms, filePrograms);
@@ -321,7 +389,7 @@ function Attachments({
         setIsEncoded(false);
     };
 
-    const SubmitUpdatedAttachments = async () => {
+    const SubmitUpdatedBarangayProfile = async () => {
         const isEncoded = await Axios.post(
             "http://localhost:3001/submission/getSubmittedBarangayProfilePageUser",
             { yearSubmitted: yearSubmitted }
@@ -331,9 +399,6 @@ function Attachments({
             "http://localhost:3001/shortenedSubmission/getSubmittedBarangayProfilePageYear",
             { yearSubmitted: yearSubmitted }
         ).then((res) => res.data);
-
-        console.log("IS ENCODED: ", isEncoded);
-        console.log("IS SUBMITTED: ", isSubmitted);
 
         if (isSubmitted || isEncoded) {
             setIsSubmitted(false);
@@ -349,239 +414,304 @@ function Attachments({
             fileNameBusinessPermit != ""
         ) {
             createPDF();
-
-            const extensionSketch = fileNameSketch.substring(
-                fileNameSketch.lastIndexOf(".") + 1
-            );
-            const extensionPrograms = fileNamePrograms.substring(
-                fileNamePrograms.lastIndexOf(".") + 1
-            );
-            const extensionFundingReq = fileNameFundingReq.substring(
-                fileNameFundingReq.lastIndexOf(".") + 1
-            );
-            const extensionMoa = fileNameMoa.substring(
-                fileNameMoa.lastIndexOf(".") + 1
-            );
-            const extensionJunkshop = fileNameJunkshop.substring(
-                fileNameJunkshop.lastIndexOf(".") + 1
-            );
-            const extensionBusinessPermit = fileNameBusinessPermit.substring(
-                fileNameBusinessPermit.lastIndexOf(".") + 1
-            );
-            const extensionExecutiveOrder = fileNameExecutiveOrder.substring(
-                fileNameExecutiveOrder.lastIndexOf(".") + 1
-            );
-            const extensionBarangayOrdinance =
-                fileNameBarangayOrdinance.substring(
-                    fileNameBarangayOrdinance.lastIndexOf(".") + 1
-                );
-
-            const formDataSketch = new FormData();
-            formDataSketch.append("file", fileSketch);
-
-            const formDataPrograms = new FormData();
-            formDataPrograms.append("file", filePrograms);
-
-            const formDataFundingReq = new FormData();
-            formDataFundingReq.append("file", fileFundingReq);
-
-            const formDataMoa = new FormData();
-            formDataMoa.append("file", fileMoa);
-
-            const formDataJunkshop = new FormData();
-            formDataJunkshop.append("file", fileJunkshop);
-
-            const formDataBusinessPermit = new FormData();
-            formDataBusinessPermit.append("file", fileBusinessPermit);
-
-            const formDataExecutiveOrder = new FormData();
-            formDataExecutiveOrder.append("file", fileExecutiveOrder);
-
-            const formDataBarangayOrdinance = new FormData();
-            formDataBarangayOrdinance.append("file", fileBarangayOrdinance);
-
-            const documentNameSketch = `Sketch${user.barangayName}${user.districtName}${yearSubmitted}.${extensionSketch}`;
-
-            const documentNamePrograms = `Programs${user.barangayName}${user.districtName}${yearSubmitted}.${extensionPrograms}`;
-
-            const documentNameFundingReq = `FundingReq${user.barangayName}${user.districtName}${yearSubmitted}.${extensionFundingReq}`;
-
-            const documentNameMoa = `Moa${user.barangayName}${user.districtName}${yearSubmitted}.${extensionMoa}`;
-
-            const documentNameJunkshop = `Junkshop${user.barangayName}${user.districtName}${yearSubmitted}.${extensionJunkshop}`;
-
-            const documentNameBusinessPermit = `BusinessPermit${user.barangayName}${user.districtName}${yearSubmitted}.${extensionBusinessPermit}`;
-
-            const documentNameExecutiveOrder = `ExecutiveOrder${user.barangayName}${user.districtName}${yearSubmitted}.${extensionExecutiveOrder}`;
-
-            const documentNameBarangayOrdinance = `BarangayOrdinance${user.barangayName}${user.districtName}${yearSubmitted}.${extensionBarangayOrdinance}`;
-
-            const fileRefSketch = ref(
-                storage,
-                `submission/sketch/${documentNameSketch}`
-            );
-            const fileRefPrograms = ref(
-                storage,
-                `submission/programs/${documentNamePrograms}`
-            );
-            const fileRefFundingReq = ref(
-                storage,
-                `submission/fundingReq/${documentNameFundingReq}`
-            );
-            const fileRefMoa = ref(
-                storage,
-                `submission/memorandumOfAgreement/${documentNameMoa}`
-            );
-            const fileRefJunkshop = ref(
-                storage,
-                `submission/junkshop/${documentNameJunkshop}`
-            );
-            const fileRefBusinessPermit = ref(
-                storage,
-                `submission/businessPermit/${documentNameBusinessPermit}`
-            );
-            const fileRefExecutiveOrder = ref(
-                storage,
-                `submission/executiveOrder/${documentNameExecutiveOrder}`
-            );
-            const fileRefBarangayOrdinance = ref(
-                storage,
-                `submission/barangayOrdinance/${documentNameBarangayOrdinance}`
-            );
-
-            if (fileNameSketch) {
-                await uploadBytes(fileRefSketch, fileSketch);
-                const sketchUrl = await getDownloadURL(fileRefSketch);
-                const postDataSketch = {
-                    yearSubmitted: yearSubmitted,
-                    collectionSchedule: collectionSchedule,
-                    documentName: documentNameSketch,
-                    sketchUrl: sketchUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/sketch/createShortenedSketch",
-                    postDataSketch
-                );
-            }
-
-            if (fileNamePrograms) {
-                await uploadBytes(fileRefPrograms, filePrograms);
-                const programsUrl = await getDownloadURL(fileRefPrograms);
-                const postDataPrograms = {
-                    yearSubmitted: yearSubmitted,
-                    documentName: documentNamePrograms,
-                    programsUrl: programsUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/programs/createShortenedPrograms",
-                    postDataPrograms
-                );
-            }
-
-            if (fileNameFundingReq) {
-                await uploadBytes(fileRefFundingReq, fileFundingReq);
-                const fundingReqUrl = await getDownloadURL(fileRefFundingReq);
-                const postDataFundingReq = {
-                    yearSubmitted: yearSubmitted,
-                    documentName: documentNameFundingReq,
-                    fundingReqUrl: fundingReqUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/fundingReq/createShortenedFundingReq",
-                    postDataFundingReq
-                );
-            }
-
-            if (fileNameMoa) {
-                await uploadBytes(fileRefMoa, fileMoa);
-                const moaUrl = await getDownloadURL(fileRefMoa);
-                const postDataMoa = {
-                    yearSubmitted: yearSubmitted,
-                    dateOfCreation: dateOfCreation,
-                    documentName: documentNameMoa,
-                    memorandumOfAgreementUrl: moaUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/moa/createShortenedMoa",
-                    postDataMoa
-                );
-            }
-
-            if (fileNameJunkshop) {
-                await uploadBytes(fileRefJunkshop, fileJunkshop);
-                const junkshopUrl = await getDownloadURL(fileRefJunkshop);
-                const postDataJunkshop = {
-                    yearSubmitted: yearSubmitted,
-                    junkshopName: junkshopName,
-                    documentName: documentNameJunkshop,
-                    junkshopUrl: junkshopUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/junkshop/createShortenedJunkshop",
-                    postDataJunkshop
-                );
-            }
-
-            if (fileNameBusinessPermit) {
-                await uploadBytes(fileRefBusinessPermit, fileBusinessPermit);
-                const businessPermitUrl = await getDownloadURL(
-                    fileRefBusinessPermit
-                );
-                const postDataBusinessPermit = {
-                    yearSubmitted: yearSubmitted,
-                    dateIssued: dateIssuedBusinessPermit,
-                    documentName: documentNameBusinessPermit,
-                    businessPermitUrl: businessPermitUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/businessPermit/createShortenedBusinessPermit",
-                    postDataBusinessPermit
-                );
-            }
-
-            if (fileNameExecutiveOrder) {
-                await uploadBytes(fileRefExecutiveOrder, fileExecutiveOrder);
-                const executiveOrderUrl = await getDownloadURL(
-                    fileRefExecutiveOrder
-                );
-                const postDataExecutiveOrder = {
-                    yearSubmitted: yearSubmitted,
-                    dateIssued: dateIssuedExecutiveOrder,
-                    documentName: documentNameExecutiveOrder,
-                    executiveOrderUrl: executiveOrderUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/executiveOrder/createShortenedExecutiveOrder",
-                    postDataExecutiveOrder
-                );
-            }
-
-            if (fileNameBarangayOrdinance) {
-                await uploadBytes(
-                    fileRefBarangayOrdinance,
-                    fileBarangayOrdinance
-                );
-                const barangayOrdinanceUrl = await getDownloadURL(
-                    fileRefBarangayOrdinance
-                );
-                const postDataBarangayOrdinance = {
-                    yearSubmitted: yearSubmitted,
-                    documentName: documentNameBarangayOrdinance,
-                    barangayOrdinanceUrl: barangayOrdinanceUrl,
-                };
-                await Axios.post(
-                    "http://localhost:3001/barangayOrdinance/createShortenedBarangayOrdinance",
-                    postDataBarangayOrdinance
-                );
-            }
-
-            alert("Document successfully submitted. HAHAHHA");
-
-            setIsLoading(false);
         } else {
             alert("Please fill in the business permit attachment.");
         }
         setIsSubmitted(false);
+    };
+
+    const SubmitUpdatedAttachments = async () => {
+        const extensionSketch = fileNameSketch.substring(
+            fileNameSketch.lastIndexOf(".") + 1
+        );
+        const extensionPrograms = fileNamePrograms.substring(
+            fileNamePrograms.lastIndexOf(".") + 1
+        );
+        const extensionFundingReq = fileNameFundingReq.substring(
+            fileNameFundingReq.lastIndexOf(".") + 1
+        );
+        const extensionMoa = fileNameMoa.substring(
+            fileNameMoa.lastIndexOf(".") + 1
+        );
+        const extensionJunkshop = fileNameJunkshop.substring(
+            fileNameJunkshop.lastIndexOf(".") + 1
+        );
+        const extensionBusinessPermit = fileNameBusinessPermit.substring(
+            fileNameBusinessPermit.lastIndexOf(".") + 1
+        );
+        const extensionExecutiveOrder = fileNameExecutiveOrder.substring(
+            fileNameExecutiveOrder.lastIndexOf(".") + 1
+        );
+        const extensionBarangayOrdinance = fileNameBarangayOrdinance.substring(
+            fileNameBarangayOrdinance.lastIndexOf(".") + 1
+        );
+
+        const formDataSketch = new FormData();
+        formDataSketch.append("file", fileSketch);
+
+        const formDataPrograms = new FormData();
+        formDataPrograms.append("file", filePrograms);
+
+        const formDataFundingReq = new FormData();
+        formDataFundingReq.append("file", fileFundingReq);
+
+        const formDataMoa = new FormData();
+        formDataMoa.append("file", fileMoa);
+
+        const formDataJunkshop = new FormData();
+        formDataJunkshop.append("file", fileJunkshop);
+
+        const formDataBusinessPermit = new FormData();
+        formDataBusinessPermit.append("file", fileBusinessPermit);
+
+        const formDataExecutiveOrder = new FormData();
+        formDataExecutiveOrder.append("file", fileExecutiveOrder);
+
+        const formDataBarangayOrdinance = new FormData();
+        formDataBarangayOrdinance.append("file", fileBarangayOrdinance);
+
+        const documentNameSketch = `Sketch${user.barangayName}${user.districtName}${yearSubmitted}.${extensionSketch}`;
+
+        const documentNamePrograms = `Programs${user.barangayName}${user.districtName}${yearSubmitted}.${extensionPrograms}`;
+
+        const documentNameFundingReq = `FundingReq${user.barangayName}${user.districtName}${yearSubmitted}.${extensionFundingReq}`;
+
+        const documentNameMoa = `Moa${user.barangayName}${user.districtName}${yearSubmitted}.${extensionMoa}`;
+
+        const documentNameJunkshop = `Junkshop${user.barangayName}${user.districtName}${yearSubmitted}.${extensionJunkshop}`;
+
+        const documentNameBusinessPermit = `BusinessPermit${user.barangayName}${user.districtName}${yearSubmitted}.${extensionBusinessPermit}`;
+
+        const documentNameExecutiveOrder = `ExecutiveOrder${user.barangayName}${user.districtName}${yearSubmitted}.${extensionExecutiveOrder}`;
+
+        const documentNameBarangayOrdinance = `BarangayOrdinance${user.barangayName}${user.districtName}${yearSubmitted}.${extensionBarangayOrdinance}`;
+
+        let fileRefSketch = null;
+        let fileRefPrograms = null;
+        let fileRefFundingReq = null;
+        let fileRefMoa = null;
+        let fileRefJunkshop = null;
+        let fileRefBusinessPermit = null;
+        let fileRefExecutiveOrder = null;
+        let fileRefBarangayOrdinance = null;
+
+        if (extensionSketch == "doc" || extensionSketch == "docx") {
+            fileRefSketch = ref(storage, `${documentNameSketch}`);
+        } else {
+            fileRefSketch = ref(
+                storage,
+                `submission/sketch/${documentNameSketch}`
+            );
+        }
+
+        if (extensionPrograms == "doc" || extensionPrograms == "docx") {
+            fileRefPrograms = ref(storage, `${documentNamePrograms}`);
+        } else {
+            fileRefPrograms = ref(
+                storage,
+                `submission/programs/${documentNamePrograms}`
+            );
+        }
+
+        if (extensionFundingReq == "doc" || extensionFundingReq == "docx") {
+            fileRefFundingReq = ref(storage, `${documentNameFundingReq}`);
+        } else {
+            fileRefFundingReq = ref(
+                storage,
+                `submission/fundingReq/${documentNameFundingReq}`
+            );
+        }
+
+        if (extensionMoa == "doc" || extensionMoa == "docx") {
+            fileRefMoa = ref(storage, `${documentNameMoa}`);
+        } else {
+            fileRefMoa = ref(
+                storage,
+                `submission/memorandumOfAgreement/${documentNameMoa}`
+            );
+        }
+
+        if (extensionJunkshop == "doc" || extensionJunkshop == "docx") {
+            fileRefJunkshop = ref(storage, `${documentNameJunkshop}`);
+        } else {
+            fileRefJunkshop = ref(
+                storage,
+                `submission/junkshop/${documentNameJunkshop}`
+            );
+        }
+
+        if (
+            extensionBusinessPermit == "doc" ||
+            extensionBusinessPermit == "docx"
+        ) {
+            fileRefBusinessPermit = ref(
+                storage,
+                `${documentNameBusinessPermit}`
+            );
+        } else {
+            fileRefBusinessPermit = ref(
+                storage,
+                `submission/businessPermit/${documentNameBusinessPermit}`
+            );
+        }
+
+        if (
+            extensionExecutiveOrder == "doc" ||
+            extensionExecutiveOrder == "docx"
+        ) {
+            fileRefExecutiveOrder = ref(
+                storage,
+                `${documentNameExecutiveOrder}`
+            );
+        } else {
+            fileRefExecutiveOrder = ref(
+                storage,
+                `submission/executiveOrder/${documentNameExecutiveOrder}`
+            );
+        }
+
+        if (
+            extensionBarangayOrdinance == "doc" ||
+            extensionBarangayOrdinance == "docx"
+        ) {
+            fileRefBarangayOrdinance = ref(
+                storage,
+                `${documentNameBarangayOrdinance}`
+            );
+        } else {
+            fileRefBarangayOrdinance = ref(
+                storage,
+                `submission/barangayOrdinance/${documentNameBarangayOrdinance}`
+            );
+        }
+
+        if (fileNameSketch) {
+            await uploadBytes(fileRefSketch, fileSketch);
+            const sketchUrl = await getDownloadURL(fileRefSketch);
+            const postDataSketch = {
+                yearSubmitted: yearSubmitted,
+                collectionSchedule: collectionSchedule,
+                documentName: documentNameSketch,
+                sketchUrl: sketchUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/sketch/createShortenedSketch",
+                postDataSketch
+            );
+        }
+
+        if (fileNamePrograms) {
+            await uploadBytes(fileRefPrograms, filePrograms);
+            const programsUrl = await getDownloadURL(fileRefPrograms);
+            const postDataPrograms = {
+                yearSubmitted: yearSubmitted,
+                documentName: documentNamePrograms,
+                programsUrl: programsUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/programs/createShortenedPrograms",
+                postDataPrograms
+            );
+        }
+
+        if (fileNameFundingReq) {
+            await uploadBytes(fileRefFundingReq, fileFundingReq);
+            const fundingReqUrl = await getDownloadURL(fileRefFundingReq);
+            const postDataFundingReq = {
+                yearSubmitted: yearSubmitted,
+                documentName: documentNameFundingReq,
+                fundingReqUrl: fundingReqUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/fundingReq/createShortenedFundingReq",
+                postDataFundingReq
+            );
+        }
+
+        if (fileNameMoa) {
+            await uploadBytes(fileRefMoa, fileMoa);
+            const moaUrl = await getDownloadURL(fileRefMoa);
+            const postDataMoa = {
+                yearSubmitted: yearSubmitted,
+                dateOfCreation: dateOfCreation,
+                documentName: documentNameMoa,
+                memorandumOfAgreementUrl: moaUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/moa/createShortenedMoa",
+                postDataMoa
+            );
+        }
+
+        if (fileNameJunkshop) {
+            await uploadBytes(fileRefJunkshop, fileJunkshop);
+            const junkshopUrl = await getDownloadURL(fileRefJunkshop);
+            const postDataJunkshop = {
+                yearSubmitted: yearSubmitted,
+                junkshopName: junkshopName,
+                documentName: documentNameJunkshop,
+                junkshopUrl: junkshopUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/junkshop/createShortenedJunkshop",
+                postDataJunkshop
+            );
+        }
+
+        if (fileNameBusinessPermit) {
+            await uploadBytes(fileRefBusinessPermit, fileBusinessPermit);
+            const businessPermitUrl = await getDownloadURL(
+                fileRefBusinessPermit
+            );
+            const postDataBusinessPermit = {
+                yearSubmitted: yearSubmitted,
+                dateIssued: dateIssuedBusinessPermit,
+                documentName: documentNameBusinessPermit,
+                businessPermitUrl: businessPermitUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/businessPermit/createShortenedBusinessPermit",
+                postDataBusinessPermit
+            );
+        }
+
+        if (fileNameExecutiveOrder) {
+            await uploadBytes(fileRefExecutiveOrder, fileExecutiveOrder);
+            const executiveOrderUrl = await getDownloadURL(
+                fileRefExecutiveOrder
+            );
+            const postDataExecutiveOrder = {
+                yearSubmitted: yearSubmitted,
+                dateIssued: dateIssuedExecutiveOrder,
+                documentName: documentNameExecutiveOrder,
+                executiveOrderUrl: executiveOrderUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/executiveOrder/createShortenedExecutiveOrder",
+                postDataExecutiveOrder
+            );
+        }
+
+        if (fileNameBarangayOrdinance) {
+            await uploadBytes(fileRefBarangayOrdinance, fileBarangayOrdinance);
+            const barangayOrdinanceUrl = await getDownloadURL(
+                fileRefBarangayOrdinance
+            );
+            const postDataBarangayOrdinance = {
+                yearSubmitted: yearSubmitted,
+                documentName: documentNameBarangayOrdinance,
+                barangayOrdinanceUrl: barangayOrdinanceUrl,
+            };
+            await Axios.post(
+                "http://localhost:3001/barangayOrdinance/createShortenedBarangayOrdinance",
+                postDataBarangayOrdinance
+            );
+        }
+
+        alert("Document successfully submitted.");
+
+        setIsSubmittedAttachments(false);
+        setIsLoading(false);
     };
 
     useEffect(() => {
@@ -592,9 +722,15 @@ function Attachments({
 
     useEffect(() => {
         if (isSubmitted) {
-            SubmitUpdatedAttachments();
+            SubmitUpdatedBarangayProfile();
         }
     }, [isSubmitted]);
+
+    useEffect(() => {
+        if (isSubmittedAttachments) {
+            SubmitUpdatedAttachments();
+        }
+    }, [isSubmittedAttachments]);
 
     return (
         <div className={`${!isMenuOpen && "invisible"}`}>

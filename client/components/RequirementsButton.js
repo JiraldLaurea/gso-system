@@ -24,8 +24,8 @@ function requirementsButton({
                     : "hover:border-blue-500"
             }`}
         >
-            <Icon icon={iconStyle} className="w-6 h-6 mr-2 text-gray-600" />
-            <p className="text-sm font-medium">{requirementName}</p>
+            <Icon icon={iconStyle} className="w-6 h-6 mr-2 text-slate-600" />
+            <p className="text-sm">{requirementName}</p>
         </div>
     );
 }

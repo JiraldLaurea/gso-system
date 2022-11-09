@@ -412,7 +412,6 @@ const submitShortenedBarangayProfile = async (req, res) => {
         disposalThrowAnywhere,
         disposalOthersSpecify,
         disposalOthers,
-
         sourceIncomeCY1,
         sourceIncomeCY2,
         sourceIncomeAmount1CY1,
@@ -513,6 +512,7 @@ const submitShortenedBarangayProfile = async (req, res) => {
         barangayId: barangay.id,
         barangayName: barangay.barangayName,
         districtName: barangay.districtName,
+        barangayProfile: true,
         submissionBarangayProfileUrl: shortenedBarangayProfileUrl,
     });
 
@@ -2455,8 +2455,6 @@ const getAllUpdatedUserBarangayProfileYearSubmitted = async (req, res) => {
             barangayId: user.barangayId,
         },
     });
-
-    console.log(submission);
 
     return res.json(submission);
 };

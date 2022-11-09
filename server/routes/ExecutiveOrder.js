@@ -199,6 +199,19 @@ const createShortenedExecutiveOrder = async (req, res) => {
         executiveOrderUrl: executiveOrderUrl,
     });
 
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            executiveOrder: true,
+            executiveOrderDate: dateIssued,
+        });
+    });
+
     return res.json(executiveOrder);
 };
 

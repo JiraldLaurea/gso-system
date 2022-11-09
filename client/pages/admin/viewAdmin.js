@@ -23,7 +23,7 @@ function adminView() {
                     />
                     <RequirementsButton
                         path="/admin/viewAdmin/sketch"
-                        requirementName="Sketch"
+                        requirementName="Route sketch"
                         isAdmin
                         iconStyle="eos-icons:route"
                     />

@@ -49,7 +49,6 @@ function submissionBarangayProfile({
     const { data: selectedBarangayData } = useSWR(
         "http://localhost:3001/barangay/getSelectedBarangay"
     );
-    console.log("SELECTED BARANGAY DATA", selectedBarangayData);
     const date = new Date();
     const { mutate } = useSWRConfig();
     const [isLoading, setIsLoading] = useState(false);

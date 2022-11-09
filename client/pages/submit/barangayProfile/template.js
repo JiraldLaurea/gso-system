@@ -49,6 +49,7 @@ function template({ pageData, actionData }) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isOverwriting, setIsOverwriting] = useState(false);
     const [isOverwritten, setIsOverwritten] = useState(false);
+    const [isSubmittedAttachments, setIsSubmittedAttachments] = useState(false);
     const [submissionUpload, setSubmissionUpload] = useState(null);
     const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
         useState("");
@@ -791,15 +792,7 @@ function template({ pageData, actionData }) {
         });
 
         const formPages = contentRef.current.children.length;
-
         const pdfHeight2 = pdf.internal.pageSize.getHeight();
-        // const imgHeight = contentRef.current.clientHeight / 96;
-        // // const totalPDFPages = imgHeight / pdfHeight2;
-        // const data = await html2canvas(contentRef.current, {
-        //     useCORS: true,
-        //     scale: 2,
-        // });
-
         const imgProperties = pdf.getImageProperties(scImg);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight =
@@ -830,16 +823,6 @@ function template({ pageData, actionData }) {
                 lastModified: pdf.output("blob").lastModified,
             }
         );
-
-        // Upload file to server
-        // const formData = new FormData();
-        // formData.append("file", pdfAttachment);
-
-        // await Axios.post("http://localhost:3001/upload", formData, {
-        //     headers: {
-        //         "Content-Type": "multipart/form-data",
-        //     },
-        // });
 
         const submissionName = `ShortenedBarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
 
@@ -1093,7 +1076,6 @@ function template({ pageData, actionData }) {
             disposalThrowAnywhere: values.disposalThrowAnywhere,
             disposalOthersSpecify: values.disposalOthersSpecify,
             disposalOthers: values.disposalOthers,
-
             sourceIncomeCY1: values.sourceIncomeCY1,
             sourceIncomeCY2: values.sourceIncomeCY2,
             sourceIncomeAmount1CY1: values.sourceIncomeAmount1CY1,
@@ -1180,6 +1162,7 @@ function template({ pageData, actionData }) {
             "http://localhost:3001/shortenedSubmission/submitShortenedBarangayProfile",
             data
         ).then(() => {
+            setIsSubmittedAttachments(true);
             Axios.put("http://localhost:3001/barangay/update", {
                 populationCount: totalPopulationCount,
             });
@@ -1188,8 +1171,6 @@ function template({ pageData, actionData }) {
         mutate(
             "http://localhost:3001/shortenedSubmission/updateTypeOfDocument"
         );
-
-        setIsLoading(false);
     };
 
     const attemptSave = async () => {
@@ -1443,6 +1424,8 @@ function template({ pageData, actionData }) {
                 setIsMenuOpen={setIsMenuOpen}
                 isSubmitted={isSubmitted}
                 setIsSubmitted={setIsSubmitted}
+                isSubmittedAttachments={isSubmittedAttachments}
+                setIsSubmittedAttachments={setIsSubmittedAttachments}
                 yearSubmitted={yearSubmitted}
                 setIsLoading={setIsLoading}
                 createPDF={createPDF}

@@ -9,37 +9,6 @@ function SubmissionTable({ filteredSubmissions }) {
     const [columnName, setColumnName] = useState("createdAt");
     const [boolean, setBoolean] = useState(true);
 
-    const download = (e, docName, submissionBarangayProfileUrl) => {
-        e.preventDefault();
-
-        Axios({
-            url: "http://localhost:3001/download",
-            method: "POST",
-            responseType: "blob",
-            data: {
-                submissionBarangayProfileUrl: submissionBarangayProfileUrl,
-            },
-        }).then((res) => {
-            console.log(res);
-
-            fileDownload(res.data, docName);
-        });
-
-        // Axios({
-        //     url: "http://localhost:3001/download",
-        //     method: "POST",
-        //     responseType: "blob",
-        //     data: {
-        //         submissionBarangayProfileUrl:
-        //             res.data.submissionBarangayProfileUrl,
-        //     },
-        // }).then((res) => {
-        //     console.log(res);
-        //     fileDownload(res.data, documentName);
-        //     setLoadingDownload(false);
-        // });
-    };
-
     const sort = (columnName) => {
         setColumnName(columnName);
         setBoolean(!boolean);
@@ -109,47 +78,29 @@ function SubmissionTable({ filteredSubmissions }) {
                             </th>
                             <th className="px-6">
                                 <div
+                                    onClick={() => sort("yearSubmitted")}
+                                    className="flex items-center cursor-pointer group w-fit"
+                                >
+                                    <p className="cursor-pointer w-fit">
+                                        Year submitted
+                                    </p>
+                                    <Icon
+                                        className={`w-5 h-5 invisible group-hover:visible `}
+                                        icon={`${
+                                            boolean == true
+                                                ? "eva:arrow-ios-downward-fill"
+                                                : "eva:arrow-ios-upward-fill"
+                                        }`}
+                                    />
+                                </div>
+                            </th>
+                            <th className="px-6">
+                                <div
                                     onClick={() => sort("barangayProfile")}
                                     className="flex items-center cursor-pointer group w-fit"
                                 >
                                     <p className="cursor-pointer w-fit">
                                         Barangay profile
-                                    </p>
-                                    <Icon
-                                        className={`w-5 h-5 invisible group-hover:visible `}
-                                        icon={`${
-                                            boolean == true
-                                                ? "eva:arrow-ios-downward-fill"
-                                                : "eva:arrow-ios-upward-fill"
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th className="px-6 min-w-[190px]">
-                                <div
-                                    onClick={() => sort("totalWaste")}
-                                    className="flex items-center cursor-pointer group w-fit"
-                                >
-                                    <p className="cursor-pointer w-fit">
-                                        Total Waste
-                                    </p>
-                                    <Icon
-                                        className={`w-5 h-5 invisible group-hover:visible `}
-                                        icon={`${
-                                            boolean == true
-                                                ? "eva:arrow-ios-downward-fill"
-                                                : "eva:arrow-ios-upward-fill"
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th className="px-6 min-w-[220px]">
-                                <div
-                                    onClick={() => sort("collectionSchedule")}
-                                    className="flex items-center cursor-pointer group w-fit"
-                                >
-                                    <p className="cursor-pointer w-fit">
-                                        Collection schedule
                                     </p>
                                     <Icon
                                         className={`w-5 h-5 invisible group-hover:visible `}
@@ -215,7 +166,7 @@ function SubmissionTable({ filteredSubmissions }) {
                                     />
                                 </div>
                             </th>
-                            <th className="px-6 min-w-[190px]">
+                            <th className="px-6">
                                 <div
                                     onClick={() => sort("createdAt")}
                                     className="flex items-center cursor-pointer group w-fit"
@@ -249,24 +200,6 @@ function SubmissionTable({ filteredSubmissions }) {
                                     />
                                 </div>
                             </th>
-                            <th className="px-6 min-w-[220px]">
-                                <div
-                                    onClick={() => sort("createdAt")}
-                                    className="flex items-center cursor-pointer group w-fit"
-                                >
-                                    <p className="cursor-pointer w-fit">
-                                        Name of the Junkshop
-                                    </p>
-                                    <Icon
-                                        className={`w-5 h-5 invisible group-hover:visible `}
-                                        icon={`${
-                                            boolean == true
-                                                ? "eva:arrow-ios-downward-fill"
-                                                : "eva:arrow-ios-upward-fill"
-                                        }`}
-                                    />
-                                </div>
-                            </th>
                             <th className="px-6">
                                 <div
                                     onClick={() => sort("createdAt")}
@@ -285,48 +218,12 @@ function SubmissionTable({ filteredSubmissions }) {
                                     />
                                 </div>
                             </th>
-                            <th className="px-6 min-w-[190px]">
-                                <div
-                                    onClick={() => sort("createdAt")}
-                                    className="flex items-center cursor-pointer group w-fit"
-                                >
-                                    <p className="cursor-pointer w-fit">
-                                        Business permit date issued
-                                    </p>
-                                    <Icon
-                                        className={`w-5 h-5 invisible group-hover:visible `}
-                                        icon={`${
-                                            boolean == true
-                                                ? "eva:arrow-ios-downward-fill"
-                                                : "eva:arrow-ios-upward-fill"
-                                        }`}
-                                    />
-                                </div>
-                            </th>
                             <th className="px-6">
                                 <div
                                     onClick={() => sort("createdAt")}
                                     className="flex items-center cursor-pointer group w-fit"
                                 >
                                     <p className="cursor-pointer w-fit">Eo</p>
-                                    <Icon
-                                        className={`w-5 h-5 invisible group-hover:visible `}
-                                        icon={`${
-                                            boolean == true
-                                                ? "eva:arrow-ios-downward-fill"
-                                                : "eva:arrow-ios-upward-fill"
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th className="px-6 min-w-[190px]">
-                                <div
-                                    onClick={() => sort("createdAt")}
-                                    className="flex items-center cursor-pointer group w-fit"
-                                >
-                                    <p className="cursor-pointer w-fit">
-                                        Eo date issued
-                                    </p>
                                     <Icon
                                         className={`w-5 h-5 invisible group-hover:visible `}
                                         icon={`${
@@ -386,32 +283,14 @@ function SubmissionTable({ filteredSubmissions }) {
                                                 {submission.districtName}
                                             </td>
                                             <td className="px-6">
+                                                {submission.yearSubmitted}
+                                            </td>
+                                            <td className="px-6">
                                                 {submission.barangayProfile ? (
                                                     <Icon
                                                         icon="ic:baseline-check"
                                                         className="w-5 h-5 text-green-600"
                                                     />
-                                                ) : (
-                                                    <Icon
-                                                        icon="ic:baseline-close"
-                                                        className="w-5 h-5 text-red-600"
-                                                    />
-                                                )}
-                                            </td>
-                                            <td className="px-6">
-                                                {submission.totalWaste !=
-                                                null ? (
-                                                    submission.totalWaste
-                                                ) : (
-                                                    <Icon
-                                                        icon="ic:baseline-close"
-                                                        className="w-5 h-5 text-red-600"
-                                                    />
-                                                )}
-                                            </td>
-                                            <td className="px-6">
-                                                {submission.collectionSchedule ? (
-                                                    submission.collectionSchedule
                                                 ) : (
                                                     <Icon
                                                         icon="ic:baseline-close"
@@ -460,7 +339,10 @@ function SubmissionTable({ filteredSubmissions }) {
                                             </td>
                                             <td className="px-6">
                                                 {submission.moa ? (
-                                                    submission.moa
+                                                    <Icon
+                                                        icon="ic:baseline-check"
+                                                        className="w-5 h-5 text-green-600"
+                                                    />
                                                 ) : (
                                                     <Icon
                                                         icon="ic:baseline-close"
@@ -482,16 +364,6 @@ function SubmissionTable({ filteredSubmissions }) {
                                                 )}
                                             </td>
                                             <td className="px-6">
-                                                {submission.junkshopName ? (
-                                                    submission.junkshopName
-                                                ) : (
-                                                    <Icon
-                                                        icon="ic:baseline-close"
-                                                        className="w-5 h-5 text-red-600"
-                                                    />
-                                                )}
-                                            </td>
-                                            <td className="px-6">
                                                 {submission.businessPermit ? (
                                                     <Icon
                                                         icon="ic:baseline-check"
@@ -505,31 +377,11 @@ function SubmissionTable({ filteredSubmissions }) {
                                                 )}
                                             </td>
                                             <td className="px-6">
-                                                {submission.businessPermitDate ? (
-                                                    submission.businessPermitDate
-                                                ) : (
-                                                    <Icon
-                                                        icon="ic:baseline-close"
-                                                        className="w-5 h-5 text-red-600"
-                                                    />
-                                                )}
-                                            </td>
-                                            <td className="px-6">
                                                 {submission.executiveOrder ? (
                                                     <Icon
                                                         icon="ic:baseline-check"
                                                         className="w-5 h-5 text-green-600"
                                                     />
-                                                ) : (
-                                                    <Icon
-                                                        icon="ic:baseline-close"
-                                                        className="w-5 h-5 text-red-600"
-                                                    />
-                                                )}
-                                            </td>
-                                            <td className="px-6">
-                                                {submission.executiveOrderDate ? (
-                                                    submission.executiveOrderDate
                                                 ) : (
                                                     <Icon
                                                         icon="ic:baseline-close"

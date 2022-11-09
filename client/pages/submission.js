@@ -37,7 +37,6 @@ function submission() {
 
     const uploadFile = async (e) => {
         e.preventDefault();
-        console.log(file);
         if (populationCount != 0 && file?.name != "") {
             const formData = new FormData();
             formData.append("file", file);

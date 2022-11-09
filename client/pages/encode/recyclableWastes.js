@@ -78,6 +78,19 @@ function recyclableWastes() {
     };
 
     const submit = async () => {
+        const isEncoded = await Axios.post(
+            "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastes",
+            { barangayId: barangayId }
+        ).then(async (res) => {
+            return res.data;
+        });
+
+        if (isEncoded.length > 0) {
+            return alert(
+                "You have already encoded a document from this barangay."
+            );
+        }
+
         setLoading(true);
         if (dropdownMenuValueBarangay != "Barangay") {
             const data = {
@@ -99,38 +112,11 @@ function recyclableWastes() {
             };
 
             await Axios.post(
-                "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastes",
-                { dateSubmitted: dateSubmitted }
-            ).then(async (res) => {
-                console.log("RESPONSE", res);
-                const barangayIdArray = res.data.map((data) => {
-                    return data.barangayId;
-                });
-
-                console.log("Array", barangayIdArray);
-
-                let arr = barangayIdArray;
-                let x = barangayId;
-                let n = barangayIdArray.length;
-                let result = binarySearch(arr, 0, n - 1, x);
-
-                if (result == -1) {
-                    await Axios.post(
-                        "http://localhost:3001/recyclableWastes/createRecyclableWastes",
-                        data
-                    ).then(() => {
-                        alert(
-                            "Recyclable wastes report successfully submitted."
-                        );
-                        setLoading(false);
-                    });
-                } else {
-                    console.log("Element is present at index " + result);
-                    alert(
-                        "You have already submitted a document from your chosen month and year."
-                    );
-                    setLoading(false);
-                }
+                "http://localhost:3001/recyclableWastes/createRecyclableWastes",
+                data
+            ).then(() => {
+                alert("Recyclable wastes report successfully submitted.");
+                setLoading(false);
             });
         } else {
             alert("Please fill in all the forms");
@@ -234,7 +220,7 @@ function recyclableWastes() {
 
                 <div className="mb-8">
                     <p className="mb-1 text-sm text-gray-600">
-                        Date of submission:
+                        Date of submission
                     </p>
                     <input
                         type="month"

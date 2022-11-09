@@ -9,6 +9,9 @@ import useSWR from "swr";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 import { useAuthDispatch } from "../../../context/auth";
+import DownloadButton from "../../../components/DownloadButton";
+import ViewButton from "../../../components/ViewButton";
+import EditButton from "../../../components/EditButton";
 
 function barangayProfile() {
     const router = useRouter();
@@ -16,7 +19,7 @@ function barangayProfile() {
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
     const [isDropdownMenuOpen2, setIsDropdownMenuOpen2] = useState(false);
     const [dropdownMenuValue, setDropdownMenuValue] = useState("Year");
-    const [isViewed, setIsViewed] = useState(false);
+    // const [isViewed, setIsViewed] = useState(false);
     const [loadingDownload, setLoadingDownload] = useState(false);
     const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
         useState();
@@ -88,8 +91,7 @@ function barangayProfile() {
                     method: "POST",
                     responseType: "blob",
                     data: {
-                        submissionBarangayProfileUrl:
-                            res.data.submissionBarangayProfileUrl,
+                        submissionUrl: res.data.submissionBarangayProfileUrl,
                     },
                 }).then((res) => {
                     fileDownload(res.data, documentName);
@@ -141,7 +143,7 @@ function barangayProfile() {
         // }
     };
 
-    const viewSubmission = async (e) => {
+    const view = async (e) => {
         const data = {
             barangayId: barangayId,
             selectedBarangay: dropdownMenuValueBarangay,
@@ -358,48 +360,27 @@ function barangayProfile() {
                         {dropdownMenuValueBarangay != "Barangay" &&
                             yearOfSubmission != "Year of submission" && (
                                 <>
-                                    <button
-                                        onClick={() => {
-                                            setIsViewed(true);
-                                            viewSubmission();
-                                        }}
-                                        className="px-4 py-2 md:ml-4 h-[42px] text-blue-600 border select-none"
-                                    >
-                                        View
-                                    </button>
-
-                                    <button
-                                        onClick={editSelectedBarangay}
-                                        className="px-4 py-2 my-4 text-blue-600 border select-none md:my-0 md:ml-4"
-                                    >
-                                        Edit
-                                    </button>
-
-                                    <button
-                                        onClick={download}
-                                        className={`px-4 py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
-                                            loadingDownload &&
-                                            "cursor-not-allowed"
-                                        }`}
-                                    >
-                                        {!loadingDownload
-                                            ? "Download"
-                                            : "Processing..."}
-                                    </button>
+                                    <ViewButton view={view} />
+                                    <EditButton
+                                        editSelectedBarangay={
+                                            editSelectedBarangay
+                                        }
+                                    />
+                                    <DownloadButton
+                                        download={download}
+                                        loadingDownload={loadingDownload}
+                                    />
                                 </>
                             )}
                     </div>
                 </div>
-                {isViewed && (
-                    <>
-                        {submissionBarangayProfileUrl && (
-                            <iframe
-                                className="w-full h-[800px]"
-                                // src={`../submissions/${viewDocumentName}`}
-                                src={`${submissionBarangayProfileUrl}`}
-                            ></iframe>
-                        )}
-                    </>
+
+                {submissionBarangayProfileUrl && (
+                    <iframe
+                        className="w-full h-[800px]"
+                        // src={`../submissions/${viewDocumentName}`}
+                        src={`${submissionBarangayProfileUrl}`}
+                    ></iframe>
                 )}
             </div>
         </div>

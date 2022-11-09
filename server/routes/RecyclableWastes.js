@@ -59,18 +59,12 @@ const getRecyclableWastesYear = async (req, res) => {
 };
 
 const getSubmittedRecyclableWastes = async (req, res) => {
-    const { dateSubmitted } = req.body;
+    const { barangayId } = req.body;
 
-    // console.log("DATE SUBMITTED", dateSubmitted + "-01");
-
-    const recyclableWaste = await RecyclableWastes.findAll({
-        attributes: ["barangayId"],
-        where: {
-            dateSubmitted: dateSubmitted,
-        },
-        order: [["barangayId", "ASC"]],
+    const recyclableWastes = await RecyclableWastes.findAll({
+        where: { barangayId: barangayId },
     });
-    return res.json(recyclableWaste);
+    return res.json(recyclableWastes);
 };
 
 const createRecyclableWastes = async (req, res) => {

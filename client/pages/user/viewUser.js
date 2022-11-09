@@ -63,7 +63,7 @@ function viewUser() {
                     <RequirementsButton
                         requirement={updatedSketch?.length != 0}
                         path="/user/viewUser/sketch"
-                        requirementName="Sketch"
+                        requirementName="Route sketch"
                         iconStyle="eos-icons:route"
                     />
                     <RequirementsButton

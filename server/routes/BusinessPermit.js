@@ -199,6 +199,19 @@ const createShortenedBusinessPermit = async (req, res) => {
         businessPermitUrl: businessPermitUrl,
     });
 
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            businessPermit: true,
+            businessPermitDate: dateIssued,
+        });
+    });
+
     return res.json(businessPermit);
 };
 

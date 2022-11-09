@@ -194,6 +194,18 @@ const createShortenedBarangayOrdinance = async (req, res) => {
         barangayOrdinanceUrl: barangayOrdinanceUrl,
     });
 
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            barangayOrdinance: true,
+        });
+    });
+
     return res.json(barangayOrdinance);
 };
 

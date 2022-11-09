@@ -197,6 +197,19 @@ const createShortenedJunkshop = async (req, res) => {
         junkshopUrl: junkshopUrl,
     });
 
+    await Submission.findOne({
+        where: {
+            barangayId: user.barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+        order: [["createdAt", "DESC"]],
+    }).then((data) => {
+        data.update({
+            junkshopInBarangay: true,
+            junkshopName: junkshopName,
+        });
+    });
+
     return res.json(junkshop);
 };
 
