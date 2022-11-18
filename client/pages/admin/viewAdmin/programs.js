@@ -9,6 +9,7 @@ import fileDownload from "js-file-download";
 import { useAuthDispatch } from "../../../context/auth";
 import ViewButton from "../../../components/ViewButton";
 import DownloadButton from "../../../components/DownloadButton";
+import ImageWrapper from "../../../components/ImageWrapper";
 
 function programs() {
     const router = useRouter();
@@ -71,7 +72,6 @@ function programs() {
         ).then((res) => {
             setDocumentExtension(res.data.documentName.split(".").pop());
             setProgramsUrl(res.data.programsUrl);
-            console.log(res.data.programsUrl);
         });
     };
 
@@ -303,25 +303,12 @@ function programs() {
                             )}
                     </div>
                 </div>
-                <hr className="my-6" />
-                <div>
+                <div className="mt-4">
                     {programsUrl && (
                         <>
-                            <p className="mb-2">Program: </p>
                             {documentImageExtensions.includes(
                                 documentExtension
-                            ) && (
-                                <div className="w-full max-w-lg bg-black border ">
-                                    <Image
-                                        src={programsUrl}
-                                        alt="route image"
-                                        width="100%"
-                                        height="100%"
-                                        layout="responsive"
-                                        objectFit="contain"
-                                    />
-                                </div>
-                            )}
+                            ) && <ImageWrapper url={programsUrl} />}
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"

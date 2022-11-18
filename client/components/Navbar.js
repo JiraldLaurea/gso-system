@@ -42,7 +42,7 @@ function Navbar({ userData }) {
                                     className="hidden p-2 rounded-full cursor-pointer md:block active:bg-gray-200"
                                 >
                                     <Icon
-                                        icon="mdi-light:menu"
+                                        icon="ic:baseline-menu"
                                         className="w-6 h-6"
                                     />
                                 </div>
@@ -57,7 +57,9 @@ function Navbar({ userData }) {
                                         />
                                     </div>
                                 )}
-                                <h1 className="font-semibold">{navbarTitle}</h1>
+                                <h1 className="text-lg font-semibold">
+                                    {navbarTitle}
+                                </h1>
                             </div>
                         )}
                         {isSidebarOpen && (
@@ -73,7 +75,9 @@ function Navbar({ userData }) {
                                         />
                                     </div>
                                 )}
-                                <h1 className="font-semibold">{navbarTitle}</h1>
+                                <h1 className="text-lg font-semibold">
+                                    {navbarTitle}
+                                </h1>
                             </div>
                         )}
 
@@ -101,7 +105,7 @@ function Navbar({ userData }) {
                             onClick={() => setIsSidebarMobileOpen(true)}
                             className="p-2 mr-[9px] md:hidden rounded-full cursor-pointer active:bg-gray-200"
                         >
-                            <Icon icon="mdi-light:menu" className="w-6 h-6" />
+                            <Icon icon="ic:baseline-menu" className="w-6 h-6" />
                         </div>
                         <div className="flex items-center py-1 pl-1 pr-4 border rounded-full cursor-pointer select-none">
                             <Avatar

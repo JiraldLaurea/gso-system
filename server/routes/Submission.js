@@ -45,7 +45,13 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-    const submissions = await Submission.findAll();
+    const submissions = await Submission.findAll({
+        where: {
+            yearSubmitted: {
+                [Op.ne]: null,
+            },
+        },
+    });
 
     res.json(submissions);
 });
@@ -1786,7 +1792,7 @@ const submit = async (req, res) => {
         submissionBarangayProfileUrl,
     } = req.body;
 
-    const totalWaste = (populationCount * 0.68).toFixed(2);
+    const totalWaste = (populationCount * 0.71).toFixed(2);
 
     await Submission.findOne({
         where: {
@@ -3749,7 +3755,7 @@ const updateSubmission = async (req, res) => {
         submissionBarangayProfileUrl,
     } = req.body;
 
-    const totalWaste = (populationCount * 0.68).toFixed(2);
+    const totalWaste = (populationCount * 0.71).toFixed(2);
 
     await Submission.findOne({
         where: {

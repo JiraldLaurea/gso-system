@@ -1,18 +1,15 @@
+import { Icon } from "@iconify/react";
+import Axios from "axios";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import * as htmlToImage from "html-to-image";
-import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import React, { useEffect, useRef, useState } from "react";
-import useSWR from "swr";
-import Axios from "axios";
-import { useSWRConfig } from "swr";
-import { Icon } from "@iconify/react";
-import { storage } from "../../../firebase";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
-import ShortenedBarangayProfilePage1 from "../../../components/ShortenedBarangayProfilePage1";
-import ShortenedBarangayProfilePage2 from "../../../components/ShortenedBarangayProfilePage2";
-import ShortenedBarangayProfilePage3 from "../../../components/ShortenedBarangayProfilePage3";
-import Attachments from "../../../components/Attachments";
-import { useAuthDispatch } from "../../../context/auth";
+import useSWR, { useSWRConfig } from "swr";
+import ShortenedBarangayProfilePage1 from "../../../../components/ShortenedBarangayProfilePage1";
+import ShortenedBarangayProfilePage2 from "../../../../components/ShortenedBarangayProfilePage2";
+import ShortenedBarangayProfilePage3 from "../../../../components/ShortenedBarangayProfilePage3";
+import { storage } from "../../../../firebase";
+import { useAuthDispatch } from "../../../../context/auth";
 
 function template({ pageData, actionData }) {
     const contentRef = useRef(null);
@@ -25,11 +22,6 @@ function template({ pageData, actionData }) {
     const page7Ref = useRef(null);
     const page8Ref = useRef(null);
     const page9Ref = useRef(null);
-    const {
-        data: meData,
-        error,
-        isValidating,
-    } = useSWR("http://localhost:3001/user/me");
     const date = new Date();
     const { mutate } = useSWRConfig();
     const [isLoading, setIsLoading] = useState(false);
@@ -46,23 +38,27 @@ function template({ pageData, actionData }) {
     const [page8, setPage8] = useState(false);
     const [page9, setPage9] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const [isOverwriting, setIsOverwriting] = useState(false);
     const [isOverwritten, setIsOverwritten] = useState(false);
-    const [isSubmittedAttachments, setIsSubmittedAttachments] = useState(false);
     const [submissionUpload, setSubmissionUpload] = useState(null);
     const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
         useState("");
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const dispatch = useAuthDispatch();
 
-    if (typeof window !== "undefined") {
-        if (isMenuOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "unset";
-        }
-    }
+    const { data: meData } = useSWR("http://localhost:3001/user/me");
+
+    const { data: selectedBarangay } = useSWR(
+        "http://localhost:3001/barangay/getSelectedBarangay"
+    );
+
+    useEffect(() => {
+        dispatch(
+            "CHANGE_TITLE",
+            `Barangay profile - ${selectedBarangay?.selectedBarangay}`
+        );
+        dispatch("HAS_BUTTON_TRUE");
+        dispatch("CHANGE_PATH", "/admin/viewAdmin/viewAll");
+    }, [selectedBarangay?.selectedBarangay]);
 
     const [values, setValues] = useState({
         totalLandArea: pageData.totalLandArea,
@@ -398,9 +394,6 @@ function template({ pageData, actionData }) {
     const handleScroll = () => {
         const position = window.pageYOffset + 68;
         setScrollPosition(position);
-        // console.log("POSITION", position);
-        // console.log("PAGE 1 REF", page1Ref.current.offsetTop);
-        // console.log("PAGE 2 REF", page2Ref.current.offsetTop);
 
         if (
             position >= page1Ref.current?.offsetTop &&
@@ -426,12 +419,6 @@ function template({ pageData, actionData }) {
             setPage3(false);
         }
     };
-
-    useEffect(() => {
-        dispatch("HAS_BUTTON_TRUE");
-        dispatch("CHANGE_TITLE", `Barangay profile - ${meData?.barangayName}`);
-        dispatch("CHANGE_PATH", "/submit/barangayProfile");
-    }, [meData?.barangayName]);
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll, { passive: true });
@@ -588,6 +575,7 @@ function template({ pageData, actionData }) {
             numCooperativeRiceGrowers: values.numCooperativeRiceGrowers,
             numOthersCommercial: values.numOthersCommercial,
             numOthersCommercialSpecify: values.numOthersCommercialSpecify,
+
             totalNumBirths: values.totalNumBirths,
             totalNumDeathsAllCauses: values.totalNumDeathsAllCauses,
             totalNumStillBirth: values.totalNumStillBirth,
@@ -770,21 +758,8 @@ function template({ pageData, actionData }) {
         );
     };
 
-    const submitDocuments = () => {
-        setIsSubmitted(true);
-    };
-
-    const createPDF = async () => {
-        const isSubmitted = await Axios.post(
-            "http://localhost:3001/shortenedSubmission/checkSubmittedBarangayProfile",
-            { yearSubmitted: yearSubmitted }
-        ).then((res) => res.data);
-
-        if (isSubmitted) {
-            return alert(
-                "Submission failed: A document has already been submitted from your chosen year."
-            );
-        }
+    const createPDF = async (e) => {
+        e.preventDefault();
 
         setIsLoading(true);
         let scImg = null;
@@ -831,14 +806,14 @@ function template({ pageData, actionData }) {
 
         const pdfAttachment = new File(
             [pdf.output("blob")],
-            `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`,
+            `BarangayProfile${selectedBarangay.selectedBarangay}${selectedBarangay.selectedDistrict}${selectedBarangay.yearSubmitted}.pdf`,
             {
                 type: pdf.output("blob").type,
                 lastModified: pdf.output("blob").lastModified,
             }
         );
 
-        const submissionName = `ShortenedBarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`;
+        const submissionName = `ShortenedBarangayProfile${selectedBarangay.selectedBarangay}${selectedBarangay.selectedDistrict}${selectedBarangay.yearSubmitted}.pdf`;
 
         const submissionRef = ref(
             storage,
@@ -847,7 +822,6 @@ function template({ pageData, actionData }) {
 
         await uploadBytes(submissionRef, pdfAttachment);
         const shortenedBarangayProfileUrl = await getDownloadURL(submissionRef);
-        // console.log("SUBMISSION URL", submissionBarangayProfileUrl);
 
         const data = {
             yearSubmitted: yearSubmitted,
@@ -993,7 +967,6 @@ function template({ pageData, actionData }) {
             numCooperativeRiceGrowers: values.numCooperativeRiceGrowers,
             numOthersCommercial: values.numOthersCommercial,
             numOthersCommercialSpecify: values.numOthersCommercialSpecify,
-
             totalNumBirths: values.totalNumBirths,
             totalNumDeathsAllCauses: values.totalNumDeathsAllCauses,
             totalNumStillBirth: values.totalNumStillBirth,
@@ -1167,16 +1140,16 @@ function template({ pageData, actionData }) {
             date1: values.date1,
             barangayCaptain: values.barangayCaptain,
             date2: values.date2,
-            documentName: `BarangayProfile${meData.barangayName}${meData.districtName}${yearSubmitted}.pdf`,
+            documentName: `BarangayProfileShortened${selectedBarangay.selectedBarangay}${selectedBarangay.selectedDistrict}${selectedBarangay.selectedDistrict}.pdf`,
             populationCount: totalPopulationCount,
             shortenedBarangayProfileUrl: shortenedBarangayProfileUrl,
         };
 
         await Axios.post(
-            "http://localhost:3001/shortenedSubmission/submitShortenedBarangayProfile",
+            "http://localhost:3001/shortenedSubmission/updateSubmittedShortenedBarangayProfile",
             data
         ).then(() => {
-            setIsSubmittedAttachments(true);
+            alert("Successfully updated changes");
             Axios.put("http://localhost:3001/barangay/update", {
                 populationCount: totalPopulationCount,
             });
@@ -1185,6 +1158,8 @@ function template({ pageData, actionData }) {
         mutate(
             "http://localhost:3001/shortenedSubmission/updateTypeOfDocument"
         );
+
+        setIsLoading(false);
     };
 
     const attemptSave = async () => {
@@ -1219,241 +1194,173 @@ function template({ pageData, actionData }) {
     };
 
     return (
-        <>
-            <div className="flex justify-between ">
-                {isOverwriting && (
-                    <>
-                        <div
-                            onClick={() => setIsOverwriting(false)}
-                            className="fixed top-0 left-0 z-20 flex items-center w-screen h-screen bg-gray-700/30"
-                        />
-                        <div className="fixed z-30 flex flex-col items-center p-4 -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm top-1/2 left-1/2">
-                            <Icon
-                                className="mb-2 text-blue-500 w-14 h-14"
-                                icon="ic:baseline-info"
-                            />
-                            <p className="text-lg font-medium">
-                                Are you sure you want to save?
-                            </p>
-                            <p className="text-sm text-gray-700">
-                                Saving will overwrite the previously saved
-                                document
-                            </p>
-                            <div className="flex items-center justify-end w-full mt-8">
-                                <button
-                                    onClick={() => setIsOverwriting(false)}
-                                    className="px-4 py-1 mr-4 text-blue-600 border"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        save("Saved", "LoadDocument");
-                                        setIsOverwriting(false);
-                                    }}
-                                    className="px-4 py-1 text-white bg-blue-500 border border-blue-500"
-                                >
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                )}
-                <div className="flex flex-col items-center flex-grow p-3 space-y-4 text-sm bg-gray-200">
-                    <form
-                        spellCheck="false"
-                        onSubmit={createPDF}
-                        autoComplete="off"
-                        ref={contentRef}
-                        className="submissionBarangayProfile"
-                    >
-                        <div
-                            ref={page1Ref}
-                            className="bg-white w-[8.5in] h-[14in] py-4 px-20"
-                        >
-                            <ShortenedBarangayProfilePage1
-                                values={values}
-                                totalPopulationCount={totalPopulationCount}
-                                setTotalPopulationCount={
-                                    setTotalPopulationCount
-                                }
-                                handleChange={handleChange}
-                            />
-                        </div>
-                        <div
-                            ref={page2Ref}
-                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                        >
-                            <ShortenedBarangayProfilePage2
-                                values={values}
-                                totalPopulationCount={totalPopulationCount}
-                                setTotalPopulationCount={
-                                    setTotalPopulationCount
-                                }
-                                handleChange={handleChange}
-                            />
-                        </div>
-                        <div
-                            ref={page3Ref}
-                            className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
-                        >
-                            <ShortenedBarangayProfilePage3
-                                values={values}
-                                totalPopulationCount={totalPopulationCount}
-                                setTotalPopulationCount={
-                                    setTotalPopulationCount
-                                }
-                                handleChange={handleChange}
-                                handleChangeBoolean={handleChangeBoolean}
-                            />
-                        </div>
-                    </form>
+        <div className="flex justify-between ">
+            {/* {!isSaved && (
+                <div className="fixed inset-x-0 top-0 z-30 w-full mx-auto text-center bg-red-500">
+                    <p>Successfully saved</p>
                 </div>
-
-                <div className="h-[calc(100vh-56px)] sticky top-[56px] bg-gray-50 flex flex-col py-4 border-l  w-full max-w-[260px] overflow-y-auto">
-                    <div className="px-4">
-                        <p className="mb-2 text-sm text-gray-700">
-                            Year of submission
+            )} */}
+            {isOverwriting && (
+                <>
+                    <div
+                        onClick={() => setIsOverwriting(false)}
+                        className="fixed top-0 left-0 z-20 flex items-center w-screen h-screen bg-gray-700/30"
+                    />
+                    <div className="fixed z-30 flex flex-col items-center p-4 -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm top-1/2 left-1/2">
+                        <Icon
+                            className="mb-2 text-blue-500 w-14 h-14"
+                            icon="ic:baseline-info"
+                        />
+                        <p className="text-lg font-medium">
+                            Are you sure you want to save?
                         </p>
-                        <input
-                            value={yearSubmitted}
-                            placeholder="Year"
-                            onChange={(e) => setYearSubmitted(e.target.value)}
-                            type="number"
-                            className="w-20 px-2 py-1 text-center border restoreNumberArrows focus:outline-none"
+                        <p className="text-sm text-gray-700">
+                            Saving will overwrite the previously saved document
+                        </p>
+                        <div className="flex items-center justify-end w-full mt-8">
+                            <button
+                                onClick={() => setIsOverwriting(false)}
+                                className="px-4 py-1 mr-4 text-blue-600 border"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => {
+                                    save("Saved", "LoadDocument");
+                                    setIsOverwriting(false);
+                                }}
+                                className="px-4 py-1 text-white bg-blue-500 border border-blue-500"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
+            <div className="flex flex-col items-center flex-grow p-3 space-y-4 text-sm bg-gray-200">
+                <form
+                    spellCheck="false"
+                    onSubmit={createPDF}
+                    autoComplete="off"
+                    ref={contentRef}
+                    className="submissionBarangayProfile"
+                >
+                    <div
+                        ref={page1Ref}
+                        className="bg-white w-[8.5in] h-[14in] py-4 px-20"
+                    >
+                        <ShortenedBarangayProfilePage1
+                            values={values}
+                            totalPopulationCount={totalPopulationCount}
+                            setTotalPopulationCount={setTotalPopulationCount}
+                            handleChange={handleChange}
                         />
                     </div>
-                    <hr className="my-4" />
-                    <p className="mb-2 ml-4 text-sm text-gray-700">
-                        Barangay profile
+                    <div
+                        ref={page2Ref}
+                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                    >
+                        <ShortenedBarangayProfilePage2
+                            values={values}
+                            totalPopulationCount={totalPopulationCount}
+                            setTotalPopulationCount={setTotalPopulationCount}
+                            handleChange={handleChange}
+                        />
+                    </div>
+                    <div
+                        ref={page3Ref}
+                        className="bg-white w-[8.5in] h-[14in] py-4 px-20 mt-3"
+                    >
+                        <ShortenedBarangayProfilePage3
+                            values={values}
+                            totalPopulationCount={totalPopulationCount}
+                            setTotalPopulationCount={setTotalPopulationCount}
+                            handleChange={handleChange}
+                            handleChangeBoolean={handleChangeBoolean}
+                        />
+                    </div>
+                </form>
+            </div>
+
+            <div className="h-[calc(100vh-56px)] sticky top-[56px] bg-gray-50 flex flex-col py-4 border-l  w-full max-w-[260px] overflow-y-auto">
+                <p className="ml-4 text-sm text-gray-700">
+                    Year submitted:{" "}
+                    <span className="font-medium">
+                        {selectedBarangay?.yearSubmitted}
+                    </span>
+                </p>
+                <hr className="my-4" />
+                <p className="mb-2 ml-4 text-sm text-gray-700">
+                    Barangay profile
+                </p>
+                <div className="text-sm ">
+                    <p
+                        onClick={() => {
+                            window.scrollTo({
+                                top: page1Ref.current.offsetTop - 68,
+                            });
+                        }}
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page1 && "bg-gray-300"
+                        }`}
+                    >
+                        Page 1
                     </p>
-                    <div className="text-sm ">
-                        <p
-                            onClick={() => {
-                                window.scrollTo({
-                                    top: page1Ref.current.offsetTop - 68,
-                                });
-                            }}
-                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                                page1 && "bg-gray-300"
-                            }`}
-                        >
-                            Page 1
-                        </p>
-                        <p
-                            onClick={() => {
-                                window.scrollTo({
-                                    top: page2Ref.current.offsetTop - 68,
-                                });
-                            }}
-                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                                page2 && "bg-gray-300"
-                            }`}
-                        >
-                            Page 2
-                        </p>
-                        <p
-                            onClick={() => {
-                                window.scrollTo({
-                                    top: page3Ref.current.offsetTop - 68,
-                                });
-                            }}
-                            className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
-                                page3 && "bg-gray-300"
-                            }`}
-                        >
-                            Page 3
-                        </p>
-                    </div>
-                    <hr className="my-4" />
-                    <div className="px-4">
-                        <button
-                            disabled={isLoading}
-                            onClick={() => setIsMenuOpen(true)}
-                            className={`w-full flex items-center justify-center px-3 py-2  text-blue-500 border border-gray-300 rounded-sm  ${
-                                isLoading
-                                    ? "cursor-not-allowed hover:border-gray-300"
-                                    : "hover:border-blue-500"
-                            }`}
-                        >
-                            <Icon
-                                icon="ic:outline-attachment"
-                                className="w-6 h-6 mr-2"
-                            />
-                            Attachments
-                        </button>
-                    </div>
-                    <hr className="my-4" />
-                    <div className="px-4">
-                        {actionData != "UpdateSubmission" && (
-                            <button
-                                disabled={isLoading}
-                                onClick={attemptSave}
-                                className={`w-full flex items-center justify-center px-3 py-2 mb-4 text-white  transition-colors bg-green-500 rounded-sm  ${
-                                    isLoading
-                                        ? "cursor-not-allowed hover:bg-green-500"
-                                        : "hover:bg-green-600"
-                                }`}
-                            >
+                    <p
+                        onClick={() => {
+                            window.scrollTo({
+                                top: page2Ref.current.offsetTop - 68,
+                            });
+                        }}
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page2 && "bg-gray-300"
+                        }`}
+                    >
+                        Page 2
+                    </p>
+                    <p
+                        onClick={() => {
+                            window.scrollTo({
+                                top: page3Ref.current.offsetTop - 68,
+                            });
+                        }}
+                        className={`py-2 pl-4 cursor-pointer hover:bg-gray-300 ${
+                            page3 && "bg-gray-300"
+                        }`}
+                    >
+                        Page 3
+                    </p>
+                </div>
+                <hr className="my-4" />
+                <div className="px-4">
+                    <button
+                        disabled={isLoading}
+                        onClick={createPDF}
+                        className={`w-full flex items-center justify-center px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-600 transition-colors cursor-pointer ${
+                            isLoading && "cursor-not-allowed hover:bg-blue-500"
+                        }`}
+                    >
+                        {!isLoading ? (
+                            <>
                                 <Icon
                                     icon="ic:baseline-save"
                                     className="w-6 h-6 mr-2"
                                 />
-                                {isSaved ? "Successfully saved" : "Save"}
-                            </button>
+                                Update changes
+                            </>
+                        ) : (
+                            <>
+                                <Icon
+                                    icon="eos-icons:loading"
+                                    className="w-6 h-6 mr-2"
+                                />
+                                Processing...
+                            </>
                         )}
-
-                        <button
-                            disabled={isLoading}
-                            onClick={submitDocuments}
-                            className={`w-full flex items-center justify-center px-3 py-2 text-white transition-colors bg-blue-500 rounded-sm ${
-                                isLoading
-                                    ? "cursor-not-allowed hover:bg-blue-500"
-                                    : "hover:bg-blue-600"
-                            }`}
-                        >
-                            {!isLoading ? (
-                                <>
-                                    <Icon
-                                        icon="fluent:document-arrow-up-20-filled"
-                                        className="w-6 h-6 mr-2"
-                                    />
-                                    Submit
-                                </>
-                            ) : (
-                                <>
-                                    <Icon
-                                        icon="eos-icons:loading"
-                                        className="w-6 h-6 mr-2"
-                                    />
-                                    Processing...
-                                </>
-                            )}
-                        </button>
-                        {/* <button
-                    disabled={isLoading}
-                    onClick={createPDF}
-                    className={`w-full px-3 py-2 border text-blue-600 rounded-sm ${
-                        isLoading && "cursor-not-allowed"
-                    }`}
-                >
-                    {!isLoading ? "Download" : "Processing..."}
-                </button> */}
-                    </div>
+                    </button>
                 </div>
             </div>
-            <Attachments
-                isMenuOpen={isMenuOpen}
-                setIsMenuOpen={setIsMenuOpen}
-                isSubmitted={isSubmitted}
-                setIsSubmitted={setIsSubmitted}
-                isSubmittedAttachments={isSubmittedAttachments}
-                setIsSubmittedAttachments={setIsSubmittedAttachments}
-                yearSubmitted={yearSubmitted}
-                setIsLoading={setIsLoading}
-                createPDF={createPDF}
-            />
-        </>
+        </div>
     );
 }
 
@@ -1464,23 +1371,7 @@ export const getServerSideProps = async (context) => {
         headers: { Cookie: context.req.headers.cookie },
     }).then((res) => res.json());
 
-    if (me.isAdmin == true) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: "/",
-            },
-        };
-    }
-
-    const encodedDocument = await fetch(
-        "http://localhost:3001/submission/getEncodedDocument",
-        {
-            headers: { Cookie: context.req.headers.cookie },
-        }
-    ).then((res) => res.json());
-
-    if (!encodedDocument) {
+    if (!me.isAdmin == true) {
         return {
             redirect: {
                 permanent: false,
@@ -1500,23 +1391,14 @@ export const getServerSideProps = async (context) => {
         return {
             redirect: {
                 permanent: false,
-                destination: "/submit/barangayProfile",
+                destination: "/admin/updatedSubmissions/barangayProfile",
             },
         };
     }
 
-    if (pageData[1]) {
-        return {
-            props: {
-                pageData: pageData[0],
-                actionData: pageData[1],
-            },
-        };
-    } else {
-        return {
-            props: {
-                pageData: pageData,
-            },
-        };
-    }
+    return {
+        props: {
+            pageData: pageData,
+        },
+    };
 };

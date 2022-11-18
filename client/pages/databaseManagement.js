@@ -16,7 +16,7 @@ import { useAuthDispatch } from "../context/auth";
 function databaseManagement({ userData }) {
     const [searchValue, setSearchvalue] = useState("");
     const [inputValue, setInputvalue] = useState("");
-    const [selectedDatabase, setSelectedDatabase] = useState("Submissions");
+    const [selectedDatabase, setSelectedDatabase] = useState("Barangay");
     const { authState, setAuthState } = useContext(AuthContext);
     const { user, authenticated, loading } = useAuthState();
     const dispatch = useAuthDispatch();
@@ -80,7 +80,7 @@ function databaseManagement({ userData }) {
                 <div className="p-4 md:p-8">
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center space-x-6 text-sm font-medium">
-                            <button
+                            {/* <button
                                 onClick={() =>
                                     setSelectedDatabase("Submissions")
                                 }
@@ -91,7 +91,7 @@ function databaseManagement({ userData }) {
                                 }`}
                             >
                                 Submissions
-                            </button>
+                            </button> */}
                             <button
                                 onClick={() => setSelectedDatabase("Barangay")}
                                 className={`${
@@ -146,17 +146,26 @@ function databaseManagement({ userData }) {
                         </div>
                     </div>
 
-                    {selectedDatabase == "Submissions" &&
-                        submissions &&
+                    {/* {selectedDatabase == "Submissions" &&
                         !isValidatingSubmissions && (
-                            <SubmissionTable
-                                filteredSubmissions={filteredSubmissions}
-                            />
-                        )}
-
+                            <>
+                                {submissions.length != 0 ? (
+                                    <SubmissionTable
+                                        filteredSubmissions={
+                                            filteredSubmissions
+                                        }
+                                    />
+                                ) : (
+                                    <p className="text-gray-600">
+                                        No submissions yet.
+                                    </p>
+                                )}
+                            </>
+                        )} */}
+                    {/* 
                     {selectedDatabase == "Submissions" &&
                         submissions &&
-                        isValidatingSubmissions && <p>Loading...</p>}
+                        isValidatingSubmissions && <p>Loading...</p>} */}
 
                     {selectedDatabase == "Barangay" && submissions && (
                         <BarangayTable

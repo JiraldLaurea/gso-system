@@ -55,6 +55,10 @@ function recyclableWastes() {
         "http://localhost:3001/barangay/getAllBarangayRecyclableWastes"
     );
 
+    const { data: barangays } = useSWR(
+        "http://localhost:3001/barangay/getAllBarangay"
+    );
+
     // Recursive Binary Search
     // It returns location of x in given array arr[l..r] is present, otherwise -1
     const binarySearch = (arr, l, r, x) => {
@@ -171,46 +175,40 @@ function recyclableWastes() {
                             {isDropdownMenuOpen && (
                                 <div className="max-h-60 overflow-y-auto absolute z-10 py-4 bg-white border border-t-0 top-[42px] w-56 dark:bg-gray-700 shadow-lg">
                                     <ul className="text-gray-700 bg-white">
-                                        {barangaysEncode.map(
-                                            (barangayEncode, index) => {
-                                                return (
-                                                    <li
-                                                        key={index}
-                                                        onClick={() => {
-                                                            setDropdownMenuValueBarangay(
-                                                                barangayEncode.barangayName
-                                                            );
-                                                            setDropdownMenuValueDistrict(
-                                                                barangayEncode.districtName
-                                                            );
-                                                            setBarangayId(
-                                                                barangayEncode.id
-                                                            );
-                                                            setIsDropdownMenuOpen(
-                                                                false
-                                                            );
+                                        {barangays.map((barangay, index) => {
+                                            return (
+                                                <li
+                                                    key={index}
+                                                    onClick={() => {
+                                                        setDropdownMenuValueBarangay(
+                                                            barangay.barangayName
+                                                        );
+                                                        setDropdownMenuValueDistrict(
+                                                            barangay.districtName
+                                                        );
+                                                        setBarangayId(
+                                                            barangay.id
+                                                        );
+                                                        setIsDropdownMenuOpen(
+                                                            false
+                                                        );
 
-                                                            // setIsDropdownMenuOpen(
-                                                            //     !isDropdownMenuOpen
-                                                            // );
-                                                        }}
+                                                        // setIsDropdownMenuOpen(
+                                                        //     !isDropdownMenuOpen
+                                                        // );
+                                                    }}
+                                                >
+                                                    <a
+                                                        href="#"
+                                                        className="block px-3 py-2 hover:bg-gray-100"
                                                     >
-                                                        <a
-                                                            href="#"
-                                                            className="block px-3 py-2 hover:bg-gray-100"
-                                                        >
-                                                            {
-                                                                barangayEncode.barangayName
-                                                            }
-                                                            &nbsp; - &nbsp;
-                                                            {
-                                                                barangayEncode.districtName
-                                                            }
-                                                        </a>
-                                                    </li>
-                                                );
-                                            }
-                                        )}
+                                                        {barangay.barangayName}
+                                                        &nbsp; - &nbsp;
+                                                        {barangay.districtName}
+                                                    </a>
+                                                </li>
+                                            );
+                                        })}
                                     </ul>
                                 </div>
                             )}
@@ -231,6 +229,9 @@ function recyclableWastes() {
                     />
                 </div>
 
+                <p className="mb-1 text-sm text-gray-600">
+                    Recyclable wastes &#40;kg&#41;
+                </p>
                 <div className="flex">
                     <RecyclableWastesInput
                         category="Saway"

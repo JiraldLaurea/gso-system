@@ -54,7 +54,7 @@ function viewUser() {
                     <RequirementsButton
                         requirement={
                             updatedBarangayProfile &&
-                            updatedBarangayProfile[0].yearSubmitted != null
+                            updatedBarangayProfile[0]?.yearSubmitted != null
                         }
                         path="/user/viewUser/barangayProfile"
                         requirementName="Barangay profile"
@@ -107,6 +107,12 @@ function viewUser() {
                         path="/user/viewUser/barangayOrdinance"
                         requirementName="Barangay ordinance"
                         iconStyle="vaadin:scale"
+                    />
+                    <RequirementsButton
+                        requirement={updatedBusinessPermit?.length != 0}
+                        path="/user/viewUser/viewAll"
+                        requirementName="View all"
+                        iconStyle="ic:baseline-remove-red-eye"
                     />
                 </div>
             </div>

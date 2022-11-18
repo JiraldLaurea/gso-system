@@ -5,7 +5,7 @@ function DownloadButton({ download, loadingDownload }) {
     return (
         <button
             onClick={download}
-            className={`px-4 flex rounded-sm hover:bg-blue-600 transition-colors items-center py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
+            className={`px-4 flex rounded-sm hover:bg-blue-600 transition-colors items-center justify-center md:justify-start py-2 md:ml-4 h-[42px] text-white bg-blue-500 border border-blue-500 select-none ${
                 loadingDownload && "cursor-not-allowed"
             }`}
         >

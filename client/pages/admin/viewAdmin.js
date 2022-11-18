@@ -69,6 +69,12 @@ function adminView() {
                         isAdmin
                         iconStyle="vaadin:scale"
                     />
+                    <RequirementsButton
+                        path="/admin/viewAdmin/viewAll"
+                        requirementName="View all"
+                        isAdmin
+                        iconStyle="ic:baseline-remove-red-eye"
+                    />
                 </div>
             </div>
         </div>

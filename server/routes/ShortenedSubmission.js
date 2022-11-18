@@ -45,6 +45,32 @@ const getAllShortenedBarangayProfile = async (req, res) => {
     ]);
 };
 
+const getAllSubmission = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const submission = await Submission.findAll({
+        where: {
+            barangayId: barangayId,
+        },
+        order: [["yearSubmitted", "DESC"]],
+    });
+
+    return res.json(submission);
+};
+
+const getAllSubmissionUser = async (req, res) => {
+    const user = res.locals.user;
+
+    const submission = await Submission.findAll({
+        where: {
+            barangayId: user.barangayId,
+        },
+        order: [["yearSubmitted", "DESC"]],
+    });
+
+    return res.json(submission);
+};
+
 const updateAction = async (req, res) => {
     const user = res.locals.user;
     const { action } = req.body;
@@ -177,6 +203,8 @@ const getShortenedBarangayProfile = async (req, res) => {
                 },
             }
         );
+
+        console.log(shortenedBarangayProfile);
 
         return res.json(shortenedBarangayProfile);
     }
@@ -486,26 +514,12 @@ const submitShortenedBarangayProfile = async (req, res) => {
         where: { userId: user.id },
     });
 
-    // await Action.create({
-    //     userId: user.id,
-    //     barangayId: user.barangayId,
-    //     action: "CreateNewDocument",
-    // });
-
-    // await ShortenedSubmission.create({
-    //     documentName: documentName,
-    //     yearSubmitted: yearSubmitted,
-    //     populationCount: populationCount,
-    //     userId: user.id,
-    //     barangayId: barangay.id,
-    //     barangayName: barangay.barangayName,
-    //     districtName: barangay.districtName,
-    //     submissionBarangayProfileUrl: shortenedBarangayProfileUrl,
-    // });
+    const totalWaste = (populationCount * 0.71).toFixed(2);
 
     await Submission.create({
         documentName: documentName,
         isShortened: true,
+        totalWaste: totalWaste,
         yearSubmitted: yearSubmitted,
         populationCount: populationCount,
         userId: user.id,
@@ -2487,6 +2501,19 @@ const getUpdatedBarangayProfileUrl = async (req, res) => {
     return res.json(updatedBarangayProfileUrl);
 };
 
+const getUpdatedBarangayProfileUrl2 = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const updatedBarangayProfileUrl = await Submission.findOne({
+        where: {
+            barangayId: barangayId,
+            yearSubmitted: yearSubmitted,
+        },
+    });
+
+    return res.json(updatedBarangayProfileUrl);
+};
+
 const getUpdatedUserBarangayProfileUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
@@ -2598,11 +2625,24 @@ router.get(
     validate,
     getAllUpdatedUserBarangayProfileYearSubmitted
 );
+router.post("/getAllSubmission", validateUser, validate, getAllSubmission);
+router.get(
+    "/getAllSubmissionUser",
+    validateUser,
+    validate,
+    getAllSubmissionUser
+);
 router.post(
     "/getUpdatedBarangayProfileUrl",
     validateUser,
     validate,
     getUpdatedBarangayProfileUrl
+);
+router.post(
+    "/getUpdatedBarangayProfileUrl2",
+    validateUser,
+    validate,
+    getUpdatedBarangayProfileUrl2
 );
 router.post(
     "/getUpdatedUserBarangayProfileUrl",

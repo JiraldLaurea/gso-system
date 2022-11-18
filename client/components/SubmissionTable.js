@@ -46,7 +46,7 @@ function SubmissionTable({ filteredSubmissions }) {
                                     className="flex items-center cursor-pointer group w-fit"
                                 >
                                     <p className="cursor-pointer w-fit">
-                                        Name of barangay
+                                        Barangay
                                     </p>
                                     <Icon
                                         className={`w-5 h-5 invisible group-hover:visible `}

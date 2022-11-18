@@ -22,6 +22,19 @@ const getRecyclableWastes = async (req, res) => {
     res.json(recyclableWastes);
 };
 
+const getRecyclableWastesUser = async (req, res) => {
+    const user = res.locals.user;
+
+    const recyclableWastes = await RecyclableWastes.findAll({
+        order: [["dateSubmitted", "ASC"]],
+        where: {
+            barangayId: user.barangayId,
+        },
+    });
+
+    res.json(recyclableWastes);
+};
+
 const getEncodedRecyclableWastes = async (req, res) => {
     const user = res.locals.user;
 
@@ -63,6 +76,18 @@ const getSubmittedRecyclableWastes = async (req, res) => {
 
     const recyclableWastes = await RecyclableWastes.findAll({
         where: { barangayId: barangayId },
+    });
+    return res.json(recyclableWastes);
+};
+
+const getSubmittedRecyclableWastesUser = async (req, res) => {
+    const { dateSubmitted } = req.body;
+    const user = res.locals.user;
+
+    console.log("DATE SUBMITTED", dateSubmitted);
+
+    const recyclableWastes = await RecyclableWastes.findAll({
+        where: { barangayId: user.barangayId, dateSubmitted: dateSubmitted },
     });
     return res.json(recyclableWastes);
 };
@@ -146,6 +171,12 @@ const createRecyclableWastes = async (req, res) => {
 
 router.post("/getRecyclableWastes", getRecyclableWastes);
 router.get(
+    "/getRecyclableWastesUser",
+    validateUser,
+    validate,
+    getRecyclableWastesUser
+);
+router.get(
     "/getEncodedRecyclableWastes",
     validateUser,
     validate,
@@ -162,6 +193,12 @@ router.post(
     validateUser,
     validate,
     getSubmittedRecyclableWastes
+);
+router.post(
+    "/getSubmittedRecyclableWastesUser",
+    validateUser,
+    validate,
+    getSubmittedRecyclableWastesUser
 );
 router.post(
     "/createRecyclableWastes",

@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import useSWR from "swr";
+import { Icon } from "@iconify/react";
 
 function ShortenedBarangayProfilePage3({
     values,
     totalPopulationCount,
     setTotalPopulationCount,
     handleChange,
+    handleChangeBoolean,
 }) {
     const { data, error, isValidating } = useSWR(
         "http://localhost:3001/user/me"
@@ -447,93 +449,165 @@ function ShortenedBarangayProfilePage3({
                 C. Governance Owned Facilities &#40;Pls. Check&#41;
             </p>
             <div>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities1"
                         value={values?.governanceOwnedFacilities1}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities1}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities1
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Barangay Hall/Multipurpose Center
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Barangay Hall/Multipurpose Center
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities2"
                         value={values?.governanceOwnedFacilities2}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities2}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities2
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Brgy. Tanod Outpost
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Brgy. Tanod Outpost
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities3"
                         value={values?.governanceOwnedFacilities3}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities3}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities3
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Barangay Public Market/Talipapa
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Barangay Public Market/Talipapa
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities4"
                         value={values?.governanceOwnedFacilities4}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities4}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities4
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Multipurpose Pavement
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Multipurpose Pavement
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities5"
                         value={values?.governanceOwnedFacilities5}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities5}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities5
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Barangay Library/Reading Center
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Barangay Library/Reading Center
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities6"
                         value={values?.governanceOwnedFacilities6}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities6}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities6
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Agricultural Equipment &#40;i,e., baby cano, etc.&#41;
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Agricultural Equipment &#40;i,e., baby cano, etc.&#41;
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities7"
                         value={values?.governanceOwnedFacilities7}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities7}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities7
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Agricultural Produce Collection and Buying Station
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Agricultural Produce Collection and Buying Station
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities8"
                         value={values?.governanceOwnedFacilities8}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities8}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities8
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Public Cemetery &#40;state ownership&#41;
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Public Cemetery &#40;state ownership&#41;
                     <input
                         name="governanceOwnedFacilities8StateOwnership"
                         value={values?.governanceOwnedFacilities8StateOwnership}
@@ -542,16 +616,25 @@ function ShortenedBarangayProfilePage3({
                         onChange={handleChange}
                     />
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities9"
                         value={values?.governanceOwnedFacilities9}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities9}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities9
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Private Ownership &#40;state ownership&#41;
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Private Ownership &#40;state ownership&#41;
                     <input
                         name="governanceOwnedFacilities9StateOwnership"
                         value={values?.governanceOwnedFacilities9StateOwnership}
@@ -560,38 +643,65 @@ function ShortenedBarangayProfilePage3({
                         onChange={handleChange}
                     />
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities10"
                         value={values?.governanceOwnedFacilities10}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities10}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities10
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Day Care Center
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Day Care Center
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities11"
                         value={values?.governanceOwnedFacilities11}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities11}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities11
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Covered Gym
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Covered Gym
                 </p>
-                <p>
-                    &#40;
+                <p className="flex items-center">
                     <input
                         name="governanceOwnedFacilities12"
                         value={values?.governanceOwnedFacilities12}
-                        type="text"
-                        className="w-4 text-center focus:outline-none"
-                        onChange={handleChange}
+                        checked={values?.governanceOwnedFacilities12}
+                        type="checkbox"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities12
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
+                        }`}
+                        onClick={handleChangeBoolean}
                     />
-                    &#41; Others, specify:
+                    <Icon
+                        onClick={handleChangeBoolean}
+                        icon="ic:baseline-check"
+                        className="relative pointer-events-none w-4 h-4 mr-[-12px] text-white select-none right-4"
+                    />
+                    Others, specify:
                     <input
                         name="governanceOwnedFacilities12Specify"
                         value={values?.governanceOwnedFacilities12Specify}

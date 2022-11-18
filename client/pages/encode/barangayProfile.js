@@ -42,13 +42,6 @@ function barangayProfile({ savedData }) {
                 setIsSaved(false);
             }
         });
-
-        // const documentData = await fetch(
-        //     "http://localhost:3001/submission/allBrgyProfilePages",
-        //     {
-        //         headers: { Cookie: context.req.headers.cookie },
-        //     }
-        // ).then((res) => res.json());
     };
 
     useEffect(() => {
@@ -159,10 +152,6 @@ function barangayProfile({ savedData }) {
                                                                 setIsDropdownMenuOpen(
                                                                     false
                                                                 );
-
-                                                                // setIsDropdownMenuOpen(
-                                                                //     !isDropdownMenuOpen
-                                                                // );
                                                             }}
                                                         >
                                                             <a
@@ -230,31 +219,3 @@ function barangayProfile({ savedData }) {
 }
 
 export default barangayProfile;
-
-// export const getServerSideProps = async (context) => {
-//     const me = await fetch("http://localhost:3001/user/me", {
-//         headers: { Cookie: context.req.headers.cookie },
-//     }).then((res) => res.json());
-
-//     if (me.isAdmin == false) {
-//         return {
-//             redirect: {
-//                 permanent: false,
-//                 destination: "/",
-//             },
-//         };
-//     }
-
-//     // const documentData = await fetch(
-//     //     "http://localhost:3001/submission/allBrgyProfilePages",
-//     //     {
-//     //         headers: { Cookie: context.req.headers.cookie },
-//     //     }
-//     // ).then((res) => res.json());
-
-//     // return {
-//     //     props: {
-//     //         savedData: documentData[0],
-//     //     },
-//     // };
-// };

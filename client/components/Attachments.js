@@ -756,7 +756,7 @@ function Attachments({
                     } }`}
                 >
                     <div className="flex items-center justify-between mb-2">
-                        <p className="text-lg font-medium ">Sketch</p>
+                        <p className="text-lg font-medium ">Route sketch</p>
                         {collectionSchedule && fileNameSketch && (
                             <Icon
                                 className="w-6 h-6 text-green-500"
@@ -766,7 +766,7 @@ function Attachments({
                     </div>
 
                     <p className="mb-1 text-sm text-gray-700 ">
-                        Collection schedule:
+                        Collection schedule
                     </p>
                     <input
                         value={collectionSchedule}
@@ -775,7 +775,7 @@ function Attachments({
                         type="text"
                         className="w-full px-2 py-1 mb-2 border focus:outline-none"
                     />
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefSketch}
                         onChange={(e) =>
@@ -801,7 +801,7 @@ function Attachments({
                             />
                         )}
                     </div>
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefPrograms}
                         onChange={(e) =>
@@ -829,7 +829,7 @@ function Attachments({
                             />
                         )}
                     </div>
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefFundingReq}
                         onChange={(e) =>
@@ -864,7 +864,7 @@ function Attachments({
                         )}
                     </div>
                     <p className="mb-1 text-sm text-gray-700">
-                        Date of creation:
+                        Date of creation
                     </p>
                     <input
                         value={dateOfCreation}
@@ -873,7 +873,7 @@ function Attachments({
                         type="text"
                         className="w-full px-2 py-1 mb-2 border focus:outline-none"
                     />
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefMoa}
                         onChange={(e) =>
@@ -902,7 +902,7 @@ function Attachments({
                         )}
                     </div>
                     <p className="mb-1 text-sm text-gray-700">
-                        Name of junkshop:
+                        Name of junkshop
                     </p>
                     <input
                         value={junkshopName}
@@ -911,7 +911,7 @@ function Attachments({
                         type="text"
                         className="w-full px-2 py-1 mb-2 border focus:outline-none"
                     />
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefJunkshop}
                         onChange={(e) =>
@@ -939,7 +939,7 @@ function Attachments({
                             />
                         )}
                     </div>
-                    <p className="mb-1 text-sm text-gray-700">Date issued:</p>
+                    <p className="mb-1 text-sm text-gray-700">Date issued</p>
                     <input
                         value={dateIssuedBusinessPermit}
                         placeholder="Date issued"
@@ -949,7 +949,7 @@ function Attachments({
                         type="text"
                         className="w-full px-2 py-1 mb-2 border focus:outline-none"
                     />
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefBusinessPermit}
                         onChange={(e) =>
@@ -981,7 +981,7 @@ function Attachments({
                             />
                         )}
                     </div>
-                    <p className="mb-1 text-sm text-gray-700">Date issued:</p>
+                    <p className="mb-1 text-sm text-gray-700">Date issued</p>
                     <input
                         value={dateIssuedExecutiveOrder}
                         placeholder="Date issued"
@@ -991,7 +991,7 @@ function Attachments({
                         type="text"
                         className="w-full px-2 py-1 mb-2 border focus:outline-none"
                     />
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefExecutiveOrder}
                         onChange={(e) =>
@@ -1025,7 +1025,7 @@ function Attachments({
                             />
                         )}
                     </div>
-                    <p className="mb-1 text-sm text-gray-700">Select file:</p>
+                    <p className="mb-1 text-sm text-gray-700">Select file</p>
                     <input
                         ref={inputFileRefBarangayOrdinance}
                         onChange={(e) =>

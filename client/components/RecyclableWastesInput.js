@@ -4,7 +4,7 @@ function RecyclableWastesInput({ category, state, setState, firstChild }) {
     return (
         <div>
             <p
-                className={`text-sm text-center py-1 bg-gray-50 text-gray-700 border border-b-0 border-l-0 ${
+                className={`text-xs font-bold uppercase select-none text-center py-1 bg-gray-50 text-gray-700 border border-b-0 border-l-0 ${
                     firstChild && "border-l-[1px]"
                 }`}
             >

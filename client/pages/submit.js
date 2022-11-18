@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import ClickAwayListener from "react-click-away-listener";
 import { useAuthDispatch } from "../context/auth";
+import { Icon } from "@iconify/react";
 
 function submit() {
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
@@ -72,8 +73,8 @@ function submit() {
     //     : console.log("Element is present at index " + result);
 
     return (
-        <div className="">
-            <div className="p-4 md:p-8">
+        <div className="flex-grow">
+            <div className={`p-4 md:p-8`}>
                 {encodedBarangayProfile ? (
                     <>
                         <p className="mb-1 text-sm text-gray-600">Select</p>
@@ -162,7 +163,9 @@ function submit() {
                         </div>
                     </>
                 ) : (
-                    <p>Your documents are not yet encoded by the GSO.</p>
+                    <p className="text-gray-600">
+                        Your documents are not yet encoded by the GSO.
+                    </p>
                 )}
             </div>
         </div>

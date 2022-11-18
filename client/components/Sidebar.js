@@ -29,7 +29,7 @@ function Sidebar() {
                             className="p-2 mr-[9px] rounded-full cursor-pointer active:bg-gray-700"
                         >
                             <Icon
-                                icon="mdi-light:menu"
+                                icon="ic:baseline-menu"
                                 className="w-6 h-6 text-white"
                             />
                         </div>
@@ -112,16 +112,6 @@ function Sidebar() {
                         />
                         <p>Statistics</p>
                     </div>
-                    {/* <div
-                        onClick={() => router.push("/project")}
-                        className="flex items-center py-3 pl-6 border-gray-300 select-none hover:cursor-pointer hover:bg-gray-700"
-                    >
-                        <Icon
-                            className="w-6 h-6 mr-4"
-                            icon="ant-design:project-filled"
-                        />
-                        <p>Project manager</p>
-                    </div> */}
 
                     {!loading ? (
                         <>
@@ -146,21 +136,6 @@ function Sidebar() {
                             <p>Loading...</p>
                         </div>
                     )}
-                    {/* 
-                    {user?.isAdmin && !loading && (
-                        <div
-                            onClick={() => {
-                                router.push("/admin/encodedSubmissions");
-                            }}
-                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
-                        >
-                            <Icon
-                                className="w-6 h-6 mr-4"
-                                icon="fluent:document-16-filled"
-                            />
-                            <p>Encoded submissions</p>
-                        </div>
-                    )} */}
 
                     {user?.isAdmin && !loading && (
                         <div
@@ -176,21 +151,6 @@ function Sidebar() {
                             <p>View SWM plan</p>
                         </div>
                     )}
-
-                    {/* {!user?.isAdmin && !loading && (
-                        <div
-                            onClick={() => {
-                                router.push("/user/encodedSubmissions");
-                            }}
-                            className={`flex select-none items-center py-3 pl-6 hover:cursor-pointer hover:bg-gray-700 `}
-                        >
-                            <Icon
-                                className="w-6 h-6 mr-4"
-                                icon="fluent:document-arrow-up-20-filled"
-                            />
-                            <p>Encoded submissions</p>
-                        </div>
-                    )} */}
 
                     {!user?.isAdmin && !loading && (
                         <div

@@ -9,6 +9,8 @@ import fileDownload from "js-file-download";
 import { useAuthDispatch } from "../../../context/auth";
 import ViewButton from "../../../components/ViewButton";
 import DownloadButton from "../../../components/DownloadButton";
+import SubmissionDetail from "../../../components/SubmissionDetail";
+import ImageWrapper from "../../../components/ImageWrapper";
 
 function junkshop() {
     const router = useRouter();
@@ -302,29 +304,19 @@ function junkshop() {
                             )}
                     </div>
                 </div>
-                <hr className="my-6" />
-                <div>
+                <div className="mt-4">
                     {junkshopUrl && (
                         <>
-                            <p className="mb-4">
-                                Name of junkshop:
-                                <span className="ml-1">{junkshopName}</span>
-                            </p>
-                            <p className="mb-2">Junkshop: </p>
+                            <SubmissionDetail
+                                detailTitle="Name of junkshop"
+                                detail={junkshopName}
+                                hasDetail
+                                firstChild
+                                hasNoTitle
+                            />
                             {documentImageExtensions.includes(
                                 documentExtension
-                            ) && (
-                                <div className="w-full max-w-lg bg-black border ">
-                                    <Image
-                                        src={junkshopUrl}
-                                        alt="route image"
-                                        width="100%"
-                                        height="100%"
-                                        layout="responsive"
-                                        objectFit="contain"
-                                    />
-                                </div>
-                            )}
+                            ) && <ImageWrapper url={junkshopUrl} />}
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"

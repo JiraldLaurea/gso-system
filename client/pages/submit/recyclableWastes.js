@@ -35,6 +35,10 @@ function recyclableWastes() {
         moment().format("yyyy-MM")
     );
 
+    const { data: recyclableWastes } = useSWR(
+        "http://localhost:3001/recyclableWastes/getEncodedRecyclableWastes"
+    );
+
     useEffect(() => {
         dispatch("HAS_BUTTON_TRUE");
         dispatch("CHANGE_TITLE", "Recyclable wastes");
@@ -62,6 +66,21 @@ function recyclableWastes() {
     };
 
     const submit = async () => {
+        const isEncoded = await Axios.post(
+            "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastesUser",
+            {
+                dateSubmitted: dateSubmitted,
+            }
+        ).then(async (res) => {
+            return res.data;
+        });
+
+        if (isEncoded.length > 0) {
+            return alert(
+                "The document is already submitted from your chosen month and year."
+            );
+        }
+
         setLoading(true);
 
         const data = {
@@ -83,149 +102,130 @@ function recyclableWastes() {
         };
 
         await Axios.post(
-            "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastes",
-            { dateSubmitted: dateSubmitted }
-        ).then(async (res) => {
-            const barangayIdArray = res.data.map((data) => {
-                return data.barangayId;
-            });
-
-            let arr = barangayIdArray;
-            let x = me.barangayId;
-            let n = barangayIdArray.length;
-            let result = binarySearch(arr, 0, n - 1, x);
-
-            if (result == -1) {
-                await Axios.post(
-                    "http://localhost:3001/recyclableWastes/createRecyclableWastes",
-                    data
-                ).then(() => {
-                    alert("Recyclable wastes report successfully submitted.");
-                    setLoading(false);
-                    setSaway(0);
-                    setLata(0);
-                    setPlastic(0);
-                    setMineral(0);
-                    setBotelya(0);
-                    setCarton(0);
-                    setAluminum(0);
-                    setSin(0);
-                    setScrap(0);
-                    setKaldero(0);
-                    setOthers(0);
-                });
-            } else {
-                alert(
-                    "You have already submitted a document from your chosen year."
-                );
-                setLoading(false);
-            }
+            "http://localhost:3001/recyclableWastes/createRecyclableWastes",
+            data
+        ).then(() => {
+            alert("Recyclable wastes report successfully submitted.");
+            setLoading(false);
         });
     };
 
     return (
         <div className="flex flex-col w-full">
             <div className="p-4 md:p-8">
-                <div className="mb-4">
-                    <p className="mb-1 text-sm text-gray-600">
-                        Date of submission:
+                {!recyclableWastes ? (
+                    <p className="text-gray-600">
+                        Your recyclable waste is not yet encoded by the GSO.
                     </p>
-                    <input
-                        type="month"
-                        id="fromDatePicker"
-                        value={dateSubmitted}
-                        onChange={(e) => setDateSubmitted(e.target.value)}
-                        className="px-2 py-1 mb-4 border"
-                    />
-                </div>
-
-                <div className="flex">
-                    <RecyclableWastesInput
-                        category="Saway:"
-                        state={saway}
-                        setState={(e) => setSaway(e.target.value)}
-                        firstChild
-                    />
-                    <RecyclableWastesInput
-                        category="Lata:"
-                        state={lata}
-                        setState={(e) => setLata(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Plastic:"
-                        state={plastic}
-                        setState={(e) => setPlastic(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Mineral:"
-                        state={mineral}
-                        setState={(e) => setMineral(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Botelya:"
-                        state={botelya}
-                        setState={(e) => setBotelya(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Carton:"
-                        state={carton}
-                        setState={(e) => setCarton(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Aluminum:"
-                        state={aluminum}
-                        setState={(e) => setAluminum(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Sin:"
-                        state={sin}
-                        setState={(e) => setSin(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Scrap:"
-                        state={scrap}
-                        setState={(e) => setScrap(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Kaldero:"
-                        state={kaldero}
-                        setState={(e) => setKaldero(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Others:"
-                        state={others}
-                        setState={(e) => setOthers(e.target.value)}
-                    />
-                </div>
-
-                <button
-                    onClick={() => {
-                        if (!loading) {
-                            submit();
-                        }
-                    }}
-                    className={`w-36 flex hover:bg-blue-600 transition-colors items-center justify-center px-3 py-2 mt-8 mb-4 text-white bg-blue-500 rounded-sm ${
-                        loading && "cursor-not-allowed"
-                    } `}
-                >
-                    {!loading ? (
-                        <>
-                            <Icon
-                                icon="fluent:document-arrow-up-20-filled"
-                                className="w-6 h-6 mr-2"
+                ) : (
+                    <>
+                        <div className="mb-4">
+                            <p className="mb-1 text-sm text-gray-600">
+                                Date of submission
+                            </p>
+                            <input
+                                type="month"
+                                id="fromDatePicker"
+                                value={dateSubmitted}
+                                onChange={(e) =>
+                                    setDateSubmitted(e.target.value)
+                                }
+                                className="px-2 py-1 mb-4 border"
                             />
-                            Encode
-                        </>
-                    ) : (
-                        <>
-                            <Icon
-                                icon="eos-icons:loading"
-                                className="w-6 h-6 mr-2"
+                        </div>
+
+                        <p className="mb-1 text-sm text-gray-600">
+                            Recyclable wastes &#40;kg&#41;
+                        </p>
+                        <div className="flex">
+                            <RecyclableWastesInput
+                                category="Saway"
+                                state={saway}
+                                setState={(e) => setSaway(e.target.value)}
+                                firstChild
                             />
-                            Processing...
-                        </>
-                    )}
-                </button>
+                            <RecyclableWastesInput
+                                category="Lata"
+                                state={lata}
+                                setState={(e) => setLata(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Plastic"
+                                state={plastic}
+                                setState={(e) => setPlastic(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Mineral"
+                                state={mineral}
+                                setState={(e) => setMineral(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Botelya"
+                                state={botelya}
+                                setState={(e) => setBotelya(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Carton"
+                                state={carton}
+                                setState={(e) => setCarton(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Aluminum"
+                                state={aluminum}
+                                setState={(e) => setAluminum(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Sin"
+                                state={sin}
+                                setState={(e) => setSin(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Scrap"
+                                state={scrap}
+                                setState={(e) => setScrap(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Kaldero"
+                                state={kaldero}
+                                setState={(e) => setKaldero(e.target.value)}
+                            />
+                            <RecyclableWastesInput
+                                category="Others"
+                                state={others}
+                                setState={(e) => setOthers(e.target.value)}
+                            />
+                        </div>
+
+                        <button
+                            onClick={() => {
+                                if (!loading) {
+                                    submit();
+                                }
+                            }}
+                            className={`w-36 flex hover:bg-blue-600 transition-colors items-center justify-center px-3 py-2 mt-8 mb-4 text-white bg-blue-500 rounded-sm ${
+                                loading && "cursor-not-allowed"
+                            } `}
+                        >
+                            {!loading ? (
+                                <>
+                                    <Icon
+                                        icon="fluent:document-arrow-up-20-filled"
+                                        className="w-6 h-6 mr-2"
+                                    />
+                                    Submit
+                                </>
+                            ) : (
+                                <>
+                                    <Icon
+                                        icon="eos-icons:loading"
+                                        className="w-6 h-6 mr-2"
+                                    />
+                                    Processing...
+                                </>
+                            )}
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );

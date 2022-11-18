@@ -9,6 +9,8 @@ import fileDownload from "js-file-download";
 import { useAuthDispatch } from "../../../context/auth";
 import ViewButton from "../../../components/ViewButton";
 import DownloadButton from "../../../components/DownloadButton";
+import ImageWrapper from "../../../components/ImageWrapper";
+import SubmissionDetail from "../../../components/SubmissionDetail";
 
 function businessPermit() {
     const router = useRouter();
@@ -182,29 +184,19 @@ function businessPermit() {
                         )}
                     </div>
                 </div>
-                <hr className="my-6" />
-                <div>
+                <div className="mt-4">
                     {businessPermitUrl && (
                         <>
-                            <p className="mb-4">
-                                Date issued:
-                                <span className="ml-1">{dateIssued}</span>
-                            </p>
-                            <p className="mb-2">Business permit: </p>
+                            <SubmissionDetail
+                                detailTitle="Date issued"
+                                detail={dateIssued}
+                                hasDetail
+                                firstChild
+                                hasNoTitle
+                            />
                             {documentImageExtensions.includes(
                                 documentExtension
-                            ) && (
-                                <div className="w-full max-w-lg bg-black border ">
-                                    <Image
-                                        src={businessPermitUrl}
-                                        alt="route image"
-                                        width="100%"
-                                        height="100%"
-                                        layout="responsive"
-                                        objectFit="contain"
-                                    />
-                                </div>
-                            )}
+                            ) && <ImageWrapper url={businessPermitUrl} />}
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"

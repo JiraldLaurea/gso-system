@@ -9,6 +9,8 @@ import fileDownload from "js-file-download";
 import { useAuthDispatch } from "../../../context/auth";
 import ViewButton from "../../../components/ViewButton";
 import DownloadButton from "../../../components/DownloadButton";
+import SubmissionDetail from "../../../components/SubmissionDetail";
+import ImageWrapper from "../../../components/ImageWrapper";
 
 function memorandumOfAgreement() {
     const router = useRouter();
@@ -183,29 +185,19 @@ function memorandumOfAgreement() {
                         )}
                     </div>
                 </div>
-                <hr className="my-6" />
-                <div>
+                <div className="mt-4">
                     {moaUrl && (
                         <>
-                            <p className="mb-4">
-                                Date of creation:
-                                <span className="ml-1">{dateOfCreation}</span>
-                            </p>
-                            <p className="mb-2">Memorandum of agreement: </p>
+                            <SubmissionDetail
+                                detailTitle="Date of creation"
+                                detail={dateOfCreation}
+                                hasDetail
+                                firstChild
+                                hasNoTitle
+                            />
                             {documentImageExtensions.includes(
                                 documentExtension
-                            ) && (
-                                <div className="w-full max-w-lg bg-black border ">
-                                    <Image
-                                        src={moaUrl}
-                                        alt="route image"
-                                        width="100%"
-                                        height="100%"
-                                        layout="responsive"
-                                        objectFit="contain"
-                                    />
-                                </div>
-                            )}
+                            ) && <ImageWrapper url={moaUrl} />}
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"

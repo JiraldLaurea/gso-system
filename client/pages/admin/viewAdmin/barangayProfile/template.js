@@ -384,6 +384,13 @@ function template({ pageData, actionData }) {
         }));
     };
 
+    const handleChangeBoolean = (e) => {
+        setValues((previousValues) => ({
+            ...previousValues,
+            [e.target.name]: e.target.checked,
+        }));
+    };
+
     const handleScroll = () => {
         const position = window.pageYOffset + 68;
         setScrollPosition(position);
@@ -1269,6 +1276,7 @@ function template({ pageData, actionData }) {
                             totalPopulationCount={totalPopulationCount}
                             setTotalPopulationCount={setTotalPopulationCount}
                             handleChange={handleChange}
+                            handleChangeBoolean={handleChangeBoolean}
                         />
                     </div>
                 </form>

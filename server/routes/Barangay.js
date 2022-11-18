@@ -56,6 +56,18 @@ const getAllBarangay = async (req, res) => {
     res.json(barangays);
 };
 
+const getAllBarangayUser = async (req, res) => {
+    const user = res.locals.user;
+
+    const barangays = await Barangay.findOne({
+        order: [["barangayName", "ASC"]],
+        where: {
+            id: user.barangayId,
+        },
+    });
+    res.json(barangays);
+};
+
 const getAllBarangays = async (req, res) => {
     const barangays = await Barangay.findAll({
         order: [["barangayName", "ASC"]],
@@ -192,6 +204,7 @@ const postSelectedBarangayWithYearSubmitted = async (req, res) => {
 };
 
 router.get("/getAllBarangay", validateUser, validate, getAllBarangay);
+router.get("/getAllBarangayUser", validateUser, validate, getAllBarangayUser);
 router.get("/getAllBarangays", validateUser, validate, getAllBarangays);
 router.get("/getBarangayWastes", validateUser, validate, getBarangayWastes);
 router.get(

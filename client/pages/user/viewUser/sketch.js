@@ -9,6 +9,8 @@ import fileDownload from "js-file-download";
 import { useAuthDispatch } from "../../../context/auth";
 import ViewButton from "../../../components/ViewButton";
 import DownloadButton from "../../../components/DownloadButton";
+import SubmissionDetail from "../../../components/SubmissionDetail";
+import ImageWrapper from "../../../components/ImageWrapper";
 
 function sketch() {
     const router = useRouter();
@@ -183,32 +185,20 @@ function sketch() {
                         )}
                     </div>
                 </div>
-                <hr className="my-6" />
-                <div>
+                <div className="mt-4">
                     {sketchUrl && (
                         <>
-                            <p className="mb-4">
-                                Collection schedule:
-                                <span className="ml-1">
-                                    {collectionSchedule}
-                                </span>
-                            </p>
+                            <SubmissionDetail
+                                detailTitle="Collection schedule"
+                                detail={collectionSchedule}
+                                hasDetail
+                                firstChild
+                                hasNoTitle
+                            />
 
-                            <p className="mb-2">Route sketch:</p>
                             {documentImageExtensions.includes(
                                 documentExtension
-                            ) && (
-                                <div className="w-full max-w-lg bg-black border ">
-                                    <Image
-                                        src={sketchUrl}
-                                        alt="route image"
-                                        width="100%"
-                                        height="100%"
-                                        layout="responsive"
-                                        objectFit="contain"
-                                    />
-                                </div>
-                            )}
+                            ) && <ImageWrapper url={sketchUrl} />}
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"

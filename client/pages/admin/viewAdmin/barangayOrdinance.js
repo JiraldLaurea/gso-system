@@ -9,6 +9,7 @@ import fileDownload from "js-file-download";
 import { useAuthDispatch } from "../../../context/auth";
 import DownloadButton from "../../../components/DownloadButton";
 import ViewButton from "../../../components/ViewButton";
+import ImageWrapper from "../../../components/ImageWrapper";
 
 function barangayOrdinance() {
     const router = useRouter();
@@ -312,25 +313,12 @@ function barangayOrdinance() {
                             )}
                     </div>
                 </div>
-                <hr className="my-6" />
-                <div>
+                <div className="mt-4">
                     {barangayOrdinanceUrl && (
                         <>
-                            <p className="mb-2">Barangay ordinance: </p>
                             {documentImageExtensions.includes(
                                 documentExtension
-                            ) && (
-                                <div className="w-full max-w-lg bg-black border ">
-                                    <Image
-                                        src={barangayOrdinanceUrl}
-                                        alt="route image"
-                                        width="100%"
-                                        height="100%"
-                                        layout="responsive"
-                                        objectFit="contain"
-                                    />
-                                </div>
-                            )}
+                            ) && <ImageWrapper url={barangayOrdinanceUrl} />}
                             {documentExtension == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
