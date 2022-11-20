@@ -84,8 +84,6 @@ const getSubmittedRecyclableWastesUser = async (req, res) => {
     const { dateSubmitted } = req.body;
     const user = res.locals.user;
 
-    console.log("DATE SUBMITTED", dateSubmitted);
-
     const recyclableWastes = await RecyclableWastes.findAll({
         where: { barangayId: user.barangayId, dateSubmitted: dateSubmitted },
     });

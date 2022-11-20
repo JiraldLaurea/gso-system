@@ -3394,8 +3394,10 @@ function templateEncoded({
                     <button
                         disabled={isLoading}
                         onClick={createPDF}
-                        className={`w-full flex items-center justify-center px-3 mb-4 py-2 text-white bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 transition-colors ${
-                            isLoading && "cursor-not-allowed hover:bg-blue-500"
+                        className={`w-full flex items-center justify-center px-3 py-2 text-white bg-blue-500 rounded-sm transition-colors ${
+                            isLoading
+                                ? "cursor-not-allowed hover:bg-blue-500"
+                                : "hover:bg-blue-600"
                         }`}
                     >
                         {!isLoading ? (

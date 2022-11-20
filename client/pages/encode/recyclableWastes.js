@@ -216,7 +216,7 @@ function recyclableWastes() {
                     </ClickAwayListener>
                 </div>
 
-                <div className="mb-8">
+                <div className="mb-4">
                     <p className="mb-1 text-sm text-gray-600">
                         Date of submission
                     </p>

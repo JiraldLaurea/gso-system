@@ -33,8 +33,6 @@ const createAnnouncement = async (req, res) => {
 
     const user = res.locals.user;
 
-    // console.log(user);
-
     const announcement = await Announcement.create({
         announcementText: text,
         announcementImageUrl: imageUrl,

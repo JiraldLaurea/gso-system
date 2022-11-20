@@ -29,6 +29,7 @@ const businessPermitRouter = require("./routes/BusinessPermit");
 const barangayOrdinanceRouter = require("./routes/BarangayOrdinance");
 const concernRouter = require("./routes/Concern");
 const recyclableWastesRouter = require("./routes/RecyclableWastes");
+const actualWastesRouter = require("./routes/ActualWastes");
 const projectRouter = require("./routes/Project");
 
 const app = express();
@@ -96,6 +97,7 @@ app.use("/executiveOrder", executiveOrderRouter);
 app.use("/businessPermit", businessPermitRouter);
 app.use("/barangayOrdinance", barangayOrdinanceRouter);
 app.use("/recyclableWastes", recyclableWastesRouter);
+app.use("/actualWastes", actualWastesRouter);
 app.use("/project", projectRouter);
 
 db.sequelize.sync().then(() => {

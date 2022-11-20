@@ -88,7 +88,7 @@ function viewUser() {
                         requirement={updatedJunkshop?.length != 0}
                         path="/user/viewUser/junkshop"
                         requirementName="Junkshop"
-                        iconStyle="dashicons:trash"
+                        iconStyle="mdi:dump-truck"
                     />
                     <RequirementsButton
                         requirement={updatedBusinessPermit?.length != 0}

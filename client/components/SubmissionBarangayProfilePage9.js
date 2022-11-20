@@ -159,11 +159,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities1}
                         checked={values?.governanceOwnedFacilities1}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities1 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities1
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -178,11 +179,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities2}
                         checked={values?.governanceOwnedFacilities2}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities2 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities2
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -197,11 +199,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities3}
                         checked={values?.governanceOwnedFacilities3}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities3 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities3
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -216,11 +219,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities4}
                         checked={values?.governanceOwnedFacilities4}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities4 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities4
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -235,11 +239,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities5}
                         checked={values?.governanceOwnedFacilities5}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities5 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities5
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -254,11 +259,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities6}
                         checked={values?.governanceOwnedFacilities6}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities6 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities6
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -273,11 +279,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities7}
                         checked={values?.governanceOwnedFacilities7}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities7 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities7
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -292,11 +299,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities8}
                         checked={values?.governanceOwnedFacilities8}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities8 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities8
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -318,11 +326,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities9}
                         checked={values?.governanceOwnedFacilities9}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities9 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities9
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -344,11 +353,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities10}
                         checked={values?.governanceOwnedFacilities10}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities10 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities10
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -363,11 +373,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities11}
                         checked={values?.governanceOwnedFacilities11}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities11 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities11
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -382,11 +393,12 @@ function SubmissionBarangayProfilePage9({
                         value={values?.governanceOwnedFacilities12}
                         checked={values?.governanceOwnedFacilities12}
                         type="checkbox"
-                        className={`w-4 h-4 border-2 border-gray-400 rounded-sm appearance-none focus:outline-none ${
-                            values?.governanceOwnedFacilities12 &&
-                            "border-blue-500 bg-blue-500"
+                        className={`w-4 h-4 border-2 rounded-sm appearance-none focus:outline-none ${
+                            values?.governanceOwnedFacilities12
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}

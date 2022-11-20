@@ -162,6 +162,23 @@ function encode() {
                                                     Recyclable wastes
                                                 </a>
                                             </li>
+                                            <li
+                                                onClick={() => {
+                                                    router.push(
+                                                        "/encode/actualWastes"
+                                                    );
+                                                    setIsDropdownMenuOpen(
+                                                        false
+                                                    );
+                                                }}
+                                            >
+                                                <a
+                                                    href="#"
+                                                    className="block px-3 py-2 hover:bg-gray-100"
+                                                >
+                                                    Actual wastes
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 )}

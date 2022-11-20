@@ -33,8 +33,6 @@ const createConcern = async (req, res) => {
 
     const user = res.locals.user;
 
-    // console.log(user);
-
     const concern = await Concern.create({
         concernText: text,
         concernImageUrl: imageUrl,

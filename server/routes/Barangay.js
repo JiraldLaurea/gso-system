@@ -86,8 +86,6 @@ const getBarangayWastes = async (req, res) => {
 const updateBarangayTotalPopulationEncoded = async (req, res) => {
     const { barangayId, populationCount } = req.body;
 
-    // console.log(populationCount);
-
     await Barangay.update(
         { populationCount: populationCount },
         { where: { id: barangayId } }

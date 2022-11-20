@@ -157,22 +157,6 @@ function BarangayTable({
                                         />
                                     </div>
                                 </th>
-                                <th className="px-6">
-                                    <div
-                                        onClick={() => sort("userId")}
-                                        className="flex items-center cursor-pointer group w-fit"
-                                    >
-                                        <p className="w-fit">User ID</p>
-                                        <Icon
-                                            className={`w-5 h-5 invisible group-hover:visible `}
-                                            icon={`${
-                                                boolean == true
-                                                    ? "eva:arrow-ios-downward-fill"
-                                                    : "eva:arrow-ios-upward-fill"
-                                            }`}
-                                        />
-                                    </div>
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -190,11 +174,6 @@ function BarangayTable({
                                         </td>
                                         <td className="px-6">
                                             {barangay.districtName}
-                                        </td>
-                                        <td className="px-6">
-                                            {barangay.userId != null
-                                                ? [barangay.userId]
-                                                : "-"}
                                         </td>
                                     </tr>
                                 );

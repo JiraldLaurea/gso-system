@@ -460,7 +460,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -480,7 +480,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -500,7 +500,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -520,7 +520,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -540,7 +540,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -560,7 +560,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -580,7 +580,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -600,7 +600,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -627,7 +627,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -654,7 +654,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -674,7 +674,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}
@@ -694,7 +694,7 @@ function ShortenedBarangayProfilePage3({
                                 ? "border-blue-500 bg-blue-500"
                                 : "border-gray-400"
                         }`}
-                        onClick={handleChangeBoolean}
+                        onChange={handleChangeBoolean}
                     />
                     <Icon
                         onClick={handleChangeBoolean}

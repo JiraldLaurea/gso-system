@@ -9,6 +9,7 @@ const { ShortenedBarangayProfile } = require("../models");
 const { Action } = require("../models");
 const { TypeOfDocument } = require("../models");
 const { ShortenedSubmission } = require("../models");
+const { ActualWastes } = require("../models");
 const { Submission } = require("../models");
 
 const Op = Sequelize.Op;
@@ -203,8 +204,6 @@ const getShortenedBarangayProfile = async (req, res) => {
                 },
             }
         );
-
-        console.log(shortenedBarangayProfile);
 
         return res.json(shortenedBarangayProfile);
     }
@@ -2440,13 +2439,55 @@ const getAllEncodedAndUpdatedBarangayProfile = async (req, res) => {
 const getAllUpdatedBarangayProfileYearSubmitted = async (req, res) => {
     const { barangayId } = req.body;
 
-    const yearSubmittted = await Submission.findAll({
+    const yearSubmitted = await Submission.findAll({
         attributes: ["yearSubmitted"],
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
 
-    return res.json(yearSubmittted);
+    return res.json(yearSubmitted);
+};
+
+const getAllSubmissionYearSubmitted = async (req, res) => {
+    const { barangayId } = req.body;
+
+    const actualWasteYearSubmitted = await ActualWastes.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    const yearSubmitted = await Submission.findAll({
+        attributes: ["yearSubmitted"],
+        where: { barangayId: barangayId },
+        order: [["yearSubmitted", "ASC"]],
+    });
+
+    const yearSubmittedArray = yearSubmitted.map((data) => {
+        return data.yearSubmitted;
+    });
+    const actualWasteYearSubmittedArray = actualWasteYearSubmitted.map(
+        (data) => {
+            return data.yearSubmitted;
+        }
+    );
+
+    const filteredYearSubmitted = yearSubmittedArray.filter(
+        (el) => !actualWasteYearSubmittedArray.includes(el)
+    );
+
+    return res.json({ filteredYearSubmitted });
+};
+
+const getPopulationCount = async (req, res) => {
+    const { barangayId, yearSubmitted } = req.body;
+
+    const populationCount = await Submission.findOne({
+        attributes: ["populationCount"],
+        where: { barangayId: barangayId, yearSubmitted: yearSubmitted },
+    });
+
+    return res.json(populationCount);
 };
 
 const getSubmissionWithYearSubmitted = async (req, res) => {
@@ -2590,6 +2631,12 @@ router.post(
     getSubmittedBarangayProfilePageYear
 );
 router.post(
+    "/getAllSubmissionYearSubmitted",
+    validateUser,
+    validate,
+    getAllSubmissionYearSubmitted
+);
+router.post(
     "/getShortenedBarangayProfileUrl",
     validateUser,
     validate,
@@ -2644,6 +2691,7 @@ router.post(
     validate,
     getUpdatedBarangayProfileUrl2
 );
+router.post("/getPopulationCount", validateUser, validate, getPopulationCount);
 router.post(
     "/getUpdatedUserBarangayProfileUrl",
     validateUser,

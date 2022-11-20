@@ -30,8 +30,6 @@ const createProject = async (req, res) => {
 
     const user = res.locals.user;
 
-    // console.log(user);
-
     const project = await Project.create({
         barangayName: barangayName,
         actionPlan: actionPlan,

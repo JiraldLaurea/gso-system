@@ -49,7 +49,7 @@ function adminView() {
                         path="/admin/viewAdmin/junkshop"
                         requirementName="Junkshop"
                         isAdmin
-                        iconStyle="dashicons:trash"
+                        iconStyle="mdi:dump-truck"
                     />
                     <RequirementsButton
                         path="/admin/viewAdmin/businessPermit"

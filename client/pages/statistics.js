@@ -1,11 +1,12 @@
 import Axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import numeral from "numeral";
 import ClickAwayListener from "react-click-away-listener";
 import moment from "moment";
 import { useAuthDispatch } from "../context/auth";
 import { Icon } from "@iconify/react";
+import ProjectedWastes from "../components/ProjectedWastes";
 
 function statistics() {
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
@@ -18,6 +19,8 @@ function statistics() {
     const [toDatePicker, setToDatePicker] = useState("");
     const [submissions, setSubmissions] = useState([]);
     const [recyclableWastes, setRecyclableWastes] = useState([]);
+    const [actualWastes, setActualWastes] = useState([]);
+
     const dispatch = useAuthDispatch();
 
     const { data: user } = useSWR("http://localhost:3001/user/me");
@@ -47,7 +50,6 @@ function statistics() {
             "http://localhost:3001/shortenedSubmission/getAllSubmission",
             data
         ).then((res) => {
-            console.log("SUBMISSIONS", submissions);
             setSubmissions(res.data);
         });
     };
@@ -64,14 +66,21 @@ function statistics() {
         });
     };
 
-    useEffect(() => {
-        if (dropDownMenuValue != null) {
-            displaySubmissions();
-        }
-    }, [dropDownMenuValue]);
+    const displayActualWastes = async () => {
+        const data = {
+            barangayId: dropDownMenuValue,
+        };
+        await Axios.post(
+            "http://localhost:3001/actualWastes/getActualWastes",
+            data
+        ).then((res) => {
+            setActualWastes(res.data);
+        });
+    };
 
     useEffect(() => {
         if (dropDownMenuValue != null) {
+            displaySubmissions();
             displayRecyclableWastes();
         }
     }, [dropDownMenuValue]);
@@ -187,7 +196,31 @@ function statistics() {
                         !user?.isAdmin && "mt-0"
                     }`}
                 >
-                    <p className="mr-4 font-semibold">Wastes Report</p>
+                    <p className="mr-4 text-lg font-semibold">
+                        Projected Wastes Report
+                    </p>
+                </div>
+                {user?.isAdmin && (
+                    <>
+                        {dropdownMenuValueBarangay != "Barangay" ? (
+                            <ProjectedWastes
+                                dropDownMenuValue={dropDownMenuValue}
+                            />
+                        ) : (
+                            <p className="text-gray-500">
+                                No barangay selected.
+                            </p>
+                        )}
+                    </>
+                )}
+                {!user?.isAdmin && <ProjectedWastes />}
+
+                <div
+                    className={`flex items-center mt-4 mb-4 ${
+                        !user?.isAdmin && "mt-0"
+                    }`}
+                >
+                    <p className="mr-4 text-lg font-semibold">Wastes Report</p>
                 </div>
 
                 {user?.isAdmin && (
@@ -207,7 +240,7 @@ function statistics() {
                                             </th>
                                             <th className="px-6 ">
                                                 <p className="text-right">
-                                                    Waste generated
+                                                    Estimated waste generated
                                                 </p>
                                             </th>
                                         </tr>
@@ -321,7 +354,7 @@ function statistics() {
                 )}
 
                 <div className="flex items-center mt-6 mb-4">
-                    <p className="mr-4 font-semibold">
+                    <p className="mr-4 text-lg font-semibold">
                         Recyclable Wastes Report
                     </p>
                 </div>
@@ -920,13 +953,15 @@ function statistics() {
                 )}
 
                 <div className="flex items-center mt-6 mb-4">
-                    <p className="mr-4 font-semibold">Submissions checklist</p>
+                    <p className="mr-4 text-lg font-semibold">
+                        Submissions checklist
+                    </p>
                 </div>
 
                 {user?.isAdmin && (
                     <>
                         {dropdownMenuValueBarangay != "Barangay" ? (
-                            <div className="overflow-auto border max-h-[500px]">
+                            <div className="overflow-auto border border-b-0 max-h-[500px]">
                                 <table className="w-full text-sm text-left">
                                     <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
                                         <tr className="removeBorderStyle">
@@ -1128,7 +1163,7 @@ function statistics() {
 
                 {!user?.isAdmin && submissionsUser && (
                     <>
-                        <div className="overflow-auto border max-h-[500px]">
+                        <div className="overflow-auto border  max-h-[500px]">
                             <table className="w-full text-sm text-left">
                                 <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
                                     <tr className="removeBorderStyle">
@@ -1180,7 +1215,10 @@ function statistics() {
                                 <tbody>
                                     {submissionsUser?.map((submission) => {
                                         return (
-                                            <tr className="border-b removeBorderStyle h-11">
+                                            <tr
+                                                key={submission.id}
+                                                className="border-b last:border-b-0 removeBorderStyle h-11"
+                                            >
                                                 <td className="px-6">
                                                     {submission.yearSubmitted}
                                                 </td>

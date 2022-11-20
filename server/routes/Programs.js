@@ -15,14 +15,8 @@ libre.convertAsync = require("util").promisify(libre.convert);
 const convertToPDF = async (req, res) => {
     const ext = ".pdf";
     const file = req.files.file;
-    // const { documentName } = req.body;
-    // console.log(documentName);
     const user = res.locals.user;
     const fileExtension = path.extname(req.files.file.name);
-
-    // console.log(fileExtension);
-
-    // console.log(file);
 
     // if (req.files === null) {
     //     return res.status(400).json({ msg: "No file uploaded" });

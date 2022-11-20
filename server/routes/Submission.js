@@ -102,7 +102,6 @@ const logout = (req, res) => {
 
 const getSubmissions = async (req, res) => {
     const user = res.locals.user;
-    // console.log("USER ------>HEHE", user.id);
 
     const submissions = await Submission.findAll({
         where: {
