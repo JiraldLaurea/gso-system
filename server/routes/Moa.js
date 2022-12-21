@@ -67,7 +67,7 @@ const getAllUpdatedMoa = async (req, res) => {
 const getUpdatedMoa = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const moa = await MemorandumOfAgreement.findOne({
+    const moa = await MemorandumOfAgreement.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -83,6 +83,7 @@ const getAllUpdatedMoaYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await MemorandumOfAgreement.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -95,6 +96,7 @@ const getAllUpdatedUserMoaYearSubmitted = async (req, res) => {
 
     const moa = await MemorandumOfAgreement.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -106,7 +108,7 @@ const getUpdatedUserMoaUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const moa = await MemorandumOfAgreement.findOne({
+    const moa = await MemorandumOfAgreement.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,

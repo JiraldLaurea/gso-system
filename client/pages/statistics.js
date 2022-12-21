@@ -19,7 +19,6 @@ function statistics() {
     const [toDatePicker, setToDatePicker] = useState("");
     const [submissions, setSubmissions] = useState([]);
     const [recyclableWastes, setRecyclableWastes] = useState([]);
-    const [actualWastes, setActualWastes] = useState([]);
 
     const dispatch = useAuthDispatch();
 
@@ -87,7 +86,7 @@ function statistics() {
 
     return (
         <div className="">
-            <div className="p-8">
+            <div className="p-4 md:p-8">
                 {user?.isAdmin && (
                     <>
                         <p className="mb-1 text-sm text-gray-600">Barangay</p>
@@ -226,7 +225,79 @@ function statistics() {
                 {user?.isAdmin && (
                     <>
                         {dropdownMenuValueBarangay != "Barangay" ? (
-                            <div className="overflow-auto border max-h-[500px]">
+                            <div className="overflow-x-auto border max-h-[500px]">
+                                <div className="w-full">
+                                    <table className="w-full text-sm text-left">
+                                        <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
+                                            <tr className="removeBorderStyle">
+                                                <th className="px-6">
+                                                    <p>Year submitted</p>
+                                                </th>
+                                                <th className="px-6 ">
+                                                    <p className="text-right">
+                                                        Population count
+                                                    </p>
+                                                </th>
+                                                <th className="flex items-center justify-end px-6 h-11">
+                                                    <p className="w-32 text-right">
+                                                        Estimated waste
+                                                        generated
+                                                    </p>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {submissions?.map(
+                                                (submission, index) => {
+                                                    const wasteGenerated =
+                                                        (
+                                                            submission.populationCount *
+                                                            0.68
+                                                        ).toFixed(2) + "kg";
+
+                                                    return (
+                                                        <tr
+                                                            key={submission.id}
+                                                            className="border-b removeBorderStyle h-11 last:border-b-0"
+                                                        >
+                                                            <td className="px-6">
+                                                                {
+                                                                    submission.yearSubmitted
+                                                                }
+                                                            </td>
+                                                            <td className="px-6 text-right">
+                                                                {numeral(
+                                                                    submission.populationCount
+                                                                ).format("0,0")}
+                                                            </td>
+                                                            <td className="px-6 text-right">
+                                                                {numeral(
+                                                                    wasteGenerated
+                                                                ).format(
+                                                                    "0,0.00"
+                                                                )}{" "}
+                                                                kg
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                }
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        ) : (
+                            <p className="text-gray-500">
+                                No barangay selected.
+                            </p>
+                        )}
+                    </>
+                )}
+
+                {!user?.isAdmin && submissionsUser && (
+                    <>
+                        <div className="overflow-x-auto border max-h-[500px]">
+                            <div className="w-full">
                                 <table className="w-full text-sm text-left">
                                     <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
                                         <tr className="removeBorderStyle">
@@ -240,13 +311,13 @@ function statistics() {
                                             </th>
                                             <th className="px-6 ">
                                                 <p className="text-right">
-                                                    Estimated waste generated
+                                                    Waste generated
                                                 </p>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {submissions?.map(
+                                        {submissionsUser?.map(
                                             (submission, index) => {
                                                 const wasteGenerated =
                                                     (
@@ -284,71 +355,6 @@ function statistics() {
                                     </tbody>
                                 </table>
                             </div>
-                        ) : (
-                            <p className="text-gray-500">
-                                No barangay selected.
-                            </p>
-                        )}
-                    </>
-                )}
-
-                {!user?.isAdmin && submissionsUser && (
-                    <>
-                        <div className="overflow-auto border max-h-[500px]">
-                            <table className="w-full text-sm text-left">
-                                <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
-                                    <tr className="removeBorderStyle">
-                                        <th className="px-6">
-                                            <p>Year submitted</p>
-                                        </th>
-                                        <th className="px-6 ">
-                                            <p className="text-right">
-                                                Population count
-                                            </p>
-                                        </th>
-                                        <th className="px-6 ">
-                                            <p className="text-right">
-                                                Waste generated
-                                            </p>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {submissionsUser?.map(
-                                        (submission, index) => {
-                                            const wasteGenerated =
-                                                (
-                                                    submission.populationCount *
-                                                    0.68
-                                                ).toFixed(2) + "kg";
-
-                                            return (
-                                                <tr
-                                                    key={submission.id}
-                                                    className="border-b removeBorderStyle h-11 last:border-b-0"
-                                                >
-                                                    <td className="px-6">
-                                                        {
-                                                            submission.yearSubmitted
-                                                        }
-                                                    </td>
-                                                    <td className="px-6 text-right">
-                                                        {numeral(
-                                                            submission.populationCount
-                                                        ).format("0,0")}
-                                                    </td>
-                                                    <td className="px-6 text-right">
-                                                        {numeral(
-                                                            wasteGenerated
-                                                        ).format("0,0.00")}{" "}
-                                                        kg
-                                                    </td>
-                                                </tr>
-                                            );
-                                        }
-                                    )}
-                                </tbody>
-                            </table>
                         </div>
                     </>
                 )}
@@ -961,8 +967,217 @@ function statistics() {
                 {user?.isAdmin && (
                     <>
                         {dropdownMenuValueBarangay != "Barangay" ? (
-                            <div className="overflow-auto border border-b-0 max-h-[500px]">
-                                <table className="w-full text-sm text-left">
+                            <div className="overflow-auto border max-h-[500px]">
+                                <div className="w-0">
+                                    <table className="w-screen text-sm text-left">
+                                        <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
+                                            <tr className="removeBorderStyle">
+                                                <th className="px-6 ">
+                                                    <p>Year submitted</p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Barangay profile
+                                                    </p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Sketch
+                                                    </p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Programs Document
+                                                    </p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Funding Requirement
+                                                    </p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Moa
+                                                    </p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Junkshop in the barangay
+                                                    </p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Business permit
+                                                    </p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">Eo</p>
+                                                </th>
+                                                <th className="px-6">
+                                                    <p className=" w-fit">
+                                                        Barangay ordinance
+                                                    </p>
+                                                </th>
+                                                {/* <th className="px-6 text-right">Action</th> */}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {submissions?.map(
+                                                (submission, index) => {
+                                                    const wasteGenerated =
+                                                        (
+                                                            submission.populationCount *
+                                                            0.68
+                                                        ).toFixed(2) + "kg";
+
+                                                    return (
+                                                        <tr
+                                                            key={submission.id}
+                                                            className="border-b removeBorderStyle h-11"
+                                                        >
+                                                            <td className="px-6">
+                                                                {
+                                                                    submission.yearSubmitted
+                                                                }
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.barangayProfile ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.sketch ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.programsDoc ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.fundingReq ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.moa ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.junkshopInBarangay ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.businessPermit ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.executiveOrder ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6">
+                                                                {submission.barangayOrdinance ? (
+                                                                    <Icon
+                                                                        icon="ic:baseline-check"
+                                                                        className="w-5 h-5 text-green-600"
+                                                                    />
+                                                                ) : (
+                                                                    <Icon
+                                                                        icon="ic:baseline-close"
+                                                                        className="w-5 h-5 text-red-600"
+                                                                    />
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                }
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        ) : (
+                            <p className="text-gray-500">
+                                No barangay selected.
+                            </p>
+                        )}
+                    </>
+                )}
+
+                {!user?.isAdmin && submissionsUser && (
+                    <>
+                        <div className="overflow-auto border max-h-[500px]">
+                            <div className="w-0">
+                                <table className="w-screen text-sm text-left">
                                     <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
                                         <tr className="removeBorderStyle">
                                             <th className="px-6 ">
@@ -1011,339 +1226,140 @@ function statistics() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {submissions?.map(
-                                            (submission, index) => {
-                                                const wasteGenerated =
-                                                    (
-                                                        submission.populationCount *
-                                                        0.68
-                                                    ).toFixed(2) + "kg";
-
-                                                return (
-                                                    <tr
-                                                        key={submission.id}
-                                                        className="border-b removeBorderStyle h-11"
-                                                    >
-                                                        <td className="px-6">
-                                                            {
-                                                                submission.yearSubmitted
-                                                            }
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.barangayProfile ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.sketch ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.programsDoc ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.fundingReq ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.moa ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.junkshopInBarangay ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.businessPermit ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.executiveOrder ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6">
-                                                            {submission.barangayOrdinance ? (
-                                                                <Icon
-                                                                    icon="ic:baseline-check"
-                                                                    className="w-5 h-5 text-green-600"
-                                                                />
-                                                            ) : (
-                                                                <Icon
-                                                                    icon="ic:baseline-close"
-                                                                    className="w-5 h-5 text-red-600"
-                                                                />
-                                                            )}
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            }
-                                        )}
+                                        {submissionsUser?.map((submission) => {
+                                            return (
+                                                <tr
+                                                    key={submission.id}
+                                                    className="border-b last:border-b-0 removeBorderStyle h-11"
+                                                >
+                                                    <td className="px-6">
+                                                        {
+                                                            submission.yearSubmitted
+                                                        }
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.barangayProfile ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ant-design:minus-circle-filled"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.sketch ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.programsDoc ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.fundingReq ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.moa ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.junkshopInBarangay ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.businessPermit ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.executiveOrder ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6">
+                                                        {submission.barangayOrdinance ? (
+                                                            <Icon
+                                                                icon="ic:baseline-check"
+                                                                className="w-5 h-5 text-green-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                icon="ic:baseline-close"
+                                                                className="w-5 h-5 text-red-600"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
-                        ) : (
-                            <p className="text-gray-500">
-                                No barangay selected.
-                            </p>
-                        )}
-                    </>
-                )}
-
-                {!user?.isAdmin && submissionsUser && (
-                    <>
-                        <div className="overflow-auto border  max-h-[500px]">
-                            <table className="w-full text-sm text-left">
-                                <thead className="sticky top-0 text-xs text-gray-700 uppercase border-b h-11 bg-gray-50">
-                                    <tr className="removeBorderStyle">
-                                        <th className="px-6 ">
-                                            <p>Year submitted</p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">
-                                                Barangay profile
-                                            </p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">Sketch</p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">
-                                                Programs Document
-                                            </p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">
-                                                Funding Requirement
-                                            </p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">Moa</p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">
-                                                Junkshop in the barangay
-                                            </p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">
-                                                Business permit
-                                            </p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">Eo</p>
-                                        </th>
-                                        <th className="px-6">
-                                            <p className=" w-fit">
-                                                Barangay ordinance
-                                            </p>
-                                        </th>
-                                        {/* <th className="px-6 text-right">Action</th> */}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {submissionsUser?.map((submission) => {
-                                        return (
-                                            <tr
-                                                key={submission.id}
-                                                className="border-b last:border-b-0 removeBorderStyle h-11"
-                                            >
-                                                <td className="px-6">
-                                                    {submission.yearSubmitted}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.barangayProfile ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ant-design:minus-circle-filled"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.sketch ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.programsDoc ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.fundingReq ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.moa ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.junkshopInBarangay ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.businessPermit ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.executiveOrder ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className="px-6">
-                                                    {submission.barangayOrdinance ? (
-                                                        <Icon
-                                                            icon="ic:baseline-check"
-                                                            className="w-5 h-5 text-green-600"
-                                                        />
-                                                    ) : (
-                                                        <Icon
-                                                            icon="ic:baseline-close"
-                                                            className="w-5 h-5 text-red-600"
-                                                        />
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
                         </div>
                     </>
                 )}

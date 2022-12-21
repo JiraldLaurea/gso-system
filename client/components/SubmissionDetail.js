@@ -21,11 +21,15 @@ function SubmissionDetail({
             }`}
         >
             {!hasNoTitle && (
-                <div className="flex items-center justify-between p-4">
-                    <p className={`text-lg font-semibold ${hasDetail && ""}`}>
+                <div className="flex flex-col justify-between p-4 md:flex-row md:items-center">
+                    <p
+                        className={`md:text-lg font-semibold ${
+                            hasDetail && ""
+                        }`}
+                    >
                         {title}
                     </p>
-                    <div className="flex items-center">
+                    <div className="flex items-center mt-4 space-x-4 md:mt-0">
                         {isBarangayProfile && (
                             <EditButton
                                 editSelectedBarangay={editSelectedBarangay}

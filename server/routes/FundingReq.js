@@ -67,7 +67,7 @@ const getAllUpdatedFundingReq = async (req, res) => {
 const getUpdatedFundingReq = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const fundingReq = await FundingReq.findOne({
+    const fundingReq = await FundingReq.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -83,6 +83,7 @@ const getAllUpdatedFundingReqYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await FundingReq.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -95,6 +96,7 @@ const getAllUpdatedUserFundingReqYearSubmitted = async (req, res) => {
 
     const fundingReq = await FundingReq.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -106,7 +108,7 @@ const getUpdatedUserFundingReqUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const fundingReq = await FundingReq.findOne({
+    const fundingReq = await FundingReq.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,

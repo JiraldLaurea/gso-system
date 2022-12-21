@@ -101,7 +101,7 @@ const getAllUpdatedPrograms = async (req, res) => {
 const getUpdatedPrograms = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const programs = await Programs.findOne({
+    const programs = await Programs.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -117,6 +117,7 @@ const getAllUpdatedProgramsYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await Programs.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -129,6 +130,7 @@ const getAllUpdatedUserProgramsYearSubmitted = async (req, res) => {
 
     const programs = await Programs.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -140,7 +142,7 @@ const getUpdatedUserProgramsUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const program = await Programs.findOne({
+    const program = await Programs.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,

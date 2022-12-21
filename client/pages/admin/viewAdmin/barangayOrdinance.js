@@ -29,6 +29,8 @@ function barangayOrdinance() {
     const [loadingDownload, setLoadingDownload] = useState(false);
     const dispatch = useAuthDispatch();
 
+    const [imageList, setImageList] = useState([]);
+
     useEffect(() => {
         dispatch("CHANGE_TITLE", "Barangay ordinance");
         dispatch("HAS_BUTTON_TRUE");
@@ -68,8 +70,7 @@ function barangayOrdinance() {
             "http://localhost:3001/barangayOrdinance/getUpdatedBarangayOrdinance",
             data
         ).then((res) => {
-            setDocumentExtension(res.data.documentName.split(".").pop());
-            setBarangayOrdinanceUrl(res.data.barangayOrdinanceUrl);
+            setImageList(res.data);
         });
     };
 
@@ -86,17 +87,20 @@ function barangayOrdinance() {
                 "http://localhost:3001/barangayOrdinance/getUpdatedBarangayOrdinance",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.barangayOrdinanceUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.barangayOrdinanceUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -314,21 +318,43 @@ function barangayOrdinance() {
                     </div>
                 </div>
                 <div className="mt-4">
-                    {barangayOrdinanceUrl && (
+                    {imageList.length != 0 && (
                         <>
-                            {documentImageExtensions.includes(
-                                documentExtension
-                            ) && <ImageWrapper url={barangayOrdinanceUrl} />}
-                            {documentExtension == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageList.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={
+                                                        image.barangayOrdinanceUrl
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+
+                            {imageList[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${barangayOrdinanceUrl}`}
+                                    src={`${imageList[0].barangayOrdinanceUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtension == "docx" && (
+                            {imageList[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${barangayOrdinanceUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageList[0].barangayOrdinanceUrl}`}
                                 ></iframe>
                             )}
                         </>

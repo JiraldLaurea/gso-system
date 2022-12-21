@@ -67,7 +67,7 @@ const getAllUpdatedExecutiveOrder = async (req, res) => {
 const getUpdatedExecutiveOrder = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const executiveOrder = await ExecutiveOrder.findOne({
+    const executiveOrder = await ExecutiveOrder.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -83,6 +83,7 @@ const getAllUpdatedExecutiveOrderYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await ExecutiveOrder.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -95,6 +96,7 @@ const getAllUpdatedUserExecutiveOrderYearSubmitted = async (req, res) => {
 
     const executiveOrder = await ExecutiveOrder.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -106,7 +108,7 @@ const getUpdatedUserExecutiveOrderUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const executiveOrder = await ExecutiveOrder.findOne({
+    const executiveOrder = await ExecutiveOrder.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,

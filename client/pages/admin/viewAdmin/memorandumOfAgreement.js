@@ -32,6 +32,8 @@ function memorandumOfAgreement() {
     const [loadingDownload, setLoadingDownload] = useState(false);
     const dispatch = useAuthDispatch();
 
+    const [imageList, setImageList] = useState([]);
+
     useEffect(() => {
         dispatch("CHANGE_TITLE", "Memorandum of agreement");
         dispatch("HAS_BUTTON_TRUE");
@@ -69,9 +71,7 @@ function memorandumOfAgreement() {
 
         await Axios.post("http://localhost:3001/moa/getUpdatedMoa", data).then(
             (res) => {
-                setDocumentExtension(res.data.documentName.split(".").pop());
-                setDateOfCreation(res.data.dateOfCreation);
-                setMoaUrl(res.data.memorandumOfAgreementUrl);
+                setImageList(res.data);
             }
         );
     };
@@ -89,17 +89,20 @@ function memorandumOfAgreement() {
                 "http://localhost:3001/moa/getUpdatedMoa",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.memorandumOfAgreementUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.memorandumOfAgreementUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -305,28 +308,53 @@ function memorandumOfAgreement() {
                     </div>
                 </div>
                 <div className="mt-4">
-                    {moaUrl && (
+                    {imageList.length != 0 && (
                         <>
-                            <SubmissionDetail
-                                detailTitle="Date of creation"
-                                detail={dateOfCreation}
-                                hasDetail
-                                firstChild
-                                hasNoTitle
-                            />
-                            {documentImageExtensions.includes(
-                                documentExtension
-                            ) && <ImageWrapper url={moaUrl} />}
-                            {documentExtension == "pdf" && (
+                            {!documentImageExtensions.includes(
+                                imageList[0].documentName.split(".").pop()
+                            ) && (
+                                <SubmissionDetail
+                                    detailTitle="Collection schedule"
+                                    detail={imageList[0].dateOfCreation}
+                                    hasDetail
+                                    firstChild
+                                    hasNoTitle
+                                />
+                            )}
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageList.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={
+                                                        image.memorandumOfAgreementUrl
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageList[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${moaUrl}`}
+                                    src={`${imageList[0].memorandumOfAgreementUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtension == "docx" && (
+                            {imageList[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${moaUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageList[0].memorandumOfAgreementUrl}`}
                                 ></iframe>
                             )}
                         </>

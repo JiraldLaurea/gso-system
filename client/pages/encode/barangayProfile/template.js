@@ -66,6 +66,7 @@ function template({
     const [isSaved, setIsSaved] = useState(false);
     const [isEncoded, setIsEncoded] = useState(false);
     const [isOverwriting, setIsOverwriting] = useState(false);
+    const [isEncodedAttachments, setIsEncodedAttachments] = useState(false);
     const [isOverwritten, setIsOverwritten] = useState(false);
     const [submissionUpload, setSubmissionUpload] = useState(null);
     const [submissionBarangayProfileUrl, setSubmissionBarangayProfileUrl] =
@@ -3106,6 +3107,7 @@ function template({
         // ATTACHMENTS
         await Axios.post("http://localhost:3001/submission/submit", data).then(
             async () => {
+                setIsEncodedAttachments(true);
                 await Axios.put(
                     "http://localhost:3001/barangay/updateBarangayTotalPopulationEncoded",
                     {
@@ -3306,6 +3308,7 @@ function template({
                             Year of submission
                         </p>
                         <input
+                            max={date.getFullYear()}
                             value={yearSubmitted}
                             placeholder="Year"
                             onChange={(e) => setYearSubmitted(e.target.value)}
@@ -3509,6 +3512,8 @@ function template({
                 setIsMenuOpen={setIsMenuOpen}
                 isEncoded={isEncoded}
                 setIsEncoded={setIsEncoded}
+                isEncodedAttachments={isEncodedAttachments}
+                setIsEncodedAttachments={setIsEncodedAttachments}
                 selectedBarangayData={selectedBarangayData}
                 yearSubmitted={yearSubmitted}
                 setIsLoading={setIsLoading}

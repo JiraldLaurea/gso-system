@@ -67,7 +67,7 @@ const getAllUpdatedSketch = async (req, res) => {
 const getUpdatedSketch = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const sketch = await Sketch.findOne({
+    const sketch = await Sketch.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -83,6 +83,7 @@ const getAllUpdatedSketchYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await Sketch.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -95,6 +96,7 @@ const getAllUpdatedUserSketchYearSubmitted = async (req, res) => {
 
     const sketch = await Sketch.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -106,7 +108,7 @@ const getUpdatedUserSketchUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const sketch = await Sketch.findOne({
+    const sketch = await Sketch.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,

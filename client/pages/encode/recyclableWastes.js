@@ -221,6 +221,7 @@ function recyclableWastes() {
                         Date of submission
                     </p>
                     <input
+                        max={moment().format("yyyy-MM")}
                         type="month"
                         id="fromDatePicker"
                         value={dateSubmitted}
@@ -232,63 +233,65 @@ function recyclableWastes() {
                 <p className="mb-1 text-sm text-gray-600">
                     Recyclable wastes &#40;kg&#41;
                 </p>
-                <div className="flex">
-                    <RecyclableWastesInput
-                        category="Saway"
-                        state={saway}
-                        setState={(e) => setSaway(e.target.value)}
-                        firstChild
-                    />
-                    <RecyclableWastesInput
-                        category="Lata"
-                        state={lata}
-                        setState={(e) => setLata(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Plastic"
-                        state={plastic}
-                        setState={(e) => setPlastic(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Mineral"
-                        state={mineral}
-                        setState={(e) => setMineral(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Botelya"
-                        state={botelya}
-                        setState={(e) => setBotelya(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Carton"
-                        state={carton}
-                        setState={(e) => setCarton(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Aluminum"
-                        state={aluminum}
-                        setState={(e) => setAluminum(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Sin"
-                        state={sin}
-                        setState={(e) => setSin(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Scrap"
-                        state={scrap}
-                        setState={(e) => setScrap(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Kaldero"
-                        state={kaldero}
-                        setState={(e) => setKaldero(e.target.value)}
-                    />
-                    <RecyclableWastesInput
-                        category="Others"
-                        state={others}
-                        setState={(e) => setOthers(e.target.value)}
-                    />
+                <div className="overflow-x-auto">
+                    <div className="flex w-[250px]">
+                        <RecyclableWastesInput
+                            category="Saway"
+                            state={saway}
+                            setState={(e) => setSaway(e.target.value)}
+                            firstChild
+                        />
+                        <RecyclableWastesInput
+                            category="Lata"
+                            state={lata}
+                            setState={(e) => setLata(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Plastic"
+                            state={plastic}
+                            setState={(e) => setPlastic(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Mineral"
+                            state={mineral}
+                            setState={(e) => setMineral(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Botelya"
+                            state={botelya}
+                            setState={(e) => setBotelya(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Carton"
+                            state={carton}
+                            setState={(e) => setCarton(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Aluminum"
+                            state={aluminum}
+                            setState={(e) => setAluminum(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Sin"
+                            state={sin}
+                            setState={(e) => setSin(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Scrap"
+                            state={scrap}
+                            setState={(e) => setScrap(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Kaldero"
+                            state={kaldero}
+                            setState={(e) => setKaldero(e.target.value)}
+                        />
+                        <RecyclableWastesInput
+                            category="Others"
+                            state={others}
+                            setState={(e) => setOthers(e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 <button

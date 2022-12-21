@@ -32,6 +32,8 @@ function sketch() {
     const [loadingDownload, setLoadingDownload] = useState(false);
     const dispatch = useAuthDispatch();
 
+    const [imageList, setImageList] = useState([]);
+
     useEffect(() => {
         dispatch("CHANGE_TITLE", "Route sketch");
         dispatch("HAS_BUTTON_TRUE");
@@ -51,9 +53,7 @@ function sketch() {
             "http://localhost:3001/sketch/getUpdatedUserSketchUrl",
             data
         ).then((res) => {
-            setDocumentExtension(res.data.documentName.split(".").pop());
-            setSketchUrl(res.data.sketchUrl);
-            setCollectionSchedule(res.data.collectionSchedule);
+            setImageList(res.data);
         });
     };
 
@@ -69,17 +69,20 @@ function sketch() {
                 "http://localhost:3001/sketch/getUpdatedUserSketchUrl",
                 dataYearOfSubmission
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.sketchUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.sketchUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -186,30 +189,54 @@ function sketch() {
                     </div>
                 </div>
                 <div className="mt-4">
-                    {sketchUrl && (
+                    {imageList.length != 0 && (
                         <>
-                            <SubmissionDetail
-                                detailTitle="Collection schedule"
-                                detail={collectionSchedule}
-                                hasDetail
-                                firstChild
-                                hasNoTitle
-                            />
+                            {!documentImageExtensions.includes(
+                                imageList[0].documentName.split(".").pop()
+                            ) && (
+                                <SubmissionDetail
+                                    detailTitle="Collection schedule"
+                                    detail={imageList[0].collectionSchedule}
+                                    hasDetail
+                                    firstChild
+                                    hasNoTitle
+                                />
+                            )}
 
-                            {documentImageExtensions.includes(
-                                documentExtension
-                            ) && <ImageWrapper url={sketchUrl} />}
-                            {documentExtension == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageList.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.sketchUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+
+                            {imageList[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
                                     // src={`../submissions/${viewDocumentName}`}
-                                    src={`${sketchUrl}`}
+                                    src={`${imageList[0].sketchUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtension == "docx" && (
+                            {imageList[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${sketchUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageList[0].sketchUrl}`}
                                 ></iframe>
                             )}
                         </>

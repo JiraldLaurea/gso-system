@@ -31,6 +31,8 @@ function businessPermit() {
     const [loadingDownload, setLoadingDownload] = useState(false);
     const dispatch = useAuthDispatch();
 
+    const [imageList, setImageList] = useState([]);
+
     useEffect(() => {
         dispatch("CHANGE_TITLE", "Business permit");
         dispatch("HAS_BUTTON_TRUE");
@@ -71,9 +73,7 @@ function businessPermit() {
             "http://localhost:3001/businessPermit/getUpdatedBusinessPermit",
             data
         ).then((res) => {
-            setDocumentExtension(res.data.documentName.split(".").pop());
-            setDateIssued(res.data.dateIssued);
-            setBusinessPermitUrl(res.data.businessPermitUrl);
+            setImageList(res.data);
         });
     };
 
@@ -90,17 +90,20 @@ function businessPermit() {
                 "http://localhost:3001/businessPermit/getUpdatedBusinessPermit",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.businessPermitUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.businessPermitUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -306,28 +309,55 @@ function businessPermit() {
                     </div>
                 </div>
                 <div className="mt-4">
-                    {businessPermitUrl && (
+                    {imageList.length != 0 && (
                         <>
-                            <SubmissionDetail
-                                detailTitle="Date issued"
-                                detail={dateIssued}
-                                hasDetail
-                                firstChild
-                                hasNoTitle
-                            />
-                            {documentImageExtensions.includes(
-                                documentExtension
-                            ) && <ImageWrapper url={businessPermitUrl} />}
-                            {documentExtension == "pdf" && (
+                            {!documentImageExtensions.includes(
+                                imageList[0].documentName.split(".").pop()
+                            ) && (
+                                <SubmissionDetail
+                                    detailTitle="Collection schedule"
+                                    detail={imageList[0].dateIssued}
+                                    hasDetail
+                                    firstChild
+                                    hasNoTitle
+                                />
+                            )}
+
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageList.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={
+                                                        image.businessPermitUrl
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+
+                            {imageList[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${businessPermitUrl}`}
+                                    src={`${imageList[0].businessPermitUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtension == "docx" && (
+                            {imageList[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${businessPermitUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageList[0].businessPermitUrl}`}
                                 ></iframe>
                             )}
                         </>

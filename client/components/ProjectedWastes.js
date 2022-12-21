@@ -67,23 +67,49 @@ function ProjectedWastes({ dropDownMenuValue }) {
         return actualWaste.actualWastes;
     });
 
+    const actualWastesArrayPopulation = actualWastes.map((actualWaste) => {
+        return actualWaste.populationCount;
+    });
+
+    const actualWastesCurrent =
+        actualWastes[actualWastes.length - 1]?.actualWastes;
+
+    const actualWastesCurrentPopulation =
+        actualWastes[actualWastes.length - 1]?.populationCount;
+
+    // console.log("CURRENT WASTES", actualWastesCurrentArray);
+    // console.log("CURRENT POPULATION", actualWastesArrayCurrentPopulation);
+
     const actualWastesArrayYearSubmitted = actualWastes.map((actualWaste) => {
         return actualWaste.yearSubmitted;
     });
 
-    console.log("YEAR SUBMITTED", actualWastesArrayYearSubmitted?.length);
+    const yValue = actualWastesCurrentPopulation / actualWastesCurrent;
 
-    //Create the regressor object to store the equation's data
+    const averagePopulation = (
+        actualWastesArrayPopulation.reduce((a, b) => a + b, 0) /
+        actualWastesArrayPopulation.length
+    ).toFixed(0);
+
+    const forecastedWaste = averagePopulation * 0.2 * yValue;
+
+    // console.log("AVERAGE POPULATION", averagePopulation);
+    // console.log("Y VALUE", yValue);
+    // console.log("FORECASTED WASTE", forecastedWaste);
+
+    // console.log("YEAR SUBMITTED", actualWastesArrayYearSubmitted?.length);
+
+    // Create the regressor object to store the equation's data
     let regressor = {};
 
-    //Set variables we'll need to get the slope and intercept; we need to find the equation in the format y = m*x+b where m is the slope and b is the intercept
+    // Set variables we'll need to get the slope and intercept; we need to find the equation in the format y = m*x+b where m is the slope and b is the intercept
     let x_mean =
         actualWastesArrayYearSubmitted.reduce((a, b) => a + b, 0) /
         actualWastesArrayYearSubmitted.length;
     let y_mean =
         actualWastesArray.reduce((a, b) => a + b, 0) / actualWastesArray.length;
 
-    //Equations to solve for slope:
+    // Equations to solve for slope:
     let slope = 0,
         slope_numerator = 0,
         slope_denominator = 0;
@@ -99,30 +125,42 @@ function ProjectedWastes({ dropDownMenuValue }) {
 
     slope = slope_numerator / slope_denominator;
 
-    //Add the slope's value to the regressor object
+    // Add the slope's value to the regressor object
     regressor["slope"] = slope;
 
-    //Equation to solve for intercept
+    // Equation to solve for intercept
     var intercept = y_mean - x_mean * slope;
 
-    //Store it's value in the regressor object
+    // Store it's value in the regressor object
     regressor["intercept"] = intercept;
 
-    //Get y_hat, or predicted values of y based on x_values
-    //Loop through x_values, and run the elements through the lr equation to get predictions
-    var y_hat = [];
+    // Get y_hat, or predicted values of y based on x_values
+    // Loop through x_values, and run the elements through the lr equation to get predictions
+    let y_hat = [];
 
-    for (let i = 0; i < actualWastesArrayYearSubmitted.length; i++) {
+    console.log("Y HAT", y_hat);
+
+    let yearSubmitted = actualWastesArrayYearSubmitted[0];
+
+    for (let i = 0; i < actualWastesArrayYearSubmitted.length + 3; i++) {
         const projectedWaste =
-            actualWastesArrayYearSubmitted[i] * regressor["slope"] +
-            regressor["intercept"];
+            yearSubmitted * regressor["slope"] + regressor["intercept"];
         y_hat.push(projectedWaste.toFixed(2));
+        ++yearSubmitted;
     }
 
-    //Add to regressor object
+    for (let i = 0; i < 3; i++) {
+        actualWastesArrayYearSubmitted.push(
+            actualWastesArrayYearSubmitted[
+                actualWastesArrayYearSubmitted.length - 1
+            ] + 1
+        );
+    }
+
+    // Add to regressor object
     regressor["y_hat"] = y_hat;
 
-    //Now to find the r2 score
+    // Finding the r2 score
     let residual_sum_of_squares = 0,
         total_sum_of_squares = 0,
         r2 = 0;
@@ -134,7 +172,7 @@ function ProjectedWastes({ dropDownMenuValue }) {
 
     r2 = 1 - residual_sum_of_squares / total_sum_of_squares;
 
-    //Add to regressor object
+    // Add to regressor object
     regressor["r2"] = r2;
 
     // const testData2 = actualWastes.map((actualWaste) => ({
@@ -142,23 +180,29 @@ function ProjectedWastes({ dropDownMenuValue }) {
     //     y: actualWaste.actualWastes,
     // }));
 
-    const projectWaste = () => {
-        console.log(regressor["slope"] * year + regressor["intercept"]);
-        const projectedWaste =
-            regressor["slope"] * year + regressor["intercept"];
-        setPredictedWaste(projectedWaste);
-    };
+    // const projectWaste = () => {
+    //     console.log(regressor["slope"] * year + regressor["intercept"]);
+    //     const projectedWaste =
+    //         regressor["slope"] * year + regressor["intercept"];
+    //     setPredictedWaste(projectedWaste);
+    // };
 
     const options = {
-        // responsive: true,
-        // maintainAspectRatio: true,
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
                 ticks: {
                     callback: function (value, index, ticks) {
-                        return value + "kg";
+                        return numeral(value).format("0,0") + "kg";
                     },
+                },
+            },
+            x: {
+                ticks: {
+                    precision: 0,
+                    maxTicksLimit: 100,
                 },
             },
         },
@@ -213,6 +257,30 @@ function ProjectedWastes({ dropDownMenuValue }) {
 
     const datasets = {
         datasets: [
+            // {
+            //     type: "line",
+            //     label: "Projected waste",
+            //     data: y_hat,
+            //     borderColor: "rgb(221, 40, 40)",
+            //     backgroundColor: "rgba(221, 40, 40, 0.2)",
+            //     pointRadius: 5,
+            //     pointHoverRadius: 6,
+            // },
+            {
+                type: "scatter",
+                label: "Actual waste",
+                data: actualWastesArray,
+                borderColor: "rgb(0, 102, 255)",
+                backgroundColor: "rgba(0, 102, 255,0.2)",
+                pointRadius: 5,
+                pointHoverRadius: 6,
+            },
+        ],
+        labels: actualWastesArrayYearSubmitted,
+    };
+
+    const datasets2 = {
+        datasets: [
             {
                 type: "line",
                 label: "Projected waste",
@@ -239,11 +307,11 @@ function ProjectedWastes({ dropDownMenuValue }) {
         <>
             {user?.isAdmin && (
                 <>
-                    {actualWastesArrayYearSubmitted?.length > 2 ? (
+                    {actualWastesArrayYearSubmitted?.length > 5 ? (
                         <div className="">
                             <div className="mt-4 mb-3">
                                 <div className="flex items-end">
-                                    <div className="p-4 mr-4 border">
+                                    {/* <div className="p-4 mr-4 border">
                                         <p className="mb-1 text-sm text-gray-600">
                                             Year
                                         </p>
@@ -257,12 +325,12 @@ function ProjectedWastes({ dropDownMenuValue }) {
                                             placeholder="Year"
                                         />
                                         <button
-                                            onClick={projectWaste}
+                                            // onClick={projectWaste}
                                             className="px-4 h-[36px] ml-4 text-white bg-blue-500 hover:bg-blue-600 transition-colors"
                                         >
                                             Project
                                         </button>
-                                    </div>
+                                    </div> */}
                                     {predictedWaste && (
                                         <div className="p-4 border">
                                             <p className="mb-1 mr-4 text-sm text-gray-600">
@@ -276,19 +344,24 @@ function ProjectedWastes({ dropDownMenuValue }) {
                                             </p>
                                         </div>
                                     )}
-                                    {/* 
-                <div className="ml-8">
-                    <p className="text-sm text-gray-600 ">
-                        Regression equation:{" "}
-                        {regressor["slope"].toFixed(2).toString() +
-                            " * x + " +
-                            regressor["intercept"].toFixed(2).toString()}
-                    </p>
-                </div> */}
+
+                                    {/* <div className="ml-8">
+                                        <p className="text-sm text-gray-600 ">
+                                            Regression equation:{" "}
+                                            {regressor["slope"]
+                                                .toFixed(2)
+                                                .toString() +
+                                                " * x + " +
+                                                regressor["intercept"]
+                                                    .toFixed(2)
+                                                    .toString()}
+                                        </p>
+                                    </div> */}
                                 </div>
                             </div>
-                            <div className="relative min-w-[400px] w-[60vw] h-[60vh] min-h-[300px] mb-8">
-                                <Scatter options={options} data={datasets} />
+                            <div className="relative w-full h-[450px] md:mb-8 max-w-sm sm:max-w-md xl:max-w-4xl">
+                                {/* <Scatter options={options} data={datasets} /> */}
+                                <Scatter options={options} data={datasets2} />
                             </div>
                         </div>
                     ) : (
@@ -300,11 +373,11 @@ function ProjectedWastes({ dropDownMenuValue }) {
             )}
             {!user?.isAdmin && (
                 <>
-                    {actualWastesArrayYearSubmitted?.length > 1 ? (
+                    {actualWastesArrayYearSubmitted?.length > 5 ? (
                         <div className="">
                             <div className="mt-4 mb-3">
                                 <div className="flex items-end">
-                                    <div className="p-4 mr-4 border">
+                                    {/* <div className="p-4 mr-4 border">
                                         <p className="mb-1 text-sm text-gray-600">
                                             Year
                                         </p>
@@ -323,7 +396,7 @@ function ProjectedWastes({ dropDownMenuValue }) {
                                         >
                                             Project
                                         </button>
-                                    </div>
+                                    </div> */}
                                     {predictedWaste && (
                                         <div className="p-4 border">
                                             <p className="mb-1 mr-4 text-sm text-gray-600">
@@ -337,19 +410,23 @@ function ProjectedWastes({ dropDownMenuValue }) {
                                             </p>
                                         </div>
                                     )}
-                                    {/* 
-                <div className="ml-8">
-                    <p className="text-sm text-gray-600 ">
-                        Regression equation:{" "}
-                        {regressor["slope"].toFixed(2).toString() +
-                            " * x + " +
-                            regressor["intercept"].toFixed(2).toString()}
-                    </p>
-                </div> */}
+
+                                    {/* <div className="ml-8">
+                                        <p className="text-sm text-gray-600 ">
+                                            Regression equation:{" "}
+                                            {regressor["slope"]
+                                                .toFixed(2)
+                                                .toString() +
+                                                " * x + " +
+                                                regressor["intercept"]
+                                                    .toFixed(2)
+                                                    .toString()}
+                                        </p>
+                                    </div> */}
                                 </div>
                             </div>
-                            <div className="relative min-w-[400px] w-[60vw] h-[60vh] min-h-[300px] mb-8 max-w-5xl">
-                                <Scatter options={options} data={datasets} />
+                            <div className="relative min-w-[400px] w-[60vw] h-[500px] mb-8 max-w-5xl">
+                                <Scatter options={options} data={datasets2} />
                             </div>
                         </div>
                     ) : (

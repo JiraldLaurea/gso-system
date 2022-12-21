@@ -31,6 +31,8 @@ function programs() {
     const [loadingDownload, setLoadingDownload] = useState(false);
     const dispatch = useAuthDispatch();
 
+    const [imageList, setImageList] = useState([]);
+
     useEffect(() => {
         dispatch("CHANGE_TITLE", "Programs");
         dispatch("HAS_BUTTON_TRUE");
@@ -70,8 +72,7 @@ function programs() {
             "http://localhost:3001/programs/getUpdatedPrograms",
             data
         ).then((res) => {
-            setDocumentExtension(res.data.documentName.split(".").pop());
-            setProgramsUrl(res.data.programsUrl);
+            setImageList(res.data);
         });
     };
 
@@ -88,17 +89,20 @@ function programs() {
                 "http://localhost:3001/programs/getUpdatedPrograms",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.programsUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.programsUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -304,21 +308,40 @@ function programs() {
                     </div>
                 </div>
                 <div className="mt-4">
-                    {programsUrl && (
+                    {imageList.length != 0 && (
                         <>
-                            {documentImageExtensions.includes(
-                                documentExtension
-                            ) && <ImageWrapper url={programsUrl} />}
-                            {documentExtension == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageList.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.programsUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageList[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${programsUrl}`}
+                                    src={`${imageList[0].programsUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtension == "docx" && (
+                            {imageList[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${programsUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageList[0].programsUrl}`}
                                 ></iframe>
                             )}
                         </>

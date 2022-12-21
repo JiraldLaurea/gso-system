@@ -124,6 +124,7 @@ function recyclableWastes() {
                                 Date of submission
                             </p>
                             <input
+                                max={moment().format("yyyy-MM")}
                                 type="month"
                                 id="fromDatePicker"
                                 value={dateSubmitted}

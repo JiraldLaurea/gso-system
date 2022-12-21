@@ -50,6 +50,7 @@ const getAllSubmission = async (req, res) => {
     const { barangayId } = req.body;
 
     const submission = await Submission.findAll({
+        group: "yearSubmitted",
         where: {
             barangayId: barangayId,
         },

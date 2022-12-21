@@ -1316,6 +1316,7 @@ function template({ pageData, actionData }) {
                             Year of submission
                         </p>
                         <input
+                            max={date.getFullYear()}
                             value={yearSubmitted}
                             placeholder="Year"
                             onChange={(e) => setYearSubmitted(e.target.value)}

@@ -65,6 +65,17 @@ function viewAll() {
         documentExtensionBarangayOrdinance,
         setDocumentExtensionBarangayOrdinance,
     ] = useState("");
+
+    const [imageListSketch, setImageListSketch] = useState([]);
+    const [imageListPrograms, setImageListPrograms] = useState([]);
+    const [imageListFundingReq, setImageListFundingReq] = useState([]);
+    const [imageListMoa, setImageListMoa] = useState([]);
+    const [imageListJunkshop, setImageListJunkshop] = useState([]);
+    const [imageListBusinessPermit, setImageListBusinessPermit] = useState([]);
+    const [imageListExecutiveOrder, setImageListExecutiveOrder] = useState([]);
+    const [imageListBarangayOrdinance, setImageListBarangayOrdinance] =
+        useState([]);
+
     const documentImageExtensions = ["png", "jpg", "jpeg"];
     const dispatch = useAuthDispatch();
 
@@ -157,15 +168,9 @@ function viewAll() {
             data
         ).then((res) => {
             if (res.data) {
-                setDocumentExtensionSketch(
-                    res.data.documentName.split(".").pop()
-                );
-                setSketchUrl(res.data.sketchUrl);
-                setCollectionSchedule(res.data.collectionSchedule);
+                setImageListSketch(res.data);
             } else {
-                setDocumentExtensionSketch(null);
-                setSketchUrl(null);
-                setCollectionSchedule(null);
+                setImageListSketch([]);
             }
         });
 
@@ -174,13 +179,9 @@ function viewAll() {
             data
         ).then((res) => {
             if (res.data) {
-                setDocumentExtensionPrograms(
-                    res.data.documentName.split(".").pop()
-                );
-                setProgramsUrl(res.data.programsUrl);
+                setImageListPrograms(res.data);
             } else {
-                setDocumentExtensionPrograms(null);
-                setProgramsUrl(null);
+                setImageListPrograms([]);
             }
         });
 
@@ -189,28 +190,18 @@ function viewAll() {
             data
         ).then((res) => {
             if (res.data) {
-                setDocumentExtensionFundingReq(
-                    res.data.documentName.split(".").pop()
-                );
-                setFundingReqUrl(res.data.fundingReqUrl);
+                setImageListFundingReq(res.data);
             } else {
-                setDocumentExtensionFundingReq(null);
-                setFundingReqUrl(null);
+                setImageListFundingReq([]);
             }
         });
 
         await Axios.post("http://localhost:3001/moa/getUpdatedMoa", data).then(
             (res) => {
                 if (res.data) {
-                    setDocumentExtensionMoa(
-                        res.data.documentName.split(".").pop()
-                    );
-                    setDateOfCreation(res.data.dateOfCreation);
-                    setMoaUrl(res.data.memorandumOfAgreementUrl);
+                    setImageListMoa(res.data);
                 } else {
-                    setDocumentExtensionMoa(null);
-                    setDateOfCreation(null);
-                    setMoaUrl(null);
+                    setImageListMoa([]);
                 }
             }
         );
@@ -220,15 +211,9 @@ function viewAll() {
             data
         ).then((res) => {
             if (res.data) {
-                setDocumentExtensionJunkshop(
-                    res.data.documentName.split(".").pop()
-                );
-                setJunkshopName(res.data.junkshopName);
-                setJunkshopUrl(res.data.junkshopUrl);
+                setImageListJunkshop(res.data);
             } else {
-                setDocumentExtensionJunkshop(null);
-                setJunkshopName(null);
-                setJunkshopUrl(null);
+                setImageListJunkshop([]);
             }
         });
 
@@ -237,15 +222,9 @@ function viewAll() {
             data
         ).then((res) => {
             if (res.data) {
-                setDocumentExtensionBusinessPermit(
-                    res.data.documentName.split(".").pop()
-                );
-                setDateIssuedBusinessPermit(res.data.dateIssued);
-                setBusinessPermitUrl(res.data.businessPermitUrl);
+                setImageListBusinessPermit(res.data);
             } else {
-                setDocumentExtensionBusinessPermit(null);
-                setDateIssuedBusinessPermit(null);
-                setBusinessPermitUrl(null);
+                setImageListBusinessPermit([]);
             }
         });
 
@@ -254,15 +233,9 @@ function viewAll() {
             data
         ).then((res) => {
             if (res.data) {
-                setDocumentExtensionExecutiveOrder(
-                    res.data.documentName.split(".").pop()
-                );
-                setDateIssuedExecutiveOrder(res.data.dateIssued);
-                setExecutiveOrderUrl(res.data.executiveOrderUrl);
+                setImageListExecutiveOrder(res.data);
             } else {
-                setDocumentExtensionExecutiveOrder(null);
-                setDateIssuedExecutiveOrder(null);
-                setExecutiveOrderUrl(null);
+                setImageListExecutiveOrder([]);
             }
         });
 
@@ -271,13 +244,9 @@ function viewAll() {
             data
         ).then((res) => {
             if (res.data) {
-                setDocumentExtensionBarangayOrdinance(
-                    res.data.documentName.split(".").pop()
-                );
-                setBarangayOrdinanceUrl(res.data.barangayOrdinanceUrl);
+                setImageListBarangayOrdinance(res.data);
             } else {
-                setDocumentExtensionBarangayOrdinance(null);
-                setBarangayOrdinanceUrl(null);
+                setImageListBarangayOrdinance([]);
             }
         });
     };
@@ -325,26 +294,29 @@ function viewAll() {
         if (!loadingDownload) {
             setLoadingDownload(true);
 
-            const dataYearOfSubmission = {
+            const data = {
                 barangayId: barangayId,
                 yearSubmitted: yearOfSubmission,
             };
 
             await Axios.post(
                 "http://localhost:3001/sketch/getUpdatedSketch",
-                dataYearOfSubmission
+                data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.sketchUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.sketchUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -363,17 +335,20 @@ function viewAll() {
                 "http://localhost:3001/programs/getUpdatedPrograms",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.programsUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.programsUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -392,17 +367,20 @@ function viewAll() {
                 "http://localhost:3001/fundingReq/getUpdatedFundingReq",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.fundingReqUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.fundingReqUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -421,17 +399,20 @@ function viewAll() {
                 "http://localhost:3001/moa/getUpdatedMoa",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.memorandumOfAgreementUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.memorandumOfAgreementUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -450,17 +431,20 @@ function viewAll() {
                 "http://localhost:3001/junkshop/getUpdatedJunkshop",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.junkshopUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.junkshopUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -479,17 +463,20 @@ function viewAll() {
                 "http://localhost:3001/businessPermit/getUpdatedBusinessPermit",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.businessPermitUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.businessPermitUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -508,17 +495,20 @@ function viewAll() {
                 "http://localhost:3001/executiveOrder/getUpdatedExecutiveOrder",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.executiveOrderUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.executiveOrderUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -537,17 +527,20 @@ function viewAll() {
                 "http://localhost:3001/barangayOrdinance/getUpdatedBarangayOrdinance",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.barangayOrdinanceUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.barangayOrdinanceUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -764,220 +757,393 @@ function viewAll() {
                         </>
                     )}
 
-                    {sketchUrl && (
+                    {imageListSketch.length != 0 && (
                         <>
                             <SubmissionDetail
-                                title="Route sketch"
+                                title="Sketch"
                                 detailTitle="Collection schedule"
-                                detail={collectionSchedule}
+                                detail={imageListSketch[0].collectionSchedule}
                                 hasDetail
                                 download={downloadSketch}
                                 loadingDownload={loadingDownload}
                             />
 
-                            {documentImageExtensions.includes(
-                                documentExtensionSketch
-                            ) && <ImageWrapper url={sketchUrl} />}
-                            {documentExtensionSketch == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListSketch.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.sketchUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListSketch[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
                                     // src={`../submissions/${viewDocumentName}`}
-                                    src={`${sketchUrl}`}
+                                    src={`${imageListSketch[0].sketchUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionSketch == "docx" && (
+                            {imageListSketch[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${sketchUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListSketch[0].sketchUrl}`}
                                 ></iframe>
                             )}
                         </>
                     )}
-                    {programsUrl && (
+                    {imageListPrograms.length != 0 && (
                         <>
                             <SubmissionDetail
                                 title="Programs"
                                 download={downloadPrograms}
                                 loadingDownload={loadingDownload}
                             />
-                            {documentImageExtensions.includes(
-                                documentExtensionPrograms
-                            ) && <ImageWrapper url={programsUrl} />}
-                            {documentExtensionPrograms == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListPrograms.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.programsUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListPrograms[0].documentName
+                                .split(".")
+                                .pop() == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${programsUrl}`}
+                                    src={`${imageListPrograms[0].programsUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionPrograms == "docx" && (
+                            {imageListPrograms[0].documentName
+                                .split(".")
+                                .pop() == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${programsUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListPrograms[0].programsUrl}`}
                                 ></iframe>
                             )}
                         </>
                     )}
-                    {fundingReqUrl && (
+                    {imageListFundingReq.length != 0 && (
                         <>
                             <SubmissionDetail
                                 title="Funding requirement"
                                 download={downloadFundingReq}
                                 loadingDownload={loadingDownload}
                             />
-                            {documentImageExtensions.includes(
-                                documentExtensionFundingReq
-                            ) && <ImageWrapper url={fundingReqUrl} />}
-                            {documentExtensionFundingReq == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListFundingReq.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.fundingReqUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListFundingReq[0].documentName
+                                .split(".")
+                                .pop() == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${fundingReqUrl}`}
+                                    src={`${imageListFundingReq[0].fundingReqUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionFundingReq == "docx" && (
+                            {imageListFundingReq[0].documentName
+                                .split(".")
+                                .pop() == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${fundingReqUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListFundingReq[0].fundingReqUrl}`}
                                 ></iframe>
                             )}
                         </>
                     )}
 
-                    {moaUrl && (
+                    {imageListMoa.length != 0 && (
                         <>
                             <SubmissionDetail
                                 title="Memorandum of agreement"
                                 detailTitle="Date of creation"
-                                detail={dateOfCreation}
+                                detail={imageListMoa[0].dateOfCreation}
                                 hasDetail
                                 download={downloadMoa}
                                 loadingDownload={loadingDownload}
                             />
-                            {documentImageExtensions.includes(
-                                documentExtensionMoa
-                            ) && <ImageWrapper url={moaUrl} />}
-                            {documentExtensionMoa == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListMoa.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={
+                                                        image.memorandumOfAgreementUrl
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListMoa[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${moaUrl}`}
+                                    src={`${imageListMoa[0].memorandumOfAgreementUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionMoa == "docx" && (
+                            {imageListMoa[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${moaUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListMoa[0].memorandumOfAgreementUrl}`}
                                 ></iframe>
                             )}
                         </>
                     )}
 
-                    {junkshopUrl && (
+                    {imageListJunkshop.length != 0 && (
                         <>
                             <SubmissionDetail
                                 title="Junkshop"
                                 detailTitle="Name of junkshop"
-                                detail={junkshopName}
+                                detail={imageListJunkshop[0].junkshopName}
                                 hasDetail
                                 download={downloadJunkshop}
                                 loadingDownload={loadingDownload}
                             />
-                            {documentImageExtensions.includes(
-                                documentExtensionJunkshop
-                            ) && <ImageWrapper url={junkshopUrl} />}
-                            {documentExtensionJunkshop == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListJunkshop.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.junkshopUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListJunkshop[0].documentName
+                                .split(".")
+                                .pop() == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${junkshopUrl}`}
+                                    src={`${imageListJunkshop[0].junkshopUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionJunkshop == "docx" && (
+                            {imageListJunkshop[0].documentName
+                                .split(".")
+                                .pop() == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${junkshopUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListJunkshop[0].junkshopUrl}`}
                                 ></iframe>
                             )}
                         </>
                     )}
 
-                    {businessPermitUrl && (
+                    {imageListBusinessPermit.length != 0 && (
                         <>
                             <SubmissionDetail
                                 title="Business permit"
                                 detailTitle="Date issued"
-                                detail={dateIssuedBusinessPermit}
+                                detail={imageListBusinessPermit[0].dateIssued}
                                 hasDetail
                                 download={downloadBusinessPermit}
                                 loadingDownload={loadingDownload}
                             />
-                            {documentImageExtensions.includes(
-                                documentExtensionBusinessPermit
-                            ) && <ImageWrapper url={businessPermitUrl} />}
-                            {documentExtensionBusinessPermit == "pdf" && (
+
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListBusinessPermit.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={
+                                                        image.businessPermitUrl
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListBusinessPermit[0].documentName
+                                .split(".")
+                                .pop() == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${businessPermitUrl}`}
+                                    src={`${imageListBusinessPermit[0].businessPermitUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionBusinessPermit == "docx" && (
+                            {imageListBusinessPermit[0].documentName
+                                .split(".")
+                                .pop() == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${businessPermitUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListBusinessPermit[0].businessPermitUrl}`}
                                 ></iframe>
                             )}
                         </>
                     )}
 
-                    {executiveOrderUrl && (
+                    {imageListExecutiveOrder.length != 0 && (
                         <>
                             <SubmissionDetail
                                 title="Executive order"
                                 detailTitle="Date issued"
-                                detail={dateIssuedExecutiveOrder}
+                                detail={
+                                    imageListExecutiveOrder[0]
+                                        .dateIssuedExecutiveOrder
+                                }
                                 hasDetail
                                 download={downloadExecutiveOrder}
                                 loadingDownload={loadingDownload}
                             />
-                            {documentImageExtensions.includes(
-                                documentExtensionExecutiveOrder
-                            ) && <ImageWrapper url={executiveOrderUrl} />}
-                            {documentExtensionExecutiveOrder == "pdf" && (
+
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListExecutiveOrder.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={
+                                                        image.executiveOrderUrl
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListExecutiveOrder[0].documentName
+                                .split(".")
+                                .pop() == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${executiveOrderUrl}`}
+                                    src={`${imageListExecutiveOrder[0].executiveOrderUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionExecutiveOrder == "docx" && (
+                            {imageListExecutiveOrder[0].documentName
+                                .split(".")
+                                .pop() == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${executiveOrderUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListExecutiveOrder[0].executiveOrderUrl}`}
                                 ></iframe>
                             )}
                         </>
                     )}
 
-                    {barangayOrdinanceUrl && (
+                    {imageListBarangayOrdinance.length != 0 && (
                         <>
                             <SubmissionDetail
                                 title="Barangay ordinance"
                                 download={downloadBarangayOrdinance}
                                 loadingDownload={loadingDownload}
                             />
-                            {documentImageExtensions.includes(
-                                documentExtensionBarangayOrdinance
-                            ) && (
-                                <div className="relative w-full bg-black border h-96 ">
-                                    <ImageWrapper url={barangayOrdinanceUrl} />
-                                </div>
-                            )}
-                            {documentExtensionBarangayOrdinance == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageListBarangayOrdinance.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={
+                                                        image.barangayOrdinanceUrl
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageListBarangayOrdinance[0].documentName
+                                .split(".")
+                                .pop() == "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${barangayOrdinanceUrl}`}
+                                    src={`${imageListBarangayOrdinance[0].barangayOrdinanceUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtensionBarangayOrdinance == "docx" && (
+                            {imageListBarangayOrdinance[0].documentName
+                                .split(".")
+                                .pop() == "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${barangayOrdinanceUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageListBarangayOrdinance[0].barangayOrdinanceUrl}`}
                                 ></iframe>
                             )}
                         </>

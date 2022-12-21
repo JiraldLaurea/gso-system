@@ -31,6 +31,8 @@ function junkshop() {
     const [loadingDownload, setLoadingDownload] = useState(false);
     const dispatch = useAuthDispatch();
 
+    const [imageList, setImageList] = useState([]);
+
     useEffect(() => {
         dispatch("CHANGE_TITLE", "Junkshop");
         dispatch("HAS_BUTTON_TRUE");
@@ -70,9 +72,7 @@ function junkshop() {
             "http://localhost:3001/junkshop/getUpdatedJunkshop",
             data
         ).then((res) => {
-            setDocumentExtension(res.data.documentName.split(".").pop());
-            setJunkshopName(res.data.junkshopName);
-            setJunkshopUrl(res.data.junkshopUrl);
+            setImageList(res.data);
         });
     };
 
@@ -89,17 +89,20 @@ function junkshop() {
                 "http://localhost:3001/junkshop/getUpdatedJunkshop",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.junkshopUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.junkshopUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -305,28 +308,53 @@ function junkshop() {
                     </div>
                 </div>
                 <div className="mt-4">
-                    {junkshopUrl && (
+                    {imageList.length != 0 && (
                         <>
-                            <SubmissionDetail
-                                detailTitle="Name of junkshop"
-                                detail={junkshopName}
-                                hasDetail
-                                firstChild
-                                hasNoTitle
-                            />
-                            {documentImageExtensions.includes(
-                                documentExtension
-                            ) && <ImageWrapper url={junkshopUrl} />}
-                            {documentExtension == "pdf" && (
+                            {!documentImageExtensions.includes(
+                                imageList[0].documentName.split(".").pop()
+                            ) && (
+                                <SubmissionDetail
+                                    detailTitle="Collection schedule"
+                                    detail={imageList[0].junkshopName}
+                                    hasDetail
+                                    firstChild
+                                    hasNoTitle
+                                />
+                            )}
+
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageList.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.junkshopUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+
+                            {imageList[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${junkshopUrl}`}
+                                    src={`${imageList[0].junkshopUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtension == "docx" && (
+                            {imageList[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${junkshopUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageList[0].junkshopUrl}`}
                                 ></iframe>
                             )}
                         </>

@@ -67,7 +67,7 @@ const getAllUpdatedBarangayOrdinance = async (req, res) => {
 const getUpdatedBarangayOrdinance = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const barangayOrdinance = await BarangayOrdinance.findOne({
+    const barangayOrdinance = await BarangayOrdinance.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -83,6 +83,7 @@ const getAllUpdatedBarangayOrdinanceYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await BarangayOrdinance.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -95,6 +96,7 @@ const getAllUpdatedUserBarangayOrdinanceYearSubmitted = async (req, res) => {
 
     const barangayOrdinance = await BarangayOrdinance.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -106,7 +108,7 @@ const getUpdatedUserBarangayOrdinanceUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const barangayOrdinance = await BarangayOrdinance.findOne({
+    const barangayOrdinance = await BarangayOrdinance.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,

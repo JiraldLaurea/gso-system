@@ -30,6 +30,8 @@ function fundingReq() {
     const [loadingDownload, setLoadingDownload] = useState(false);
     const dispatch = useAuthDispatch();
 
+    const [imageList, setImageList] = useState([]);
+
     useEffect(() => {
         dispatch("CHANGE_TITLE", "Funding requirements");
         dispatch("HAS_BUTTON_TRUE");
@@ -69,8 +71,7 @@ function fundingReq() {
             "http://localhost:3001/fundingReq/getUpdatedFundingReq",
             data
         ).then((res) => {
-            setDocumentExtension(res.data.documentName.split(".").pop());
-            setFundingReqUrl(res.data.fundingReqUrl);
+            setImageList(res.data);
         });
     };
 
@@ -87,17 +88,20 @@ function fundingReq() {
                 "http://localhost:3001/fundingReq/getUpdatedFundingReq",
                 data
             ).then((res) => {
-                const documentName = res.data.documentName;
-                Axios({
-                    url: "http://localhost:3001/download",
-                    method: "POST",
-                    responseType: "blob",
-                    data: {
-                        submissionUrl: res.data.fundingReqUrl,
-                    },
-                }).then((res) => {
-                    fileDownload(res.data, documentName);
-                    setLoadingDownload(false);
+                res.data.map((res) => {
+                    const documentName = res.documentName;
+
+                    Axios({
+                        url: "http://localhost:3001/download",
+                        method: "POST",
+                        responseType: "blob",
+                        data: {
+                            submissionUrl: res.fundingReqUrl,
+                        },
+                    }).then((res) => {
+                        fileDownload(res.data, documentName);
+                        setLoadingDownload(false);
+                    });
                 });
             });
         }
@@ -303,21 +307,40 @@ function fundingReq() {
                     </div>
                 </div>
                 <div className="mt-4">
-                    {fundingReqUrl && (
+                    {imageList.length != 0 && (
                         <>
-                            {documentImageExtensions.includes(
-                                documentExtension
-                            ) && <ImageWrapper url={fundingReqUrl} />}
-                            {documentExtension == "pdf" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {imageList.map((image) => {
+                                    const extension = image.documentName
+                                        .split(".")
+                                        .pop();
+                                    if (
+                                        documentImageExtensions.includes(
+                                            extension
+                                        )
+                                    ) {
+                                        return (
+                                            <div key={image.id}>
+                                                <ImageWrapper
+                                                    url={image.fundingReqUrl}
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                            {imageList[0].documentName.split(".").pop() ==
+                                "pdf" && (
                                 <iframe
                                     className="w-full h-[800px]"
-                                    src={`${fundingReqUrl}`}
+                                    src={`${imageList[0].fundingReqUrl}`}
                                 ></iframe>
                             )}
-                            {documentExtension == "docx" && (
+                            {imageList[0].documentName.split(".").pop() ==
+                                "docx" && (
                                 <iframe
                                     className="w-full h-[800px] border-r border-b hover:border-r-blue-500 hover:border-b-blue-500"
-                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${fundingReqUrl}`}
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${imageList[0].fundingReqUrl}`}
                                 ></iframe>
                             )}
                         </>

@@ -67,7 +67,7 @@ const getAllUpdatedJunkshop = async (req, res) => {
 const getUpdatedJunkshop = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const junkshop = await Junkshop.findOne({
+    const junkshop = await Junkshop.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -83,6 +83,7 @@ const getAllUpdatedJunkshopYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await Junkshop.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -95,6 +96,7 @@ const getAllUpdatedUserJunkshopYearSubmitted = async (req, res) => {
 
     const junkshop = await Junkshop.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -106,7 +108,7 @@ const getUpdatedUserJunkshopUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const junkshop = await Junkshop.findOne({
+    const junkshop = await Junkshop.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,

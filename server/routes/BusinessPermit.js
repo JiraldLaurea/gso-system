@@ -67,7 +67,7 @@ const getAllUpdatedBusinessPermit = async (req, res) => {
 const getUpdatedBusinessPermit = async (req, res) => {
     const { barangayId, yearSubmitted } = req.body;
 
-    const businessPermit = await BusinessPermit.findOne({
+    const businessPermit = await BusinessPermit.findAll({
         where: {
             barangayId: barangayId,
             yearSubmitted: yearSubmitted,
@@ -83,6 +83,7 @@ const getAllUpdatedBusinessPermitYearSubmitted = async (req, res) => {
 
     const yearSubmittted = await BusinessPermit.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         where: { barangayId: barangayId },
         order: [["yearSubmitted", "ASC"]],
     });
@@ -95,6 +96,7 @@ const getAllUpdatedUserBusinessPermitYearSubmitted = async (req, res) => {
 
     const businessPermit = await BusinessPermit.findAll({
         attributes: ["yearSubmitted"],
+        group: "yearSubmitted",
         order: [["yearSubmitted", "ASC"]],
         where: { barangayId: user.barangayId },
     });
@@ -106,7 +108,7 @@ const getUpdatedUserBusinessPermitUrl = async (req, res) => {
     const user = res.locals.user;
     const { yearOfSubmission } = req.body;
 
-    const businessPermit = await BusinessPermit.findOne({
+    const businessPermit = await BusinessPermit.findAll({
         where: {
             barangayId: user.barangayId,
             yearSubmitted: yearOfSubmission,
