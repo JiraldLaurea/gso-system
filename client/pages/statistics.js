@@ -65,18 +65,6 @@ function statistics() {
         });
     };
 
-    const displayActualWastes = async () => {
-        const data = {
-            barangayId: dropDownMenuValue,
-        };
-        await Axios.post(
-            "http://localhost:3001/actualWastes/getActualWastes",
-            data
-        ).then((res) => {
-            setActualWastes(res.data);
-        });
-    };
-
     useEffect(() => {
         if (dropDownMenuValue != null) {
             displaySubmissions();
@@ -214,11 +202,7 @@ function statistics() {
                 )}
                 {!user?.isAdmin && <ProjectedWastes />}
 
-                <div
-                    className={`flex items-center mt-4 mb-4 ${
-                        !user?.isAdmin && "mt-0"
-                    }`}
-                >
+                <div className={`flex items-center mt-4 mb-4`}>
                     <p className="mr-4 text-lg font-semibold">Wastes Report</p>
                 </div>
 

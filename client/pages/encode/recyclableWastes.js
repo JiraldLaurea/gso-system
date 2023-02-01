@@ -82,16 +82,16 @@ function recyclableWastes() {
     };
 
     const submit = async () => {
-        const isEncoded = await Axios.post(
-            "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastes",
-            { barangayId: barangayId }
+        const recyclableWastesMonth = await Axios.post(
+            "http://localhost:3001/recyclableWastes/getSubmittedRecyclableWastesMonth",
+            { dateSubmitted: dateSubmitted }
         ).then(async (res) => {
             return res.data;
         });
 
-        if (isEncoded.length > 0) {
+        if (recyclableWastesMonth) {
             return alert(
-                "You have already encoded a document from this barangay."
+                "You have already encoded a document from this month."
             );
         }
 

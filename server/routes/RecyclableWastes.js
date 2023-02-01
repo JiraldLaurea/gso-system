@@ -80,6 +80,16 @@ const getSubmittedRecyclableWastes = async (req, res) => {
     return res.json(recyclableWastes);
 };
 
+const getSubmittedRecyclableWastesMonth = async (req, res) => {
+    const { dateSubmitted } = req.body;
+
+    const recyclableWastes = await RecyclableWastes.findOne({
+        where: { dateSubmitted: dateSubmitted },
+    });
+
+    return res.json(recyclableWastes);
+};
+
 const getSubmittedRecyclableWastesUser = async (req, res) => {
     const { dateSubmitted } = req.body;
     const user = res.locals.user;
@@ -191,6 +201,12 @@ router.post(
     validateUser,
     validate,
     getSubmittedRecyclableWastes
+);
+router.post(
+    "/getSubmittedRecyclableWastesMonth",
+    validateUser,
+    validate,
+    getSubmittedRecyclableWastesMonth
 );
 router.post(
     "/getSubmittedRecyclableWastesUser",

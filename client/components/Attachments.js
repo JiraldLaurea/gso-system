@@ -9,6 +9,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../firebase";
 import useSWR from "swr";
+import { useRouter } from "next/router";
 
 function Attachments({
     isMenuOpen,
@@ -26,6 +27,8 @@ function Attachments({
     setIsLoading,
     createPDF,
 }) {
+    const router = useRouter();
+    const formRef = useRef();
     const inputFileRefSketch = useRef();
     const inputFileRefPrograms = useRef();
     const inputFileRefFundingReq = useRef();
@@ -34,7 +37,6 @@ function Attachments({
     const inputFileRefBusinessPermit = useRef();
     const inputFileRefExecutiveOrder = useRef();
     const inputFileRefBarangayOrdinance = useRef();
-    const [collectionSchedule, setCollectionSchedule] = useState("");
     const [fileSketch, setFileSketch] = useState(null);
     const [filePrograms, setFilePrograms] = useState(null);
     const [fileFundingReq, setFileFundingReq] = useState(null);
@@ -53,6 +55,7 @@ function Attachments({
     const [fileNameExecutiveOrder, setFileNameExecutiveOrder] = useState("");
     const [fileNameBarangayOrdinance, setFileNameBarangayOrdinance] =
         useState("");
+    const [collectionSchedule, setCollectionSchedule] = useState("");
     const [dateOfCreation, setDateOfCreation] = useState("");
     const [junkshopName, setJunkshopName] = useState("");
     const [dateIssuedBusinessPermit, setDateIssuedBusinessPermit] =
@@ -89,11 +92,6 @@ function Attachments({
     const [imageNameBarangayOrdinance, setImageNameBarangayOrdinance] =
         useState([]);
 
-    const onChange = (e, setFile, setFileName) => {
-        setFile(e.target.files[0]);
-        setFileName(e.target.files[0]?.name);
-    };
-
     const onChangeMultipleImages = (e, setImageSrc, setImageName) => {
         setImageName([]);
         setImageSrc([]);
@@ -103,330 +101,6 @@ function Attachments({
             setImageSrc((imgs) => [...imgs, file]);
         }
     };
-    // console.log("IMAGE SOURCE", imageSrc);
-
-    // const SubmitAttachments = async () => {
-    //     const isSubmitted = await Axios.get(
-    //         "http://localhost:3001/submission/getSubmittedBarangayProfilePage"
-    //     ).then((res) => res.data);
-
-    //     console.log(isSubmitted);
-    //     if (isSubmitted.length > 0) {
-    //         setIsEncoded(false);
-    //         return alert(
-    //             "You have already encoded a document from this barangay."
-    //         );
-    //     }
-
-    //     if (
-    //         isSubmitted.length == 0 &&
-    //         collectionSchedule != "" &&
-    //         dateOfCreation != "" &&
-    //         junkshopName != "" &&
-    //         dateIssuedBusinessPermit != "" &&
-    //         dateIssuedExecutiveOrder != "" &&
-    //         fileNameSketch != "" &&
-    //         fileNamePrograms != "" &&
-    //         fileNameFundingReq != "" &&
-    //         fileNameMoa != "" &&
-    //         fileNameJunkshop != "" &&
-    //         fileNameBusinessPermit != "" &&
-    //         fileNameExecutiveOrder != ""
-    //     ) {
-    //         createPDF();
-
-    //         const extensionSketch = fileNameSketch.substring(
-    //             fileNameSketch.lastIndexOf(".") + 1
-    //         );
-
-    //         const extensionPrograms = fileNamePrograms.substring(
-    //             fileNamePrograms.lastIndexOf(".") + 1
-    //         );
-
-    //         const extensionFundingReq = fileNameFundingReq.substring(
-    //             fileNameFundingReq.lastIndexOf(".") + 1
-    //         );
-    //         const extensionMoa = fileNameMoa.substring(
-    //             fileNameMoa.lastIndexOf(".") + 1
-    //         );
-    //         const extensionJunkshop = fileNameJunkshop.substring(
-    //             fileNameJunkshop.lastIndexOf(".") + 1
-    //         );
-    //         const extensionBusinessPermit = fileNameBusinessPermit.substring(
-    //             fileNameBusinessPermit.lastIndexOf(".") + 1
-    //         );
-    //         const extensionExecutiveOrder = fileNameExecutiveOrder.substring(
-    //             fileNameExecutiveOrder.lastIndexOf(".") + 1
-    //         );
-    //         const extensionBarangayOrdinance =
-    //             fileNameBarangayOrdinance.substring(
-    //                 fileNameBarangayOrdinance.lastIndexOf(".") + 1
-    //             );
-
-    //         const formDataSketch = new FormData();
-    //         formDataSketch.append("file", fileSketch);
-
-    //         const formDataPrograms = new FormData();
-    //         formDataPrograms.append("file", filePrograms);
-
-    //         const formDataFundingReq = new FormData();
-    //         formDataFundingReq.append("file", fileFundingReq);
-
-    //         const formDataMoa = new FormData();
-    //         formDataMoa.append("file", fileMoa);
-
-    //         const formDataJunkshop = new FormData();
-    //         formDataJunkshop.append("file", fileJunkshop);
-
-    //         const formDataBusinessPermit = new FormData();
-    //         formDataBusinessPermit.append("file", fileBusinessPermit);
-
-    //         const formDataExecutiveOrder = new FormData();
-    //         formDataExecutiveOrder.append("file", fileExecutiveOrder);
-
-    //         const formDataBarangayOrdinance = new FormData();
-    //         formDataBarangayOrdinance.append("file", fileBarangayOrdinance);
-
-    //         const documentNameSketch = `Sketch${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionSketch}`;
-
-    //         const documentNamePrograms = `Programs${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionPrograms}`;
-
-    //         const documentNameFundingReq = `FundingReq${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionFundingReq}`;
-
-    //         const documentNameMoa = `Moa${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionMoa}`;
-
-    //         const documentNameJunkshop = `Junkshop${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionJunkshop}`;
-
-    //         const documentNameBusinessPermit = `BusinessPermit${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionBusinessPermit}`;
-
-    //         const documentNameExecutiveOrder = `ExecutiveOrder${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionExecutiveOrder}`;
-
-    //         const documentNameBarangayOrdinance = `BarangayOrdinance${selectedBarangayData.selectedBarangay}${selectedBarangayData.selectedDistrict}${yearSubmitted}.${extensionBarangayOrdinance}`;
-
-    //         let fileRefSketch = null;
-    //         let fileRefPrograms = null;
-    //         let fileRefFundingReq = null;
-    //         let fileRefMoa = null;
-    //         let fileRefJunkshop = null;
-    //         let fileRefBusinessPermit = null;
-    //         let fileRefExecutiveOrder = null;
-    //         let fileRefBarangayOrdinance = null;
-
-    //         if (extensionSketch == "doc" || extensionSketch == "docx") {
-    //             fileRefSketch = ref(storage, `${documentNameSketch}`);
-    //         } else {
-    //             fileRefSketch = ref(
-    //                 storage,
-    //                 `submission/sketch/${documentNameSketch}`
-    //             );
-    //         }
-
-    //         if (extensionPrograms == "doc" || extensionPrograms == "docx") {
-    //             fileRefPrograms = ref(storage, `${documentNamePrograms}`);
-    //         } else {
-    //             fileRefPrograms = ref(
-    //                 storage,
-    //                 `submission/programs/${documentNamePrograms}`
-    //             );
-    //         }
-
-    //         if (extensionFundingReq == "doc" || extensionFundingReq == "docx") {
-    //             fileRefFundingReq = ref(storage, `${documentNameFundingReq}`);
-    //         } else {
-    //             fileRefFundingReq = ref(
-    //                 storage,
-    //                 `submission/fundingReq/${documentNameFundingReq}`
-    //             );
-    //         }
-
-    //         if (extensionMoa == "doc" || extensionMoa == "docx") {
-    //             fileRefMoa = ref(storage, `${documentNameMoa}`);
-    //         } else {
-    //             fileRefMoa = ref(
-    //                 storage,
-    //                 `submission/memorandumOfAgreement/${documentNameMoa}`
-    //             );
-    //         }
-
-    //         if (extensionJunkshop == "doc" || extensionJunkshop == "docx") {
-    //             fileRefJunkshop = ref(storage, `${documentNameJunkshop}`);
-    //         } else {
-    //             fileRefJunkshop = ref(
-    //                 storage,
-    //                 `submission/junkshop/${documentNameJunkshop}`
-    //             );
-    //         }
-
-    //         if (
-    //             extensionBusinessPermit == "doc" ||
-    //             extensionBusinessPermit == "docx"
-    //         ) {
-    //             fileRefBusinessPermit = ref(
-    //                 storage,
-    //                 `${documentNameBusinessPermit}`
-    //             );
-    //         } else {
-    //             fileRefBusinessPermit = ref(
-    //                 storage,
-    //                 `submission/businessPermit/${documentNameBusinessPermit}`
-    //             );
-    //         }
-
-    //         if (
-    //             extensionExecutiveOrder == "doc" ||
-    //             extensionExecutiveOrder == "docx"
-    //         ) {
-    //             fileRefExecutiveOrder = ref(
-    //                 storage,
-    //                 `${documentNameExecutiveOrder}`
-    //             );
-    //         } else {
-    //             fileRefExecutiveOrder = ref(
-    //                 storage,
-    //                 `submission/executiveOrder/${documentNameExecutiveOrder}`
-    //             );
-    //         }
-
-    //         if (
-    //             extensionBarangayOrdinance == "doc" ||
-    //             extensionBarangayOrdinance == "docx"
-    //         ) {
-    //             fileRefBarangayOrdinance = ref(
-    //                 storage,
-    //                 `${documentNameBarangayOrdinance}`
-    //             );
-    //         } else {
-    //             fileRefBarangayOrdinance = ref(
-    //                 storage,
-    //                 `submission/barangayOrdinance/${documentNameBarangayOrdinance}`
-    //             );
-    //         }
-
-    //         await uploadBytes(fileRefSketch, fileSketch);
-    //         await uploadBytes(fileRefPrograms, filePrograms);
-    //         await uploadBytes(fileRefFundingReq, fileFundingReq);
-    //         await uploadBytes(fileRefMoa, fileMoa);
-    //         await uploadBytes(fileRefJunkshop, fileJunkshop);
-    //         await uploadBytes(fileRefBusinessPermit, fileBusinessPermit);
-    //         await uploadBytes(fileRefExecutiveOrder, fileExecutiveOrder);
-    //         await uploadBytes(fileRefBarangayOrdinance, fileBarangayOrdinance);
-
-    //         const sketchUrl = await getDownloadURL(fileRefSketch);
-    //         const programsUrl = await getDownloadURL(fileRefPrograms);
-    //         const fundingReqUrl = await getDownloadURL(fileRefFundingReq);
-    //         const moaUrl = await getDownloadURL(fileRefMoa);
-    //         const junkshopUrl = await getDownloadURL(fileRefJunkshop);
-    //         const businessPermitUrl = await getDownloadURL(
-    //             fileRefBusinessPermit
-    //         );
-    //         const executiveOrderUrl = await getDownloadURL(
-    //             fileRefExecutiveOrder
-    //         );
-    //         const barangayOrdinanceUrl = await getDownloadURL(
-    //             fileRefBarangayOrdinance
-    //         );
-
-    //         const postDataSketch = {
-    //             yearSubmitted: yearSubmitted,
-    //             collectionSchedule: collectionSchedule,
-    //             documentName: documentNameSketch,
-    //             sketchUrl: sketchUrl,
-    //         };
-
-    //         const postDataPrograms = {
-    //             yearSubmitted: yearSubmitted,
-    //             documentName: documentNamePrograms,
-    //             programsUrl: programsUrl,
-    //         };
-
-    //         const postDataFundingReq = {
-    //             yearSubmitted: yearSubmitted,
-    //             documentName: documentNameFundingReq,
-    //             fundingReqUrl: fundingReqUrl,
-    //         };
-
-    //         const postDataMoa = {
-    //             yearSubmitted: yearSubmitted,
-    //             dateOfCreation: dateOfCreation,
-    //             documentName: documentNameMoa,
-    //             memorandumOfAgreementUrl: moaUrl,
-    //         };
-
-    //         const postDataJunkshop = {
-    //             yearSubmitted: yearSubmitted,
-    //             junkshopName: junkshopName,
-    //             documentName: documentNameJunkshop,
-    //             junkshopUrl: junkshopUrl,
-    //         };
-
-    //         const postDataBusinessPermit = {
-    //             yearSubmitted: yearSubmitted,
-    //             dateIssued: dateIssuedBusinessPermit,
-    //             documentName: documentNameBusinessPermit,
-    //             businessPermitUrl: businessPermitUrl,
-    //         };
-
-    //         const postDataExecutiveOrder = {
-    //             yearSubmitted: yearSubmitted,
-    //             dateIssued: dateIssuedExecutiveOrder,
-    //             documentName: documentNameExecutiveOrder,
-    //             executiveOrderUrl: executiveOrderUrl,
-    //         };
-
-    //         const postDataBarangayOrdinance = {
-    //             yearSubmitted: yearSubmitted,
-    //             documentName: documentNameBarangayOrdinance,
-    //             barangayOrdinanceUrl: barangayOrdinanceUrl,
-    //         };
-
-    //         await Axios.post(
-    //             "http://localhost:3001/sketch/createSketch",
-    //             postDataSketch
-    //         );
-
-    //         await Axios.post(
-    //             "http://localhost:3001/programs/createPrograms",
-    //             postDataPrograms
-    //         );
-
-    //         await Axios.post(
-    //             "http://localhost:3001/fundingReq/createFundingReq",
-    //             postDataFundingReq
-    //         );
-
-    //         await Axios.post(
-    //             "http://localhost:3001/moa/createMoa",
-    //             postDataMoa
-    //         );
-
-    //         await Axios.post(
-    //             "http://localhost:3001/junkshop/createJunkshop",
-    //             postDataJunkshop
-    //         );
-
-    //         await Axios.post(
-    //             "http://localhost:3001/businessPermit/createBusinessPermit",
-    //             postDataBusinessPermit
-    //         );
-
-    //         await Axios.post(
-    //             "http://localhost:3001/executiveOrder/createExecutiveOrder",
-    //             postDataExecutiveOrder
-    //         );
-
-    //         await Axios.post(
-    //             "http://localhost:3001/barangayOrdinance/createBarangayOrdinance",
-    //             postDataBarangayOrdinance
-    //         );
-
-    //         alert("Document successfully submitted.");
-
-    //         setIsLoading(false);
-    //     } else {
-    //         alert("Please fill in all the attachments.");
-    //     }
-    //     setIsEncoded(false);
-    // };
 
     const SubmitBarangayProfile = async () => {
         const isSubmitted = await Axios.get(
@@ -760,28 +434,7 @@ function Attachments({
             );
         });
 
-        setImageNameSketch([]);
-        setImageNamePrograms([]);
-        setImageNameFundingReq([]);
-        setImageNameMoa([]);
-        setImageNameJunkshop([]);
-        setImageNameBusinessPermit([]);
-        setImageNameExecutiveOrder([]);
-        setImageNameBarangayOrdinance([]);
-
-        setImageSrcSketch([]);
-        setImageSrcPrograms([]);
-        setImageSrcFundingReq([]);
-        setImageSrcMoa([]);
-        setImageSrcJunkshop([]);
-        setImageSrcBusinessPermit([]);
-        setImageSrcExecutiveOrder([]);
-        setImageSrcBarangayOrdinance([]);
-
-        alert("Document successfully submitted TEST.");
-
-        setIsLoading(false);
-        setIsEncodedAttachments(false);
+        resetInputs(setIsEncodedAttachments);
     };
 
     const SubmitUpdatedAttachments = async () => {
@@ -1039,6 +692,10 @@ function Attachments({
             );
         });
 
+        resetInputs(setIsSubmittedAttachments);
+    };
+
+    const resetInputs = (typeOfSubmission) => {
         setImageNameSketch([]);
         setImageNamePrograms([]);
         setImageNameFundingReq([]);
@@ -1057,10 +714,17 @@ function Attachments({
         setImageSrcExecutiveOrder([]);
         setImageSrcBarangayOrdinance([]);
 
+        setCollectionSchedule("");
+        setDateOfCreation("");
+        setJunkshopName("");
+        setDateIssuedBusinessPermit("");
+        setDateIssuedExecutiveOrder("");
+
         alert("Document successfully submitted.");
 
-        setIsSubmittedAttachments(false);
         setIsLoading(false);
+        typeOfSubmission(false);
+        formRef.current.reset();
     };
 
     // const SubmitUpdatedAttachments = async () => {
@@ -1393,7 +1057,11 @@ function Attachments({
                 onClick={() => setIsMenuOpen(false)}
                 className="fixed top-0 left-0 z-20 w-screen h-screen bg-gray-700/30"
             />
-            <form className="fixed inset-x-0 z-30 w-full max-w-2xl p-4 md:p-6 mx-auto overflow-y-auto bg-white top-0 md:top-24 h-screen md:max-h-[600px]">
+
+            <form
+                ref={formRef}
+                className="fixed inset-x-0 z-30 w-full max-w-2xl p-4 md:p-6 mx-auto overflow-y-auto bg-white top-0 md:top-24 h-screen md:max-h-[600px]"
+            >
                 <div className="flex items-center justify-between">
                     <p className="text-xl font-semibold">Attachments</p>
                     <Icon
